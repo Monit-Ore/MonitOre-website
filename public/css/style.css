@@ -1,0 +1,12 @@
+/* Precisa importar fonte */
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+    --branco: #FFFFFF;
+    --amarelo: #FFD741;
+    --preto: #000000;
+}
