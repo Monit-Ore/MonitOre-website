@@ -11,12 +11,33 @@
     <!-- <script src="./js/sessao.js"></script> -->
 
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="css/header.css">
     <link rel="icon" href="./imgs/LogoHeader.svg">
 </head>
 
 <body>
     <div class="header">
-
+      <div class="NavComputador">
+        <img src="./imgs/LogoHeader.svg" alt="Logo">
+        <div class="opcoes_header">
+            <a href="/public/index.html">Início</a>
+            <a href="">Sobre</a>
+            <a href="">Equipe</a>
+        </div>
+        <button>Login</button>
+      </div>
+      <div class="NavCelular">
+        <div class="BarraNavegacao">
+          <img src="./imgs/LogoHeader.svg" alt="Logo">
+          <img src="./imgs/Menu.svg" class="HeaderIconMenu" id="MenuHamburguer" alt="Logo">
+        </div>
+        <div class="opcoes_celular" id="opcoes_celular">
+          <p>Inicio</p>
+          <p>Sobre</p>
+          <p>Equipe</p>
+          <p>Login</p>
+        </div>
+      </div>
     </div>
   
     <div class="banner">
@@ -31,5 +52,5 @@
     </div>
 
   </body>
-
+<script src="js/header.js"></script>
 </html>

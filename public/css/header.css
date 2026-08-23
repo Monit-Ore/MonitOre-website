@@ -1,0 +1,124 @@
+.header {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 90%;
+    justify-self: center;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+}
+
+.NavComputador {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-self: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.opcoes_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    gap: 30%;
+}
+
+.opcoes_header a {
+    color: var(--branco);
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 3vh;
+    transition: 0.5s;
+}
+
+.opcoes_header a:hover {
+    color: var(--amarelo);
+}
+
+.header button {
+    border-radius: 15px;
+    width: 14%;
+    border: 3px solid var(--amarelo);
+    background-color: var(--preto);
+    color: var(--amarelo);
+    height: 60px;
+    font-weight: bolder;
+    font-size: 3vh;
+    transition: 0.5s;
+}
+
+.header button:hover {
+    background-color: var(--amarelo);
+    color: var(--preto);
+    border: var(--preto);
+}
+
+/*
+======================
+       CELULAR 
+======================
+*/
+
+.NavCelular {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.BarraNavegacao {
+    display: flex;
+    width: 90%;
+    align-self: center;
+    justify-content: space-between;
+}
+
+.NavCelular .opcoes_celular {
+    margin-top: 10px;
+    padding-top: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 0 0 10px 10px;
+    transition: 0.5s;
+}
+
+.NavCelular .opcoes_celular p {
+    width: 80%;
+    border: 2px solid var(--amarelo);
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-weight: bolder;
+    
+}
+
+.NavCelular p {
+    color: white;
+}
+
+.HeaderIconMenu {
+    margin-top: 10px;
+    width: 17%;
+    transition: 0.5s;
+}
+
+@media screen and (max-width: 768px) {
+    .NavCelular {
+        display: flex;
+    }
+
+    .header {
+        width: 100%;
+    }
+    .NavComputador {
+        display: none;
+    }
+}
