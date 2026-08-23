@@ -11,10 +11,115 @@ body {
     --preto: #000000;
 }
 
+/*
+======================
+       BANNER 
+======================
+*/
+
 .banner {
-    background-image: url(../imgs/BannerIndex.svg);
+    background-image: url(../imgs/BannerIndex1920_1080.svg) ;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
     height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    margin-left: 5%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    width: 70%;
+    gap: 10px;
+}
+
+.container .titulo {
+    display: flex;
+    align-items: center;
+    gap: 2%;
+    padding-left: 3%;
+    width: 100%;
+}
+
+.titulo .titulo_imagem {
+    width: 10%;
+}
+
+.titulo .titulo_imagem img {
+    width: 100%;
+    height: 100%;
+}
+
+
+.container .titulo h1 {
+    color: var(--branco);
+    font-size: 8vh;
+    font-weight: bolder;
+    margin: 0;
+    padding: 0;
+}
+
+.container .subtitulo {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.container .subtitulo p {
+    padding-left: 20px;
+    width: 100%;
+    margin: 0;
+    height: 100%;
+    font-size: 4vh;
+    color: white;
+}
+
+@media screen and (max-width: 768px) {
+
+    /*
+    ======================
+        BANNER RESPONSIVO
+    ======================
+    */
+
+    .banner {
+        background-position: right;
+    }
+
+    .container {
+    margin-left: 0;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    align-items: center;
+    }
+
+    .container .titulo {
+        flex-direction: column;
+        padding-left: 0;
+        width: 90%;
+    }
+
+    .titulo .titulo_imagem {
+        width: 15%;
+    }
+
+    .container .titulo h1 {
+        font-size: 3vh;
+        text-align: center;
+    }
+
+    .container .subtitulo {
+        justify-content: center;
+    }
+
+    .container .subtitulo p {
+        padding-left: 0;
+        width: 90%;
+        font-size: 2vh;
+        text-align: center;
+    }
 }
