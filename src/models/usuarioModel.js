@@ -1,28 +1,71 @@
-var database = require("../database/config")
+var database = require("../database/config");
 
-function autenticar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
+var mysql = require("mysql2");
+
+
+function buscarPorEmail(email) {
+
+    var emailSeguro = mysql.escape(email);
+
+
     var instrucaoSql = `
-        SELECT id, nome, email, fk_empresa as empresaId FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT
+            u.id_usuario,
+            u.nome,
+            u.email,
+            u.senha_hash,
+            u.primeiro_acesso,
+            u.status_atividade AS status_usuario,
+            u.fk_cargo,
+
+            c.nome AS cargo,
+            c.status_atividade AS status_cargo,
+            c.fk_empresa,
+
+            e.razao_social AS empresa,
+            e.status_atividade AS status_empresa
+
+        FROM usuario AS u
+
+        INNER JOIN cargo AS c
+            ON u.fk_cargo = c.id_cargo
+
+        INNER JOIN empresa AS e
+            ON c.fk_empresa = e.id_empresa
+
+        WHERE u.email = ${emailSeguro};
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
+
+    console.log("Executando SQL:");
+
+    console.log(instrucaoSql);
+
+
     return database.executar(instrucaoSql);
 }
 
-// Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(nome, email, senha, fkEmpresa) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha, fkEmpresa);
-    
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
+
+function atualizarUltimoAcesso(idUsuario) {
+
     var instrucaoSql = `
-        INSERT INTO usuario (nome, email, senha, fk_empresa) VALUES ('${nome}', '${email}', '${senha}', '${fkEmpresa}');
+        UPDATE usuario
+
+        SET ultimo_acesso = CURRENT_TIMESTAMP
+
+        WHERE id_usuario = ${Number(idUsuario)};
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
+
+    console.log("Executando SQL:");
+
+    console.log(instrucaoSql);
+
+
     return database.executar(instrucaoSql);
 }
 
 module.exports = {
-    autenticar,
-    cadastrar
+    buscarPorEmail,
+    atualizarUltimoAcesso
 };

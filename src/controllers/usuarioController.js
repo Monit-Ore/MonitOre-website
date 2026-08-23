@@ -1,76 +1,166 @@
 var usuarioModel = require("../models/usuarioModel");
-var aquarioModel = require("../models/aquarioModel");
+
+var bcrypt = require("bcryptjs");
 
 function autenticar(req, res) {
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
 
-    if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (senha == undefined) {
-        res.status(400).send("Sua senha está indefinida!");
-    } else {
+    // recebe os dados enviados pelo login.js
 
-        usuarioModel.autenticar(email, senha)
-            .then(
-                function (resultadoAutenticar) {
-                    console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
-                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
+    var email = req.body.email;
 
-                    if (resultadoAutenticar.length == 1) {
-                        console.log(resultadoAutenticar);
-                    } else if (resultadoAutenticar.length == 0) {
-                        res.status(403).send("Email e/ou senha inválido(s)");
-                    } else {
-                        res.status(403).send("Mais de um usuário com o mesmo login e senha!");
+    var senha = req.body.senha;
+
+
+    if (email == undefined || email == "") {
+
+        return res.status(400).json({
+            mensagem: "Email não informado."
+        });
+
+    }
+
+
+    if (senha == undefined || senha == "") {
+
+        return res.status(400).json({
+            mensagem: "Senha não informada."
+        });
+
+    }
+
+
+    usuarioModel.buscarPorEmail(email)
+
+        .then(function (resultado) {
+
+
+            if (resultado.length == 0) {
+
+                return res.status(401).json({
+                    mensagem: "Email ou senha inválidos."
+                });
+
+            }
+
+
+            // Pega o primeiro usuário encontrado
+
+            var usuario = resultado[0];
+
+
+            if (usuario.status_usuario != "Ativo") {
+
+                return res.status(403).json({
+                    mensagem: "Usuário inativo."
+                });
+
+            }
+
+
+            if (usuario.status_cargo != "Ativo") {
+
+                return res.status(403).json({
+                    mensagem: "Cargo do usuário está inativo."
+                });
+
+            }
+
+
+            if (usuario.status_empresa != "Ativo") {
+
+                return res.status(403).json({
+                    mensagem: "Empresa do usuário está inativa."
+                });
+
+            }
+
+
+            bcrypt.compare(senha, usuario.senha_hash)
+
+                .then(function (senhaCorreta) {
+
+
+
+                    if (senhaCorreta == false) {
+
+                        return res.status(401).json({
+                            mensagem: "Email ou senha inválidos."
+                        });
+
                     }
-                }
-            ).catch(
-                function (erro) {
+
+                    usuarioModel
+                        .atualizarUltimoAcesso(usuario.id_usuario)
+
+                        .then(function () {
+
+
+                            // Envia a resposta para o login.js
+
+                            return res.status(200).json({
+
+                                mensagem:
+                                    "Login realizado com sucesso.",
+
+
+                                primeiroAcesso:
+                                    usuario.primeiro_acesso == 1,
+
+
+                                usuario: {
+
+                                    idUsuario:
+                                        usuario.id_usuario,
+
+                                    nome:
+                                        usuario.nome
+
+                                }
+
+                            });
+
+                        })
+
+                        .catch(function (erro) {
+
+                            console.log(erro);
+
+                            return res.status(500).json({
+                                mensagem:
+                                    "Erro ao atualizar último acesso."
+                            });
+
+                        });
+
+                })
+
+                .catch(function (erro) {
+
                     console.log(erro);
-                    console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-    }
- 
+
+                    return res.status(500).json({
+                        mensagem:
+                            "Erro ao verificar senha."
+                    });
+
+                });
+
+        })
+
+        .catch(function (erro) {
+
+            console.log(erro);
+
+            return res.status(500).json({
+                mensagem:
+                    "Erro ao realizar login."
+            });
+
+        });
+
 }
 
-function cadastrar(req, res) {
-    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
-    var nome = req.body.nomeServer;
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
-
-    // Faça as validações dos valores
-    if (nome == undefined) {
-        res.status(400).send("Seu nome está undefined!");
-    } else if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (senha == undefined) {
-        res.status(400).send("Sua senha está undefined!");
-    } else {
-
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, senha, fkEmpresa)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-    }
-}
 
 module.exports = {
-    autenticar,
-    cadastrar
-}
+    autenticar
+};

@@ -1,0 +1,602 @@
+@font-face {
+    font-family: 'Sansation';
+    src: url('../fonts/Sansation-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Sansation';
+    src: url('../fonts/Sansation-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+/* 
+    CONFIGURAÇÃO GERAL
+ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Sansation', Arial, sans-serif;
+}
+
+:root {
+    --branco: #FFFFFF;
+    --amarelo: #FFD741;
+    --preto: #000000;
+
+    --cinza-card: rgba(185, 175, 150, 0.72);
+    --cinza-input: rgba(99, 85, 63, 0.55);
+}
+
+
+/**
+
+    BANNER LOGIN
+
+*/
+
+.banner_login {
+    background-image: url("../imgs/banner principal.jpg");
+
+    background-repeat: no-repeat;
+
+    background-size: cover;
+
+    background-position: center;
+
+    width: 100%;
+
+    height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+}
+
+
+/**
+
+    BOTÃO VOLTAR
+
+*/
+
+.botao_voltar {
+    position: absolute;
+
+    top: 3%;
+
+    left: 2%;
+
+    color: var(--branco);
+
+    text-decoration: none;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.botao_voltar svg {
+    width: 48px;
+
+    height: 48px;
+}
+
+.botao_voltar:hover {
+    cursor: pointer;
+
+    opacity: 0.8;
+}
+
+
+/**
+
+    CONTAINER LOGIN
+
+*/
+
+.login_container {
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+/**
+
+    CARD LOGIN
+
+*/
+
+.login_card {
+    width: 460px;
+
+    min-height: 445px;
+
+    padding: 45px 48px 35px 48px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    background-color: var(--cinza-card);
+
+    border: 3px solid var(--amarelo);
+
+    border-radius: 34px;
+
+    backdrop-filter: blur(5px);
+
+    -webkit-backdrop-filter: blur(5px);
+}
+
+
+/**
+
+    TÍTULO
+
+*/
+
+.login_card h1 {
+    margin: 8px 0 40px 0;
+
+    color: var(--branco);
+
+    font-family: 'Sansation', Arial, sans-serif;
+
+    font-size: 46px;
+
+    font-weight: bold;
+}
+
+
+/**
+
+    FORMULÁRIO
+
+*/
+
+#form_login {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+/**
+
+    CAMPO
+
+*/
+
+.campo {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    position: relative;
+}
+
+.campo input {
+    width: 100%;
+
+    height: 58px;
+
+    padding: 0 17px;
+
+    background-color: var(--cinza-input);
+
+    border: 3px solid var(--branco);
+
+    border-radius: 13px;
+
+    color: var(--branco);
+
+    font-family: 'Sansation', Arial, sans-serif;
+
+    font-size: 16px;
+
+    outline: none;
+}
+
+.campo input::placeholder {
+    color: var(--branco);
+
+    opacity: 0.75;
+
+    font-family: 'Sansation', Arial, sans-serif;
+}
+
+.campo input:focus {
+    border-color: var(--amarelo);
+}
+
+
+/**
+
+    AUTOFILL
+
+*/
+
+.campo input:-webkit-autofill,
+.campo input:-webkit-autofill:hover,
+.campo input:-webkit-autofill:focus,
+.campo input:-webkit-autofill:active {
+
+    -webkit-text-fill-color: var(--branco);
+
+    -webkit-box-shadow:
+        0 0 0 1000px rgb(99, 85, 63) inset;
+
+    transition:
+        background-color 5000s ease-in-out 0s;
+
+    font-family: 'Sansation', Arial, sans-serif;
+}
+
+
+/**
+
+    SENHA
+
+*/
+
+.campo_senha input {
+    padding-right: 50px;
+}
+
+
+/**
+
+    BOTÃO MOSTRAR SENHA
+
+*/
+
+.botao_senha {
+    position: absolute;
+
+    right: 15px;
+
+    background: none;
+
+    border: none;
+
+    color: var(--branco);
+
+    font-size: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+}
+
+.botao_senha:hover {
+    cursor: pointer;
+
+    opacity: 0.8;
+}
+
+
+/**
+
+    MENSAGEM
+
+*/
+
+.mensagem_login {
+    width: 100%;
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: var(--branco);
+
+    font-family: 'Sansation', Arial, sans-serif;
+
+    font-size: 14px;
+
+    text-align: center;
+}
+
+
+/**
+
+      BOTÃO ENTRAR
+
+*/
+
+.botao_entrar {
+    width: 156px;
+
+    height: 57px;
+
+    margin-top: 10px;
+
+    background-color: var(--amarelo);
+
+    border: none;
+
+    border-radius: 16px;
+
+    color: var(--preto);
+
+    font-family: 'Sansation', Arial, sans-serif;
+
+    font-size: 22px;
+
+    font-weight: bold;
+}
+
+.botao_entrar:hover {
+    cursor: pointer;
+
+    opacity: 0.9;
+}
+
+
+/**
+
+        CADASTRO
+
+*/
+
+.cadastro {
+    margin-top: 18px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: var(--branco);
+
+    font-family: 'Sansation', Arial, sans-serif;
+
+    font-size: 15px;
+}
+
+.cadastro span {
+    text-decoration: underline;
+}
+
+.cadastro a {
+    color: var(--amarelo);
+
+    font-weight: bold;
+
+    text-decoration: underline;
+}
+
+.cadastro a:hover {
+    opacity: 0.8;
+}
+
+
+/**
+
+    RESPONSIVO
+
+*/
+
+@media screen and (max-width: 768px) {
+
+
+    /**
+    
+        BANNER RESPONSIVO
+    
+    */
+
+    .banner_login {
+        width: 100%;
+
+        min-height: 100vh;
+
+        background-size: cover;
+
+        background-position: 62% center;
+    }
+
+
+    /**
+    
+        LOGIN RESPONSIVO
+    
+    */
+
+    .login_container {
+        width: 100%;
+
+        min-height: 100vh;
+
+        padding: 20px;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+    }
+
+
+    /**
+    
+        CARD RESPONSIVO
+    
+    */
+
+    .login_card {
+        width: 100%;
+
+        max-width: 360px;
+
+        min-height: auto;
+
+        padding: 38px 24px 30px 24px;
+
+        border-radius: 25px;
+    }
+
+
+    /*
+    
+        TÍTULO RESPONSIVO
+    
+    */
+
+    .login_card h1 {
+        margin: 0 0 30px 0;
+
+        font-size: 32px;
+    }
+
+
+    /*
+    
+        FORM RESPONSIVO
+    
+    */
+
+    #form_login {
+        width: 100%;
+
+        gap: 15px;
+    }
+
+
+    /*
+    
+        CAMPO RESPONSIVO
+    
+    */
+
+    .campo {
+        width: 100%;
+    }
+
+    .campo input {
+        width: 100%;
+
+        height: 50px;
+
+        padding: 0 14px;
+
+        font-size: 14px;
+
+        border-radius: 10px;
+    }
+
+
+    /*
+    
+        SENHA RESPONSIVO
+    
+    */
+
+    .campo_senha input {
+        padding-right: 45px;
+    }
+
+    .botao_senha {
+        right: 13px;
+
+        font-size: 18px;
+    }
+
+
+    /**
+    
+        BOTÃO RESPONSIVO
+    
+    */
+
+    .botao_entrar {
+        width: 130px;
+
+        height: 48px;
+
+        margin-top: 8px;
+
+        font-size: 17px;
+
+        border-radius: 13px;
+    }
+
+
+    /**
+    
+    CADASTRO RESPONSIVO
+    
+    */
+
+    .cadastro {
+        margin-top: 16px;
+
+        gap: 5px;
+
+        font-size: 12px;
+
+        flex-wrap: wrap;
+    }
+
+
+    /**
+    
+        VOLTAR RESPONSIVO
+    
+    */
+
+    .botao_voltar {
+        top: 18px;
+
+        left: 16px;
+    }
+
+    .botao_voltar svg {
+        width: 36px;
+
+        height: 36px;
+    }
+
+}
