@@ -8,3 +8,19 @@ MenuHamburguer.addEventListener('click', function() {
         opcoes_celular.style.display = 'flex';
     }
 });
+
+botaoLogin.addEventListener('click', function() {
+    window.location = "login.html";
+})
+
+botaoTelaInicio.addEventListener('click', function() {
+    window.location = "index.html";
+})
+
+botaoTelaSobre.addEventListener('click', function() {
+    window.location = "";
+})
+
+botaoTelaEquipe.addEventListener('click', function() {
+    window.location = "";
+})
