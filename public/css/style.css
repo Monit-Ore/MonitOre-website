@@ -1,8 +1,10 @@
-/* Precisa importar fonte */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #000000;
 }
 
 :root {
@@ -123,3 +125,92 @@ body {
         text-align: center;
     }
 }
+
+.secaoValores {
+    color: white;
+    border: 1px solid white;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 400px;
+    gap: 5%;
+    overflow: hidden;
+}
+
+.secaoEsquerda {
+    border: 1px solid white;
+    display: flex;
+    justify-content: space-between;
+    width: 55%;
+}
+
+.secaoEsquerda div {
+    width: 30%;
+    border: 1px solid white;
+}
+
+.secaoEsquerda div img {
+    width: 70%;
+}
+
+.secaoEsquerda p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    width: 65%;
+    font-size: 40px;
+    font-weight: bolder;
+}
+
+.secaoDireita {
+    border: 1px solid white;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+.secaoDireita .topico {
+    display: flex;
+    align-items: center;
+    gap: 150px;
+}
+
+.TopicoTexto {
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid white;
+}
+
+.TopicoTexto h1 {
+    margin: 0;
+    border: 1px solid white;
+}
+
+
+.TopicoTexto p {
+    border: 1px solid white;
+}
+/* .secaoDireita ul{
+    border: 1px solid white;
+    list-style-position: outside;
+    list-style-image: url(../imgs/IconeListaUl.svg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.secaoDireita ul li {
+    /* display: flex;
+    flex-direction: column; */
+    /* display: flex; */
+    /* align-items: center; */
+    position: relative;
+    border: 1px solid white;
+}
+
+.secaoDireita ul li h1 {
+    border: 1px solid white;
+    display: flex;
+} */
