@@ -89,6 +89,10 @@ body {
 
     .banner {
         background-position: right;
+        height: 60vh;
+        /* border: 1px solid white; */
+        align-items: end;
+        padding-bottom: 50px;
     }
 
     .container {
@@ -128,7 +132,6 @@ body {
 
 .secaoValores {
     color: white;
-    border: 1px solid white;
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -138,7 +141,6 @@ body {
 }
 
 .secaoEsquerda {
-    border: 1px solid white;
     display: flex;
     justify-content: space-between;
     width: 55%;
@@ -146,7 +148,6 @@ body {
 
 .secaoEsquerda div {
     width: 30%;
-    border: 1px solid white;
 }
 
 .secaoEsquerda div img {
@@ -157,60 +158,90 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid white;
     width: 65%;
-    font-size: 40px;
+    font-size: 5vh;
     font-weight: bolder;
 }
 
 .secaoDireita {
-    border: 1px solid white;
-    width: 40%;
+    width: 60%;
     display: flex;
+    justify-content: center;
+    gap: 13%;
     flex-direction: column;
 }
 
 .secaoDireita .topico {
     display: flex;
     align-items: center;
-    gap: 150px;
+    gap: 10px;
 }
 
 .TopicoTexto {
     display: flex;
     flex-direction: column;
-
-    border: 1px solid white;
 }
 
 .TopicoTexto h1 {
     margin: 0;
-    border: 1px solid white;
+    font-size: 5vh;
 }
-
 
 .TopicoTexto p {
-    border: 1px solid white;
-}
-/* .secaoDireita ul{
-    border: 1px solid white;
-    list-style-position: outside;
-    list-style-image: url(../imgs/IconeListaUl.svg);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    margin: 0;
+    font-size: 2.5vh;
 }
 
-.secaoDireita ul li {
-    /* display: flex;
-    flex-direction: column; */
-    /* display: flex; */
-    /* align-items: center; */
-    position: relative;
-    border: 1px solid white;
-}
+@media screen and (max-width: 768px) {
+    /*
+    ======================
+        BANNER RESPONSIVO
+    ======================
+    */
 
-.secaoDireita ul li h1 {
-    border: 1px solid white;
-    display: flex;
-} */
+    .secaoValores {
+        /* border: 1px solid white; */
+        padding-top: 30px;
+        flex-direction: column;
+        overflow: visible;
+        gap: 0;
+        height: 370px;
+        align-items: center;
+        /* justify-content: 0; */
+
+    }
+
+    .secaoEsquerda {
+        justify-content: none;
+        width: 90%;
+
+    }
+
+    .secaoEsquerda div {
+        display: none;
+        width: 100%;
+
+    }
+
+    .secaoEsquerda div img {
+        display: none;
+        width: 0%;
+
+    }
+
+    .secaoEsquerda p{
+        width: 100%;
+        font-size: 2.7vh;
+        margin: 0;
+    }
+
+    .secaoDireita {
+        width: 100%;
+    }
+
+    .TopicoTexto h1 {
+            font-size: 3vh;
+
+    }
+
+}

@@ -9,9 +9,14 @@ MenuHamburguer.addEventListener('click', function() {
     }
 });
 
-botaoLogin.addEventListener('click', function() {
-    window.location = "login.html";
-})
+
+botoesLogin = document.querySelectorAll(".botaoLogin");
+
+for (let i = 0; i < botoesLogin.length; i++) {
+    botoesLogin[i].addEventListener('click', function() {
+        window.location = "login.html";
+    })
+}
 
 botaoTelaInicio.addEventListener('click', function() {
     window.location = "index.html";
