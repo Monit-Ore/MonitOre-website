@@ -132,7 +132,7 @@ body {
 
 .secaoValores {
     color: white;
-    display: flex;
+    display: none;
     justify-content: space-between;
     width: 100%;
     height: 400px;
@@ -243,5 +243,60 @@ body {
             font-size: 3vh;
 
     }
+}
 
+
+.secaoSolucao {
+    background-color: var(--branco);
+    display: flex;
+    border: 1px solid black;
+    width: 100%;
+    gap: 5%;
+}
+
+.esquerda_secaoSolucao {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.esquerda_secaoSolucao h1 {
+    padding-bottom: 10px;
+    padding-left: 2%;
+    font-size: 6vh;
+    border-bottom: 10px #FFD741 solid;
+}
+
+.esquerda_secaoSolucao p {
+    padding-left: 6%;
+    font-size: 3vh;
+    font-weight: bolder;
+}
+
+.direita_secaoSolucao {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 70%;
+}
+
+.Card_solucao {
+    border: 4px solid #FFD741;
+}
+
+.img_card {
+    border: 1px solid black;
+}
+
+.img_card img {
+    border: 1px solid black;
+}
+
+.Card_solucao h1 {
+    border: 1px solid black;
+}
+
+.Card_solucao p {
+    border: 1px solid black;
+    /* overflow-wrap: break-word; */
 }
