@@ -89,11 +89,12 @@
 .conteudo {
   background-color: #1f1f1f;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
+  gap: 5%;
 }
 
 .card_conteudo {
@@ -102,7 +103,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 90%;
+  height: 75%;
   width: 96%;
   border-radius: 20px;
   gap: 25px;
@@ -115,8 +116,9 @@
   justify-content: center;
   align-items: center;
   width: 96%;
-  height: 70%;
+  height: 60%;
   gap: 30px;
+  margin-top: -100px;
 }
 
 .formulario {
@@ -172,41 +174,43 @@
 /**/
 
 .status {
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
+
   width: 96%;
+  height: 20%;
+
   color: white;
   font-family: Arial, sans-serif;
 }
 
 .status h3 {
   color: #ECBE10;
-  font-size: 14px;
-  margin-bottom: 4px;
+  font-size: 20px;
+  margin-bottom: 5px;
 }
 
 .status p {
-  font-size: 13px;
+  font-size: 18px;
   font-weight: bold;
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
 }
 
 .status-controle {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
-
 
 .troca {
   position: relative;
-  width: 44px;
-  height: 24px;
+  width: 80px;
+  height: 42px;
   display: inline-block;
 }
-
 
 .troca input {
   opacity: 0;
@@ -214,44 +218,114 @@
   height: 0;
 }
 
-
 .deslizar {
   position: absolute;
   inset: 0;
   background-color: #555;
-  border-radius: 20px;
+  border-radius: 30px;
   cursor: pointer;
   transition: 0.2s;
 }
 
-
 .deslizar::before {
   content: "";
   position: absolute;
-
-  width: 20px;
-  height: 20px;
-
+  width: 38px;
+  height: 38px;
   left: 2px;
   top: 2px;
-
   background-color: #fff3b0;
   border-radius: 50%;
-
   transition: 0.2s;
 }
-
 
 .troca input:checked + .deslizar {
   background-color: #C9AA3A;
 }
 
-
 .troca input:checked + .deslizar::before {
-  transform: translateX(20px);
+  transform: translateX(38px);
 }
 
+
 .texto-status {
-  font-size: 13px;
+  font-size: 18px;
   font-weight: bold;
+}
+
+.botao_notificacao{
+  font-size: 34px;
+  color: #ECBE10;
+}
+
+.botao_voltar{
+  font-size: 34px;
+  color: #ECBE10;
+}
+
+/**/
+
+.botoes {
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    width: 96%;
+    height: 80px;
+}
+
+
+/* BOTÃO CANCELAR */
+
+.btn-cancelar {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    width: 130px;
+    height: 46px;
+
+    background-color: transparent;
+
+    border: 1px solid #ECBE10;
+    border-radius: 6px;
+
+    color: #ECBE10;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+/* BOTÃO SALVAR */
+
+.btn-salvar {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    width: 190px;
+    height: 46px;
+
+    background-color: #ECBE10;
+
+    border: 1px solid #ECBE10;
+    border-radius: 6px;
+
+    color: #1E1E1E;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
 }
