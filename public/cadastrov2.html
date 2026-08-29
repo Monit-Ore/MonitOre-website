@@ -13,50 +13,93 @@
     <div class="navegacao">voce pode nao acreditar</div>
     <div class="conteudo_layout">
       <div class="superior_tela">
-        <div class="botao_voltar">⭠</div>
+        <button class="botao_voltar" type="button" onclick="voltar()">⭠</button>
 
         <div class="titulo_superior">
           <h1>Cadastro de Funcionário</h1>
           <h2>Preencha os dados do novo funcionário</h2>
         </div>
 
-        <div class="botao_notificacao">🕭</div>
+        <button class="botao_notificacao" type="button" onclick="notificacao()">
+          🕭
+        </button>
       </div>
 
       <div class="conteudo">
         <div class="card_conteudo">
           <div class="titulo_formulario">
-            <h1>Dados do Úsuario</h1>
+            <h1>Dados do Usuário</h1>
           </div>
           <div class="container_formularios">
             <div class="formulario">
               <p>Nome completo*</p>
               <input
                 type="text"
+                id="nome_ipt"
                 placeholder="Digite o nome completo"
+                autocomplete="off"
                 required
               />
               <p>Digite o e-mail*</p>
-              <input type="email" placeholder="Digite o e-mail" required />
+              <input
+                type="email"
+                id="email_ipt"
+                placeholder="Digite o e-mail"
+                required
+              />
               <p>Data de nascimento</p>
-              <input type="date" placeholder="00/00/0000" required />
+              <input
+                type="date"
+                id="data_nasc_input"
+                placeholder="00/00/0000"
+              />
               <p>Unidade/Local</p>
-              <input type="text" placeholder="Selecionar unidade" required />
+              <input
+                type="text"
+                id="unidade_local_ipt"
+                placeholder="Selecionar unidade"
+              />
             </div>
 
             <div class="formulario">
               <p>CPF*</p>
-              <input type="text" placeholder="000.000.000-00" required />
-              <p>Senha*</p>
               <input
-                type="password"
-                placeholder="Digite o nome completo"
+                type="text"
+                id="cpf_ipt"
+                placeholder="000.000.000-00"
                 required
               />
+              <p>Senha*</p>
+
+              <div class="senha_container">
+                <input
+                  type="password"
+                  id="senha_ipt"
+                  placeholder="Digite sua senha"
+                  required
+                />
+
+                <button
+                  type="button"
+                  class="botao_senha"
+                  onclick="mostrar_senha()"
+                >
+                  👁
+                </button>
+              </div>
               <p>Telefone</p>
-              <input type="tel" placeholder="(00) 00000-0000" required />
+              <input
+                type="tel"
+                id="telefone_ipt"
+                placeholder="(00) 00000-0000"
+              />
               <p>Cargo*</p>
-              <input type="text" placeholder="Selecione o cargo " required />
+              <input
+                type="text"
+                id="cargo_ipt"
+                placeholder="Selecione o cargo"
+                required
+              />
             </div>
           </div>
 
@@ -76,19 +119,99 @@
           </div>
         </div>
         <div class="botoes">
+          <button class="btn-cancelar" onclick="cancelar()">
+            ✕
+            <span>Cancelar</span>
+          </button>
 
-    <button class="btn-cancelar">
-        ✕
-        <span>Cancelar</span>
-    </button>
-
-    <button class="btn-salvar">
-        🗁
-        <span>Salvar Funcionário</span>
-    </button>
-
-</div>
+          <button class="btn-salvar" onclick="salvar()">
+            🗁
+            <span>Salvar Funcionário</span>
+          </button>
+        </div>
       </div>
     </div>
   </body>
+  <script>
+
+
+    let nome;
+    let email;
+    let data_nasc;
+    let unidade_local;
+    let cpf;
+    let senha;
+    let telefone;
+    let cargo;
+    let status;
+
+
+    function salvar() {
+      nome = nome_ipt.value;
+      email = email_ipt.value;
+      data_nasc = data_nasc_input.value;
+      unidade_local = unidade_local_ipt.value;
+      cpf = cpf_ipt.value;
+      senha = senha_ipt.value;
+      telefone = telefone_ipt.value;
+      cargo = cargo_ipt.value;
+      status = document.querySelector(".troca input").checked;
+
+
+      if (
+        nome === "" ||
+        email === "" ||
+        cpf === "" ||
+        senha === "" ||
+        cargo === ""
+      ) {
+        alert("Preencha todos os campos obrigatórios.");
+        return;
+      }
+
+
+      console.log("Nome:", nome);
+      console.log("E-mail:", email);
+      console.log("Data de nascimento:", data_nasc);
+      console.log("Unidade/Local:", unidade_local);
+      console.log("CPF:", cpf);
+      console.log("Senha:", senha);
+      console.log("Telefone:", telefone);
+      console.log("Cargo:", cargo);
+      console.log("Status:", status);
+
+      alert("Funcionário cadastrado com sucesso!");
+    }
+
+
+    function mostrar_senha() {
+      if (senha_ipt.type === "password") {
+        senha_ipt.type = "text";
+      } else {
+        senha_ipt.type = "password";
+      }
+    }
+
+
+    function cancelar() {
+      nome_ipt.value = "";
+      email_ipt.value = "";
+      data_nasc_input.value = "";
+      unidade_local_ipt.value = "";
+      cpf_ipt.value = "";
+      senha_ipt.value = "";
+      telefone_ipt.value = "";
+      cargo_ipt.value = "";
+    }
+
+
+    function voltar() {
+      
+    }
+
+
+    function notificacao() {
+      alert("Você não possui novas notificações.");
+    }
+  </script>
 </html>
