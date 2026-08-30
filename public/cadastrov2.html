@@ -1,81 +1,134 @@
 <!doctype html>
+
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
 
     <title>Cadastro de Funcionário</title>
 
-    <link rel="stylesheet" href="css/tela_cadastro.css" />
+    <link
+      rel="stylesheet"
+      href="./css/tela_cadastro.css"
+    />
   </head>
 
   <body class="container_responsivo">
-    <div class="navegacao">voce pode nao acreditar</div>
+    <!-- Menu lateral -->
+    <aside class="navegacao"></aside>
+
+    <!-- Conteúdo principal -->
     <div class="conteudo_layout">
-      <div class="superior_tela">
-        <button class="botao_voltar" type="button" onclick="voltar()">⭠</button>
+      <header class="superior_tela">
+        <button
+          class="botao_voltar"
+          type="button"
+          onclick="voltar()"
+          aria-label="Voltar"
+        >
+          ⭠
+        </button>
 
         <div class="titulo_superior">
           <h1>Cadastro de Funcionário</h1>
+
           <h2>Preencha os dados do novo funcionário</h2>
         </div>
 
-        <button class="botao_notificacao" type="button" onclick="notificacao()">
+        <button
+          class="botao_notificacao"
+          type="button"
+          onclick="notificacao()"
+          aria-label="Notificações"
+        >
           🕭
         </button>
-      </div>
+      </header>
 
-      <div class="conteudo">
-        <div class="card_conteudo">
+      <main class="conteudo">
+        <section class="card_conteudo">
           <div class="titulo_formulario">
             <h1>Dados do Usuário</h1>
           </div>
+
           <div class="container_formularios">
+            <!-- Coluna esquerda -->
             <div class="formulario">
-              <p>Nome completo*</p>
+              <label for="nome_ipt">
+                Nome completo*
+              </label>
+
               <input
                 type="text"
                 id="nome_ipt"
                 placeholder="Digite o nome completo"
-                autocomplete="off"
+                autocomplete="name"
                 required
               />
-              <p>Digite o e-mail*</p>
+
+              <label for="email_ipt">
+                Digite o e-mail*
+              </label>
+
               <input
                 type="email"
                 id="email_ipt"
                 placeholder="Digite o e-mail"
+                autocomplete="email"
                 required
               />
-              <p>Data de nascimento</p>
+
+              <label for="data_nasc_input">
+                Data de nascimento
+              </label>
+
               <input
                 type="date"
                 id="data_nasc_input"
-                placeholder="00/00/0000"
               />
-              <p>Unidade/Local</p>
-              <input
-                type="text"
-                id="unidade_local_ipt"
-                placeholder="Selecionar unidade"
-              />
+
+              <label for="unidade_local_ipt">
+                Unidade/Local
+              </label>
+
+              <select id="unidade_local_ipt">
+                <option value="">
+                  Selecione uma unidade
+                </option>
+              </select>
             </div>
 
+            <!-- Coluna direita -->
             <div class="formulario">
-              <p>CPF*</p>
+              <label for="cpf_ipt">
+                CPF*
+              </label>
+
               <input
                 type="text"
                 id="cpf_ipt"
                 placeholder="000.000.000-00"
+                inputmode="numeric"
+                autocomplete="off"
+                maxlength="14"
                 required
               />
-              <p>Senha*</p>
+
+              <label for="senha_ipt">
+                Senha*
+              </label>
 
               <div class="senha_container">
                 <input
                   type="password"
                   id="senha_ipt"
                   placeholder="Digite sua senha"
+                  autocomplete="new-password"
+                  minlength="6"
                   required
                 />
 
@@ -83,26 +136,38 @@
                   type="button"
                   class="botao_senha"
                   onclick="mostrar_senha()"
+                  aria-label="Mostrar ou ocultar senha"
                 >
                   👁
                 </button>
               </div>
-              <p>Telefone</p>
+
+              <label for="telefone_ipt">
+                Telefone
+              </label>
+
               <input
                 type="tel"
                 id="telefone_ipt"
                 placeholder="(00) 00000-0000"
+                inputmode="tel"
+                autocomplete="tel"
+                maxlength="15"
               />
-              <p>Cargo*</p>
-              <input
-                type="text"
-                id="cargo_ipt"
-                placeholder="Selecione o cargo"
-                required
-              />
+
+              <label for="cargo_ipt">
+                Cargo*
+              </label>
+
+              <select id="cargo_ipt" required>
+                <option value="">
+                  Selecione um cargo
+                </option>
+              </select>
             </div>
           </div>
 
+          <!-- Status -->
           <div class="status">
             <h3>Status</h3>
 
@@ -110,108 +175,54 @@
 
             <div class="status-controle">
               <label class="troca">
-                <input type="checkbox" checked />
+                <input
+                  type="checkbox"
+                  id="status_ipt"
+                  checked
+                />
+
                 <span class="deslizar"></span>
               </label>
 
-              <span class="texto-status">Ativo</span>
+              <span class="texto-status">
+                Ativo
+              </span>
             </div>
           </div>
-        </div>
+        </section>
+
+        <!-- Mensagem de sucesso ou erro -->
+        <p
+          id="mensagem_cadastro"
+          class="mensagem_cadastro"
+          aria-live="polite"
+        ></p>
+
+        <!-- Botões -->
         <div class="botoes">
-          <button class="btn-cancelar" onclick="cancelar()">
+          <button
+            type="button"
+            class="btn-cancelar"
+            onclick="cancelar()"
+          >
             ✕
+
             <span>Cancelar</span>
           </button>
 
-          <button class="btn-salvar" onclick="salvar()">
+          <button
+            type="button"
+            class="btn-salvar"
+            onclick="salvar()"
+          >
             🗁
+
             <span>Salvar Funcionário</span>
           </button>
         </div>
-      </div>
+      </main>
     </div>
+
+    <script src="./js/cadastro.js"></script>
   </body>
-  <script>
-
-
-    let nome;
-    let email;
-    let data_nasc;
-    let unidade_local;
-    let cpf;
-    let senha;
-    let telefone;
-    let cargo;
-    let status;
-
-
-    function salvar() {
-      nome = nome_ipt.value;
-      email = email_ipt.value;
-      data_nasc = data_nasc_input.value;
-      unidade_local = unidade_local_ipt.value;
-      cpf = cpf_ipt.value;
-      senha = senha_ipt.value;
-      telefone = telefone_ipt.value;
-      cargo = cargo_ipt.value;
-      status = document.querySelector(".troca input").checked;
-
-
-      if (
-        nome === "" ||
-        email === "" ||
-        cpf === "" ||
-        senha === "" ||
-        cargo === ""
-      ) {
-        alert("Preencha todos os campos obrigatórios.");
-        return;
-      }
-
-
-      console.log("Nome:", nome);
-      console.log("E-mail:", email);
-      console.log("Data de nascimento:", data_nasc);
-      console.log("Unidade/Local:", unidade_local);
-      console.log("CPF:", cpf);
-      console.log("Senha:", senha);
-      console.log("Telefone:", telefone);
-      console.log("Cargo:", cargo);
-      console.log("Status:", status);
-
-      alert("Funcionário cadastrado com sucesso!");
-    }
-
-
-    function mostrar_senha() {
-      if (senha_ipt.type === "password") {
-        senha_ipt.type = "text";
-      } else {
-        senha_ipt.type = "password";
-      }
-    }
-
-
-    function cancelar() {
-      nome_ipt.value = "";
-      email_ipt.value = "";
-      data_nasc_input.value = "";
-      unidade_local_ipt.value = "";
-      cpf_ipt.value = "";
-      senha_ipt.value = "";
-      telefone_ipt.value = "";
-      cargo_ipt.value = "";
-    }
-
-
-    function voltar() {
-      
-    }
-
-
-    function notificacao() {
-      alert("Você não possui novas notificações.");
-    }
-  </script>
 </html>
