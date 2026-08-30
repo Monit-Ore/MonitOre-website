@@ -1,22 +1,25 @@
-var usuarioModel = require("../models/usuarioModel");
-var bcrypt = require("bcryptjs");
+var usuarioModel =
+    require("../models/usuarioModel");
 
-// =========================================================
-// FUNÇÕES AUXILIARES
-// =========================================================
+
+// VALIDAÇÃO DE EMAIL
 
 function emailValido(email) {
-    var formatoEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var formatoEmail =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     return formatoEmail.test(email);
 }
+
+
+// VALIDAÇÃO DE CPF
 
 function cpfValido(cpf) {
     if (!/^\d{11}$/.test(cpf)) {
         return false;
     }
 
-    // Impede CPFs com todos os números iguais.
+    // Impede CPF com todos os números iguais.
     if (/^(\d)\1{10}$/.test(cpf)) {
         return false;
     }
@@ -25,7 +28,8 @@ function cpfValido(cpf) {
     var resto;
 
     for (var indice = 1; indice <= 9; indice++) {
-        soma += Number(cpf.substring(indice - 1, indice)) *
+        soma +=
+            Number(cpf.substring(indice - 1, indice)) *
             (11 - indice);
     }
 
@@ -35,16 +39,28 @@ function cpfValido(cpf) {
         resto = 0;
     }
 
-    if (resto !== Number(cpf.substring(9, 10))) {
+    if (
+        resto !==
+        Number(cpf.substring(9, 10))
+    ) {
         return false;
     }
 
     soma = 0;
 
-    for (var segundoIndice = 1; segundoIndice <= 10; segundoIndice++) {
-        soma += Number(
-            cpf.substring(segundoIndice - 1, segundoIndice)
-        ) * (12 - segundoIndice);
+    for (
+        var segundoIndice = 1;
+        segundoIndice <= 10;
+        segundoIndice++
+    ) {
+        soma +=
+            Number(
+                cpf.substring(
+                    segundoIndice - 1,
+                    segundoIndice
+                )
+            ) *
+            (12 - segundoIndice);
     }
 
     resto = (soma * 10) % 11;
@@ -53,14 +69,16 @@ function cpfValido(cpf) {
         resto = 0;
     }
 
-    return resto === Number(cpf.substring(10, 11));
+    return (
+        resto ===
+        Number(cpf.substring(10, 11))
+    );
 }
 
-// =========================================================
-// LOGIN
-// =========================================================
 
-function autenticar(req, res) {
+// AUTENTICAR
+
+async function autenticar(req, res) {
     var email = req.body.email;
     var senha = req.body.senha;
 
@@ -84,91 +102,90 @@ function autenticar(req, res) {
         });
     }
 
-    usuarioModel.buscarPorEmail(email)
-        .then(function (resultado) {
-            if (resultado.length === 0) {
-                return res.status(401).json({
-                    mensagem: "Email ou senha inválidos."
-                });
-            }
+    try {
+        var resultado =
+            await usuarioModel.buscarPorEmail(email);
 
-            var usuario = resultado[0];
+        if (resultado.length === 0) {
+            return res.status(401).json({
+                mensagem: "Email ou senha inválidos."
+            });
+        }
 
-            if (usuario.status_usuario !== "Ativo") {
-                return res.status(403).json({
-                    mensagem: "Usuário inativo."
-                });
-            }
+        var usuario = resultado[0];
 
-            if (usuario.status_cargo !== "Ativo") {
-                return res.status(403).json({
-                    mensagem: "Cargo do usuário está inativo."
-                });
-            }
+        if (usuario.status_usuario !== "Ativo") {
+            return res.status(403).json({
+                mensagem: "Usuário inativo."
+            });
+        }
 
-            if (usuario.status_empresa !== "Ativo") {
-                return res.status(403).json({
-                    mensagem: "Empresa do usuário está inativa."
-                });
-            }
+        if (usuario.status_cargo !== "Ativo") {
+            return res.status(403).json({
+                mensagem: "Cargo do usuário está inativo."
+            });
+        }
 
-            return bcrypt.compare(senha, usuario.senha_hash)
-                .then(function (senhaCorreta) {
-                    if (!senhaCorreta) {
-                        return res.status(401).json({
-                            mensagem: "Email ou senha inválidos."
-                        });
-                    }
+        if (usuario.status_empresa !== "Ativo") {
+            return res.status(403).json({
+                mensagem: "Empresa do usuário está inativa."
+            });
+        }
 
-                    return usuarioModel
-                        .atualizarUltimoAcesso(usuario.id_usuario)
-                        .then(function () {
-                            return res.status(200).json({
-                                mensagem:
-                                    "Login realizado com sucesso.",
+        // Comparação direta da senha em texto.
+        if (senha !== usuario.senha) {
+            return res.status(401).json({
+                mensagem: "Email ou senha inválidos."
+            });
+        }
 
-                                primeiroAcesso:
-                                    usuario.primeiro_acesso === 1,
+        await usuarioModel.atualizarUltimoAcesso(
+            usuario.id_usuario
+        );
 
-                                usuario: {
-                                    idUsuario:
-                                        usuario.id_usuario,
+        return res.status(200).json({
+            mensagem: "Login realizado com sucesso.",
 
-                                    nome:
-                                        usuario.nome,
+            primeiroAcesso:
+                usuario.primeiro_acesso === 1,
 
-                                    email:
-                                        usuario.email,
+            usuario: {
+                idUsuario:
+                    usuario.id_usuario,
 
-                                    cargo:
-                                        usuario.cargo,
+                nome:
+                    usuario.nome,
 
-                                    empresa:
-                                        usuario.empresa,
+                email:
+                    usuario.email,
 
-                                    mineradora:
-                                        usuario.mineradora
-                                }
-                            });
-                        });
-                });
-        })
-        .catch(function (erro) {
-            console.error("Erro ao autenticar usuário:", erro);
+                cargo:
+                    usuario.cargo,
 
-            if (!res.headersSent) {
-                return res.status(500).json({
-                    mensagem: "Erro interno ao realizar login."
-                });
+                empresa:
+                    usuario.empresa,
+
+                mineradora:
+                    usuario.mineradora
             }
         });
+    } catch (erro) {
+        console.error(
+            "Erro ao autenticar usuário:",
+            erro
+        );
+
+        return res.status(500).json({
+            mensagem:
+                "Erro interno ao realizar login."
+        });
+    }
 }
 
-// =========================================================
-// CADASTRO
-// =========================================================
 
-function cadastrar(req, res) {
+// CADASTRAR
+
+async function cadastrar(req, res) {
     var nome = req.body.nome;
     var email = req.body.email;
     var cpf = req.body.cpf;
@@ -187,7 +204,8 @@ function cadastrar(req, res) {
 
     if (nome.trim().length < 3) {
         return res.status(400).json({
-            mensagem: "Informe o nome completo do funcionário."
+            mensagem:
+                "Informe o nome completo do funcionário."
         });
     }
 
@@ -227,11 +245,15 @@ function cadastrar(req, res) {
 
     if (senha.length < 6) {
         return res.status(400).json({
-            mensagem: "A senha deve possuir pelo menos 6 caracteres."
+            mensagem:
+                "A senha deve possuir pelo menos 6 caracteres."
         });
     }
 
-    if (!idCargo || !Number.isInteger(Number(idCargo))) {
+    if (
+        !idCargo ||
+        !Number.isInteger(Number(idCargo))
+    ) {
         return res.status(400).json({
             mensagem: "Selecione um cargo válido."
         });
@@ -251,131 +273,137 @@ function cadastrar(req, res) {
             ? "Inativo"
             : "Ativo";
 
-    var consultas = [
-        usuarioModel.buscarPorEmail(email),
-        usuarioModel.buscarPorCpf(cpf),
-        usuarioModel.buscarCargoAtivoPorId(idCargo)
-    ];
+    try {
+        var usuariosComEmail =
+            await usuarioModel.buscarPorEmail(email);
 
-    if (idMineradora) {
-        consultas.push(
-            usuarioModel.buscarMineradoraPorId(idMineradora)
-        );
-    }
+        if (usuariosComEmail.length > 0) {
+            return res.status(409).json({
+                mensagem:
+                    "Este email já está cadastrado."
+            });
+        }
 
-    Promise.all(consultas)
-        .then(function (resultados) {
-            var usuariosComEmail = resultados[0];
-            var usuariosComCpf = resultados[1];
-            var cargosEncontrados = resultados[2];
+        var usuariosComCpf =
+            await usuarioModel.buscarPorCpf(cpf);
 
-            if (usuariosComEmail.length > 0) {
-                return res.status(409).json({
-                    mensagem: "Este email já está cadastrado."
-                });
-            }
+        if (usuariosComCpf.length > 0) {
+            return res.status(409).json({
+                mensagem:
+                    "Este CPF já está cadastrado."
+            });
+        }
 
-            if (usuariosComCpf.length > 0) {
-                return res.status(409).json({
-                    mensagem: "Este CPF já está cadastrado."
-                });
-            }
+        var cargosEncontrados =
+            await usuarioModel.buscarCargoAtivoPorId(
+                idCargo
+            );
 
-            if (cargosEncontrados.length === 0) {
-                return res.status(400).json({
-                    mensagem:
-                        "O cargo selecionado não existe ou está inativo."
-                });
-            }
+        if (cargosEncontrados.length === 0) {
+            return res.status(400).json({
+                mensagem:
+                    "O cargo selecionado não existe ou está inativo."
+            });
+        }
 
-            if (
-                idMineradora &&
-                resultados[3].length === 0
-            ) {
+        if (idMineradora) {
+            var mineradorasEncontradas =
+                await usuarioModel.buscarMineradoraPorId(
+                    idMineradora
+                );
+
+            if (mineradorasEncontradas.length === 0) {
                 return res.status(400).json({
                     mensagem:
                         "A unidade selecionada não existe."
                 });
             }
+        }
 
-            return bcrypt.hash(senha, 10)
-                .then(function (senhaHash) {
-                    return usuarioModel.cadastrar(
-                        nome.trim(),
-                        email,
-                        cpf,
-                        senhaHash,
-                        dataNascimento || null,
-                        telefone ? telefone.trim() : null,
-                        statusAtividade,
-                        idCargo,
-                        idMineradora || null
-                    );
-                })
-                .then(function (resultadoCadastro) {
-                    return res.status(201).json({
-                        mensagem:
-                            "Funcionário cadastrado com sucesso.",
+        var resultadoCadastro =
+            await usuarioModel.cadastrar(
+                nome.trim(),
+                email,
+                cpf,
+                senha,
+                dataNascimento || null,
+                telefone ? telefone.trim() : null,
+                statusAtividade,
+                idCargo,
+                idMineradora || null
+            );
 
-                        idUsuario:
-                            resultadoCadastro.insertId
-                    });
-                });
-        })
-        .catch(function (erro) {
-            console.error("Erro ao cadastrar usuário:", erro);
+        return res.status(201).json({
+            mensagem:
+                "Funcionário cadastrado com sucesso.",
 
-            if (erro.code === "ER_DUP_ENTRY") {
-                return res.status(409).json({
-                    mensagem:
-                        "Email ou CPF já cadastrado."
-                });
-            }
-
-            if (!res.headersSent) {
-                return res.status(500).json({
-                    mensagem:
-                        "Erro interno ao cadastrar funcionário."
-                });
-            }
+            idUsuario:
+                resultadoCadastro.insertId
         });
+    } catch (erro) {
+        console.error(
+            "Erro ao cadastrar usuário:",
+            erro
+        );
+
+        if (erro.code === "ER_DUP_ENTRY") {
+            return res.status(409).json({
+                mensagem:
+                    "Email ou CPF já cadastrado."
+            });
+        }
+
+        return res.status(500).json({
+            mensagem:
+                "Erro interno ao cadastrar funcionário."
+        });
+    }
 }
 
-// =========================================================
+
 // LISTAR CARGOS
-// =========================================================
 
-function listarCargos(req, res) {
-    usuarioModel.listarCargos()
-        .then(function (resultado) {
-            return res.status(200).json(resultado);
-        })
-        .catch(function (erro) {
-            console.error("Erro ao listar cargos:", erro);
+async function listarCargos(req, res) {
+    try {
+        var resultado =
+            await usuarioModel.listarCargos();
 
-            return res.status(500).json({
-                mensagem: "Erro ao buscar cargos."
-            });
+        return res.status(200).json(resultado);
+    } catch (erro) {
+        console.error(
+            "Erro ao listar cargos:",
+            erro
+        );
+
+        return res.status(500).json({
+            mensagem: "Erro ao buscar cargos."
         });
+    }
 }
 
-// =========================================================
+
 // LISTAR MINERADORAS
-// =========================================================
 
-function listarMineradoras(req, res) {
-    usuarioModel.listarMineradoras()
-        .then(function (resultado) {
-            return res.status(200).json(resultado);
-        })
-        .catch(function (erro) {
-            console.error("Erro ao listar mineradoras:", erro);
+async function listarMineradoras(req, res) {
+    try {
+        var resultado =
+            await usuarioModel.listarMineradoras();
 
-            return res.status(500).json({
-                mensagem: "Erro ao buscar unidades."
-            });
+        return res.status(200).json(resultado);
+    } catch (erro) {
+        console.error(
+            "Erro ao listar mineradoras:",
+            erro
+        );
+
+        return res.status(500).json({
+            mensagem: "Erro ao buscar unidades."
         });
+    }
 }
+
+
+// EXPORTAÇÕES
 
 module.exports = {
     autenticar,

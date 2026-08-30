@@ -150,7 +150,7 @@ function redirecionarUsuario(primeiroAcesso) {
                 "./primeiro-acesso.html";
         } else {
             window.location.href =
-                "./dashboard.html";
+                "./cadastrov2.html";
         }
     }, 1000);
 }

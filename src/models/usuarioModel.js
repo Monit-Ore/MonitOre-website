@@ -1,9 +1,9 @@
 var database = require("../database/config");
+
 var mysql = require("mysql2");
 
-// =========================================================
-// LOGIN E CONSULTAS DE USUÁRIO
-// =========================================================
+
+// BUSCAR USUÁRIO PELO EMAIL
 
 function buscarPorEmail(email) {
     var emailSeguro = mysql.escape(email);
@@ -14,9 +14,12 @@ function buscarPorEmail(email) {
             u.nome,
             u.email,
             u.cpf,
-            u.senha_hash,
+            u.senha,
+            u.data_nascimento,
+            u.telefone,
             u.primeiro_acesso,
             u.status_atividade AS status_usuario,
+            u.ultimo_acesso,
             u.fk_cargo,
             u.fk_mineradora,
 
@@ -49,6 +52,9 @@ function buscarPorEmail(email) {
     return database.executar(instrucaoSql);
 }
 
+
+// BUSCAR USUÁRIO PELO CPF
+
 function buscarPorCpf(cpf) {
     var cpfSeguro = mysql.escape(cpf);
 
@@ -60,12 +66,14 @@ function buscarPorCpf(cpf) {
         WHERE cpf = ${cpfSeguro};
     `;
 
+    console.log("Executando SQL:");
+    console.log(instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
 
-// =========================================================
-// VALIDAÇÃO DE CARGO E MINERADORA
-// =========================================================
+
+// BUSCAR CARGO ATIVO
 
 function buscarCargoAtivoPorId(idCargo) {
     var instrucaoSql = `
@@ -74,6 +82,7 @@ function buscarCargoAtivoPorId(idCargo) {
             c.nome,
             c.status_atividade AS status_cargo,
             e.status_atividade AS status_empresa
+
         FROM cargo AS c
 
         INNER JOIN empresa AS e
@@ -84,8 +93,14 @@ function buscarCargoAtivoPorId(idCargo) {
           AND e.status_atividade = 'Ativo';
     `;
 
+    console.log("Executando SQL:");
+    console.log(instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
+
+
+// BUSCAR MINERADORA
 
 function buscarMineradoraPorId(idMineradora) {
     var instrucaoSql = `
@@ -96,18 +111,20 @@ function buscarMineradoraPorId(idMineradora) {
         WHERE id_mineradora = ${Number(idMineradora)};
     `;
 
+    console.log("Executando SQL:");
+    console.log(instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
 
-// =========================================================
-// CADASTRO
-// =========================================================
+
+// CADASTRAR USUÁRIO
 
 function cadastrar(
     nome,
     email,
     cpf,
-    senhaHash,
+    senha,
     dataNascimento,
     telefone,
     statusAtividade,
@@ -117,7 +134,7 @@ function cadastrar(
     var nomeSeguro = mysql.escape(nome);
     var emailSeguro = mysql.escape(email);
     var cpfSeguro = mysql.escape(cpf);
-    var senhaHashSeguro = mysql.escape(senhaHash);
+    var senhaSegura = mysql.escape(senha);
     var telefoneSeguro = mysql.escape(telefone || null);
     var statusSeguro = mysql.escape(statusAtividade);
 
@@ -134,7 +151,7 @@ function cadastrar(
             nome,
             email,
             cpf,
-            senha_hash,
+            senha,
             data_nascimento,
             telefone,
             primeiro_acesso,
@@ -147,7 +164,7 @@ function cadastrar(
             ${nomeSeguro},
             ${emailSeguro},
             ${cpfSeguro},
-            ${senhaHashSeguro},
+            ${senhaSegura},
             ${dataNascimentoSegura},
             ${telefoneSeguro},
             TRUE,
@@ -164,9 +181,8 @@ function cadastrar(
     return database.executar(instrucaoSql);
 }
 
-// =========================================================
-// ATUALIZAÇÃO DE ACESSO
-// =========================================================
+
+// ATUALIZAR ÚLTIMO ACESSO
 
 function atualizarUltimoAcesso(idUsuario) {
     var instrucaoSql = `
@@ -175,12 +191,14 @@ function atualizarUltimoAcesso(idUsuario) {
         WHERE id_usuario = ${Number(idUsuario)};
     `;
 
+    console.log("Executando SQL:");
+    console.log(instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
 
-// =========================================================
-// LISTAGENS PARA O CADASTRO
-// =========================================================
+
+// LISTAR CARGOS
 
 function listarCargos() {
     var instrucaoSql = `
@@ -188,6 +206,7 @@ function listarCargos() {
             c.id_cargo,
             c.nome,
             e.razao_social AS empresa
+
         FROM cargo AS c
 
         INNER JOIN empresa AS e
@@ -199,8 +218,14 @@ function listarCargos() {
         ORDER BY c.nome;
     `;
 
+    console.log("Executando SQL:");
+    console.log(instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
+
+
+// LISTAR MINERADORAS
 
 function listarMineradoras() {
     var instrucaoSql = `
@@ -211,8 +236,14 @@ function listarMineradoras() {
         ORDER BY razao_social;
     `;
 
+    console.log("Executando SQL:");
+    console.log(instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
+
+
+// EXPORTAÇÕES
 
 module.exports = {
     buscarPorEmail,
