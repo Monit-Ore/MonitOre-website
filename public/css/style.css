@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-body {
-  margin: 0;
+
+* {
+    margin: 0;
   padding: 0;
+}
+
+body {
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #000000;
 }
@@ -90,17 +94,16 @@ body {
     .banner {
         background-position: right;
         height: 60vh;
-        /* border: 1px solid white; */
         align-items: end;
         padding-bottom: 50px;
     }
 
     .container {
-    margin-left: 0;
-    flex-direction: column;
-    width: 100%;
-    gap: 10px;
-    align-items: center;
+        margin-left: 0;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        align-items: center;
     }
 
     .container .titulo {
@@ -132,10 +135,10 @@ body {
 
 .secaoValores {
     color: white;
-    display: none;
+    display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 400px;
+    height: 60vh;
     gap: 5%;
     overflow: hidden;
 }
@@ -183,12 +186,10 @@ body {
 }
 
 .TopicoTexto h1 {
-    margin: 0;
     font-size: 5vh;
 }
 
 .TopicoTexto p {
-    margin: 0;
     font-size: 2.5vh;
 }
 
@@ -200,69 +201,84 @@ body {
     */
 
     .secaoValores {
-        /* border: 1px solid white; */
-        padding-top: 30px;
+        padding-top: 20px;
         flex-direction: column;
-        overflow: visible;
         gap: 0;
-        height: 370px;
+        height: 33vh;
+        justify-content: space-between;
         align-items: center;
-        /* justify-content: 0; */
-
+        padding-bottom: 20px;
     }
 
     .secaoEsquerda {
         justify-content: none;
         width: 90%;
-
     }
 
     .secaoEsquerda div {
         display: none;
         width: 100%;
-
     }
 
     .secaoEsquerda div img {
         display: none;
         width: 0%;
-
     }
 
     .secaoEsquerda p{
         width: 100%;
-        font-size: 2.7vh;
-        margin: 0;
+        font-size: 2.5vh;
     }
 
     .secaoDireita {
-        width: 100%;
+        width: 90%;
+        height: 60%;
+        gap: 10%;
+    }
+
+    .topico img{
+        width: 10%;
     }
 
     .TopicoTexto h1 {
-            font-size: 3vh;
+        font-size: 4vw;
+    }
 
+    .TopicoTexto p {
+        font-size: 3vw;
     }
 }
+
+/*
+================================================
+================================================
+================================================
+*/
 
 
 .secaoSolucao {
     background-color: var(--branco);
     display: flex;
-    border: 1px solid black;
     width: 100%;
+    height: 50vh;
+    padding: 50px 0 50px 0;
     gap: 5%;
 }
 
 .esquerda_secaoSolucao {
+    justify-content: space-evenly;
     display: flex;
     flex-direction: column;
+    /* padding-right: 10%; */
     width: 25%;
+    height: 90%;
 }
 
 .esquerda_secaoSolucao h1 {
+    display: block;
+    width: 50%;
     padding-bottom: 10px;
-    padding-left: 2%;
+    padding-left: 10%;
     font-size: 6vh;
     border-bottom: 10px #FFD741 solid;
 }
@@ -271,6 +287,7 @@ body {
     padding-left: 6%;
     font-size: 3vh;
     font-weight: bolder;
+    width: 100%;
 }
 
 .direita_secaoSolucao {
@@ -282,21 +299,370 @@ body {
 
 .Card_solucao {
     border: 4px solid #FFD741;
+    width: 20%;
+    height: 70%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .img_card {
-    border: 1px solid black;
+    width: 6vw;
 }
 
 .img_card img {
-    border: 1px solid black;
+    width: 100%;
+    height: 100%;
 }
 
 .Card_solucao h1 {
-    border: 1px solid black;
+    height: 20%;
+    font-size: 2.5vw;
+    margin: 0;
 }
 
 .Card_solucao p {
+    font-size: 1.5vw;
+    margin: 0;
+    height: 30%;
+    overflow-wrap: break-word;
+}
+
+@media screen and (max-width: 768px) {
+    .secaoSolucao {
+        flex-direction: column;
+        padding-top: 10px;
+        align-items: center;
+        height: 40vh;
+        gap: 0;
+    }
+
+    .esquerda_secaoSolucao {
+        width: 100%;
+        height: 40%;
+        flex-direction: row;
+        align-items: center;
+        padding-right: 0;
+    }
+
+    .esquerda_secaoSolucao h1 {
+        font-size: 4vh;
+        padding-left: 5%;
+        border-bottom: 5px #FFD741 solid;
+    }
+
+    .esquerda_secaoSolucao p {
+        font-size: 2vh;
+        display: flex;
+        overflow-wrap: break-word;
+    }
+
+    .direita_secaoSolucao {
+        width: 90%;
+        height: 60%;
+        align-items: start;
+        justify-content: space-between;
+    }
+
+    .Card_solucao {
+        width: 25%;
+        height: 80%;
+        padding: 5px;
+    }
+
+    .img_card {
+        width: 8vw;
+    }
+
+    .Card_solucao h1 {
+        font-size: 5vw;
+    }
+
+    .Card_solucao p {
+        font-size: 2.5vw;
+    }
+
+}
+
+/*
+================================================
+================================================
+================================================
+*/
+
+.Secao_componentes {
+    padding: 30px 0 30px 0;
+    display: flex;
+    height: 30vh;
+    justify-content: space-around;
+}
+
+.componentes_esquerda {
+    width: 40%;
+    display: flex;
+    align-items: center;
+}
+
+.componentes_esquerda h1 {
+    color: #FFD741;
+    font-size: 6vh;
+    overflow-wrap: break-word;
+}
+
+.componentes_direita {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.componentes_direita img {
+    height: 70%;
+}
+
+@media screen and (max-width: 768px) {
+    .Secao_componentes {
+        flex-direction: column;
+        height: 22vh;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .componentes_esquerda {
+        width: 90%;
+    }
+
+    .componentes_esquerda h1 {
+        text-align: center;
+        font-size: 3vh;
+    }
+
+    .componentes_direita {
+        width: 90%;
+        height: 40%;
+    }
+
+    .componentes_direita img {
+        height: 100%;
+    }
+}
+
+
+.secaoInformacoes {
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 85vh;
+    padding-top: 50px;
+}
+
+.esquerdaInformacoes {
+    width: 40%;
+    height: 90%;
+}
+
+.esquerdaInformacoes img {
+    width: 100%;
+    height: 100%;
+}
+
+.direitaInformacoes {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.cimaDireitaInformacoes {
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cimaDireitaInformacoes h1 {
+    font-size: 2.7vw;
+    width: 80%;
+    overflow-wrap: break-word;
+}
+
+.cimaDireitaInformacoes p {
+    overflow-wrap: break-word;
+    font-size: 1.7vw;
+    width: 80%;
+}
+
+.cimaDireitaInformacoes ul{
+    font-size: 1.7vw;
+    width: 70%;
+}
+
+
+.inferiorDireitaInformacoes {
+    display: flex;
+    height: 30%;
+    justify-content: end;
+}
+
+.inferiorDireitaInformacoes  img {
+    height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .secaoInformacoes {
+        height: 50vh;
+        justify-content: none;
+        flex-direction: row-reverse;
+        padding-top: 20px;
+        padding-top: 0;
+        align-items: center;
+    }
+
+    .esquerdaInformacoes {
+        display: flex;
+        position: absolute;
+        opacity: 20%;
+        width: 70%;
+        height: 70%;
+    }
+
+    .direitaInformacoes {
+        width: 100%;
+        height: 100%;
+    }
+
+    .cimaDireitaInformacoes {
+        justify-content: space-around;
+        padding-right: 15%;
+        margin-top: 13%;
+    }
+
+    .cimaDireitaInformacoes h1 {
+        font-size: 6vw;
+        width: 80%;
+    }
+
+    .cimaDireitaInformacoes p {
+        font-size: 3.3vw;
+        width: 70%;
+    }
+
+    .cimaDireitaInformacoes ul{
+        font-size: 3vw;
+    }
+
+    .inferiorDireitaInformacoes {
+        display: none;
+    }
+    
+}
+
+/*
+================================================
+================================================
+================================================
+*/
+
+.secaoImpactoNegocios {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: white;
+    display: flex;
+    height: 80vh;
+    justify-content: space-between;
+}
+
+.esquerda_secaoImpactoNegocios {
+    padding-left: 2%;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.texto_esquerda_secaoImpactoNegocios {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 55%;
+}
+
+.texto_esquerda_secaoImpactoNegocios h1 {
+    font-size: 2.7vw;
+}
+
+.texto_esquerda_secaoImpactoNegocios p:nth-of-type(1) {
+    font-size: 1.7vw;
+}
+
+.texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
+    font-size: 1.7vw;
+    /* margin-top: 15%; */
+}
+
+.button_esquerda_secaoImpactoNegocios {
+    height: 30%;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.button_esquerda_secaoImpactoNegocios button {
+    background-color: #FFD741;
+    width: 50%;
+    border-radius: 10px;
+    padding: 20px;
+    font-weight: bolder;
+    font-size: 1.7vw;
+    text-align: start;
+}
+
+.direita_secaoImpactoNegocios {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.CaixaMetricas {
+    align-self: flex-start;
+    margin-right: 3%;
+    height: 50%;
+    width: 80%;
+    background-color: #CECECC;
+    z-index: 999;
+    padding: 2%;
+    justify-content: space-between;
+    display: flex;
+
+}
+
+.box_CaixaMetricas {
+    width: 30%;
     border: 1px solid black;
-    /* overflow-wrap: break-word; */
+}
+
+.ImagemDesign {
+    align-self: flex-end;
+    justify-self: flex-end;
+    position: relative;
+    height: 50%;
+    width: 80%;
+}
+
+.ImagemDesign img {
+    width: 100%;
+    height: 100%;
+
+}
+
+@media screen and (max-width: 768px) {
+    .secaoImpactoNegocios {
+        height: 40%;
+    }
 }
