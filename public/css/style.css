@@ -379,8 +379,10 @@ body {
         flex-direction: column;
         padding-top: 10px;
         align-items: center;
-        height: 40vh;
-        gap: 0;
+        height: 50vw;
+        border: 1px solid rgb(255, 0, 0);
+        padding-bottom: 20px;
+        gap: 5vw;
     }
 
     .esquerda_secaoSolucao {
@@ -392,13 +394,13 @@ body {
     }
 
     .esquerda_secaoSolucao h1 {
-        font-size: 4vh;
+        font-size: 5vw;
         padding-left: 5%;
         border-bottom: 5px #FFD741 solid;
     }
 
     .esquerda_secaoSolucao p {
-        font-size: 2vh;
+        font-size: 3vw;
         display: flex;
         overflow-wrap: break-word;
     }
@@ -406,7 +408,6 @@ body {
     .direita_secaoSolucao {
         width: 90%;
         height: 60%;
-        align-items: start;
         justify-content: space-between;
     }
 
@@ -421,7 +422,7 @@ body {
     }
 
     .Card_solucao h1 {
-        font-size: 5vw;
+        font-size: 4vw;
     }
 
     .Card_solucao p {
@@ -481,10 +482,12 @@ body {
 
     .componentes_esquerda h1 {
         text-align: center;
+        width: 100%;
         font-size: 3vh;
     }
 
     .componentes_direita {
+        justify-content: space-evenly;
         width: 90%;
         height: 40%;
     }
@@ -500,7 +503,7 @@ body {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 85vh;
+    height: 50vw;
     padding-top: 50px;
 }
 
@@ -560,12 +563,13 @@ body {
 
 @media screen and (max-width: 768px) {
     .secaoInformacoes {
-        height: 50vh;
+        height: 50vw;
         justify-content: none;
         flex-direction: row-reverse;
-        padding-top: 20px;
         padding-top: 0;
         align-items: center;
+        overflow: hidden;
+        padding: 20px 0 20px 0;
     }
 
     .esquerdaInformacoes {
@@ -573,22 +577,22 @@ body {
         position: absolute;
         opacity: 20%;
         width: 70%;
-        height: 70%;
+        height: 50vw;
     }
 
     .direitaInformacoes {
         width: 100%;
         height: 100%;
+        
     }
 
     .cimaDireitaInformacoes {
         justify-content: space-around;
         padding-right: 15%;
-        margin-top: 13%;
+        height: 100%;
     }
 
     .cimaDireitaInformacoes h1 {
-        font-size: 6vw;
         width: 80%;
     }
 
