@@ -80,7 +80,7 @@
 
 @media screen and (max-width: 768px) {
     .footer {
-        height: 25vh;
+        height: 50vw;
         flex-direction: column-reverse;
         align-items: center;
     }
