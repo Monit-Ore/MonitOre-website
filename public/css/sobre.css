@@ -1,0 +1,327 @@
+.hero-sobre {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url('https://placehold.co/1920x600/222/fff?text=Fundo+Tratores/Mina') center/cover no-repeat;
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    border-bottom: 5px solid #005f73;
+}
+
+.hero-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.hero-container h1 {
+    color: var(--branco);
+    font-size: 6vh;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.sobre-projeto {
+    background-color: var(--branco);
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 60px 0 60px 10%;
+    overflow: hidden;
+}
+
+.sobre-texto {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sobre-texto h2 {
+    font-size: 5vh;
+    line-height: 1.1;
+    color: var(--preto);
+    margin-bottom: 10px;
+}
+
+.titulo-wrapper {
+    display: inline-block;
+    max-width: 100%;
+}
+
+.titulo-wrapper .linha-destaque {
+    height: 4px;
+    width: 100%;
+    background-color: var(--amarelo);
+    margin-bottom: 25px;
+}
+
+.sobre-texto p {
+    font-size: 2.5vh;
+    color: var(--preto);
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+.sobre-grafismo {
+    width: 15%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sobre-grafismo img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.oque-monitoramos {
+    background-color: var(--preto);
+    padding: 60px 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.oque-monitoramos h2 {
+    color: var(--branco);
+    font-size: 4vh;
+    margin-bottom: 15px;
+}
+
+.oque-monitoramos .linha-destaque {
+    margin-bottom: 50px;
+}
+
+.grid-monitoramento {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card-monitoramento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+}
+
+.card-monitoramento h3 {
+    color: var(--branco);
+    font-size: 2.2vh;
+    margin-bottom: 20px;
+}
+
+.card-monitoramento img {
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.card-monitoramento span {
+    color: var(--amarelo);
+    font-size: 2vh;
+    font-weight: bold;
+}
+
+.como-funciona {
+    background-color: var(--branco);
+    padding: 60px 10%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cabecalho-direita {
+    align-self: flex-end;
+    text-align: right;
+    margin-bottom: 50px;
+}
+
+.cabecalho-direita h2 {
+    font-size: 4vh;
+    color: var(--preto);
+    margin-bottom: 10px;
+}
+
+.cabecalho-direita .linha-destaque {
+    margin-bottom: 0;
+}
+
+.fluxo-diagrama {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 60px;
+    list-style: none;
+    padding: 0;
+}
+
+.passo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 15%;
+}
+
+.passo img {
+    width: 100%;
+    max-width: 120px;
+    margin-bottom: 15px;
+}
+
+.passo p {
+    font-size: 2vh;
+    font-weight: 600;
+    color: var(--preto);
+}
+
+.seta {
+    font-size: 3vh;
+    color: var(--preto);
+    opacity: 0.6;
+}
+
+.detalhes-solucao {
+    background-color: var(--branco);
+    padding: 0 10% 80px 10%;
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.detalhes-esq {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.texto-principal {
+    font-size: 2.2vh;
+    line-height: 1.6;
+    color: var(--preto);
+}
+
+.bloco-info {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.bloco-info img {
+    width: 30%;
+    object-fit: contain;
+}
+
+.bloco-info p {
+    width: 70%;
+    font-size: 2.2vh;
+    line-height: 1.6;
+    color: var(--preto);
+}
+
+.porque-solucao h2 {
+    font-size: 3.5vh;
+    margin-bottom: 10px;
+    color: var(--preto);
+}
+
+.porque-solucao p {
+    font-size: 2.2vh;
+    line-height: 1.6;
+    color: var(--preto);
+}
+
+.detalhes-dir {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+}
+
+.container-imagem-sobreposta {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    height: 600px;
+}
+
+.fundo-amarelo {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 100%;
+    height: 70%;
+    background-color: var(--amarelo);
+    z-index: 1;
+}
+
+.img-torre {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+    border: 5px solid var(--preto);
+}
+
+.fundo-preto {
+    position: absolute;
+    bottom: -40px;
+    right: -40px;
+    width: 80%;
+    height: 30%;
+    background-color: var(--preto);
+    z-index: 1;
+}
+
+.img-engrenagens {
+    position: absolute;
+    bottom: 20%;
+    left: -60px;
+    z-index: 3;
+}
+
+@media screen and (max-width: 992px) {
+    .sobre-projeto, .detalhes-solucao {
+        flex-direction: column;
+        padding: 40px 5%;
+    }
+    
+    .sobre-texto, .detalhes-esq, .detalhes-dir {
+        width: 100%;
+    }
+
+    .sobre-grafismo {
+        display: none;
+    }
+
+    .grid-monitoramento, .fluxo-diagrama {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .card-monitoramento, .passo {
+        width: 80%;
+    }
+
+    .seta {
+        transform: rotate(90deg);
+    }
+
+    .bloco-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .container-imagem-sobreposta {
+        margin-top: 50px;
+    }
+}

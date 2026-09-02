@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monit Ore | Sobre</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/sobre.css">
+    <link rel="icon" href="./imgs/favicon.svg">
+</head>
+<body>
+    <header class="header">
+        <nav class="NavComputador">
+            <img src="./imgs/LogoHeader.svg" alt="Logo">
+            <div class="opcoes_header">
+                <a href="index.html" id="botaoTelaInicio">Início</a>
+                <a href="sobre.html" id="botaoTelaSobre" style="color: var(--amarelo);">Sobre</a>
+                <a href="equipe.html" id="botaoTelaEquipe">Equipe</a>
+            </div>
+            <div class="botoes_acao">
+                <button class="botaoLogin">Login</button>
+                <button class="botaoCadastro">Cadastro</button>
+            </div>
+        </nav>
+        <nav class="NavCelular">
+            <div class="BarraNavegacao">
+                <img src="./imgs/LogoHeader.svg" alt="Logo">
+                <img src="./imgs/Menu.svg" class="HeaderIconMenu" id="MenuHamburguer" alt="Menu">
+            </div>
+            <div class="opcoes_celular" id="opcoes_celular">
+                <a href="index.html">Início</a>
+                <a href="sobre.html">Sobre</a>
+                <a href="equipe.html">Equipe</a>
+                <a href="login.html" class="botaoLogin">Login</a>
+                <a href="cadastro.html" class="botaoCadastro">Cadastro</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-sobre">
+            <div class="hero-container">
+                <h1>Monitoramento inteligente<br>para torres de extração.</h1>
+            </div>
+        </section>
+
+        <section class="sobre-projeto">
+            <article class="sobre-texto">
+                <div class="titulo-wrapper">
+                    <h2>SOBRE O<br>PROJETO</h2>
+                    <div class="linha-destaque"></div>
+                </div>
+                <p>Nosso projeto foi desenvolvido para realizar o <strong>monitoramento contínuo da infraestrutura computacional</strong> das torres de extração, permitindo identificar possíveis problemas antes que eles afetem a operação.</p>
+            </article>
+            <aside class="sobre-grafismo">
+                <img src="https://placehold.co/200x500/FFD741/FFD741" alt="Grafismo Amarelo">
+            </aside>
+        </section>
+
+        <section class="oque-monitoramos">
+            <div class="titulo-wrapper titulo-centro">
+                <h2>O QUE MONITORAMOS?</h2>
+                <div class="linha-destaque"></div>
+            </div>
+            <ul class="grid-monitoramento">
+                <li class="card-monitoramento">
+                    <h3>Uso do processador</h3>
+                    <img src="https://placehold.co/200x120/000000/FFD741?text=CPU" alt="CPU">
+                    <span>CPU</span>
+                </li>
+                <li class="card-monitoramento">
+                    <h3>Consumo de memória</h3>
+                    <img src="https://placehold.co/200x120/000000/FFD741?text=RAM" alt="RAM">
+                    <span>RAM</span>
+                </li>
+                <li class="card-monitoramento">
+                    <h3>Espaço de armazenamento</h3>
+                    <img src="https://placehold.co/200x120/000000/FFD741?text=Disco" alt="Disco Rígido">
+                    <span>DISCO RÍGIDO</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="como-funciona">
+            <header class="cabecalho-direita">
+                <div class="titulo-wrapper titulo-direita">
+                    <h2>COMO FUNCIONA?</h2>
+                    <div class="linha-destaque"></div>
+                </div>
+            </header>
+            <ol class="fluxo-diagrama">
+                <li class="passo">
+                    <img src="https://placehold.co/120x120/ffffff/000000?text=Torre" alt="Torre de extração">
+                    <p>Torre de extração</p>
+                </li>
+                <li class="seta" aria-hidden="true">➔</li>
+                <li class="passo">
+                    <img src="https://placehold.co/120x120/ffffff/000000?text=Coleta" alt="Coleta de dados">
+                    <p>Coleta de dados</p>
+                </li>
+                <li class="seta" aria-hidden="true">➔</li>
+                <li class="passo">
+                    <img src="https://placehold.co/120x120/ffffff/000000?text=Web" alt="Plataforma Web">
+                    <p>Plataforma Web</p>
+                </li>
+                <li class="seta" aria-hidden="true">➔</li>
+                <li class="passo">
+                    <img src="https://placehold.co/120x120/ffffff/000000?text=Dashboard" alt="Dashboard">
+                    <p>Dashboard</p>
+                </li>
+                <li class="seta" aria-hidden="true">➔</li>
+                <li class="passo">
+                    <img src="https://placehold.co/120x120/ffffff/000000?text=Alertas" alt="Alertas">
+                    <p>Alertas</p>
+                </li>
+            </ol>
+        </section>
+
+        <section class="detalhes-solucao">
+            <article class="detalhes-esq">
+                <p class="texto-principal">O sistema realiza a coleta periódica das métricas de hardware das máquinas supervisoras das torres de extração. Esses dados são enviados para a plataforma web, onde podem ser acompanhados por meio de gráficos e históricos.</p>
+                <div class="bloco-info">
+                    <img src="https://placehold.co/150x120/ffffff/000000?text=Servidor" alt="Servidor">
+                    <p>A partir dessas informações, o sistema identifica condições anormais, como uso elevado de CPU, memória ou armazenamento, e pode gerar alertas para que a equipe consiga agir antes que o problema evolua para uma falha.</p>
+                </div>
+                <section class="porque-solucao">
+                    <div class="titulo-wrapper">
+                        <h2>POR QUE ESSA SOLUÇÃO?</h2>
+                        <div class="linha-destaque"></div>
+                    </div>
+                    <p>O objetivo não é apenas acompanhar números, mas transformar os dados coletados em informações úteis para a tomada de decisão. Com o monitoramento contínuo, a equipe consegue identificar sinais de degradação, reduzir o tempo de diagnóstico e agir de forma preventiva, contribuindo para maior disponibilidade e confiabilidade dos sistemas das torres de extração.</p>
+                </section>
+            </article>
+            <aside class="detalhes-dir">
+                <figure class="container-imagem-sobreposta">
+                    <div class="fundo-amarelo"></div>
+                    <img class="img-torre" src="https://placehold.co/350x550/333/fff?text=Torre" alt="Torre de Extração">
+                    <div class="fundo-preto"></div>
+                    <img class="img-engrenagens" src="https://placehold.co/120x200/ffffff/000000?text=Engrenagens" alt="Engrenagens">
+                </figure>
+            </aside>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="esquerda_footer">
+            <div class="logoFooter">
+                <img src="imgs/LogoHeader.svg" alt="Logo">
+            </div>
+            <div class="RedeSociais">
+                <a href="#"><img src="imgs/GithubLogo.svg" alt="GitHub"></a>
+                <a href="#"><img src="imgs/LinkedinLogo.svg" alt="LinkedIn"></a>
+            </div>
+        </div>
+        <div class="direita_footer">
+            <div class="boxDireitaFooter">
+                <h1>Titulo master</h1>
+                <p>sequencia de texto muito foda</p>
+                <p>loren ipsun</p>
+                <p>cada saci com seu respectivo cachimbo</p>
+            </div>
+            <div class="boxDireitaFooter">
+                <h1>Titulo master V2</h1>
+                <p>o inimigo agora é outro</p>
+                <p>monitorei até não aguentar mais</p>
+                <p>toró de pitaco</p>
+                <p>ta junto com mj e charlie kirk</p>
+            </div>
+            <div class="boxDireitaFooter">
+                <h1>Trilogia enjoa</h1>
+                <p>morpheu matrix</p>
+                <p>debian linux</p>
+                <p>geladeira brastemp prata duas portas</p>
+                <p>branch? nós vai subir tudo na main.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js/header.js"></script>
+</body>
+</html>
