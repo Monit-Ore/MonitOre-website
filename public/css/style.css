@@ -24,8 +24,7 @@ body {
 */
 
 .banner {
-    padding-top: 140px;
-    background-image: url(../imgs/BannerIndex1920_1080.svg) ;
+    background-image: url(../imgs/institucional/BannerIndex1920_1080.svg) ;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -35,6 +34,7 @@ body {
 }
 
 .container {
+    margin-top: 7vw;
     margin-left: 5%;
     position: absolute;
     display: flex;
@@ -131,47 +131,6 @@ body {
         text-align: center;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .secaoValores {
     color: white;
@@ -618,8 +577,7 @@ body {
 */
 
 .secaoImpactoNegocios {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    padding-top: 70px;
     background-color: white;
     display: flex;
     height: 40vw;
@@ -657,7 +615,7 @@ body {
     height: 30%;
     margin-top: 20px;
     display: flex;
-    /* align-items: center; */
+    align-items: center;
 }
 
 .button_esquerda_secaoImpactoNegocios button {
@@ -670,9 +628,7 @@ body {
     font-size: 1.7vw;
     text-align: center;
     padding: 0;
-    /* display: flex; */
-    /* align-items: flex-start; */
-    /* justify-content: start; */
+    transition: 0.5s;
 }
 
 .direita_secaoImpactoNegocios {
@@ -685,19 +641,20 @@ body {
 
 .CaixaMetricas {
     align-self: flex-start;
-    margin-right: 3%;
     height: 60%;
     width: 80%;
-    background-color: #CECECC;
+    background-color: #cececc89;
     z-index: 999;
     padding: 2%;
     justify-content: space-between;
     display: flex;
+    border: 1px solid black;
 
 }
 
 .box_CaixaMetricas {
-    width: 30%;
+    border-radius: 10px;
+    width: 27%;
     border: 1px solid #000000;
     display: flex;
     flex-direction: column;
@@ -718,7 +675,6 @@ body {
 }
 
 .box_CaixaImg {
-    border: 1px solid black;
     width: 12vw;
     height: 60%;
     display: flex;
@@ -749,114 +705,124 @@ body {
 }
 
 .box_CaixaMetricas .descricao {
-    border: 1px solid black;
     width: 90%;
     height: 20%;
-    font-size: 0.7vw;
+    font-size: 0.9vw;
+    text-align: center;
 }
 
-
-
 .ImagemDesign {
-    align-self: flex-end;
-    justify-self: flex-end;
-    position: relative;
-    height: 40%;
-    width: 90%;
-    border: 1px solid black;
+    height: 50%;
+    width: 80%;
+    align-self: self-end;
 }
 
 .ImagemDesign img {
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    margin: 0;
     width: 100%;
     height: 100%;
-    display: flex;
 }
 
 .botaocelular {
     display: none;
 }
 
+.button_esquerda_secaoImpactoNegocios button:hover {
+    background-color: black;
+    color: #FFD741;
+    border-color: #FFD741;
+}
+
 @media screen and (max-width: 768px) {
     .secaoImpactoNegocios {
-        height: 45vw;
+        padding-top: 30px;
+        height: 75vw;
         flex-direction: column;
-        border: 1px solid black;
         align-items: center;
-        /* justify-content: space-evenly; */
-    }
+        justify-content: baseline;
+    }   
 
     .esquerda_secaoImpactoNegocios {
         width: 90%;
+        padding-left: 0;
+        height: 20vw;
     }
 
     .texto_esquerda_secaoImpactoNegocios {
-
+        text-align: center;
+        height: 100%;
+        justify-content: end;
     }
 
     .texto_esquerda_secaoImpactoNegocios h1 {
+        display: flex;
+        height: 40%;
+        justify-content: center;
+        font-size: 3.5vw;
     }
 
     .texto_esquerda_secaoImpactoNegocios p:nth-of-type(1) {
+        font-size: 2.5vw;
+
     }
 
     .texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
-
+        font-size: 2.5vw;
     }
 
     .button_esquerda_secaoImpactoNegocios {
         display: none;
     }
 
-    .button_esquerda_secaoImpactoNegocios button {
-
-    }
-
     .direita_secaoImpactoNegocios {
-        width: 90%;
+        width: 80%;
+        height: 60vw;
     }
 
     .CaixaMetricas {
-
-
-    }
-
-    .box_CaixaMetricas {
-
+        border: 1px solid black;
+        width: 100%;
+        margin-right: 0;
+        height: 80%;
+        gap: 3%;
+        justify-content: space-around;
     }
 
     .box_CaixaMetricas h1 {
+        font-size: 2vw;
 
     }
 
     .box_CaixaMetricas h1 p{
-
+        font-size: 1.2vw;
     }
 
     .box_CaixaImg {
+        width: 12vw;
 
     }
 
     .CirculoOEE {
+        width: 20vw;
+        height: 20vw;
     }
 
 
     .box_CaixaImg img{
-
+        width: 100%;
     }
 
     .CirculoOEE img {
+        width: 17vw;
 
     }
 
     .box_CaixaImg p{
+        font-size: 2.5vw;
 
     }
 
     .box_CaixaMetricas .descricao {
+        font-size: 1.5vw;
 
     }
 
@@ -866,11 +832,20 @@ body {
         display: none;
     }
 
-    .ImagemDesign img {
-
-    }
-
     .botaocelular {
+        width: 100%;
         display: flex;
+        justify-content: center;
+        padding-bottom: 300px;
+        /* font-size: 4vw; */
     }
+
+    .botaocelular button {
+        width: 50%;
+    }
+
+    /*
+    AJUSTAR TAMANHO DO BOTÃO, AJUSTAR LAYOUT DOS ELEMTNOS SEÇÃO DADOS
+    */
+
 }
