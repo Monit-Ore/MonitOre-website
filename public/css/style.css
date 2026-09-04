@@ -17,12 +17,6 @@ body {
     --preto: #000000;
 }
 
-/*
-======================
-       BANNER 
-======================
-*/
-
 .banner {
     background-image: url(../imgs/institucional/BannerIndex1920_1080.svg) ;
     background-repeat: no-repeat;
@@ -80,18 +74,11 @@ body {
     width: 100%;
     margin: 0;
     height: 100%;
-    font-size: 4vh;
+    font-size: 2.5vw;
     color: white;
 }
 
 @media screen and (max-width: 768px) {
-
-    /*
-    ======================
-        BANNER RESPONSIVO
-    ======================
-    */
-
     .banner {
         background-position: right;
         align-items: end;
@@ -127,7 +114,7 @@ body {
     .container .subtitulo p {
         padding-left: 0;
         width: 90%;
-        font-size: 2vh;
+        font-size: 3vw;
         text-align: center;
     }
 }
@@ -198,11 +185,6 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-    /*
-    ======================
-        BANNER RESPONSIVO
-    ======================
-    */
 
     .secaoValores {
         padding-top: 20px;
@@ -252,13 +234,6 @@ body {
         font-size: 3vw;
     }
 }
-
-/*
-================================================
-================================================
-================================================
-*/
-
 
 .secaoSolucao {
     background-color: var(--branco);
@@ -339,7 +314,6 @@ body {
         padding-top: 10px;
         align-items: center;
         height: 50vw;
-        border: 1px solid rgb(255, 0, 0);
         padding-bottom: 20px;
         gap: 5vw;
     }
@@ -389,12 +363,6 @@ body {
     }
 
 }
-
-/*
-================================================
-================================================
-================================================
-*/
 
 .Secao_componentes {
     padding: 30px 0 30px 0;
@@ -455,7 +423,6 @@ body {
         height: 100%;
     }
 }
-
 
 .secaoInformacoes {
     background-color: white;
@@ -553,6 +520,7 @@ body {
 
     .cimaDireitaInformacoes h1 {
         width: 80%;
+        font-size: 4vw;
     }
 
     .cimaDireitaInformacoes p {
@@ -570,12 +538,6 @@ body {
     
 }
 
-/*
-================================================
-================================================
-================================================
-*/
-
 .secaoImpactoNegocios {
     padding-top: 70px;
     background-color: white;
@@ -585,7 +547,7 @@ body {
 }
 
 .esquerda_secaoImpactoNegocios {
-    padding-left: 2%;
+    padding-left: 4%;
     display: flex;
     flex-direction: column;
     width: 40%;
@@ -608,7 +570,6 @@ body {
 
 .texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
     font-size: 1.7vw;
-    /* margin-top: 15%; */
 }
 
 .button_esquerda_secaoImpactoNegocios {
@@ -621,11 +582,11 @@ body {
 .button_esquerda_secaoImpactoNegocios button {
     background-color: #FFD741;
     width: 50%;
-    height: 7vw;
+    height: 5vw;
     border-radius: 10px;
     padding: 20px;
     font-weight: bolder;
-    font-size: 1.7vw;
+    font-size: 1.3vw;
     text-align: center;
     padding: 0;
     transition: 0.5s;
@@ -640,7 +601,6 @@ body {
 }
 
 .CaixaMetricas {
-    align-self: flex-start;
     height: 60%;
     width: 80%;
     background-color: #cececc89;
@@ -648,7 +608,7 @@ body {
     padding: 2%;
     justify-content: space-between;
     display: flex;
-    border: 1px solid black;
+    border: 1px solid rgba(108, 106, 106, 0.496);
 
 }
 
@@ -704,6 +664,11 @@ body {
     font-weight: bolder;
 }
 
+.CirculoOEE p{
+    font-size: 2vw;
+}
+
+
 .box_CaixaMetricas .descricao {
     width: 90%;
     height: 20%;
@@ -734,11 +699,12 @@ body {
 
 @media screen and (max-width: 768px) {
     .secaoImpactoNegocios {
-        padding-top: 30px;
-        height: 75vw;
+        padding-top: 0;
+        height: 85vw;
         flex-direction: column;
         align-items: center;
-        justify-content: baseline;
+        justify-content: space-evenly;
+        padding-bottom: 15px;
     }   
 
     .esquerda_secaoImpactoNegocios {
@@ -757,7 +723,7 @@ body {
         display: flex;
         height: 40%;
         justify-content: center;
-        font-size: 3.5vw;
+        font-size: 4vw;
     }
 
     .texto_esquerda_secaoImpactoNegocios p:nth-of-type(1) {
@@ -775,11 +741,10 @@ body {
 
     .direita_secaoImpactoNegocios {
         width: 80%;
-        height: 60vw;
+        height: 50vw;
     }
 
     .CaixaMetricas {
-        border: 1px solid black;
         width: 100%;
         margin-right: 0;
         height: 80%;
@@ -813,39 +778,34 @@ body {
 
     .CirculoOEE img {
         width: 17vw;
-
     }
 
     .box_CaixaImg p{
         font-size: 2.5vw;
+    }
 
+    .CirculoOEE p{
+        font-size: 3vw;
     }
 
     .box_CaixaMetricas .descricao {
         font-size: 1.5vw;
-
     }
-
-
 
     .ImagemDesign {
         display: none;
     }
 
     .botaocelular {
-        width: 100%;
+        width: 70%;
         display: flex;
         justify-content: center;
         padding-bottom: 300px;
-        /* font-size: 4vw; */
     }
 
     .botaocelular button {
         width: 50%;
+        height: 8vw;
+        font-size: 2vw;
     }
-
-    /*
-    AJUSTAR TAMANHO DO BOTÃO, AJUSTAR LAYOUT DOS ELEMTNOS SEÇÃO DADOS
-    */
-
 }
