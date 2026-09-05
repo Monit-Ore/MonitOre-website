@@ -3,12 +3,15 @@
 
 * {
     margin: 0;
-  padding: 0;
+    padding: 0;
+    box-sizing: border-box; 
 }
 
 body {
-  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #000000;
+    font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 :root {
@@ -82,7 +85,7 @@ body {
     .banner {
         background-position: right;
         align-items: end;
-        padding-bottom: 50px;
+        padding-bottom: 8vw;
         height: 70vw;
     }
 
@@ -120,12 +123,14 @@ body {
 }
 
 .secaoValores {
+    background-color: #000000;
     color: white;
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 60vh;
-    gap: 5%;
+    height: 30vw;
+    gap: 5vw;
+    padding: 3vw 0 3vw 0;
     overflow: hidden;
 }
 
@@ -153,7 +158,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 65%;
-    font-size: 5vh;
+    font-size: 3vw;
     font-weight: bolder;
 }
 
@@ -161,7 +166,7 @@ body {
     width: 60%;
     display: flex;
     justify-content: center;
-    gap: 13%;
+    gap: 3vw;
     flex-direction: column;
 }
 
@@ -177,11 +182,11 @@ body {
 }
 
 .TopicoTexto h1 {
-    font-size: 5vh;
+    font-size: 3vw;
 }
 
 .TopicoTexto p {
-    font-size: 2.5vh;
+    font-size: 1.5vw;
 }
 
 @media screen and (max-width: 768px) {
@@ -190,8 +195,8 @@ body {
         padding-top: 20px;
         flex-direction: column;
         gap: 0;
-        height: 60vw;
-        justify-content: space-around;
+        height: 70vw;
+        justify-content: space-evenly;
         align-items: center;
         padding-bottom: 20px;
     }
@@ -222,8 +227,17 @@ body {
         gap: 10%;
     }
 
+    .secaoDireita .topico {
+        justify-content: center;
+    }
+
     .topico img{
-        width: 10%;
+        width: 7vw;
+    }
+
+    .TopicoTexto {
+        width: 80%;
+        gap: 1vw;
     }
 
     .TopicoTexto h1 {
@@ -231,7 +245,7 @@ body {
     }
 
     .TopicoTexto p {
-        font-size: 3vw;
+        font-size: 2.5vw;
     }
 }
 
@@ -239,32 +253,32 @@ body {
     background-color: var(--branco);
     display: flex;
     width: 100%;
-    height: 50vh;
-    padding: 50px 0 50px 0;
-    gap: 5%;
+    height: 30vw;
+    padding: 3vw 0 3vw 0;
+    gap: 5vw;
 }
 
 .esquerda_secaoSolucao {
     justify-content: space-evenly;
     display: flex;
     flex-direction: column;
-    /* padding-right: 10%; */
+    padding-right: 3vw;
     width: 25%;
     height: 90%;
 }
 
 .esquerda_secaoSolucao h1 {
     display: block;
-    width: 50%;
+    width: 70%;
     padding-bottom: 10px;
-    padding-left: 10%;
-    font-size: 6vh;
+    padding-left: 3vw;
+    font-size: 5vw;
     border-bottom: 10px #FFD741 solid;
 }
 
 .esquerda_secaoSolucao p {
-    padding-left: 6%;
-    font-size: 3vh;
+    padding-left: 4vw;
+    font-size: 2vw;
     font-weight: bolder;
     width: 100%;
 }
@@ -273,7 +287,7 @@ body {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 70%;
+    width: 65%;
 }
 
 .Card_solucao {
@@ -313,9 +327,9 @@ body {
         flex-direction: column;
         padding-top: 10px;
         align-items: center;
-        height: 50vw;
+        height: 70vw;
         padding-bottom: 20px;
-        gap: 5vw;
+        gap: 0;
     }
 
     .esquerda_secaoSolucao {
@@ -365,9 +379,10 @@ body {
 }
 
 .Secao_componentes {
-    padding: 30px 0 30px 0;
+    padding: 2vw 0 2vw 0;
+    background-color: #000000;
     display: flex;
-    height: 30vh;
+    height: 20vw;
     justify-content: space-around;
 }
 
@@ -379,7 +394,7 @@ body {
 
 .componentes_esquerda h1 {
     color: #FFD741;
-    font-size: 6vh;
+    font-size: 3.5vw;
     overflow-wrap: break-word;
 }
 
@@ -398,9 +413,10 @@ body {
 @media screen and (max-width: 768px) {
     .Secao_componentes {
         flex-direction: column;
-        height: 22vh;
+        height: 40vw;
         justify-content: space-between;
         align-items: center;
+        padding: 5vw 0 5vw 0;
     }
 
     .componentes_esquerda {
@@ -410,7 +426,7 @@ body {
     .componentes_esquerda h1 {
         text-align: center;
         width: 100%;
-        font-size: 3vh;
+        font-size: 5vw;
     }
 
     .componentes_direita {
@@ -430,7 +446,7 @@ body {
     justify-content: space-between;
     width: 100%;
     height: 50vw;
-    padding-top: 50px;
+    padding: 3vw 0 3vw 0;
 }
 
 .esquerdaInformacoes {
@@ -455,7 +471,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 70%;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
@@ -463,6 +479,7 @@ body {
     font-size: 2.7vw;
     width: 80%;
     overflow-wrap: break-word;
+    padding-bottom: 3vw;
 }
 
 .cimaDireitaInformacoes p {
@@ -472,6 +489,7 @@ body {
 }
 
 .cimaDireitaInformacoes ul{
+    padding-top: 1vw;
     font-size: 1.7vw;
     width: 70%;
 }
@@ -485,6 +503,7 @@ body {
 
 .inferiorDireitaInformacoes  img {
     height: 100%;
+    
 }
 
 @media screen and (max-width: 768px) {
@@ -495,7 +514,7 @@ body {
         padding-top: 0;
         align-items: center;
         overflow: hidden;
-        padding: 20px 0 20px 0;
+        padding: 5vw 0 3vw 0;
     }
 
     .esquerdaInformacoes {
@@ -539,7 +558,7 @@ body {
 }
 
 .secaoImpactoNegocios {
-    padding-top: 70px;
+    padding-top: 2vw;
     background-color: white;
     display: flex;
     height: 40vw;
@@ -574,7 +593,7 @@ body {
 
 .button_esquerda_secaoImpactoNegocios {
     height: 30%;
-    margin-top: 20px;
+    margin-top: 6vw;
     display: flex;
     align-items: center;
 }
@@ -620,7 +639,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .box_CaixaMetricas h1 {
@@ -635,7 +654,7 @@ body {
 }
 
 .box_CaixaImg {
-    width: 12vw;
+    width: 10vw;
     height: 60%;
     display: flex;
     flex-direction: column;
@@ -704,7 +723,7 @@ body {
         flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
-        padding-bottom: 15px;
+        padding-bottom: 3vw;
     }   
 
     .esquerda_secaoImpactoNegocios {
@@ -728,7 +747,6 @@ body {
 
     .texto_esquerda_secaoImpactoNegocios p:nth-of-type(1) {
         font-size: 2.5vw;
-
     }
 
     .texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
@@ -740,21 +758,21 @@ body {
     }
 
     .direita_secaoImpactoNegocios {
-        width: 80%;
+        width: 90%;
         height: 50vw;
     }
 
     .CaixaMetricas {
         width: 100%;
         margin-right: 0;
-        height: 80%;
-        gap: 3%;
+        height: 40vw;
+        gap: 3vw;
         justify-content: space-around;
     }
 
     .box_CaixaMetricas h1 {
+        width: 100%;
         font-size: 2vw;
-
     }
 
     .box_CaixaMetricas h1 p{
@@ -763,7 +781,6 @@ body {
 
     .box_CaixaImg {
         width: 12vw;
-
     }
 
     .CirculoOEE {
@@ -774,10 +791,12 @@ body {
 
     .box_CaixaImg img{
         width: 100%;
+        height: 100%;
     }
 
     .CirculoOEE img {
         width: 17vw;
+        height: 17vw;
     }
 
     .box_CaixaImg p{
@@ -800,7 +819,6 @@ body {
         width: 70%;
         display: flex;
         justify-content: center;
-        padding-bottom: 300px;
     }
 
     .botaocelular button {
