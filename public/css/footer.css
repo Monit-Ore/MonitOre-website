@@ -4,7 +4,6 @@
     display: flex;
     justify-content: space-between;
     height: 23vw;
-    margin-top: 3vw;
     padding: 1vw 0 1vw 0;
 }
 
@@ -19,7 +18,6 @@
 .logoFooter {
     width: 70%;
     height: 50%;
-
 }
 
 .logoFooter img {

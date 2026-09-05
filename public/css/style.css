@@ -263,23 +263,25 @@ body {
     display: flex;
     flex-direction: column;
     padding-right: 3vw;
-    width: 25%;
+    width: 30%;
     height: 90%;
 }
 
 .esquerda_secaoSolucao h1 {
     display: block;
-    width: 70%;
+    width: 100%;
     padding-bottom: 10px;
     padding-left: 3vw;
-    font-size: 5vw;
+    font-size: 4vw;
     border-bottom: 10px #FFD741 solid;
 }
 
 .esquerda_secaoSolucao p {
     padding-left: 4vw;
+    padding-top: 2vw;
     font-size: 2vw;
     font-weight: bolder;
+    height: 50%;
     width: 100%;
 }
 
@@ -292,8 +294,8 @@ body {
 
 .Card_solucao {
     border: 4px solid #FFD741;
-    width: 20%;
-    height: 70%;
+    width: 30%;
+    height: 90%;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -337,17 +339,22 @@ body {
         height: 40%;
         flex-direction: row;
         align-items: center;
+        justify-content: space-between;
         padding-right: 0;
     }
 
     .esquerda_secaoSolucao h1 {
         font-size: 5vw;
+        text-align: center;
+        width: 50%;
         padding-left: 5%;
         border-bottom: 5px #FFD741 solid;
     }
 
     .esquerda_secaoSolucao p {
         font-size: 3vw;
+        width: 70%;
+        text-align: center;
         display: flex;
         overflow-wrap: break-word;
     }
@@ -359,7 +366,7 @@ body {
     }
 
     .Card_solucao {
-        width: 25%;
+        width: 30%;
         height: 80%;
         padding: 5px;
     }
@@ -593,7 +600,7 @@ body {
 
 .button_esquerda_secaoImpactoNegocios {
     height: 30%;
-    margin-top: 6vw;
+    margin-top: 2vw;
     display: flex;
     align-items: center;
 }
@@ -633,7 +640,7 @@ body {
 
 .box_CaixaMetricas {
     border-radius: 10px;
-    width: 27%;
+    width: 30%;
     border: 1px solid #000000;
     display: flex;
     flex-direction: column;
@@ -665,7 +672,6 @@ body {
 .CirculoOEE {
     justify-content: center;
 }
-
 
 .box_CaixaImg img{
     width: 70%;
