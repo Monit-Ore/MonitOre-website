@@ -1,0 +1,156 @@
+body {
+    background-color: black;
+}
+
+.EquipeTitulo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    height: 27vw;
+    color: white;
+}
+
+.EquipeTitulo h1 {
+    font-size: 5vw;
+    padding-left: 1vw;
+    border-left: 1vw solid #FFD741;
+}
+
+.EquipeTitulo p {
+    font-size: 2vw;
+}
+
+.EquipeMembrosLayout {
+    width: 100%;
+    min-height: 70Vh;
+    display: flex;
+    padding: 5vw 2vw 5vw 2vw;
+    gap: 7vw;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    background-color: #2B2B2B;
+    width: 23vw;
+    height: 35vw;
+    padding: 2vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardImg {
+    width: 15vw;
+    height: 15vw;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    background-color: #FFFFFF;
+}
+
+.cardImg img {
+    border: 1px solid white;
+    border-radius: 100%;
+    width: 100%;
+    height: 100%;
+}
+
+.cardNome {
+    margin-top: 1vw;
+    font-size: 2vw;
+    font-weight: bolder;
+    color: #FFFFFF;
+    width: 90%;
+}
+
+.cardCargo {
+    font-size: 1.6vw;
+    color: #FFD741;
+    font-weight: bolder;
+    width: 90%;
+}
+
+.LinhaAmarela {
+    margin: 0.7vw 0 1vw 0;
+    background-color: #FFD741;
+    border: none;
+    width: 40%;
+    height: 0.3vw;
+}
+
+.cardDescricao {
+    color: #FFFFFF;
+    font-size: 1.5vw;
+    width: 90%;
+}
+
+.cardRedesSociais {
+    margin-top: 1vw;
+    display: flex;
+    gap: 1vw;
+    justify-content: center;
+}
+
+.cardRedesSociais img {
+    width: 3.5vw;
+    height: 3.5vw;
+}
+
+@media screen and (max-width: 768px) {
+    .EquipeMembrosLayout {
+        min-height: 60vh;
+    }
+    .EquipeTitulo {
+        height: 50vw;
+        padding: 5vw;
+    }
+
+    .card {
+        justify-content: space-evenly;
+        width: 40vw;
+        height: 60vw;
+        padding: 3vw;
+    }
+
+    .cardImg {
+        width: 20vw;
+        height: 20vw;
+    }
+
+    .cardImg img {
+        
+    }
+    .cardNome {
+        font-size: 3.5vw;
+    }
+
+    .cardCargo {
+        font-size: 2.5vw;
+    }
+
+    .LinhaAmarela {
+        margin: 0.3vw 0 1vw 0;
+        height: 0.5vw;
+    }
+
+    .cardDescricao {
+        font-size: 2.3vw;
+
+    }
+
+    .cardRedesSociais {
+        gap: 2vw;
+    }
+
+    .cardRedesSociais img {
+        width: 5vw;
+        height: 5vw;
+    }
+
+    
+
+}

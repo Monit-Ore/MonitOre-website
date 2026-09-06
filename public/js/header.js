@@ -27,5 +27,5 @@ botaoTelaSobre.addEventListener('click', function() {
 })
 
 botaoTelaEquipe.addEventListener('click', function() {
-    window.location = "";
+    window.location = "equipe.html";
 })
