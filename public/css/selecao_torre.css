@@ -15,6 +15,9 @@ body {
     --branco: #FFFFFF;
     --amarelo: #FFD741;
     --preto: #000000;
+    --verde: #3ddc57;
+    --vermelho: #ff4d4d;
+    --cinza: #8f8e8e;
 }
 
 .btn-notificacao {
@@ -104,4 +107,73 @@ header span{
     margin-right: 15px;
 }
 
+.mineradora-group {
+    padding: 20px 2% 30px 2%;
+}
 
+.mineradora-nome {
+    color: var(--branco);
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 1%;
+    margin-left: 1%;
+}
+
+.torre-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.torres-scroll {
+    display: flex;
+    flex-direction: row;
+    background-color: #1f1f1f;
+    padding: 15px;
+    border-radius: 20px;
+    border: 2px solid var(--amarelo);
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    
+}
+
+.torre-card {
+    min-width: 100px;
+    height: 130px;
+    background-color: #1f1f1f;
+    border: 2px solid var(--amarelo);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-top: 10px;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.torre-icon {
+    width: 25px;
+    height: 60px;
+    color: var(--amarelo);
+}
+
+.torre-status {
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.torre-status.alerta {
+    color: var(--vermelho);
+}
+
+.torre-status.regular {
+    color: var(--verde);
+}
+
+.torre-nome {
+    color: var(--branco);
+    font-size: 0.9rem;
+}   
