@@ -1,14 +1,11 @@
 // var ambiente_processo = "producao";
 var ambiente_processo = "desenvolvimento";
 
-var caminho_env =
-    ambiente_processo === "producao"
-        ? ".env"
-        : ".env.dev";
+var caminho_env = ambiente_processo === "producao" ? ".env" : ".env.dev";
 
 // Define qual arquivo .env será utilizado.
 require("dotenv").config({
-    path: caminho_env
+  path: caminho_env,
 });
 
 var express = require("express");
@@ -26,6 +23,7 @@ var app = express();
 
 var indexRouter = require("./src/routes/index");
 var usuariosRouter = require("./src/routes/usuarios");
+var torresRouter = require("./src/routes/torres");
 
 // =========================================================
 // MIDDLEWARES
@@ -35,15 +33,15 @@ var usuariosRouter = require("./src/routes/usuarios");
 app.use(express.json());
 
 // Permite receber dados de formulários.
-app.use(express.urlencoded({
-    extended: false
-}));
+app.use(
+  express.urlencoded({
+    extended: false,
+  }),
+);
 
 // Disponibiliza HTML, CSS, JavaScript, imagens e fontes
 // armazenados dentro da pasta public.
-app.use(express.static(
-    path.join(__dirname, "public")
-));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Permite requisições do frontend.
 app.use(cors());
@@ -55,6 +53,8 @@ app.use(cors());
 app.use("/", indexRouter);
 
 app.use("/usuarios", usuariosRouter);
+
+app.use("/torres", torresRouter);
 
 // Rotas resultantes:
 //
@@ -68,7 +68,7 @@ app.use("/usuarios", usuariosRouter);
 // =========================================================
 
 app.listen(PORTA_APP, function () {
-    console.log(`
+  console.log(`
     ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######
     ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##        ##
     ##   ##  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##       ##

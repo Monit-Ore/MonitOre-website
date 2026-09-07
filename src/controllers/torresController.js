@@ -1,4 +1,4 @@
-var torresModel = require("../model/torres");
+var torresModel = require("../models/torresModel");
 
 function mapearStatusExibicao(statusBanco) {
   return statusBanco === "Alerta" ? "Alerta" : "Regular";
@@ -6,14 +6,13 @@ function mapearStatusExibicao(statusBanco) {
 
 async function selecaoTorre(req, res) {
   try {
-    const fkEmpresa = req.usuario?.fk_empresa;
+    const { fkEmpresa } = req.query;
 
     if (!fkEmpresa) {
       return res.status(401).json({ mensagem: "Usuário não autenticado." });
     }
 
     const torres = await torresModel.listarTorresComMineradora(fkEmpresa);
-
     const mapaMineradoras = new Map();
 
     torres.forEach((torre) => {
@@ -39,6 +38,7 @@ async function selecaoTorre(req, res) {
     );
 
     res.status(200).json(resposta);
+    console.log("Resposta enviada:", resposta);
   } catch (erro) {
     console.error("Erro ao buscar torres para seleção:", erro);
     res.status(500).json({ mensagem: "Erro ao buscar torres." });

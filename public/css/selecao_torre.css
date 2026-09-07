@@ -160,7 +160,7 @@ header span{
 }
 
 .torre-status {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: bold;
 }
 
@@ -172,7 +172,7 @@ header span{
     color: var(--verde);
 }
 
-.torre-nome {
+.torre-codigo {
     color: var(--branco);
     font-size: 1.1rem;
 }   
