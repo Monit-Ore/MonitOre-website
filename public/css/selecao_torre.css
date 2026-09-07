@@ -22,7 +22,7 @@ body {
 
 .btn-notificacao {
     background-color: #1f1f1f;
-    border: 2px solid #8f8e8e;
+    border: 2px solid var(--cinza);
     border-radius: 5px;
     padding: 7px 9px;
     position: fixed;
@@ -32,9 +32,33 @@ body {
     cursor: pointer;
 }
 
-.btn-notificacao i {
-    color: #ffffff;
+.btn-notificacao .icone-sino {
+    color: var(--branco);
     font-size: 1.5rem;
+}
+
+.btn-notificacao .icone-menu {
+    color: var(--amarelo);
+    font-size: 2rem;
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .btn-notificacao {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        position: absolute;
+    }
+
+    .btn-notificacao .icone-sino {
+        display: none !important;
+    }
+
+    .btn-notificacao .icone-menu {
+        display: inline-block !important;
+    }
 }
 
 header {
