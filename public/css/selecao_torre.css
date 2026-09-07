@@ -59,6 +59,7 @@ header span{
     flex-direction: column;
     margin-top: 2%;
     margin-left: 2%;
+    margin-bottom: 2%;
     width: 96%;
     background-color: #2b2b2b;
     border-radius: 12px;
