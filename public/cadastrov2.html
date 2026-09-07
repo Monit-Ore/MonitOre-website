@@ -1,62 +1,228 @@
 <!doctype html>
+
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
 
     <title>Cadastro de Funcionário</title>
 
-    <link rel="stylesheet" href="css/tela_cadastro.css" />
+    <link
+      rel="stylesheet"
+      href="./css/tela_cadastro.css"
+    />
   </head>
 
   <body class="container_responsivo">
-    <div class="navegacao">voce pode nao acreditar</div>
+    <!-- Menu lateral -->
+    <aside class="navegacao"></aside>
+
+    <!-- Conteúdo principal -->
     <div class="conteudo_layout">
-      <div class="superior_tela">
-        <div class="botao_voltar"></div>
+      <header class="superior_tela">
+        <button
+          class="botao_voltar"
+          type="button"
+          onclick="voltar()"
+          aria-label="Voltar"
+        >
+          ⭠
+        </button>
 
         <div class="titulo_superior">
           <h1>Cadastro de Funcionário</h1>
+
           <h2>Preencha os dados do novo funcionário</h2>
         </div>
 
-        <div class="botao_notificacao"></div>
-      </div>
+        <button
+          class="botao_notificacao"
+          type="button"
+          onclick="notificacao()"
+          aria-label="Notificações"
+        >
+          🕭
+        </button>
+      </header>
 
-      <div class="conteudo">
-        <div class="card_conteudo">
+      <main class="conteudo">
+        <section class="card_conteudo">
           <div class="titulo_formulario">
-            <h1>Dados do Úsuario</h1>
+            <h1>Dados do Usuário</h1>
           </div>
+
           <div class="container_formularios">
+            <!-- Coluna esquerda -->
             <div class="formulario">
-              <p>Nome completo</p>
-              <input type="text" placeholder="Digite o nome completo" required>
-              <p>Digite o e-mail</p>
-              <input type="email" placeholder="Digite o e-mail" required>
-              <p>Data de nascimento</p>
-              <input type="date" placeholder="00/00/0000" required>
-              <p>Unidade/Local</p>
-              <input type="text" placeholder="Selecionar unidade" required>
+              <label for="nome_ipt">
+                Nome completo*
+              </label>
+
+              <input
+                type="text"
+                id="nome_ipt"
+                placeholder="Digite o nome completo"
+                autocomplete="name"
+                required
+              />
+
+              <label for="email_ipt">
+                Digite o e-mail*
+              </label>
+
+              <input
+                type="email"
+                id="email_ipt"
+                placeholder="Digite o e-mail"
+                autocomplete="email"
+                required
+              />
+
+              <label for="data_nasc_input">
+                Data de nascimento
+              </label>
+
+              <input
+                type="date"
+                id="data_nasc_input"
+              />
+
+              <label for="unidade_local_ipt">
+                Unidade/Local
+              </label>
+
+              <select id="unidade_local_ipt">
+                <option value="">
+                  Selecione uma unidade
+                </option>
+              </select>
             </div>
-            
+
+            <!-- Coluna direita -->
             <div class="formulario">
-              <p>CPF</p>
-              <input type="text" placeholder="000.000.000-00" required>
-              <p>Senha</p>
-              <input type="password" placeholder="Digite o nome completo" required>
-              <p>Telefone</p>
-              <input type="tel" placeholder="(00) 00000-0000" required>
-              <p>Cargo</p>
-              <input type="text" placeholder="Selecione o cargo " required>
+              <label for="cpf_ipt">
+                CPF*
+              </label>
+
+              <input
+                type="text"
+                id="cpf_ipt"
+                placeholder="000.000.000-00"
+                inputmode="numeric"
+                autocomplete="off"
+                maxlength="14"
+                required
+              />
+
+              <label for="senha_ipt">
+                Senha*
+              </label>
+
+              <div class="senha_container">
+                <input
+                  type="password"
+                  id="senha_ipt"
+                  placeholder="Digite sua senha"
+                  autocomplete="new-password"
+                  minlength="6"
+                  required
+                />
+
+                <button
+                  type="button"
+                  class="botao_senha"
+                  onclick="mostrar_senha()"
+                  aria-label="Mostrar ou ocultar senha"
+                >
+                  👁
+                </button>
+              </div>
+
+              <label for="telefone_ipt">
+                Telefone
+              </label>
+
+              <input
+                type="tel"
+                id="telefone_ipt"
+                placeholder="(00) 00000-0000"
+                inputmode="tel"
+                autocomplete="tel"
+                maxlength="15"
+              />
+
+              <label for="cargo_ipt">
+                Cargo*
+              </label>
+
+              <select id="cargo_ipt" required>
+                <option value="">
+                  Selecione um cargo
+                </option>
+              </select>
             </div>
           </div>
 
-          <div class="container_status">
+          <!-- Status -->
+          <div class="status">
+            <h3>Status</h3>
 
+            <p>Status do usuário</p>
+
+            <div class="status-controle">
+              <label class="troca">
+                <input
+                  type="checkbox"
+                  id="status_ipt"
+                  checked
+                />
+
+                <span class="deslizar"></span>
+              </label>
+
+              <span class="texto-status">
+                Ativo
+              </span>
+            </div>
           </div>
+        </section>
+
+        <!-- Mensagem de sucesso ou erro -->
+        <p
+          id="mensagem_cadastro"
+          class="mensagem_cadastro"
+          aria-live="polite"
+        ></p>
+
+        <!-- Botões -->
+        <div class="botoes">
+          <button
+            type="button"
+            class="btn-cancelar"
+            onclick="cancelar()"
+          >
+            ✕
+
+            <span>Cancelar</span>
+          </button>
+
+          <button
+            type="button"
+            class="btn-salvar"
+            onclick="salvar()"
+          >
+            🗁
+
+            <span>Salvar Funcionário</span>
+          </button>
         </div>
-      </div>
+      </main>
     </div>
+
+    <script src="./js/cadastro.js"></script>
   </body>
 </html>

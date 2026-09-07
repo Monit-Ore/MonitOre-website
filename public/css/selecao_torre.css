@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+* {
+    margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1f1f1f;
+}
+
+:root {
+    --branco: #FFFFFF;
+    --amarelo: #FFD741;
+    --preto: #000000;
+    --verde: #3ddc57;
+    --vermelho: #ff4d4d;
+    --cinza: #8f8e8e;
+}
+
+.btn-notificacao {
+    background-color: #1f1f1f;
+    border: 2px solid var(--cinza);
+    border-radius: 5px;
+    padding: 7px 9px;
+    position: fixed;
+    top: 3%;
+    right: 3%;
+    z-index: 9999;
+    cursor: pointer;
+}
+
+.btn-notificacao .icone-sino {
+    color: var(--branco);
+    font-size: 1.5rem;
+}
+
+.btn-notificacao .icone-menu {
+    color: var(--amarelo);
+    font-size: 2rem;
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .btn-notificacao {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        position: absolute;
+    }
+
+    .btn-notificacao .icone-sino {
+        display: none !important;
+    }
+
+    .btn-notificacao .icone-menu {
+        display: inline-block !important;
+    }
+}
+
+header {
+    margin-top: 3%;
+    margin-left: 3%;
+    width: 97%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+header h1{
+    color: white;
+    font-size: 2rem;
+}
+header span{
+    color: #8f8e8e;
+    font-size: 1rem;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-bottom: 2%;
+    width: 96%;
+    background-color: #2b2b2b;
+    border-radius: 12px;
+}
+
+.header-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 96%;
+    height: 80px;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.header-box span{
+    color: #ffffff;
+    font-size: 1.4rem;
+}
+
+.header-box .btn-add{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+    height: 35px;
+    background-color: #FFD741;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    
+}
+
+.header-box .btn-add span{
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+.header-box .btn-add i{
+    color: rgb(0, 0, 0);
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+.mineradora-group {
+    padding: 20px 2% 30px 2%;
+}
+
+.mineradora-nome {
+    color: var(--branco);
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 1%;
+    margin-left: 1%;
+}
+
+.torre-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.torres-scroll {
+    display: flex;
+    flex-direction: row;
+    background-color: #1f1f1f;
+    padding: 15px;
+    border-radius: 20px;
+    border: 2px solid var(--amarelo);
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    
+}
+
+.torre-card {
+    min-width: 120px;
+    height: 110px;
+    background-color: #1f1f1f;
+    border: 2px solid var(--amarelo);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-top: 10px;
+    flex-shrink: 0;
+}
+
+.torre-icon {
+    width: 25px;
+    height: 60px;
+    color: var(--amarelo);
+}
+
+.torre-status {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.torre-status.alerta {
+    color: var(--vermelho);
+}
+
+.torre-status.regular {
+    color: var(--verde);
+}
+
+.torre-codigo {
+    color: var(--branco);
+    font-size: 1.1rem;
+}   

@@ -1,121 +1,143 @@
-function mostrarSenha() {
+// AUTENTICAÇÃO
 
-    var campoSenha = document.getElementById("senha");
-
-
-    if (campoSenha.type == "password") {
-
-        campoSenha.type = "text";
-
-    } else {
-
-        campoSenha.type = "password";
-
-    }
-
-}
 function autenticar() {
+  var campoEmail = document.getElementById("email");
 
-    var email =
-        document.getElementById("email").value;
+  var campoSenha = document.getElementById("senha");
 
-    var senha =
-        document.getElementById("senha").value;
+  var mensagemLogin = document.getElementById("mensagem_login");
 
-    var mensagem =
-        document.getElementById("mensagem_login");
+  var botaoEntrar = document.getElementById("botao_entrar");
 
-    mensagem.innerHTML = "";
+  var email = campoEmail.value.trim().toLowerCase();
 
-    if (email == "" || senha == "") {
+  var senha = campoSenha.value;
 
-        mensagem.innerHTML =
-            "Preencha todos os campos.";
+  // Limpa a mensagem anterior.
+  mensagemLogin.textContent = "";
 
-        return;
+  // Validação do email.
+  if (email === "") {
+    mostrarMensagem("Informe o seu email.", true);
 
-    }
+    campoEmail.focus();
+    return;
+  }
 
+  // Validação da senha.
+  if (senha === "") {
+    mostrarMensagem("Informe a sua senha.", true);
 
-    fetch("/usuarios/autenticar", {
+    campoSenha.focus();
+    return;
+  }
 
-        method: "POST",
+  // Desativa o botão para impedir vários envios.
+  botaoEntrar.disabled = true;
+  botaoEntrar.textContent = "Entrando...";
 
-        headers: {
+  var dadosLogin = {
+    email: email,
+    senha: senha,
+  };
 
-            "Content-Type":
-                "application/json"
+  fetch("/usuarios/autenticar", {
+    method: "POST",
 
-        },
+    headers: {
+      "Content-Type": "application/json",
+    },
 
-        body: JSON.stringify({
-
-            email: email,
-
-            senha: senha
-
-        })
-
-    })
-
-
-    // Transforma a resposta em JSON
-
+    body: JSON.stringify(dadosLogin),
+  })
     .then(function (resposta) {
-
-        return resposta.json();
-
+      return resposta.json().then(function (conteudo) {
+        return {
+          ok: resposta.ok,
+          conteudo: conteudo,
+        };
+      });
     })
+    .then(function (resultado) {
+      if (!resultado.ok) {
+        throw new Error(
+          resultado.conteudo.mensagem || "Não foi possível realizar o login.",
+        );
+      }
 
+      salvarDadosUsuario(resultado.conteudo.usuario);
 
-    // Trabalha com a resposta recebida
+      mostrarMensagem(resultado.conteudo.mensagem, false);
 
-    .then(function (dados) {
-
-
-        if (dados.usuario == undefined) {
-
-            mensagem.innerHTML =
-                dados.mensagem;
-
-            return;
-
-        }
-
-
-        sessionStorage.ID_USUARIO =
-            dados.usuario.idUsuario;
-
-
-        sessionStorage.NOME_USUARIO =
-            dados.usuario.nome;
-
-
-        if (dados.primeiroAcesso == true) {
-
-            window.location.href =
-                "./primeiro-acesso.html";
-
-        } else {
-
-            window.location.href =
-                "./dashboard.html";
-
-        }
-
+      redirecionarUsuario(resultado.conteudo.primeiroAcesso);
     })
-
-
-    // Caso aconteça algum erro de conexão
-
     .catch(function (erro) {
-
-        console.log(erro);
-
-
-        mensagem.innerHTML =
-            "Erro ao conectar com o servidor.";
-
+      mostrarMensagem(erro.message, true);
+    })
+    .finally(function () {
+      botaoEntrar.disabled = false;
+      botaoEntrar.textContent = "Entrar";
     });
+}
 
+// SALVAR DADOS DO USUÁRIO
+
+function salvarDadosUsuario(usuario) {
+  sessionStorage.setItem("ID_USUARIO", usuario.idUsuario);
+
+  sessionStorage.setItem("NOME_USUARIO", usuario.nome);
+
+  sessionStorage.setItem("EMAIL_USUARIO", usuario.email);
+
+  sessionStorage.setItem("CARGO_USUARIO", usuario.cargo);
+
+  sessionStorage.setItem("EMPRESA_USUARIO", usuario.empresa);
+
+  sessionStorage.setItem("MINERADORA_USUARIO", usuario.mineradora || "");
+
+  sessionStorage.setItem("FK_EMPRESA_USUARIO", usuario.fkEmpresa);
+}
+
+// REDIRECIONAMENTO
+
+function redirecionarUsuario(primeiroAcesso) {
+  setTimeout(function () {
+    if (primeiroAcesso) {
+      window.location.href = "./primeiro-acesso.html";
+    } else {
+      window.location.href = "./selecao_torre.html";
+    }
+  }, 1000);
+}
+
+// MOSTRAR OU OCULTAR SENHA
+
+function mostrarSenha() {
+  var campoSenha = document.getElementById("senha");
+
+  var botaoSenha = document.getElementById("botao_senha");
+
+  if (campoSenha.type === "password") {
+    campoSenha.type = "text";
+
+    botaoSenha.setAttribute("aria-label", "Ocultar senha");
+  } else {
+    campoSenha.type = "password";
+
+    botaoSenha.setAttribute("aria-label", "Mostrar senha");
+  }
+}
+
+// MENSAGEM
+
+function mostrarMensagem(texto, erro) {
+  var mensagemLogin = document.getElementById("mensagem_login");
+
+  mensagemLogin.textContent = texto;
+
+  if (erro) {
+    mensagemLogin.style.color = "#ffdddd";
+  } else {
+    mensagemLogin.style.color = "#d7ffd7";
+  }
 }
