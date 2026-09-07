@@ -11,7 +11,6 @@ require("dotenv").config({
 var express = require("express");
 var cors = require("cors");
 var path = require("path");
-
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
 
@@ -28,6 +27,9 @@ var torresRouter = require("./src/routes/torres");
 // =========================================================
 // MIDDLEWARES
 // =========================================================
+
+var equipeRouter = require("./src/routes/equipe");
+
 
 // Permite receber JSON.
 app.use(express.json());
@@ -51,6 +53,7 @@ app.use(cors());
 // =========================================================
 
 app.use("/", indexRouter);
+app.use("/equipe", equipeRouter);
 
 app.use("/usuarios", usuariosRouter);
 

@@ -1,5 +1,5 @@
 .header {
-    margin-top: 20px;
+    margin-top: 3vw;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -83,11 +83,19 @@
     justify-content: space-between;
 }
 
+.BarraNavegacao img:nth-of-type(1) {
+    margin-top: 1vw;
+    width: 35%;
+    height: 100%;
+}
+
 .NavCelular .opcoes_celular {
     margin-top: 10px;
     padding-top: 10px;
     background-color: rgba(0, 0, 0, 1);
     display: none;
+    height: 70vw;
+    justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
     border-radius: 0 0 10px 10px;
@@ -97,6 +105,7 @@
 .NavCelular .opcoes_celular p {
     width: 80%;
     border: 2px solid var(--amarelo);
+    border-radius: 10px;
     height: 40px;
     display: flex;
     justify-content: center;

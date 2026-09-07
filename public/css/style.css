@@ -1,31 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-
-* {
-    margin: 0;
-  padding: 0;
-}
-
 body {
-  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-
-:root {
-    --branco: #FFFFFF;
-    --amarelo: #FFD741;
-    --preto: #000000;
-}
-
-/*
-======================
-       BANNER 
-======================
-*/
 
 .banner {
-    padding-top: 140px;
-    background-image: url(../imgs/BannerIndex1920_1080.svg) ;
+    background-image: url(../imgs/institucional/BannerIndex1920_1080.svg) ;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -35,6 +15,7 @@ body {
 }
 
 .container {
+    margin-top: 7vw;
     margin-left: 5%;
     position: absolute;
     display: flex;
@@ -80,24 +61,17 @@ body {
     width: 100%;
     margin: 0;
     height: 100%;
-    font-size: 4vh;
+    font-size: 2.5vw;
     color: white;
 }
 
 @media screen and (max-width: 768px) {
-
-    /*
-    ======================
-        BANNER RESPONSIVO
-    ======================
-    */
-
     .banner {
         background-position: right;
         height: 60vh;
         /* border: 1px solid white; */
         align-items: end;
-        padding-bottom: 50px;
+        padding-bottom: 8vw;
         height: 70vw;
     }
 
@@ -131,59 +105,20 @@ body {
     .container .subtitulo p {
         padding-left: 0;
         width: 90%;
-        font-size: 2vh;
+        font-size: 3vw;
         text-align: center;
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .secaoValores {
+    background-color: #000000;
     color: white;
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 60vh;
-    gap: 5%;
+    height: 30vw;
+    gap: 5vw;
+    padding: 3vw 0 3vw 0;
     overflow: hidden;
 }
 
@@ -211,7 +146,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 65%;
-    font-size: 5vh;
+    font-size: 3vw;
     font-weight: bolder;
 }
 
@@ -219,7 +154,7 @@ body {
     width: 60%;
     display: flex;
     justify-content: center;
-    gap: 13%;
+    gap: 3vw;
     flex-direction: column;
 }
 
@@ -235,25 +170,22 @@ body {
 }
 
 .TopicoTexto h1 {
-    font-size: 5vh;
+    font-size: 3vw;
 }
 
 .TopicoTexto p {
-    font-size: 2.5vh;
+    font-size: 1.5vw;
 }
 
 @media screen and (max-width: 768px) {
-    /*
-    ======================
-        BANNER RESPONSIVO
-    ======================
-    */
 
     .secaoValores {
         padding-top: 20px;
         flex-direction: column;
         gap: 0;
-        height: 370px;
+
+        height: 70vw;
+        justify-content: space-evenly;
         align-items: center;
         padding-bottom: 20px;
     }
@@ -285,8 +217,17 @@ body {
         gap: 10%;
     }
 
+    .secaoDireita .topico {
+        justify-content: center;
+    }
+
     .topico img{
-        width: 10%;
+        width: 7vw;
+    }
+
+    .TopicoTexto {
+        width: 80%;
+        gap: 1vw;
     }
 
     .TopicoTexto h1 {
@@ -294,48 +235,43 @@ body {
     }
 
     .TopicoTexto p {
-        font-size: 3vw;
+        font-size: 2.5vw;
     }
 }
-
-/*
-================================================
-================================================
-================================================
-*/
-
 
 .secaoSolucao {
     background-color: var(--branco);
     display: flex;
     width: 100%;
-    height: 50vh;
-    padding: 50px 0 50px 0;
-    gap: 5%;
+    height: 30vw;
+    padding: 3vw 0 3vw 0;
+    gap: 5vw;
 }
 
 .esquerda_secaoSolucao {
     justify-content: space-evenly;
     display: flex;
     flex-direction: column;
-    /* padding-right: 10%; */
-    width: 25%;
+    padding-right: 3vw;
+    width: 30%;
     height: 90%;
 }
 
 .esquerda_secaoSolucao h1 {
     display: block;
-    width: 50%;
+    width: 100%;
     padding-bottom: 10px;
-    padding-left: 10%;
-    font-size: 6vh;
+    padding-left: 3vw;
+    font-size: 4vw;
     border-bottom: 10px #FFD741 solid;
 }
 
 .esquerda_secaoSolucao p {
-    padding-left: 6%;
-    font-size: 3vh;
+    padding-left: 4vw;
+    padding-top: 2vw;
+    font-size: 2vw;
     font-weight: bolder;
+    height: 50%;
     width: 100%;
 }
 
@@ -343,13 +279,13 @@ body {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 70%;
+    width: 65%;
 }
 
 .Card_solucao {
     border: 4px solid #FFD741;
-    width: 20%;
-    height: 70%;
+    width: 30%;
+    height: 90%;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -373,24 +309,518 @@ body {
 
 .Card_solucao p {
     border: 1px solid black;
+    font-size: 1.5vw;
+    margin: 0;
+    height: 30%;
+    overflow-wrap: break-word;
+}
+
+@media screen and (max-width: 768px) {
+    .secaoSolucao {
+        flex-direction: column;
+        padding-top: 10px;
+        align-items: center;
+        height: 70vw;
+        padding-bottom: 20px;
+        gap: 0;
+    }
+
+    .esquerda_secaoSolucao {
+        width: 100%;
+        height: 40%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 0;
+    }
+
+    .esquerda_secaoSolucao h1 {
+        font-size: 5vw;
+        text-align: center;
+        width: 50%;
+        padding-left: 5%;
+        border-bottom: 5px #FFD741 solid;
+    }
+
+    .esquerda_secaoSolucao p {
+        font-size: 3vw;
+        width: 70%;
+        text-align: center;
+        display: flex;
+        overflow-wrap: break-word;
+    }
+
+    .direita_secaoSolucao {
+        width: 90%;
+        height: 60%;
+        justify-content: space-between;
+    }
+
+    .Card_solucao {
+        width: 30%;
+        height: 80%;
+        padding: 5px;
+    }
+
+    .img_card {
+        width: 8vw;
+    }
+
+    .Card_solucao h1 {
+        font-size: 4vw;
+    }
+
+    .Card_solucao p {
+        font-size: 2.5vw;
+    }
+
+}
+
+.Secao_componentes {
+    padding: 2vw 0 2vw 0;
+    background-color: #000000;
+    display: flex;
+    height: 20vw;
+    justify-content: space-around;
+}
+
+.componentes_esquerda {
+    width: 40%;
+    display: flex;
+    align-items: center;
+}
+
+.componentes_esquerda h1 {
+    color: #FFD741;
+    font-size: 3.5vw;
+    overflow-wrap: break-word;
+}
+
+.componentes_direita {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.componentes_direita img {
+    height: 10vw;
+}
+
+@media screen and (max-width: 768px) {
+    .Secao_componentes {
+        flex-direction: column;
+        height: 40vw;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5vw 0 5vw 0;
+    }
+
+    .componentes_esquerda {
+        width: 90%;
+    }
+
+    .componentes_esquerda h1 {
+        text-align: center;
+        width: 100%;
+        font-size: 5vw;
+    }
+
+    .componentes_direita {
+        justify-content: space-evenly;
+        width: 90%;
+        height: 40%;
+    }
+
+    .componentes_direita img {
+        height: 100%;
+    }
+}
+
+.secaoInformacoes {
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 50vw;
+    padding: 3vw 0 3vw 0;
+}
+
+.esquerdaInformacoes {
+    width: 40%;
+    height: 90%;
+}
+
+.esquerdaInformacoes img {
+    width: 100%;
+    height: 100%;
+}
+
+.direitaInformacoes {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.cimaDireitaInformacoes {
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    justify-content: center;
+    align-items: center;
+}
+
+.cimaDireitaInformacoes h1 {
+    font-size: 2.7vw;
+    width: 80%;
+    overflow-wrap: break-word;
+    padding-bottom: 3vw;
+}
+
+.cimaDireitaInformacoes p {
+    overflow-wrap: break-word;
+    font-size: 1.7vw;
+    width: 80%;
+}
+
+.cimaDireitaInformacoes ul{
+    padding-top: 1vw;
+    font-size: 1.7vw;
+    width: 70%;
+}
+
+
+.inferiorDireitaInformacoes {
+    display: flex;
+    height: 30%;
+    justify-content: end;
+}
+
+.inferiorDireitaInformacoes  img {
+    height: 100%;
+    
+}
+
+@media screen and (max-width: 768px) {
+    .secaoInformacoes {
+        height: 50vw;
+        justify-content: none;
+        flex-direction: row-reverse;
+        padding-top: 0;
+        align-items: center;
+        overflow: hidden;
+        padding: 5vw 0 3vw 0;
+    }
+
+    .esquerdaInformacoes {
+        display: flex;
+        position: absolute;
+        opacity: 20%;
+        width: 70%;
+        height: 50vw;
+    }
+
+    .direitaInformacoes {
+        width: 100%;
+        height: 100%;
+        
+    }
+
+    .cimaDireitaInformacoes {
+        justify-content: space-around;
+        padding-right: 15%;
+        height: 100%;
+    }
+
+    .cimaDireitaInformacoes h1 {
+        width: 80%;
+        font-size: 4vw;
+    }
+
+    .cimaDireitaInformacoes p {
+        font-size: 3.3vw;
+        width: 70%;
+    }
+
+    .cimaDireitaInformacoes ul{
+        font-size: 3vw;
+    }
+
+    .inferiorDireitaInformacoes {
+        display: none;
+    }
+    
+}
+
+.secaoImpactoNegocios {
+    padding-top: 2vw;
+    background-color: white;
+    display: flex;
+    height: 40vw;
+    justify-content: space-between;
+}
+
+.esquerda_secaoImpactoNegocios {
+    padding-left: 4%;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.texto_esquerda_secaoImpactoNegocios {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 55%;
+}
+
+.texto_esquerda_secaoImpactoNegocios h1 {
+    font-size: 2.7vw;
+}
+
+.texto_esquerda_secaoImpactoNegocios p:nth-of-type(1) {
+    font-size: 1.7vw;
+}
+
+.texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
+    font-size: 1.7vw;
+}
+
+.button_esquerda_secaoImpactoNegocios {
+    height: 30%;
+    margin-top: 2vw;
+    display: flex;
+    align-items: center;
+}
+
+.button_esquerda_secaoImpactoNegocios button {
+    background-color: #FFD741;
+    width: 50%;
+    height: 5vw;
+    border-radius: 10px;
+    padding: 20px;
+    font-weight: bolder;
+    font-size: 1.3vw;
+    text-align: center;
+    padding: 0;
+    transition: 0.5s;
+}
+
+.direita_secaoImpactoNegocios {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.CaixaMetricas {
+    height: 60%;
+    width: 80%;
+    background-color: #cececc89;
+    z-index: 999;
+    padding: 2%;
+    justify-content: space-between;
+    display: flex;
+    border: 1px solid rgba(108, 106, 106, 0.496);
+
+}
+
+.box_CaixaMetricas {
+    border-radius: 10px;
+    width: 30%;
+    border: 1px solid #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.box_CaixaMetricas h1 {
+    text-align: center;
+    width: 100%;
+    font-size: 1vw;
+}
+
+.box_CaixaMetricas h1 p{
+    font-weight: lighter;
+    font-size: 0.7vw;
+}
+
+.box_CaixaImg {
+    width: 10vw;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.CirculoOEE {
+    justify-content: center;
+}
+
+.box_CaixaImg img{
+    width: 70%;
+    height: 70%;
+}
+
+.CirculoOEE img {
+    position: absolute;
+    width: 10%;
+    height: 20%;
+}
+
+.box_CaixaImg p{
+    font-size: 1.2vw;
+    font-weight: bolder;
+}
+
+.CirculoOEE p{
+    font-size: 2vw;
+}
+
+
+.box_CaixaMetricas .descricao {
+    width: 90%;
+    height: 20%;
+    font-size: 0.9vw;
+    text-align: center;
 }
 
 .ImagemDesign {
-    align-self: flex-end;
-    justify-self: flex-end;
-    position: relative;
     height: 50%;
     width: 80%;
+    align-self: self-end;
 }
 
 .ImagemDesign img {
     width: 100%;
     height: 100%;
+}
 
+.botaocelular {
+    display: none;
+}
+
+.button_esquerda_secaoImpactoNegocios button:hover {
+    background-color: black;
+    color: #FFD741;
+    border-color: #FFD741;
 }
 
 @media screen and (max-width: 768px) {
     .secaoImpactoNegocios {
+        padding-top: 0;
+        height: 85vw;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        padding-bottom: 3vw;
+    }   
+
+    .esquerda_secaoImpactoNegocios {
+        width: 90%;
+        padding-left: 0;
+        height: 20vw;
+    }
+
+    .texto_esquerda_secaoImpactoNegocios {
+        text-align: center;
+        height: 100%;
+        justify-content: end;
+    }
+
+    .texto_esquerda_secaoImpactoNegocios h1 {
+        display: flex;
         height: 40%;
+        justify-content: center;
+        font-size: 4vw;
+    }
+
+    .texto_esquerda_secaoImpactoNegocios p:nth-of-type(1) {
+        font-size: 2.5vw;
+    }
+
+    .texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
+        font-size: 2.5vw;
+    }
+
+    .button_esquerda_secaoImpactoNegocios {
+        display: none;
+    }
+
+    .direita_secaoImpactoNegocios {
+        width: 90%;
+        height: 50vw;
+    }
+
+    .CaixaMetricas {
+        width: 100%;
+        margin-right: 0;
+        height: 40vw;
+        gap: 3vw;
+        justify-content: space-around;
+    }
+
+    .box_CaixaMetricas h1 {
+        width: 100%;
+        font-size: 2vw;
+    }
+
+    .box_CaixaMetricas h1 p{
+        font-size: 1.2vw;
+    }
+
+    .box_CaixaImg {
+        width: 12vw;
+    }
+
+    .CirculoOEE {
+        width: 20vw;
+        height: 20vw;
+    }
+
+
+    .box_CaixaImg img{
+        width: 100%;
+        height: 100%;
+    }
+
+    .CirculoOEE img {
+        width: 17vw;
+        height: 17vw;
+    }
+
+    .box_CaixaImg p{
+        font-size: 2.5vw;
+    }
+
+    .CirculoOEE p{
+        font-size: 3vw;
+    }
+
+    .box_CaixaMetricas .descricao {
+        font-size: 1.5vw;
+    }
+
+    .ImagemDesign {
+        display: none;
+    }
+
+    .botaocelular {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .botaocelular button {
+        width: 50%;
+        height: 8vw;
+        font-size: 2vw;
     }
 }
