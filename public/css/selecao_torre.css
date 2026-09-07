@@ -140,8 +140,8 @@ header span{
 }
 
 .torre-card {
-    min-width: 100px;
-    height: 130px;
+    min-width: 120px;
+    height: 110px;
     background-color: #1f1f1f;
     border: 2px solid var(--amarelo);
     border-radius: 10px;
@@ -150,7 +150,6 @@ header span{
     align-items: center;
     justify-content: space-evenly;
     padding-top: 10px;
-    gap: 8px;
     flex-shrink: 0;
 }
 
@@ -175,5 +174,5 @@ header span{
 
 .torre-nome {
     color: var(--branco);
-    font-size: 0.9rem;
+    font-size: 1.1rem;
 }   
