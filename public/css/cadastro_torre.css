@@ -67,8 +67,30 @@ header {
     width: 97%;
     height: 80px;
     display: flex;
-    flex-direction: column;
-    align-items: start;
+  align-items: center;
+  gap: 16px;
+}
+.botao-voltar {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--amarelo);
+  border: 1px solid var(--amarelo);
+  border-radius: 7px;
+  font-size: 1.4rem;
+  text-decoration: none;
+}
+.botao-voltar:hover {
+  background-color: var(--amarelo);
+  color: var(--preto);
+}
+.titulo-cabecalho {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 header h1{
     color: white;
@@ -79,12 +101,33 @@ header span{
     font-size: 1rem;
 }
 
+@media screen and (max-width: 600px) {
+  header {
+    margin-left: 5%;
+    width: 90%;
+    gap: 10px;
+  }
+
+  .botao-voltar {
+    width: 42px;
+    height: 42px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  header span {
+    font-size: 0.85rem;
+  }
+}
+
 .conteudo {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  width: 100%;
+  margin-left: 2%;
+  width: 96%;
   min-height: calc(100vh - 148px);
 
   padding: 30px 0;
@@ -123,6 +166,11 @@ header span{
   font-size: 25px;
 }
 
+.torre-icon{
+    width: 12px;
+    margin-right: 1%;
+}
+
 
 /* 
    COLUNAS DO FORMULÁRIO
@@ -151,6 +199,10 @@ header span{
 
   font-size: 18px;
   font-weight: normal;
+}
+
+.asterisco {
+  color: var(--amarelo);
 }
 
 .formulario input,

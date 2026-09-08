@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Monit Ore | Cadastro de Torre</title>
 
-    <link rel="stylesheet" href="./css/selecao_torre.css" />
+    <link rel="stylesheet" href="./css/cadastro_torre.css" />
     <link rel="icon" href="./imgs/favicon.svg" />
     <link
       rel="stylesheet"
@@ -20,109 +20,111 @@
       <i class="fa-solid fa-bars icone-menu"></i>
     </button>
     <header>
-      <h1>Cadastro de Torre</h1>
-      <span>Preencha as informações para cadastrar uma nova torre</span>
+      <a href="./selecao_torre.html" class="botao-voltar" aria-label="Voltar para seleção de torre">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <div class="titulo-cabecalho">
+        <h1>Cadastro de Torre</h1>
+        <span>Preencha as informações para cadastrar uma nova torre.</span>
+      </div>
     </header>
     <main class="conteudo">
-      <section class="card_conteudo">
+      <div class="card_conteudo">
         <div class="titulo_formulario">
-          <h1>Dados do Usuário</h1>
+          <img src="./imgs/LogoBanner.png" class="torre-icon" alt="Logo" />
+          <h1>Informações da Torre</h1>
         </div>
 
         <div class="container_formularios">
           <!-- Coluna esquerda -->
           <div class="formulario">
-            <label for="nome_ipt"> Nome completo* </label>
+            <label for="nome_ipt">
+              Nome da Torre <span class="asterisco">*</span>
+            </label>
 
             <input
               type="text"
               id="nome_ipt"
-              placeholder="Digite o nome completo"
+              placeholder="Ex.: Torre 001"
               autocomplete="name"
               required
             />
 
-            <label for="email_ipt"> Digite o e-mail* </label>
+            <label for="mineradora_ipt">
+              Mineradora Parceira <span class="asterisco">*</span>
+            </label>
 
-            <input
-              type="email"
-              id="email_ipt"
-              placeholder="Digite o e-mail"
-              autocomplete="email"
-              required
-            />
+            <select id="mineradora_ipt">
+              <option value="" required>Selecione a mineradora</option>
+            </select>
 
-            <label for="data_nasc_input"> Data de nascimento </label>
+            <label for="estado_ipt">
+              Estado <span class="asterisco">*</span></label
+            >
 
-            <input type="date" id="data_nasc_input" />
-
-            <label for="unidade_local_ipt"> Unidade/Local </label>
-
-            <select id="unidade_local_ipt">
-              <option value="">Selecione uma unidade</option>
+                <select id="unidade_local_ipt">
+              <option value="" required>Selecione o estado</option>
             </select>
           </div>
 
           <!-- Coluna direita -->
           <div class="formulario">
-            <label for="cpf_ipt"> CPF* </label>
+            <label for="codigo_ipt">
+              Código/Identificador <span class="asterisco">*</span>
+            </label>
 
             <input
               type="text"
-              id="cpf_ipt"
-              placeholder="000.000.000-00"
+              id="codigo_ipt"
+              placeholder="Ex.: TOR-001"
               inputmode="numeric"
               autocomplete="off"
               maxlength="14"
               required
             />
 
-            <label for="senha_ipt"> Senha* </label>
+            <label for="local_ipt">
+              Local <span class="asterisco">*</span>
+            </label>
 
-            <div class="senha_container">
               <input
-                type="password"
-                id="senha_ipt"
-                placeholder="Digite sua senha"
+                type="text"
+                id="local_ipt"
+                placeholder="Ex.: Mina do Morro Velho"
                 autocomplete="new-password"
                 minlength="6"
                 required
               />
 
-              <button
-                type="button"
-                class="botao_senha"
-                onclick="mostrar_senha()"
-                aria-label="Mostrar ou ocultar senha"
-              >
-                👁
-              </button>
-            </div>
-
-            <label for="telefone_ipt"> Telefone </label>
+            <label for="cidade_ipt">
+              Cidade <span class="asterisco">*</span>
+            </label>
 
             <input
               type="tel"
-              id="telefone_ipt"
-              placeholder="(00) 00000-0000"
+              id="cidade_ipt"
+              placeholder="Ex.: Nova Lima"
               inputmode="tel"
               autocomplete="tel"
               maxlength="15"
             />
-
-            <label for="cargo_ipt"> Cargo* </label>
-
-            <select id="cargo_ipt" required>
-              <option value="">Selecione um cargo</option>
-            </select>
           </div>
+        </div>
+        <div class="formulario">
+          <label for="descricao_ipt"> Descrição/Observação</label>
+
+          <input
+            type="text"
+            id="descricao_ipt"
+            placeholder="Descrição da torre"
+            autocomplete="off"
+          />
         </div>
 
         <!-- Status -->
         <div class="status">
-          <h3>Status</h3>
 
-          <p>Status do usuário</p>
+          <p>Monitoramento</p>
 
           <div class="status-controle">
             <label class="troca">
@@ -154,7 +156,7 @@
         <button type="button" class="btn-salvar" onclick="salvar()">
           🗁
 
-          <span>Salvar Funcionário</span>
+          <span>Salvar Torre</span>
         </button>
       </div>
     </main>
