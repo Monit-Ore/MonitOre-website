@@ -2,13 +2,12 @@ var database = require("../database/config");
 
 var mysql = require("mysql2");
 
-
 // BUSCAR USUÁRIO PELO EMAIL
 
 function buscarPorEmail(email) {
-    var emailSeguro = mysql.escape(email);
+  var emailSeguro = mysql.escape(email);
 
-    var instrucaoSql = `
+  var instrucaoSql = `
         SELECT
             u.id_usuario,
             u.nome,
@@ -27,7 +26,8 @@ function buscarPorEmail(email) {
             c.status_atividade AS status_cargo,
             c.fk_empresa,
 
-            e.razao_social AS empresa,
+            e.razao_social AS empresa, 
+            e.id_empresa AS fk_empresa,
             e.status_atividade AS status_empresa,
 
             m.razao_social AS mineradora
@@ -46,19 +46,18 @@ function buscarPorEmail(email) {
         WHERE u.email = ${emailSeguro};
     `;
 
-    console.log("Executando SQL:");
-    console.log(instrucaoSql);
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
 
-    return database.executar(instrucaoSql);
+  return database.executar(instrucaoSql);
 }
-
 
 // BUSCAR USUÁRIO PELO CPF
 
 function buscarPorCpf(cpf) {
-    var cpfSeguro = mysql.escape(cpf);
+  var cpfSeguro = mysql.escape(cpf);
 
-    var instrucaoSql = `
+  var instrucaoSql = `
         SELECT
             id_usuario,
             cpf
@@ -66,17 +65,16 @@ function buscarPorCpf(cpf) {
         WHERE cpf = ${cpfSeguro};
     `;
 
-    console.log("Executando SQL:");
-    console.log(instrucaoSql);
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
 
-    return database.executar(instrucaoSql);
+  return database.executar(instrucaoSql);
 }
-
 
 // BUSCAR CARGO ATIVO
 
 function buscarCargoAtivoPorId(idCargo) {
-    var instrucaoSql = `
+  var instrucaoSql = `
         SELECT
             c.id_cargo,
             c.nome,
@@ -93,17 +91,16 @@ function buscarCargoAtivoPorId(idCargo) {
           AND e.status_atividade = 'Ativo';
     `;
 
-    console.log("Executando SQL:");
-    console.log(instrucaoSql);
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
 
-    return database.executar(instrucaoSql);
+  return database.executar(instrucaoSql);
 }
-
 
 // BUSCAR MINERADORA
 
 function buscarMineradoraPorId(idMineradora) {
-    var instrucaoSql = `
+  var instrucaoSql = `
         SELECT
             id_mineradora,
             razao_social
@@ -111,42 +108,39 @@ function buscarMineradoraPorId(idMineradora) {
         WHERE id_mineradora = ${Number(idMineradora)};
     `;
 
-    console.log("Executando SQL:");
-    console.log(instrucaoSql);
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
 
-    return database.executar(instrucaoSql);
+  return database.executar(instrucaoSql);
 }
-
 
 // CADASTRAR USUÁRIO
 
 function cadastrar(
-    nome,
-    email,
-    cpf,
-    senha,
-    dataNascimento,
-    telefone,
-    statusAtividade,
-    idCargo,
-    idMineradora
+  nome,
+  email,
+  cpf,
+  senha,
+  dataNascimento,
+  telefone,
+  statusAtividade,
+  idCargo,
+  idMineradora,
 ) {
-    var nomeSeguro = mysql.escape(nome);
-    var emailSeguro = mysql.escape(email);
-    var cpfSeguro = mysql.escape(cpf);
-    var senhaSegura = mysql.escape(senha);
-    var telefoneSeguro = mysql.escape(telefone || null);
-    var statusSeguro = mysql.escape(statusAtividade);
+  var nomeSeguro = mysql.escape(nome);
+  var emailSeguro = mysql.escape(email);
+  var cpfSeguro = mysql.escape(cpf);
+  var senhaSegura = mysql.escape(senha);
+  var telefoneSeguro = mysql.escape(telefone || null);
+  var statusSeguro = mysql.escape(statusAtividade);
 
-    var dataNascimentoSegura = dataNascimento
-        ? mysql.escape(dataNascimento)
-        : "NULL";
+  var dataNascimentoSegura = dataNascimento
+    ? mysql.escape(dataNascimento)
+    : "NULL";
 
-    var mineradoraSegura = idMineradora
-        ? Number(idMineradora)
-        : "NULL";
+  var mineradoraSegura = idMineradora ? Number(idMineradora) : "NULL";
 
-    var instrucaoSql = `
+  var instrucaoSql = `
         INSERT INTO usuario (
             nome,
             email,
@@ -175,33 +169,31 @@ function cadastrar(
         );
     `;
 
-    console.log("Executando SQL:");
-    console.log(instrucaoSql);
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
 
-    return database.executar(instrucaoSql);
+  return database.executar(instrucaoSql);
 }
-
 
 // ATUALIZAR ÚLTIMO ACESSO
 
 function atualizarUltimoAcesso(idUsuario) {
-    var instrucaoSql = `
+  var instrucaoSql = `
         UPDATE usuario
         SET ultimo_acesso = CURRENT_TIMESTAMP
         WHERE id_usuario = ${Number(idUsuario)};
     `;
 
-    console.log("Executando SQL:");
-    console.log(instrucaoSql);
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
 
-    return database.executar(instrucaoSql);
+  return database.executar(instrucaoSql);
 }
-
 
 // LISTAR CARGOS
 
 function listarCargos() {
-    var instrucaoSql = `
+  var instrucaoSql = `
         SELECT
             c.id_cargo,
             c.nome,
@@ -218,17 +210,16 @@ function listarCargos() {
         ORDER BY c.nome;
     `;
 
-    console.log("Executando SQL:");
-    console.log(instrucaoSql);
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
 
-    return database.executar(instrucaoSql);
+  return database.executar(instrucaoSql);
 }
-
 
 // LISTAR MINERADORAS
 
 function listarMineradoras() {
-    var instrucaoSql = `
+  var instrucaoSql = `
         SELECT
             id_mineradora,
             razao_social
@@ -236,22 +227,21 @@ function listarMineradoras() {
         ORDER BY razao_social;
     `;
 
-    console.log("Executando SQL:");
-    console.log(instrucaoSql);
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
 
-    return database.executar(instrucaoSql);
+  return database.executar(instrucaoSql);
 }
-
 
 // EXPORTAÇÕES
 
 module.exports = {
-    buscarPorEmail,
-    buscarPorCpf,
-    buscarCargoAtivoPorId,
-    buscarMineradoraPorId,
-    cadastrar,
-    atualizarUltimoAcesso,
-    listarCargos,
-    listarMineradoras
+  buscarPorEmail,
+  buscarPorCpf,
+  buscarCargoAtivoPorId,
+  buscarMineradoraPorId,
+  cadastrar,
+  atualizarUltimoAcesso,
+  listarCargos,
+  listarMineradoras,
 };

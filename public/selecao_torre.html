@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monit Ore | Seleção de Torre</title>
+
+    <link rel="stylesheet" href="./css/selecao_torre.css" />
+    <link rel="icon" href="./imgs/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="./js/selecao_torre.js"></script>
+  </head>
+  <body>
+    <button class="btn-notificacao">
+      <i class="fa-regular fa-bell icone-sino"></i>
+      <i class="fa-solid fa-bars icone-menu"></i>
+    </button>
+    <header>
+      <h1>Seleção de Torre</h1>
+      <span>Selecione a torre que deseja verificar os dados</span>
+    </header>
+    <div class="container">
+      <div class="header-box">
+        <span>Mineradoras Parceiras</span>
+        <button class="btn-add">
+          <span>Nova Torre</span>
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+      <div id="mineradora-group" class="mineradora-group">
+        <span class="mineradora-nome">IBRAM</span>
+        <div class="torres-scroll">
+          <div class="torre-div">
+            <div class="torre-card">
+              <img src="./imgs/LogoBanner.png" class="torre-icon" alt="Logo" />
+              <span class="torre-status alerta">Alerta</span>
+            </div>
+            <span class="torre-codigo">Torre 002</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
