@@ -24,13 +24,16 @@ async function listarTorresComMineradora(fkEmpresa) {
   return database.executar(instrucaoSql);
 }
 
-async function verificarCodigoExistente(fkEmpresa, codigo) {
+async function verificarCodigoExistente(fkEmpresa, codigo, uuidAgente) {
   var empresa = mysql.escape(fkEmpresa);
   var codigoEscapado = mysql.escape(codigo);
-  var instrucaoSql = `SELECT id_torre
-      FROM torre
-      WHERE fk_empresa = ${empresa}
-        AND codigo = ${codigoEscapado}`;
+  var uuidEscapado = mysql.escape(uuidAgente);
+  var instrucaoSql = `SELECT t.id_torre
+      FROM torre t
+      LEFT JOIN ihm i ON i.fk_torre = t.id_torre
+      WHERE t.fk_empresa = ${empresa}
+        AND (t.codigo = ${codigoEscapado}
+          OR i.uuid_agente = ${uuidEscapado})`;
   var resultado = await database.executar(instrucaoSql);
 
   return resultado.length > 0;
