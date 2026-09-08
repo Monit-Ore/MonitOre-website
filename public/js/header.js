@@ -10,7 +10,7 @@ MenuHamburguer.addEventListener('click', function() {
 });
 
 
-botoesLogin = document.querySelectorAll(".botaoLogin");
+botoesLogin = document.querySelectorAll(".IrParaLogin");
 
 for (let i = 0; i < botoesLogin.length; i++) {
     botoesLogin[i].addEventListener('click', function() {
@@ -18,14 +18,26 @@ for (let i = 0; i < botoesLogin.length; i++) {
     })
 }
 
-botaoTelaInicio.addEventListener('click', function() {
-    window.location = "index.html";
-})
+botoesInicio = document.querySelectorAll(".irParaInicio");
 
-botaoTelaSobre.addEventListener('click', function() {
-    window.location = "";
-})
+for (let i = 0; i < botoesInicio.length; i++) {
+    botoesInicio[i].addEventListener('click', function() {
+        window.location = "index.html";
+    })
+}
 
-botaoTelaEquipe.addEventListener('click', function() {
-    window.location = "equipe.html";
-})
+botoesSobre = document.querySelectorAll(".irParaSobre");
+
+for (let i = 0; i < botoesSobre.length; i++) {
+    botoesSobre[i].addEventListener('click', function() {
+        window.location = "sobrenos.html";
+    })
+}
+
+botoesEquipe = document.querySelectorAll(".irParaEquipe");
+
+for (let i = 0; i < botoesEquipe.length; i++) {
+    botoesEquipe[i].addEventListener('click', function() {
+        window.location = "equipe.html";
+    })
+}
