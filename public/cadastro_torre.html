@@ -54,16 +54,16 @@
               Mineradora Parceira <span class="asterisco">*</span>
             </label>
 
-            <select id="mineradora_ipt">
-              <option value="" required>Selecione a mineradora</option>
+            <select id="mineradora_ipt" required>
+              <option value="" >Selecione a mineradora</option>
             </select>
 
             <label for="estado_ipt">
               Estado <span class="asterisco">*</span></label
             >
 
-                <select id="unidade_local_ipt">
-              <option value="" required>Selecione o estado</option>
+                <select id="unidade_local_ipt" required>
+              <option value="" >Selecione o estado</option>
             </select>
           </div>
 
@@ -121,6 +121,111 @@
           />
         </div>
 
+        <div class="titulo_formulario">
+          <img src="./imgs/LogoBanner.png" class="torre-icon" alt="Logo" />
+          <h1>Informações do Servidor</h1>
+        </div>
+        <div class="container_formularios">
+          <!-- Coluna esquerda -->
+          <div class="formulario">
+            <label for="identificador_ipt">
+              Identificador do Servidor <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="identificador_ipt"
+              placeholder="Ex.: SERV-001"
+              autocomplete="name"
+              required
+            />
+
+            <label for="ip_ipt">
+              IP <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="ip_ipt"
+              placeholder="Ex.: 192.168.1.1"
+              autocomplete="name"
+              required
+            />
+          </div>
+
+          <!-- Coluna direita -->
+          <div class="formulario">
+            <label for=" hostname_ipt">
+              Hostname <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="hostname_ipt"
+              placeholder="Ex.: TOR-001"
+              inputmode="numeric"
+              autocomplete="off"
+              maxlength="14"
+              required
+            />
+
+            <label for="so_ipt">
+              Sistema Operacional <span class="asterisco">*</span></label
+            >
+
+                <select id="so_ipt" required>
+              <option value="">Selecione o sistema operacional</option>
+            </select>
+
+          </div>
+        </div>
+        <div class="formulario">
+          <label for="so_ipt">
+              Status do Servidor <span class="asterisco">*</span></label
+            >
+
+                <select id="so_ipt" required>
+              <option value="Ativo"> 🟢 Ativo</option>
+              <option value="Inativo"> 🔴 Inativo</option>
+            </select>
+        </div>
+
+        <div>
+            <div class="titulo_formulario">
+                <img src="./imgs/LogoBanner.png" class="torre-icon" alt="Logo" />
+          <h1>Informações Técnicas/Métricas</h1>
+            </div>
+          <p class="texto_metricas">Selecione quais componentes gostaria de monitorar nessa torre e as métricas de alertas</p>
+        </div>
+        <div class="container_formularios">
+          <!-- Coluna esquerda -->
+          <div class="formulario">
+            <label for="componente_ipt">
+              Componente <span class="asterisco">*</span></label
+            >
+
+                <select id="componente_ipt" required>
+              <option value="">Selecione o componente</option>
+            </select>
+          </div>
+          <div class="formulario">
+            <label for="porcentagem_ipt">
+              Porcentagem de Uso <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="porcentagem_ipt"
+              placeholder="Ex.: 90"
+              autocomplete="name"
+              required
+            />
+          </div>
+          <button class="btn-add">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+        </div>
+
         <!-- Status -->
         <div class="status">
 
@@ -144,9 +249,8 @@
         class="mensagem_cadastro"
         aria-live="polite"
       ></p>
-
-      <!-- Botões -->
-      <div class="botoes">
+    </main>
+    <div class="botoes">
         <button type="button" class="btn-cancelar" onclick="cancelar()">
           ✕
 
@@ -159,6 +263,5 @@
           <span>Salvar Torre</span>
         </button>
       </div>
-    </main>
   </body>
 </html>

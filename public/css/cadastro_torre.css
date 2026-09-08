@@ -377,7 +377,32 @@ header span{
   font-size: 18px;
   font-weight: bold;
 }
+    
+.texto_metricas {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--cinza);
+  margin-left: 1%;
+}
 
+.btn-add{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 40px;
+    margin-top: 2%;
+    background-color: var(--amarelo);
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-add i{
+    color: rgb(0, 0, 0);
+    font-size: 1.2rem;
+}
 
 /* 
    MENSAGEM
@@ -403,8 +428,8 @@ header span{
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  width: 96%;
+  margin-left: 2%;
+  width: 96%; 
   min-height: 60px;
 }
 
