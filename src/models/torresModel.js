@@ -24,6 +24,18 @@ async function listarTorresComMineradora(fkEmpresa) {
   return database.executar(instrucaoSql);
 }
 
+async function verificarCodigoExistente(fkEmpresa, codigo) {
+  var empresa = mysql.escape(fkEmpresa);
+  var codigoEscapado = mysql.escape(codigo);
+  var instrucaoSql = `SELECT id_torre
+      FROM torre
+      WHERE fk_empresa = ${empresa}
+        AND codigo = ${codigoEscapado}`;
+  var resultado = await database.executar(instrucaoSql);
+
+  return resultado.length > 0;
+}
+
 async function criarTorre(
   fkEmpresa,
   nome,
@@ -55,9 +67,9 @@ async function criarTorre(
   var idTorre = resultadoTorre.insertId;
 
   var instrucaoIhm = `INSERT INTO ihm
-        (identificador, hostname, ip, sistema_operacional, status_operacional, fk_torre)
+        (uuid_agente, hostname, ip, sistema_operacional, status_operacional, fk_torre)
        VALUES (
-        ${mysql.escape(servidor.identificador)},
+        ${mysql.escape(servidor.uuid_agente)},
         ${mysql.escape(servidor.hostname || null)},
         ${mysql.escape(servidor.ip)},
         ${mysql.escape(servidor.sistema_operacional)},
@@ -89,5 +101,6 @@ async function criarTorre(
 module.exports = {
   mapearStatusServidorBanco,
   listarTorresComMineradora,
+  verificarCodigoExistente,
   criarTorre,
 };
