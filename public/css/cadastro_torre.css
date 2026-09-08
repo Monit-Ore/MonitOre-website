@@ -4,6 +4,7 @@
 * {
     margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -205,7 +206,24 @@ header span{
   color: var(--amarelo);
 }
 
-.formulario input,
+.formulario input{
+  width: 100%;
+  height: 42px;
+
+  padding: 0 10px;
+
+  background-color: #424242;
+  color: #ffffff;
+
+  border: 2px solid #8f8e8e;
+  border-radius: 4px;
+
+  font-size: 17px;
+
+  outline: none;
+}
+
+
 .formulario select {
   width: 100%;
   height: 42px;
@@ -221,6 +239,11 @@ header span{
   font-size: 17px;
 
   outline: none;
+}
+
+#status_ipt{
+  width: 25%;
+  min-width: 50px;
 }
 
 .formulario input::placeholder {
@@ -390,13 +413,29 @@ header span{
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 150px;
+    width: 74px;
+    min-width: 74px;
     height: 40px;
-    margin-top: 2%;
+    margin-top: 0;
     background-color: var(--amarelo);
     border-radius: 8px;
     border: none;
     cursor: pointer;
+}
+
+.container_formularios.componentes {
+  align-items: flex-end;
+}
+
+.container_formularios.componentes .formulario {
+  width: auto;
+  flex: 1;
+  min-width: 0;
+}
+
+.container_formularios.componentes .btn-add {
+  flex: 0 0 74px;
+  align-self: flex-end;
 }
 
 .btn-add i{
@@ -429,6 +468,7 @@ header span{
   justify-content: space-between;
   align-items: center;
   margin-left: 2%;
+  margin-bottom: 2%;
   width: 96%; 
   min-height: 60px;
 }
@@ -501,6 +541,14 @@ header span{
 
   .container_formularios {
     flex-direction: column;
+  }
+
+  .container_formularios.componentes {
+    flex-direction: row;
+  }
+
+  .btn-add{
+    margin-top: 2%;
   }
 }
 

@@ -39,6 +39,15 @@ async function verificarCodigoExistente(fkEmpresa, codigo, uuidAgente) {
   return resultado.length > 0;
 }
 
+async function listarMineradoras(fkEmpresa) {
+  var instrucaoSql = `SELECT DISTINCT m.id_mineradora, m.razao_social
+     FROM mineradora m
+     INNER JOIN torre t ON t.fk_mineradora = m.id_mineradora
+     WHERE t.fk_empresa = ${mysql.escape(fkEmpresa)}
+     ORDER BY m.razao_social ASC`;
+  return database.executar(instrucaoSql);
+}
+
 async function criarTorre(
   fkEmpresa,
   nome,
@@ -105,5 +114,6 @@ module.exports = {
   mapearStatusServidorBanco,
   listarTorresComMineradora,
   verificarCodigoExistente,
+  listarMineradoras,
   criarTorre,
 };
