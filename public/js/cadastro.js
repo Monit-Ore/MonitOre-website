@@ -387,12 +387,27 @@ function notificacao() {
 
 //menu
 
+var nomeUsuario = sessionStorage.getItem("nomeUsuario");
+var cargoUsuario = sessionStorage.getItem("cargoUsuario");
+
+var nomeUsuario = sessionStorage.getItem("nomeUsuario");
+var cargoUsuario = sessionStorage.getItem("cargoUsuario");
+
+if (nomeUsuario !== null) {
+    nome_usuario.textContent = nomeUsuario;
+}
+
+if (cargoUsuario !== null) {
+    cargo_usuario.textContent = cargoUsuario;
+}
+
 function ativarTorres() {
     torres.classList.add("ativo");
     usuarios.classList.remove("ativo");
     cargos.classList.remove("ativo");
     alertas.classList.remove("ativo");
     manual.classList.remove("ativo");
+    window.location.href = 'selecao_torre.html';
 }
 
 function ativarUsuarios() {
@@ -401,6 +416,7 @@ function ativarUsuarios() {
     cargos.classList.remove("ativo");
     alertas.classList.remove("ativo");
     manual.classList.remove("ativo");
+    window.location.href = 'index.html';
 }
 
 function ativarCargos() {
@@ -409,6 +425,7 @@ function ativarCargos() {
     cargos.classList.add("ativo");
     alertas.classList.remove("ativo");
     manual.classList.remove("ativo");
+    window.location.href = 'index.html';
 }
 
 function ativarAlertas() {
@@ -417,6 +434,7 @@ function ativarAlertas() {
     cargos.classList.remove("ativo");
     alertas.classList.add("ativo");
     manual.classList.remove("ativo");
+    window.location.href = 'index.html';
 }
 
 function ativarManual() {
@@ -425,4 +443,5 @@ function ativarManual() {
     cargos.classList.remove("ativo");
     alertas.classList.remove("ativo");
     manual.classList.add("ativo");
+    window.location.href = 'index.html';
 }
