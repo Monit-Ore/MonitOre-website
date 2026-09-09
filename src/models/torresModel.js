@@ -54,21 +54,17 @@ async function criarTorre(
   codigo,
   fk_mineradora,
   localizacao,
-  estado,
-  cidade,
   descricao,
   monitoramento_ativo,
   servidor,
   componentes,
 ) {
   var instrucaoTorre = `INSERT INTO torre
-        (nome, codigo, localizacao, estado, cidade, descricao, status_operacional, monitoramento_ativo, fk_empresa, fk_mineradora)
+        (nome, codigo, localizacao, descricao, status_operacional, monitoramento_ativo, fk_empresa, fk_mineradora)
        VALUES (
         ${mysql.escape(nome)},
         ${mysql.escape(codigo)},
         ${mysql.escape(localizacao)},
-        ${mysql.escape(estado)},
-        ${mysql.escape(cidade)},
         ${mysql.escape(descricao || null)},
         'Operacional',
         ${mysql.escape(monitoramento_ativo ?? true)},

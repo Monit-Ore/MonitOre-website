@@ -1,35 +1,5 @@
 var torresModel = require("../models/torresModel");
 
-const ESTADOS = [
-  "Acre",
-  "Alagoas",
-  "Amapá",
-  "Amazonas",
-  "Bahia",
-  "Ceará",
-  "Distrito Federal",
-  "Espírito Santo",
-  "Goiás",
-  "Maranhão",
-  "Mato Grosso",
-  "Mato Grosso do Sul",
-  "Minas Gerais",
-  "Pará",
-  "Paraíba",
-  "Paraná",
-  "Pernambuco",
-  "Piauí",
-  "Rio de Janeiro",
-  "Rio Grande do Norte",
-  "Rio Grande do Sul",
-  "Rondônia",
-  "Roraima",
-  "Santa Catarina",
-  "São Paulo",
-  "Sergipe",
-  "Tocantins",
-];
-
 const SISTEMAS_OPERACIONAIS = [
   "Windows Server 2019",
   "Windows Server 2022",
@@ -96,7 +66,6 @@ async function listarOpcoesCadastro(req, res) {
 
     res.status(200).json({
       mineradoras,
-      estados: ESTADOS,
       sistemasOperacionais: SISTEMAS_OPERACIONAIS,
     });
   } catch (erro) {
@@ -118,22 +87,13 @@ async function cadastrarTorre(req, res) {
       codigo,
       fk_mineradora,
       localizacao,
-      estado,
-      cidade,
       descricao,
       monitoramento_ativo,
       servidor,
       componentes,
     } = req.body;
 
-    if (
-      !nome ||
-      !codigo ||
-      !fk_mineradora ||
-      !localizacao ||
-      !estado ||
-      !cidade
-    ) {
+    if (!nome || !codigo || !fk_mineradora || !localizacao) {
       return res.status(400).json({
         mensagem:
           "Preencha todos os campos obrigatórios de Informações Gerais.",
@@ -170,18 +130,17 @@ async function cadastrarTorre(req, res) {
         .json({ mensagem: "Já existe uma torre com esse código." });
     }
 
-    const novaTorre = await torresModel.criarTorre(fkEmpresa, {
+    const novaTorre = await torresModel.criarTorre(
+      fkEmpresa,
       nome,
       codigo,
       fk_mineradora,
       localizacao,
-      estado,
-      cidade,
       descricao,
-      monitoramento_ativo: monitoramento_ativo ?? true,
+      monitoramento_ativo ?? true,
       servidor,
       componentes,
-    });
+    );
 
     res.status(201).json(novaTorre);
   } catch (erro) {

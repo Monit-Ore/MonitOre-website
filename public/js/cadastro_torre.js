@@ -41,8 +41,7 @@ async function carregarOpcoes(idUsuario) {
       throw new Error(`Falha ao buscar opções: ${resposta.status}`);
     }
 
-    const { mineradoras, estados, sistemasOperacionais } =
-      await resposta.json();
+    const { mineradoras, sistemasOperacionais } = await resposta.json();
 
     preencherSelect(
       "mineradora_ipt",
@@ -50,12 +49,6 @@ async function carregarOpcoes(idUsuario) {
       "id_mineradora",
       "razao_social",
       "Selecione a mineradora",
-    );
-    preencherSelectEstatico(
-      "estado_ipt",
-      estados.map((e) => ({ id: e, nome: e })),
-      null,
-      "Selecione o estado",
     );
     preencherSelectEstatico(
       "so_ipt",
@@ -186,8 +179,6 @@ async function salvarTorre(evento) {
     codigo: document.getElementById("codigo_ipt").value,
     fk_mineradora: Number(document.getElementById("mineradora_ipt").value),
     localizacao: document.getElementById("local_ipt").value,
-    estado: document.getElementById("estado_ipt").value,
-    cidade: document.getElementById("cidade_ipt").value,
     descricao: document.getElementById("descricao_ipt").value || null,
     monitoramento_ativo: document.getElementById("toggle-monitoramento")
       .checked,
@@ -206,7 +197,7 @@ async function salvarTorre(evento) {
 
   try {
     const resposta = await fetch(
-      `/torres/cadastrar-torre?fkEmpresa=${sessionStorage.getItem("FK_EMPRESA_USUARIO")}`,
+      `/torres/cadastrar-torres?fkEmpresa=${sessionStorage.getItem("FK_EMPRESA_USUARIO")}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
