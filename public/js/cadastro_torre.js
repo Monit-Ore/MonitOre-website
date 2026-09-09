@@ -114,6 +114,14 @@ function adicionarMetrica() {
     return;
   }
 
+  const jaAdicionado = metricasAdicionadas.some(
+    (m) => m.fk_componente === fkComponente,
+  );
+  if (jaAdicionado) {
+    alert("Esse componente já foi adicionado.");
+    return;
+  }
+
   const componente = COMPONENTES.find((c) => c.id === fkComponente);
 
   metricasAdicionadas.push({
@@ -145,6 +153,13 @@ function renderizarMetricas() {
     `;
 
     lista.appendChild(linha);
+  });
+  lista.querySelectorAll(".btn-remover-metrica").forEach((botao) => {
+    botao.addEventListener("click", () => {
+      const indice = Number(botao.dataset.indice);
+      metricasAdicionadas.splice(indice, 1);
+      renderizarMetricas();
+    });
   });
 }
 
