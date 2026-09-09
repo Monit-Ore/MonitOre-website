@@ -84,8 +84,10 @@ body {
 
 .cardDescricao {
     color: #FFFFFF;
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     width: 90%;
+    overflow-wrap: break-word;
+    height: 15%;
 }
 
 .cardRedesSociais {
@@ -96,8 +98,8 @@ body {
 }
 
 .cardRedesSociais img {
-    width: 3.5vw;
-    height: 3.5vw;
+    width: 2.5vw;
+    height: 2.5vw;
 }
 
 @media screen and (max-width: 768px) {
@@ -121,9 +123,7 @@ body {
         height: 20vw;
     }
 
-    .cardImg img {
-        
-    }
+
     .cardNome {
         font-size: 3.5vw;
     }
