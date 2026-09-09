@@ -62,7 +62,7 @@
               Estado <span class="asterisco">*</span></label
             >
 
-                <select id="unidade_local_ipt" required>
+                <select id="estado_ipt" required>
               <option value="" >Selecione o estado</option>
             </select>
           </div>
@@ -221,10 +221,11 @@
               required
             />
           </div>
-          <button class="btn-add">
+          <button id="btn-add-metrica" class="btn-add">
           <i class="fa-solid fa-plus"></i>
         </button>
         </div>
+        <div id="lista-metricas" class="lista-metricas"></div>
 
         <!-- Status -->
         <div class="status">
@@ -257,7 +258,7 @@
           <span>Cancelar</span>
         </button>
 
-        <button type="button" class="btn-salvar" onclick="salvar()">
+        <button type="button" id="form-cadastro-torre" class="btn-salvar" onclick="salvar()">
           🗁
 
           <span>Salvar Torre</span>

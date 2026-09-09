@@ -86,7 +86,7 @@ async function selecaoTorre(req, res) {
 
 async function listarOpcoesCadastro(req, res) {
   try {
-    const fkEmpresa = await resolverFkEmpresa(req);
+    const { fkEmpresa } = req.query;
 
     if (!fkEmpresa) {
       return res.status(401).json({ mensagem: "Usuário não autenticado." });
@@ -107,7 +107,7 @@ async function listarOpcoesCadastro(req, res) {
 
 async function cadastrarTorre(req, res) {
   try {
-    const fkEmpresa = await resolverFkEmpresa(req);
+    const { fkEmpresa } = req.query;
 
     if (!fkEmpresa) {
       return res.status(401).json({ mensagem: "Usuário não autenticado." });
