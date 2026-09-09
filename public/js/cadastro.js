@@ -384,3 +384,45 @@ function voltar() {
 function notificacao() {
     alert("Você não possui novas notificações.");
 }
+
+//menu
+
+function ativarTorres() {
+    torres.classList.add("ativo");
+    usuarios.classList.remove("ativo");
+    cargos.classList.remove("ativo");
+    alertas.classList.remove("ativo");
+    manual.classList.remove("ativo");
+}
+
+function ativarUsuarios() {
+    torres.classList.remove("ativo");
+    usuarios.classList.add("ativo");
+    cargos.classList.remove("ativo");
+    alertas.classList.remove("ativo");
+    manual.classList.remove("ativo");
+}
+
+function ativarCargos() {
+    torres.classList.remove("ativo");
+    usuarios.classList.remove("ativo");
+    cargos.classList.add("ativo");
+    alertas.classList.remove("ativo");
+    manual.classList.remove("ativo");
+}
+
+function ativarAlertas() {
+    torres.classList.remove("ativo");
+    usuarios.classList.remove("ativo");
+    cargos.classList.remove("ativo");
+    alertas.classList.add("ativo");
+    manual.classList.remove("ativo");
+}
+
+function ativarManual() {
+    torres.classList.remove("ativo");
+    usuarios.classList.remove("ativo");
+    cargos.classList.remove("ativo");
+    alertas.classList.remove("ativo");
+    manual.classList.add("ativo");
+}
