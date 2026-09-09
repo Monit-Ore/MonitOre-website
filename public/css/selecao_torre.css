@@ -2,13 +2,26 @@
 
 
 * {
+    box-sizing: border-box;
     margin: 0;
   padding: 0;
 }
 
 body {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr;
+    min-height: 100vh;
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #1f1f1f;
+}
+
+.conteudo_layout {
+    grid-column: 2;
+    position: relative;
+    min-width: 0;
+    min-height: 100vh;
+    padding: 1.5rem;
+    background-color: #1f1f1f;
 }
 
 :root {
@@ -43,7 +56,7 @@ body {
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .btn-notificacao {
         background: transparent;
         border: none;
@@ -87,6 +100,22 @@ header span{
     width: 96%;
     background-color: #2b2b2b;
     border-radius: 12px;
+}
+
+    body {
+        display: block;
+    }
+
+    .conteudo_layout {
+        width: 100%;
+        padding: 15px;
+    }
+
+
+@media screen and (max-width: 600px) {
+    .conteudo_layout {
+        padding: 0;
+    }
 }
 
 .header-box{

@@ -4,22 +4,77 @@
   <head>
     <meta charset="UTF-8" />
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Cadastro de Funcionário</title>
 
-    <link
-      rel="stylesheet"
-      href="./css/tela_cadastro.css"
-    />
+    <link rel="stylesheet" href="./css/tela_cadastro.css" />
   </head>
 
   <body class="container_responsivo">
     <!-- Menu lateral -->
-    <aside class="navegacao"></aside>
+    <aside class="navegacao">
+      <div class="logo_navegacao">
+        <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+      </div>
+
+      <nav class="menu_navegacao">
+        <ul>
+          <a
+            href="/selecao_torre.html"
+            class="item_menu"
+            id="torres"
+            onclick="ativarTorres()"
+          >
+            <div class="icone_menu icone_torres"></div>
+            <span>Torres</span>
+          </a>
+          <a
+            href="#"
+            class="item_menu ativo"
+            id="usuarios"
+            onclick="ativarUsuarios()"
+          >
+            <div class="icone_menu icone_usuarios"></div>
+            <span>Usuários</span>
+          </a>
+          <a href="#" class="item_menu" id="cargos" onclick="ativarCargos()">
+            <div class="icone_menu icone_cargos"></div>
+            <span>Cargos</span>
+          </a>
+          <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
+            <div class="icone_menu icone_alertas"></div>
+            <span>Alertas</span>
+            <span class="notificacao_alerta" id="notificacao_alertas"></span>
+          </a>
+          <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
+            <div class="icone_menu icone_manual"></div>
+            <span>Manual de Instalação</span>
+          </a>
+        </ul>
+      </nav>
+
+      <div class="rodape_navegacao">
+        <div class="item_menu" data-pagina="configuracoes">
+          <div class="icone_menu icone_config"></div>
+          <span>Configurações</span>
+        </div>
+
+        <div class="usuario_navegacao" id="usuario_logado">
+          <div class="avatar_usuario" id="avatar_usuario">--</div>
+          <div class="info_usuario">
+            <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+            <span class="cargo_usuario" id="cargo_usuario"></span>
+          </div>
+          <div class="icone_menu icone_seta"></div>
+        </div>
+
+        <button class="botao_sair" id="botao_sair" type="button">
+          <div class="icone_menu icone_sair"></div>
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
 
     <!-- Conteúdo principal -->
     <div class="conteudo_layout">
@@ -58,9 +113,7 @@
           <div class="container_formularios">
             <!-- Coluna esquerda -->
             <div class="formulario">
-              <label for="nome_ipt">
-                Nome completo*
-              </label>
+              <label for="nome_ipt"> Nome completo* </label>
 
               <input
                 type="text"
@@ -70,9 +123,7 @@
                 required
               />
 
-              <label for="email_ipt">
-                Digite o e-mail*
-              </label>
+              <label for="email_ipt"> Digite o e-mail* </label>
 
               <input
                 type="email"
@@ -82,31 +133,20 @@
                 required
               />
 
-              <label for="data_nasc_input">
-                Data de nascimento
-              </label>
+              <label for="data_nasc_input"> Data de nascimento </label>
 
-              <input
-                type="date"
-                id="data_nasc_input"
-              />
+              <input type="date" id="data_nasc_input" />
 
-              <label for="unidade_local_ipt">
-                Unidade/Local
-              </label>
+              <label for="unidade_local_ipt"> Unidade/Local </label>
 
               <select id="unidade_local_ipt">
-                <option value="">
-                  Selecione uma unidade
-                </option>
+                <option value="">Selecione uma unidade</option>
               </select>
             </div>
 
             <!-- Coluna direita -->
             <div class="formulario">
-              <label for="cpf_ipt">
-                CPF*
-              </label>
+              <label for="cpf_ipt"> CPF* </label>
 
               <input
                 type="text"
@@ -118,9 +158,7 @@
                 required
               />
 
-              <label for="senha_ipt">
-                Senha*
-              </label>
+              <label for="senha_ipt"> Senha* </label>
 
               <div class="senha_container">
                 <input
@@ -142,9 +180,7 @@
                 </button>
               </div>
 
-              <label for="telefone_ipt">
-                Telefone
-              </label>
+              <label for="telefone_ipt"> Telefone </label>
 
               <input
                 type="tel"
@@ -155,14 +191,10 @@
                 maxlength="15"
               />
 
-              <label for="cargo_ipt">
-                Cargo*
-              </label>
+              <label for="cargo_ipt"> Cargo* </label>
 
               <select id="cargo_ipt" required>
-                <option value="">
-                  Selecione um cargo
-                </option>
+                <option value="">Selecione um cargo</option>
               </select>
             </div>
           </div>
@@ -175,18 +207,12 @@
 
             <div class="status-controle">
               <label class="troca">
-                <input
-                  type="checkbox"
-                  id="status_ipt"
-                  checked
-                />
+                <input type="checkbox" id="status_ipt" checked />
 
                 <span class="deslizar"></span>
               </label>
 
-              <span class="texto-status">
-                Ativo
-              </span>
+              <span class="texto-status"> Ativo </span>
             </div>
           </div>
         </section>
@@ -200,21 +226,13 @@
 
         <!-- Botões -->
         <div class="botoes">
-          <button
-            type="button"
-            class="btn-cancelar"
-            onclick="cancelar()"
-          >
+          <button type="button" class="btn-cancelar" onclick="cancelar()">
             ✕
 
             <span>Cancelar</span>
           </button>
 
-          <button
-            type="button"
-            class="btn-salvar"
-            onclick="salvar()"
-          >
+          <button type="button" class="btn-salvar" onclick="salvar()">
             🗁
 
             <span>Salvar Funcionário</span>

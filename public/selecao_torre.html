@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Monit Ore | Seleção de Torre</title>
 
+    <link rel="stylesheet" href="./css/tela_cadastro.css" />
     <link rel="stylesheet" href="./css/selecao_torre.css" />
     <link rel="icon" href="./imgs/favicon.svg" />
     <link
@@ -14,35 +15,104 @@
     />
     <script src="./js/selecao_torre.js"></script>
   </head>
-  <body>
-    <button class="btn-notificacao">
-      <i class="fa-regular fa-bell icone-sino"></i>
-      <i class="fa-solid fa-bars icone-menu"></i>
-    </button>
-    <header>
-      <h1>Seleção de Torre</h1>
-      <span>Selecione a torre que deseja verificar os dados</span>
-    </header>
-    <div class="container">
-      <div class="header-box">
-        <span>Mineradoras Parceiras</span>
-        <a href="./cadastro_torre.html" class="btn-add">
-          <span>Nova Torre</span>
-          <i class="fa-solid fa-plus"></i>
-        </a>
+  <body class="container_responsivo">
+    <aside class="navegacao">
+      <div class="logo_navegacao">
+        <img src="./imgs/LogoHeader.svg" alt="Monitore" />
       </div>
-      <div id="mineradora-group" class="mineradora-group">
-        <span class="mineradora-nome">IBRAM</span>
-        <div class="torres-scroll">
-          <div class="torre-div">
-            <div class="torre-card">
-              <img src="./imgs/LogoBanner.png" class="torre-icon" alt="Logo" />
-              <span class="torre-status alerta">Alerta</span>
+
+      <nav class="menu_navegacao">
+        <ul>
+          <a
+            href="/selecao_torre.html"
+            class="item_menu ativo"
+            id="torres"
+            onclick="ativarTorres()"
+          >
+            <div class="icone_menu icone_torres"></div>
+            <span>Torres</span>
+          </a>
+          <a
+            href="/cadastro.html"
+            class="item_menu"
+            id="usuarios"
+            onclick="ativarUsuarios()"
+          >
+            <div class="icone_menu icone_usuarios"></div>
+            <span>Usuários</span>
+          </a>
+          <a href="#" class="item_menu" id="cargos" onclick="ativarCargos()">
+            <div class="icone_menu icone_cargos"></div>
+            <span>Cargos</span>
+          </a>
+          <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
+            <div class="icone_menu icone_alertas"></div>
+            <span>Alertas</span>
+            <span class="notificacao_alerta" id="notificacao_alertas"></span>
+          </a>
+          <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
+            <div class="icone_menu icone_manual"></div>
+            <span>Manual de Instalação</span>
+          </a>
+        </ul>
+      </nav>
+
+      <div class="rodape_navegacao">
+        <div class="item_menu" data-pagina="configuracoes">
+          <div class="icone_menu icone_config"></div>
+          <span>Configurações</span>
+        </div>
+
+        <div class="usuario_navegacao" id="usuario_logado">
+          <div class="avatar_usuario" id="avatar_usuario">US</div>
+          <div class="info_usuario">
+            <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+            <span class="cargo_usuario" id="cargo_usuario"></span>
+          </div>
+          <div class="icone_menu icone_seta"></div>
+        </div>
+
+        <button class="botao_sair" id="botao_sair" type="button">
+          <div class="icone_menu icone_sair"></div>
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="conteudo_layout">
+      <button class="btn-notificacao">
+        <i class="fa-regular fa-bell icone-sino"></i>
+        <i class="fa-solid fa-bars icone-menu"></i>
+      </button>
+      <header>
+        <h1>Seleção de Torre</h1>
+        <span>Selecione a torre que deseja verificar os dados</span>
+      </header>
+      <div class="container">
+        <div class="header-box">
+          <span>Mineradoras Parceiras</span>
+          <a href="./cadastro_torre.html" class="btn-add">
+            <span>Nova Torre</span>
+            <i class="fa-solid fa-plus"></i>
+          </a>
+        </div>
+        <div id="mineradora-group" class="mineradora-group">
+          <span class="mineradora-nome">IBRAM</span>
+          <div class="torres-scroll">
+            <div class="torre-div">
+              <div class="torre-card">
+                <img
+                  src="./imgs/institucional/LogoBanner.png"
+                  class="torre-icon"
+                  alt="Logo"
+                />
+                <span class="torre-status alerta">Alerta</span>
+              </div>
+              <span class="torre-codigo">Torre 002</span>
             </div>
-            <span class="torre-codigo">Torre 002</span>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </body>
 </html>
