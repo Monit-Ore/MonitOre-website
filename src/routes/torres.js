@@ -10,4 +10,12 @@ router.get("/listarTorres", function (req, res) {
   torresController.selecaoTorre(req, res);
 });
 
+router.get("/opcoes", function (req, res) {
+  torresController.listarOpcoesCadastro(req, res);
+});
+
+router.post("/cadastrar-torres", function (req, res) {
+  torresController.cadastrarTorre(req, res);
+});
+
 module.exports = router;

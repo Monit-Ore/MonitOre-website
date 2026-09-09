@@ -1,5 +1,14 @@
 var torresModel = require("../models/torresModel");
 
+const SISTEMAS_OPERACIONAIS = [
+  "Windows Server 2019",
+  "Windows Server 2022",
+  "Ubuntu Server 20.04",
+  "Ubuntu Server 22.04",
+  "Debian 12",
+  "CentOS Stream 9",
+];
+
 function mapearStatusExibicao(statusBanco) {
   return statusBanco === "Alerta" ? "Alerta" : "Regular";
 }
@@ -45,7 +54,103 @@ async function selecaoTorre(req, res) {
   }
 }
 
+async function listarOpcoesCadastro(req, res) {
+  try {
+    const { fkEmpresa } = req.query;
+
+    if (!fkEmpresa) {
+      return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    }
+
+    const mineradoras = await torresModel.listarMineradoras(fkEmpresa);
+
+    res.status(200).json({
+      mineradoras,
+      sistemasOperacionais: SISTEMAS_OPERACIONAIS,
+    });
+  } catch (erro) {
+    console.error("Erro ao buscar opções de cadastro:", erro);
+    res.status(500).json({ mensagem: "Erro ao buscar opções de cadastro." });
+  }
+}
+
+async function cadastrarTorre(req, res) {
+  try {
+    const { fkEmpresa } = req.query;
+
+    if (!fkEmpresa) {
+      return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    }
+
+    const {
+      nome,
+      codigo,
+      fk_mineradora,
+      localizacao,
+      descricao,
+      monitoramento_ativo,
+      servidor,
+      componentes,
+    } = req.body;
+
+    if (!nome || !codigo || !fk_mineradora || !localizacao) {
+      return res.status(400).json({
+        mensagem:
+          "Preencha todos os campos obrigatórios de Informações Gerais.",
+      });
+    }
+
+    if (
+      !servidor ||
+      !servidor.identificador ||
+      !servidor.ip ||
+      !servidor.sistema_operacional ||
+      !servidor.status
+    ) {
+      return res.status(400).json({
+        mensagem:
+          "Preencha todos os campos obrigatórios de Informações do Servidor.",
+      });
+    }
+
+    if (!Array.isArray(componentes) || componentes.length === 0) {
+      return res.status(400).json({
+        mensagem: "Adicione ao menos uma métrica de componente para monitorar.",
+      });
+    }
+
+    const codigoJaExiste = await torresModel.verificarCodigoExistente(
+      fkEmpresa,
+      codigo,
+    );
+
+    if (codigoJaExiste) {
+      return res
+        .status(409)
+        .json({ mensagem: "Já existe uma torre com esse código." });
+    }
+
+    const novaTorre = await torresModel.criarTorre(
+      fkEmpresa,
+      nome,
+      codigo,
+      fk_mineradora,
+      localizacao,
+      descricao,
+      monitoramento_ativo ?? true,
+      servidor,
+      componentes,
+    );
+
+    res.status(201).json(novaTorre);
+  } catch (erro) {
+    console.error("Erro ao cadastrar torre:", erro);
+    res.status(500).json({ mensagem: "Erro ao cadastrar torre." });
+  }
+}
+
 module.exports = {
-  mapearStatusExibicao,
   selecaoTorre,
+  listarOpcoesCadastro,
+  cadastrarTorre,
 };
