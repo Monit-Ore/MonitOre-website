@@ -12,7 +12,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <script src="./js/cadastro_torre.js"></script>
+    <script src="./js/cadastro_torre.js" defer></script>
   </head>
   <body>
     <button class="btn-notificacao">
@@ -28,6 +28,7 @@
         <span>Preencha as informações para cadastrar uma nova torre.</span>
       </div>
     </header>
+    <form id="form-cadastro-torre">
     <main class="conteudo">
       <div class="card_conteudo">
         <div class="titulo_formulario">
@@ -221,7 +222,7 @@
               required
             />
           </div>
-          <button id="btn-add-metrica" class="btn-add">
+          <button type="button" id="btn-add-metrica" class="btn-add">
           <i class="fa-solid fa-plus"></i>
         </button>
         </div>
@@ -234,7 +235,7 @@
 
           <div class="status-controle">
             <label class="troca">
-              <input type="checkbox" id="status_ipt" checked />
+              <input type="checkbox" id="toggle-monitoramento" checked />
 
               <span class="deslizar"></span>
             </label>
@@ -258,11 +259,12 @@
           <span>Cancelar</span>
         </button>
 
-        <button type="button" id="form-cadastro-torre" class="btn-salvar" onclick="salvar()">
+        <button type="submit" class="btn-salvar">
           🗁
 
           <span>Salvar Torre</span>
         </button>
       </div>
+    </form>
   </body>
 </html>

@@ -5,8 +5,6 @@ const COMPONENTES = [
   { id: 4, nome: "Rede" },
 ];
 
-const STATUS_SERVIDOR = ["Ativo", "Inativo", "Alerta", "Manutenção"];
-
 const metricasAdicionadas = [];
 
 async function inicializarCadastro() {
@@ -18,11 +16,6 @@ async function inicializarCadastro() {
   }
 
   await carregarOpcoes(idUsuario);
-  preencherSelectEstatico(
-    "so_ipt",
-    STATUS_SERVIDOR.map((s) => ({ id: s, nome: s })),
-    "status_ipt",
-  );
   preencherSelectEstatico("componente_ipt", COMPONENTES, "componentes");
 
   document
@@ -30,7 +23,7 @@ async function inicializarCadastro() {
     .addEventListener("click", adicionarMetrica);
   document
     .getElementById("form-cadastro-torre")
-    .addEventListener("submit", (evento) => salvarTorre(evento, idUsuario));
+    .addEventListener("submit", (evento) => salvarTorre(evento));
 }
 
 async function carregarOpcoes(idUsuario) {
@@ -163,6 +156,61 @@ function tituloMetrica(nomeComponente) {
     Rede: "Disponibilidade de Rede",
   };
   return rotulos[nomeComponente] || nomeComponente;
+}
+
+async function salvarTorre(evento) {
+  evento.preventDefault();
+
+  if (metricasAdicionadas.length === 0) {
+    alert("Adicione ao menos uma métrica de componente para monitorar.");
+    return;
+  }
+
+  const corpo = {
+    nome: document.getElementById("nome_ipt").value,
+    codigo: document.getElementById("codigo_ipt").value,
+    fk_mineradora: Number(document.getElementById("mineradora_ipt").value),
+    localizacao: document.getElementById("local_ipt").value,
+    estado: document.getElementById("estado_ipt").value,
+    cidade: document.getElementById("cidade_ipt").value,
+    descricao: document.getElementById("descricao_ipt").value || null,
+    monitoramento_ativo: document.getElementById("toggle-monitoramento")
+      .checked,
+    servidor: {
+      identificador: document.getElementById("identificador_ipt").value,
+      hostname: document.getElementById("hostname_ipt").value || null,
+      ip: document.getElementById("ip_ipt").value,
+      sistema_operacional: document.getElementById("so_ipt").value,
+      status: document.getElementById("status_ipt").value,
+    },
+    componentes: metricasAdicionadas.map(({ fk_componente, valor_limite }) => ({
+      fk_componente,
+      valor_limite,
+    })),
+  };
+
+  try {
+    const resposta = await fetch(
+      `/torres/cadastrar-torre?fkEmpresa=${sessionStorage.getItem("FK_EMPRESA_USUARIO")}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(corpo),
+      },
+    );
+
+    const dados = await resposta.json();
+
+    if (!resposta.ok) {
+      alert(dados.mensagem || "Erro ao cadastrar a torre.");
+      return;
+    }
+
+    window.location.href = "./selecao_torre.html";
+  } catch (erro) {
+    console.error("Erro ao cadastrar torre:", erro);
+    alert("Erro ao cadastrar a torre. Tente novamente.");
+  }
 }
 
 inicializarCadastro();
