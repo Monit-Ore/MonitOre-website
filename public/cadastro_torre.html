@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monit Ore | Cadastro de Torre</title>
+
+    <link rel="stylesheet" href="./css/cadastro_torre.css" />
+    <link rel="icon" href="./imgs/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="./js/cadastro_torre.js" defer></script>
+  </head>
+  <body>
+    <button class="btn-notificacao">
+      <i class="fa-regular fa-bell icone-sino"></i>
+      <i class="fa-solid fa-bars icone-menu"></i>
+    </button>
+    <header>
+      <a href="./selecao_torre.html" class="botao-voltar" aria-label="Voltar para seleção de torre">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+      <div class="titulo-cabecalho">
+        <h1>Cadastro de Torre</h1>
+        <span>Preencha as informações para cadastrar uma nova torre.</span>
+      </div>
+    </header>
+    <form id="form-cadastro-torre">
+    <main class="conteudo">
+      <div class="card_conteudo">
+        <div class="titulo_formulario">
+          <img src="./imgs/LogoBanner.png" class="torre-icon" alt="Logo" />
+          <h1>Informações da Torre</h1>
+        </div>
+
+        <div class="container_formularios">
+          <!-- Coluna esquerda -->
+          <div class="formulario">
+            <label for="nome_ipt">
+              Nome da Torre <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="nome_ipt"
+              placeholder="Ex.: Torre 001"
+              autocomplete="name"
+              required
+            />
+
+            <label for="mineradora_ipt">
+              Mineradora Parceira <span class="asterisco">*</span>
+            </label>
+
+            <select id="mineradora_ipt" required>
+              <option value="" >Selecione a mineradora</option>
+            </select>
+          </div>
+
+          <!-- Coluna direita -->
+          <div class="formulario">
+            <label for="codigo_ipt">
+              Código/Identificador <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="codigo_ipt"
+              placeholder="Ex.: TOR-001"
+              inputmode="numeric"
+              autocomplete="off"
+              maxlength="14"
+              required
+            />
+
+            <label for="local_ipt">
+              Local <span class="asterisco">*</span>
+            </label>
+
+              <input
+                type="text"
+                id="local_ipt"
+                placeholder="Ex.: Mina do Morro Velho"
+                autocomplete="new-password"
+                minlength="6"
+                required
+              />
+          </div>
+        </div>
+        <div class="formulario">
+          <label for="descricao_ipt"> Descrição/Observação</label>
+
+          <input
+            type="text"
+            id="descricao_ipt"
+            placeholder="Descrição da torre"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="titulo_formulario">
+          <i class="fa-solid fa-server icone-secao" aria-hidden="true"></i>
+          <h1>Informações do Servidor</h1>
+        </div>
+        <div class="container_formularios">
+          <!-- Coluna esquerda -->
+          <div class="formulario">
+            <label for="identificador_ipt">
+              Identificador do Servidor <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="identificador_ipt"
+              placeholder="Ex.: SERV-001"
+              autocomplete="name"
+              required
+            />
+
+            <label for="ip_ipt">
+              IP <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="ip_ipt"
+              placeholder="Ex.: 192.168.1.1"
+              autocomplete="name"
+              required
+            />
+          </div>
+
+          <!-- Coluna direita -->
+          <div class="formulario">
+            <label for=" hostname_ipt">
+              Hostname <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="hostname_ipt"
+              placeholder="Ex.: TOR-001"
+              inputmode="numeric"
+              autocomplete="off"
+              maxlength="14"
+              required
+            />
+
+            <label for="so_ipt">
+              Sistema Operacional <span class="asterisco">*</span></label
+            >
+
+                <select id="so_ipt" required>
+              <option value="">Selecione o sistema operacional</option>
+            </select>
+
+          </div>
+        </div>
+        <div class="formulario">
+          <label for="so_ipt">
+              Status do Servidor <span class="asterisco">*</span></label
+            >
+
+                <select id="status_ipt" required>
+              <option value="Ativo"> 🟢 Ativo</option>
+              <option value="Inativo"> 🔴 Inativo</option>
+            </select>
+        </div>
+
+        <div>
+            <div class="titulo_formulario">
+              <i class="fa-solid fa-gears icone-secao" aria-hidden="true"></i>
+          <h1>Informações Técnicas/Métricas</h1>
+            </div>
+          <p class="texto_metricas">Selecione quais componentes gostaria de monitorar nessa torre e as métricas de alertas</p>
+        </div>
+        <div class="container_formularios componentes">
+          <!-- Coluna esquerda -->
+          <div class="formulario">
+            <label for="componente_ipt">
+              Componente <span class="asterisco">*</span></label
+            >
+
+                <select id="componente_ipt" >
+              <option value="">Selecione o componente</option>
+            </select>
+          </div>
+          <div class="formulario">
+            <label for="porcentagem_ipt">
+              Porcentagem de Uso <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="porcentagem_ipt"
+              placeholder="Ex.: 90"
+              autocomplete="name"
+              
+            />
+          </div>
+          <button type="button" id="btn-add-metrica" class="btn-add">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+        </div>
+        <div id="lista-metricas" class="lista-metricas"></div>
+
+        <!-- Status -->
+        <div class="status">
+
+          <p>Monitoramento</p>
+
+          <div class="status-controle">
+            <label class="troca">
+              <input type="checkbox" id="toggle-monitoramento" checked />
+
+              <span class="deslizar"></span>
+            </label>
+
+            <span class="texto-status"> Ativo </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mensagem de sucesso ou erro -->
+      <p
+        id="mensagem_cadastro"
+        class="mensagem_cadastro"
+        aria-live="polite"
+      ></p>
+    </main>
+    <div class="botoes">
+        <a href="/selecao_torre.html" type="button" class="btn-cancelar" onclick="cancelar()">
+          ✕
+
+          <span>Cancelar</span>
+        </a>
+
+        <button type="submit" class="btn-salvar">
+          <i class="fa-solid fa-folder" aria-hidden="true"></i>
+
+          <span>Salvar Torre</span>
+        </button>
+      </div>
+    </form>
+  </body>
+</html>
