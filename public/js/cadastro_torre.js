@@ -129,8 +129,30 @@ function adicionarMetrica() {
     nome: componente.nome,
   });
 
+  renderizarMetricas();
+
   selectComponente.value = "";
   inputPorcentagem.value = "";
+}
+
+function renderizarMetricas() {
+  const lista = document.getElementById("lista-metricas");
+  lista.innerHTML = "";
+
+  metricasAdicionadas.forEach((metrica, indice) => {
+    const linha = document.createElement("div");
+    linha.classList.add("metrica-item");
+
+    linha.innerHTML = `
+      <span class="metrica-nome">${tituloMetrica(metrica.nome)}</span>
+      <span class="metrica-valor">${metrica.valor_limite}%</span>
+      <button type="button" class="btn-remover-metrica" data-indice="${indice}">
+        <i class="fa-solid fa-trash"></i>
+      </button>
+    `;
+
+    lista.appendChild(linha);
+  });
 }
 
 function tituloMetrica(nomeComponente) {

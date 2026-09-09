@@ -443,6 +443,50 @@ header span{
     font-size: 1.2rem;
 }
 
+.lista-metricas {
+    width: 100%;
+    margin-top: 16px;
+    border-top: 1px solid #3a3a3a;
+}
+
+.metrica-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid #3a3a3a;
+}
+
+.metrica-item .metrica-nome {
+    color: #ffffff;
+    font-size: 1rem;
+    flex: 0 0 240px;
+}
+
+.metrica-item .metrica-valor {
+    color: #ffffff;
+    font-size: 1rem;
+    flex: 1;
+}
+
+.metrica-item .btn-remover-metrica {
+    width: 44px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 2px solid #FFD741;
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.metrica-item .btn-remover-metrica i {
+    color: #FFD741;
+    font-size: 1rem;
+}
+
 /* 
    MENSAGEM
  */
@@ -550,6 +594,25 @@ header span{
   .btn-add{
     margin-top: 2%;
   }
+
+  .metrica-item {
+        gap: 12px;
+        padding: 14px 0;
+  }
+
+  .metrica-item .metrica-nome {
+        flex-basis: 160px;
+        font-size: 0.9rem;
+  }
+
+  .metrica-item .metrica-valor {
+        font-size: 0.9rem;
+  }
+
+  .metrica-item .btn-remover-metrica {
+        width: 38px;
+        height: 32px;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -636,5 +699,17 @@ header span{
     width: 50%;
 
     font-size: 13px;
+  }
+
+  .metrica-item {
+        flex-wrap: wrap;
+  }
+
+  .metrica-item .metrica-nome {
+        flex: 1 1 100%;
+  }
+
+  .metrica-item .metrica-valor {
+        flex: 1;
   }
 }
