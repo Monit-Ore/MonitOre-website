@@ -611,18 +611,77 @@ body {
    RESPONSIVIDADE
  */
 
+.botao_menu_mobile {
+  display: none;
+}
+
 @media screen and (max-width: 900px) {
+
   .container_responsivo {
     display: block;
   }
 
+  .botao_voltar{
+    margin-top: 40px;
+  }
+
+   .titulo_superior{
+    margin-top: 40px;
+  }
+
+   .botao_notificacao{
+    margin-top: 40px;
+  }
+
+
+
   .navegacao {
-    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    z-index: 1000;
+
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .navegacao.aberta {
+    transform: translateX(0);
+  }
+
+  .botao_menu_mobile {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    position: fixed;
+    top: 0px;
+    /* left: 15px; */
+
+    width: 100vw;
+    height: 50px;
+
+    z-index: 1100;
+
+    /* background-color: transparent; */
+    color: #ecbe10;
+    border: transparent;
+    
+
+    font-size: 25px;
+    cursor: pointer;
+  }
+
+  .botao_menu_mobile p{
+    margin-left: 20px;
   }
 
   .conteudo_layout {
     width: 100%;
-
     padding: 15px;
   }
 
@@ -637,7 +696,7 @@ body {
   }
 
   .superior_tela {
-    min-height: 120px;
+    min-height: 150px;
 
     padding: 15px 10px;
   }
