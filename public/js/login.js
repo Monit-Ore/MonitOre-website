@@ -69,7 +69,7 @@ function autenticar() {
 
       mostrarMensagem(resultado.conteudo.mensagem, false);
 
-      redirecionarUsuario(resultado.conteudo.primeiroAcesso);
+      redirecionarUsuario();
     })
     .catch(function (erro) {
       mostrarMensagem(erro.message, true);
@@ -100,13 +100,9 @@ function salvarDadosUsuario(usuario) {
 
 // REDIRECIONAMENTO
 
-function redirecionarUsuario(primeiroAcesso) {
+function redirecionarUsuario() {
   setTimeout(function () {
-    if (primeiroAcesso) {
-      window.location.href = "./primeiro-acesso.html";
-    } else {
       window.location.href = "./selecao_torre.html";
-    }
   }, 1000);
 }
 
