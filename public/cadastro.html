@@ -9,6 +9,8 @@
     <title>Cadastro de Funcionário</title>
 
     <link rel="stylesheet" href="./css/tela_cadastro.css" />
+
+    <link rel="icon" href="./imgs/favicon.svg" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -65,7 +67,7 @@
         </div>
 
         <div class="usuario_navegacao" id="usuario_logado">
-          <div class="avatar_usuario" id="avatar_usuario">--</div>
+          <div class="avatar_usuario" id="avatar_usuario">US</div>
           <div class="info_usuario">
             <span class="nome_usuario" id="nome_usuario">Carregando...</span>
             <span class="cargo_usuario" id="cargo_usuario"></span>
@@ -89,7 +91,7 @@
           onclick="voltar()"
           aria-label="Voltar"
         >
-          ⭠
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
         </button>
 
         <div class="titulo_superior">
@@ -101,9 +103,9 @@
         <button
           class="botao_notificacao btn-notificacao"
           type="button"
-          aria-label="Notificações"
+          aria-label="Abrir menu"
         >
-          <i class="fa-regular fa-bell"></i>
+          <i class="fa-regular fa-bell icone-sino" aria-hidden="true"></i>
           <i class="fa-solid fa-bars icone-menu"></i>
         </button>
       </header>
