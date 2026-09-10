@@ -1,0 +1,386 @@
+.hero-sobre {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url('../imgs/mining-excavator-1736293_1920 1.png') center/cover no-repeat;
+    width: 100%;
+    height: 50vw;
+    display: flex;
+    align-items: center;
+}
+
+.hero-container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.hero-container h1 {
+    color: var(--branco);
+    padding-top: 10vw;
+    font-size: 5vw;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+@media screen and (max-width: 768px) {
+        
+    .hero-sobre {
+        height: 80vw;
+    }
+
+
+    .hero-container h1 {
+        font-size: 6vw;
+    }
+}
+
+.sobre-projeto {
+    background-color: var(--branco);
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 4.17vw 0 4.17vw 0;
+    height: 40vw;
+}
+
+.sobre-texto {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-left: 3vw;
+}
+
+.sobre-texto h2 {
+    font-size: 4vw;
+    line-height: 1.1;
+    color: var(--preto);
+    margin-bottom: 0.69vw;
+}
+
+.titulo-wrapper {
+    display: inline-block;
+    max-width: 100%;
+}
+
+.titulo-wrapper .linha-destaque {
+    height: 0.28vw;
+    width: 100%;
+    background-color: var(--amarelo);
+    margin-bottom: 1.74vw;
+}
+
+.sobre-paragrafos {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.sobre-paragrafos p {
+    font-size: 2vw;
+    color: var(--preto);
+    max-width: 45%;
+    text-align: justify;
+    line-height: 1.5;
+}
+
+.sobre-grafismo {
+    width: 10%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sobre-grafismo img {
+    height: 100%;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 768px) {
+    .sobre-projeto {
+        height: 90vw;
+    }
+
+    .sobre-texto {
+        width: 100%;
+        align-items: center;
+        padding-left: 0;
+    }
+
+    .sobre-texto h2 {
+        font-size: 5vw;
+        margin-bottom: 0;
+    }
+
+    .titulo-wrapper .linha-destaque {
+        height: 0.48vw;
+    }
+
+    .sobre-paragrafos {
+        flex-direction: column;
+        max-width: 80%;
+        height: 75%;
+    }
+
+    .sobre-paragrafos p {
+        text-align: justify;
+        max-width: 100%;
+        font-size: 3.5vw;
+    }
+
+    .sobre-grafismo {
+        display: none;
+    }
+
+
+}
+
+.oque-monitoramos {
+    background-color: var(--preto);
+    padding: 4.17vw 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.oque-monitoramos h2 {
+    color: var(--branco);
+    font-size: 3.5vw;
+    margin-bottom: 1.04vw;
+}
+
+.oque-monitoramos .linha-destaque {
+    margin-bottom: 3.47vw;
+}
+
+.grid-monitoramento {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 2.08vw;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card-monitoramento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 25vw;
+    width: 30%;
+}
+
+.card-monitoramento h3 {
+    color: var(--branco);
+    font-size: 2vw;
+    margin-bottom: 1.39vw;
+    height: 20%;
+    width: 100%;
+}
+
+.card-monitoramento img {
+    height: 50%;
+    width: 80%;
+    margin-bottom: 1.39vw;
+}
+
+.card-monitoramento p {
+    color: var(--amarelo);
+    font-weight: bolder;
+    width: 100%;
+    font-size: 1.7vw;
+    height: 20%;
+}
+
+.como-funciona {
+    background-color: var(--branco);
+    padding: 4vw 10%;
+    display: flex;
+    flex-direction: column;
+    height: 50vw;
+}
+
+.cabecalho-direita {
+    align-self: flex-end;
+    text-align: right;
+    margin-bottom: 3vw;
+}
+
+.cabecalho-direita h2 {
+    font-size: 3.5vw;
+    color: var(--preto);
+    margin-bottom: 0.69vw;
+}
+
+.cabecalho-direita .linha-destaque {
+    margin-bottom: 0;
+}
+
+.fluxo-diagrama {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 4.17vw;
+    list-style: none;
+    padding: 0;
+}
+
+.como-funciona-textos {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 15vw;
+}
+
+.como-funciona-textos-p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 15vw;
+}
+
+.como-funciona-textos-p p {
+    padding-top: 1vw;
+    font-size: 1.7vw;
+    text-align: justify;
+    width: 45%;
+
+}
+
+
+@media screen and (max-width: 768px) {
+    .fluxo-diagrama {
+        display: none;
+    }
+
+    .como-funciona {
+        background-color: var(--branco);
+        padding: 4vw 10%;
+        display: flex;
+        flex-direction: column;
+        height: 60vw;
+    }
+
+    .como-funciona-textos {
+        height: 30vw;
+    }
+
+    .como-funciona-textos-p {
+        flex-direction: column;
+        height: 30vw;
+        align-items: center;
+    }
+
+    .como-funciona-textos-p p { 
+        font-size: 2.5vw;
+        width: 100%;
+    }
+
+}
+
+.passo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 15%;
+}
+
+.passo img {
+    width: 100%;
+    max-width: 14.58vw;
+    margin-bottom: 1.04vw;
+}
+
+.passo p {
+    font-size: 2vh;
+    font-weight: 600;
+    color: var(--preto);
+}
+
+.seta {
+    font-size: 3vh;
+    opacity: 0.6;
+}
+
+.seta img {
+    width: 2.78vw;
+}
+
+.detalhes-solucao {
+    background-color: white;
+    padding: 2vw 10%;
+    display: flex;
+    flex-direction: column;
+    height: 40vw;
+}
+
+.detalhes-solucao-titulo {
+    width: 50vw;
+}
+
+.detalhes-solucao-titulo h2 {
+    font-size: 3vw;
+}
+
+.detalhes-solucao-textos {
+    padding-top: 2vw;
+    display: flex;
+    height: 23vw;
+    justify-content: space-between;
+}
+
+.detalhes-solucao-textos-esquerda {
+    width: 40%;
+}
+
+.detalhes-solucao-textos-esquerda p {
+    font-size: 1.7vw;
+    text-align: justify;
+}
+
+.detalhes-solucao-textos-direita {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.detalhes-solucao-textos-direita p {
+    font-size: 1.6vw;
+    text-align: justify;
+}
+
+@media screen and (max-width: 768px) {
+    .detalhes-solucao {
+        height: 60vw;
+    }
+
+    .detalhes-solucao-titulo h2 {
+        font-size: 4vw;
+    }
+
+    .detalhes-solucao-textos {
+        height: 40vw;
+        flex-direction: column;
+    }
+
+    .detalhes-solucao-textos-esquerda {
+        width: 100%;
+    }
+
+    .detalhes-solucao-textos-esquerda p {
+        font-size: 2.5vw;
+    }
+
+    .detalhes-solucao-textos-direita {
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .detalhes-solucao-textos-direita p {
+        width: 45%;
+        font-size: 2vw;
+    }
+
+}

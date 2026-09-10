@@ -30,7 +30,7 @@ botoesSobre = document.querySelectorAll(".irParaSobre");
 
 for (let i = 0; i < botoesSobre.length; i++) {
     botoesSobre[i].addEventListener('click', function() {
-        window.location = "sobrenos.html";
+        window.location = "sobre.html";
     })
 }
 
