@@ -9,6 +9,10 @@
     <title>Cadastro de Funcionário</title>
 
     <link rel="stylesheet" href="./css/tela_cadastro.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
   </head>
 
   <body class="container_responsivo">
@@ -26,7 +30,7 @@
             id="torres"
             onclick="ativarTorres()"
           >
-            <div class="icone_menu icone_torres"></div>
+            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
             <span>Torres</span>
           </a>
           <a
@@ -35,20 +39,20 @@
             id="usuarios"
             onclick="ativarUsuarios()"
           >
-            <div class="icone_menu icone_usuarios"></div>
+            <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
           </a>
           <a href="#" class="item_menu" id="cargos" onclick="ativarCargos()">
-            <div class="icone_menu icone_cargos"></div>
+            <i class="fa-solid fa-briefcase icone_menu"></i>
             <span>Cargos</span>
           </a>
           <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
-            <div class="icone_menu icone_alertas"></div>
+            <i class="fa-solid fa-bell icone_menu"></i>
             <span>Alertas</span>
             <span class="notificacao_alerta" id="notificacao_alertas"></span>
           </a>
           <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
-            <div class="icone_menu icone_manual"></div>
+            <i class="fa-solid fa-book icone_menu"></i>
             <span>Manual de Instalação</span>
           </a>
         </ul>
@@ -56,7 +60,7 @@
 
       <div class="rodape_navegacao">
         <div class="item_menu" data-pagina="configuracoes">
-          <div class="icone_menu icone_config"></div>
+          <i class="fa-solid fa-gear icone_menu"></i>
           <span>Configurações</span>
         </div>
 
@@ -66,11 +70,11 @@
             <span class="nome_usuario" id="nome_usuario">Carregando...</span>
             <span class="cargo_usuario" id="cargo_usuario"></span>
           </div>
-          <div class="icone_menu icone_seta"></div>
+          <i class="fa-solid fa-chevron-right icone_menu"></i>
         </div>
 
         <button class="botao_sair" id="botao_sair" type="button">
-          <div class="icone_menu icone_sair"></div>
+          <i class="fa-solid fa-right-from-bracket icone_menu"></i>
           <span>Sair</span>
         </button>
       </div>
@@ -95,12 +99,12 @@
         </div>
 
         <button
-          class="botao_notificacao"
+          class="botao_notificacao btn-notificacao"
           type="button"
-          onclick="notificacao()"
           aria-label="Notificações"
         >
-          🕭
+          <i class="fa-regular fa-bell"></i>
+          <i class="fa-solid fa-bars icone-menu"></i>
         </button>
       </header>
 
