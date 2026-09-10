@@ -57,7 +57,24 @@ body {
 }
 
 @media (max-width: 900px) {
+    .navegacao {
+        display: none;
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 10000;
+        width: min(320px, 85vw);
+    }
+
+    body.menu-aberto .navegacao {
+        display: flex;
+    }
+
     .btn-notificacao {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
         background: transparent;
         border: none;
         border-radius: 0;
@@ -73,7 +90,6 @@ body {
         display: inline-block !important;
     }
 }
-
 header {
     margin-top: 3%;
     margin-left: 3%;
