@@ -33,63 +33,6 @@ body {
     --cinza: #8f8e8e;
 }
 
-.btn-notificacao {
-    background-color: #1f1f1f;
-    border: 2px solid var(--cinza);
-    border-radius: 5px;
-    padding: 7px 9px;
-    position: fixed;
-    top: 3%;
-    right: 3%;
-    z-index: 9999;
-    cursor: pointer;
-}
-
-.btn-notificacao .icone-sino {
-    color: var(--branco);
-    font-size: 1.5rem;
-}
-
-.btn-notificacao .icone-menu {
-    color: var(--amarelo);
-    font-size: 2rem;
-    display: none;
-}
-
-@media (max-width: 900px) {
-    .navegacao {
-        display: none;
-        position: fixed;
-        inset: 0 auto 0 0;
-        z-index: 10000;
-        width: min(320px, 85vw);
-    }
-
-    body.menu-aberto .navegacao {
-        display: flex;
-    }
-
-    .btn-notificacao {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 42px;
-        height: 42px;
-        background: transparent;
-        border: none;
-        border-radius: 0;
-        padding: 0;
-        position: absolute;
-    }
-
-    .btn-notificacao .icone-sino {
-        display: none !important;
-    }
-
-    .btn-notificacao .icone-menu {
-        display: inline-block !important;
-    }
-}
 header {
     margin-top: 3%;
     margin-left: 3%;
@@ -128,12 +71,28 @@ header span{
     }
 
 
-@media screen and (max-width: 600px) {
-    .conteudo_layout {
-        padding: 0;
-    }
+.btn-notificacao {
+    background-color: #1f1f1f;
+    border: 2px solid var(--cinza);
+    border-radius: 5px;
+    padding: 7px 9px;
+    position: fixed;
+    top: 3%;
+    right: 3%;
+    z-index: 9999;
+    cursor: pointer;
 }
 
+.btn-notificacao .icone-sino {
+    color: var(--branco);
+    font-size: 1.5rem;
+}
+
+.btn-notificacao .icone-menu {
+    color: var(--amarelo);
+    font-size: 2rem;
+    display: none;
+}
 .header-box{
     display: flex;
     flex-direction: row;
@@ -246,4 +205,46 @@ header span{
 .torre-codigo {
     color: var(--branco);
     font-size: 1.1rem;
-}   
+}  
+
+@media (max-width: 900px) {
+    .navegacao {
+        display: none;
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 10000;
+        width: min(320px, 85vw);
+    }
+
+    body.menu-aberto .navegacao {
+        display: flex;
+    }
+
+    .btn-notificacao {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        position: absolute;
+    }
+
+    .btn-notificacao .icone-sino {
+        display: none !important;
+    }
+
+    .btn-notificacao .icone-menu {
+        display: inline-block !important;
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    .conteudo_layout {
+        padding: 0;
+    }
+}
