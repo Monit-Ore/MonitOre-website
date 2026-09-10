@@ -62,12 +62,61 @@ function criarCardTorre(torre) {
   return `
     <div class="torre-div">
         <div class="torre-card" data-id-torre="${torre.id_torre}">
-            <img src="./imgs/LogoBanner.png" class="torre-icon" alt="Logo" />
+            <img src="./imgs/institucional/LogoBanner.png" class="torre-icon" alt="Logo" />
             <span class="torre-status ${statusClasse}">${torre.status}</span>
         </div>
         <span class="torre-codigo">${torre.codigo}</span>
     </div>
   `;
 }
+
+function ativarMenu(idAtivo) {
+  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
+    item.classList.toggle("ativo", item.id === idAtivo);
+  });
+}
+
+function ativarTorres() {
+  ativarMenu("torres");
+}
+
+function ativarUsuarios() {
+  ativarMenu("usuarios");
+}
+
+function ativarCargos() {
+  ativarMenu("cargos");
+}
+
+function ativarAlertas() {
+  ativarMenu("alertas");
+}
+
+function ativarManual() {
+  ativarMenu("manual");
+}
+
+function carregarUsuarioMenu() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) {
+    return;
+  }
+  nome_usuario.textContent = nomeUsuario;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  carregarUsuarioMenu();
+
+  const botaoMenu = document.querySelector(".btn-notificacao");
+
+  botaoMenu?.addEventListener("click", () =>
+    document.body.classList.toggle("menu-aberto"),
+  );
+
+  document.getElementById("botao_sair")?.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "./login.html";
+  });
+});
 
 carregarTorres();

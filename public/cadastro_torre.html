@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Monit Ore | Cadastro de Torre</title>
 
+    <link rel="stylesheet" href="./css/tela_cadastro.css" />
     <link rel="stylesheet" href="./css/cadastro_torre.css" />
     <link rel="icon" href="./imgs/favicon.svg" />
     <link
@@ -14,25 +15,88 @@
     />
     <script src="./js/cadastro_torre.js" defer></script>
   </head>
-  <body>
-    <button class="btn-notificacao">
-      <i class="fa-regular fa-bell icone-sino"></i>
-      <i class="fa-solid fa-bars icone-menu"></i>
-    </button>
-    <header>
-      <a href="./selecao_torre.html" class="botao-voltar" aria-label="Voltar para seleção de torre">
-        <i class="fa-solid fa-arrow-left"></i>
-      </a>
-      <div class="titulo-cabecalho">
-        <h1>Cadastro de Torre</h1>
-        <span>Preencha as informações para cadastrar uma nova torre.</span>
+  <body class="container_responsivo">
+    <aside class="navegacao">
+      <div class="logo_navegacao">
+        <img src="./imgs/LogoHeader.svg" alt="Monitore" />
       </div>
-    </header>
-    <form id="form-cadastro-torre">
-    <main class="conteudo">
+
+      <nav class="menu_navegacao">
+        <ul>
+          <a
+            href="/selecao_torre.html"
+            class="item_menu ativo"
+            id="torres"
+            onclick="ativarTorres()"
+          >
+            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
+            <span>Torres</span>
+          </a>
+          <a
+            href="/cadastro.html"
+            class="item_menu"
+            id="usuarios"
+            onclick="ativarUsuarios()"
+          >
+            <i class="fa-solid fa-users icone_menu"></i>
+            <span>Usuários</span>
+          </a>
+          <a href="#" class="item_menu" id="cargos" onclick="ativarCargos()">
+            <i class="fa-solid fa-briefcase icone_menu"></i>
+            <span>Cargos</span>
+          </a>
+          <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
+            <i class="fa-solid fa-bell icone_menu"></i>
+            <span>Alertas</span>
+            <span class="notificacao_alerta" id="notificacao_alertas"></span>
+          </a>
+          <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
+            <i class="fa-solid fa-book icone_menu"></i>
+            <span>Manual de Instalação</span>
+          </a>
+        </ul>
+      </nav>
+
+      <div class="rodape_navegacao">
+        <div class="item_menu" data-pagina="configuracoes">
+          <i class="fa-solid fa-gear icone_menu"></i>
+          <span>Configurações</span>
+        </div>
+
+        <div class="usuario_navegacao" id="usuario_logado">
+          <div class="avatar_usuario" id="avatar_usuario">US</div>
+          <div class="info_usuario">
+            <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+            <span class="cargo_usuario" id="cargo_usuario"></span>
+          </div>
+          <i class="fa-solid fa-chevron-right icone_menu"></i>
+        </div>
+
+        <button class="botao_sair" id="botao_sair" type="button">
+          <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
+    <main class="conteudo_layout">
+      <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+        <i class="fa-regular fa-bell icone-sino"></i>
+        <i class="fa-solid fa-bars icone-menu"></i>
+      </button>
+      <header>
+        <a href="./selecao_torre.html" class="botao-voltar" aria-label="Voltar para seleção de torre">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <div class="titulo-cabecalho">
+          <h1>Cadastro de Torre</h1>
+          <span>Preencha as informações para cadastrar uma nova torre.</span>
+        </div>
+      </header>
+      <form id="form-cadastro-torre">
+    <div class="conteudo">
       <div class="card_conteudo">
         <div class="titulo_formulario">
-          <img src="./imgs/LogoBanner.png" class="torre-icon" alt="Logo" />
+          <img src="./imgs/institucional/LogoBanner.png" class="torre-icon" alt="Logo" />
           <h1>Informações da Torre</h1>
         </div>
 
@@ -230,7 +294,7 @@
         class="mensagem_cadastro"
         aria-live="polite"
       ></p>
-    </main>
+    </div>
     <div class="botoes">
         <a href="/selecao_torre.html" type="button" class="btn-cancelar" onclick="cancelar()">
           ✕
@@ -244,6 +308,7 @@
           <span>Salvar Torre</span>
         </button>
       </div>
-    </form>
+      </form>
+    </main>
   </body>
 </html>
