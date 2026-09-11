@@ -30,10 +30,10 @@ async function verificarCodigoExistente(fkEmpresa, codigo, uuidAgente) {
   var uuidEscapado = mysql.escape(uuidAgente);
   var instrucaoSql = `SELECT t.id_torre
       FROM torre t
-      LEFT JOIN ihm i ON i.fk_torre = t.id_torre
+      LEFT JOIN plc p ON p.fk_torre = t.id_torre
       WHERE t.fk_empresa = ${empresa}
         AND (t.codigo = ${codigoEscapado}
-          OR i.uuid_agente = ${uuidEscapado})`;
+          OR p.uuid_agente = ${uuidEscapado})`;
   var resultado = await database.executar(instrucaoSql);
 
   return resultado.length > 0;
@@ -74,7 +74,7 @@ async function criarTorre(
   var resultadoTorre = await database.executar(instrucaoTorre);
   var idTorre = resultadoTorre.insertId;
 
-  var instrucaoIhm = `INSERT INTO ihm
+  var instrucaoPlc = `INSERT INTO plc
         (uuid_agente, hostname, ip, sistema_operacional, status_operacional, fk_torre)
        VALUES (
         ${mysql.escape(servidor.uuid_agente)},
@@ -84,26 +84,26 @@ async function criarTorre(
         ${mysql.escape(mapearStatusServidorBanco(servidor.status))},
         ${mysql.escape(idTorre)}
        )`;
-  var resultadoIhm = await database.executar(instrucaoIhm);
-  var idIhm = resultadoIhm.insertId;
+  var resultadoPlc = await database.executar(instrucaoPlc);
+  var idPlc = resultadoPlc.insertId;
 
   if (Array.isArray(componentes) && componentes.length > 0) {
     var valores = componentes
       .map(
         (componente) =>
-          `(${mysql.escape(idIhm)}, ${mysql.escape(
+          `(${mysql.escape(idPlc)}, ${mysql.escape(
             componente.fk_componente,
           )}, ${mysql.escape(componente.valor_limite)})`,
       )
       .join(", ");
-    var instrucaoComponentes = `INSERT INTO ihm_componente
-        (fk_ihm, fk_componente, valor_limite)
+    var instrucaoComponentes = `INSERT INTO plc_componente
+        (fk_plc, fk_componente, valor_limite)
        VALUES ${valores}`;
 
     await database.executar(instrucaoComponentes);
   }
 
-  return { id_torre: idTorre, id_ihm: idIhm };
+  return { id_torre: idTorre, id_plc: idPlc };
 }
 
 module.exports = {

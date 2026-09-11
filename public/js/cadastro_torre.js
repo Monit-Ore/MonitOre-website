@@ -211,7 +211,7 @@ async function salvarTorre(evento) {
       alert(dados.mensagem || "Erro ao cadastrar a torre.");
       return;
     }
-
+    alert("Torre cadastrada com sucesso!");
     window.location.href = "./selecao_torre.html";
   } catch (erro) {
     console.error("Erro ao cadastrar torre:", erro);
