@@ -1,428 +1,345 @@
 document.addEventListener("DOMContentLoaded", function () {
-    carregarCargos();
-    carregarMineradoras();
-    configurarStatus();
-    configurarMascaras();
-});
+  carregarCargos();
+  carregarMineradoras();
+  configurarStatus();
+  configurarMascaras();
+  carregarUsuarioMenu();
 
+  var botaoMenu = document.querySelector(".btn-notificacao");
+
+  if (botaoMenu) {
+    botaoMenu.addEventListener("click", function () {
+      document.body.classList.toggle("menu-aberto");
+    });
+  }
+});
 
 // CARREGAMENTO DOS CARGOS
 
 function carregarCargos() {
-    var campoCargo = document.getElementById("cargo_ipt");
+  var campoCargo = document.getElementById("cargo_ipt");
 
-    fetch("/usuarios/cargos")
-        .then(function (resposta) {
-            if (!resposta.ok) {
-                throw new Error(
-                    "Não foi possível carregar os cargos."
-                );
-            }
+  fetch("/usuarios/cargos")
+    .then(function (resposta) {
+      if (!resposta.ok) {
+        throw new Error("Não foi possível carregar os cargos.");
+      }
 
-            return resposta.json();
-        })
-        .then(function (cargos) {
-            cargos.forEach(function (cargo) {
-                var opcao = document.createElement("option");
+      return resposta.json();
+    })
+    .then(function (cargos) {
+      cargos.forEach(function (cargo) {
+        var opcao = document.createElement("option");
 
-                opcao.value = cargo.id_cargo;
-                opcao.textContent =
-                    cargo.nome + " - " + cargo.empresa;
+        opcao.value = cargo.id_cargo;
+        opcao.textContent = cargo.nome + " - " + cargo.empresa;
 
-                campoCargo.appendChild(opcao);
-            });
-        })
-        .catch(function (erro) {
-            mostrarMensagem(erro.message, true);
-        });
+        campoCargo.appendChild(opcao);
+      });
+    })
+    .catch(function (erro) {
+      mostrarMensagem(erro.message, true);
+    });
 }
-
 
 // CARREGAMENTO DAS MINERADORAS/UNIDADES
 
 function carregarMineradoras() {
-    var campoUnidade =
-        document.getElementById("unidade_local_ipt");
+  var campoUnidade = document.getElementById("unidade_local_ipt");
 
-    fetch("/usuarios/mineradoras")
-        .then(function (resposta) {
-            if (!resposta.ok) {
-                throw new Error(
-                    "Não foi possível carregar as unidades."
-                );
-            }
+  fetch("/usuarios/mineradoras")
+    .then(function (resposta) {
+      if (!resposta.ok) {
+        throw new Error("Não foi possível carregar as unidades.");
+      }
 
-            return resposta.json();
-        })
-        .then(function (mineradoras) {
-            mineradoras.forEach(function (mineradora) {
-                var opcao = document.createElement("option");
+      return resposta.json();
+    })
+    .then(function (mineradoras) {
+      mineradoras.forEach(function (mineradora) {
+        var opcao = document.createElement("option");
 
-                opcao.value = mineradora.id_mineradora;
-                opcao.textContent = mineradora.razao_social;
+        opcao.value = mineradora.id_mineradora;
+        opcao.textContent = mineradora.razao_social;
 
-                campoUnidade.appendChild(opcao);
-            });
-        })
-        .catch(function (erro) {
-            mostrarMensagem(erro.message, true);
-        });
+        campoUnidade.appendChild(opcao);
+      });
+    })
+    .catch(function (erro) {
+      mostrarMensagem(erro.message, true);
+    });
 }
-
 
 // CADASTRO
 
 function salvar() {
-    var nome = document
-        .getElementById("nome_ipt")
-        .value
-        .trim();
+  var nome = document.getElementById("nome_ipt").value.trim();
 
-    var email = document
-        .getElementById("email_ipt")
-        .value
-        .trim();
+  var email = document.getElementById("email_ipt").value.trim();
 
-    var dataNascimento = document
-        .getElementById("data_nasc_input")
-        .value;
+  var dataNascimento = document.getElementById("data_nasc_input").value;
 
-    var idMineradora = document
-        .getElementById("unidade_local_ipt")
-        .value;
+  var idMineradora = document.getElementById("unidade_local_ipt").value;
 
-    var cpf = document
-        .getElementById("cpf_ipt")
-        .value
-        .replace(/\D/g, "");
+  var cpf = document.getElementById("cpf_ipt").value.replace(/\D/g, "");
 
-    var senha = document
-        .getElementById("senha_ipt")
-        .value;
+  var senha = document.getElementById("senha_ipt").value;
 
-    var telefone = document
-        .getElementById("telefone_ipt")
-        .value
-        .trim();
+  var telefone = document.getElementById("telefone_ipt").value.trim();
 
-    var idCargo = document
-        .getElementById("cargo_ipt")
-        .value;
+  var idCargo = document.getElementById("cargo_ipt").value;
 
-    var statusAtivo = document
-        .getElementById("status_ipt")
-        .checked;
+  var statusAtivo = document.getElementById("status_ipt").checked;
 
-    if (nome.length < 3) {
-        mostrarMensagem(
-            "Informe o nome completo do funcionário.",
-            true
-        );
-        return;
-    }
+  if (nome.length < 3) {
+    mostrarMensagem("Informe o nome completo do funcionário.", true);
+    return;
+  }
 
-    if (!email) {
-        mostrarMensagem("Informe o email.", true);
-        return;
-    }
+  if (!email) {
+    mostrarMensagem("Informe o email.", true);
+    return;
+  }
 
-    if (cpf.length !== 11) {
-        mostrarMensagem(
-            "O CPF deve possuir 11 números.",
-            true
-        );
-        return;
-    }
+  if (cpf.length !== 11) {
+    mostrarMensagem("O CPF deve possuir 11 números.", true);
+    return;
+  }
 
-    if (senha.length < 6) {
-        mostrarMensagem(
-            "A senha deve possuir pelo menos 6 caracteres.",
-            true
-        );
-        return;
-    }
+  if (senha.length < 6) {
+    mostrarMensagem("A senha deve possuir pelo menos 6 caracteres.", true);
+    return;
+  }
 
-    if (!idCargo) {
-        mostrarMensagem("Selecione um cargo.", true);
-        return;
-    }
+  if (!idCargo) {
+    mostrarMensagem("Selecione um cargo.", true);
+    return;
+  }
 
-    var dadosCadastro = {
-        nome: nome,
-        email: email,
-        cpf: cpf,
-        senha: senha,
+  var dadosCadastro = {
+    nome: nome,
+    email: email,
+    cpf: cpf,
+    senha: senha,
 
-        dataNascimento:
-            dataNascimento || null,
+    dataNascimento: dataNascimento || null,
 
-        telefone:
-            telefone || null,
+    telefone: telefone || null,
 
-        idCargo:
-            Number(idCargo),
+    idCargo: Number(idCargo),
 
-        idMineradora:
-            idMineradora
-                ? Number(idMineradora)
-                : null,
+    idMineradora: idMineradora ? Number(idMineradora) : null,
 
-        statusAtividade:
-            statusAtivo
-                ? "Ativo"
-                : "Inativo"
-    };
+    statusAtividade: statusAtivo ? "Ativo" : "Inativo",
+  };
 
-    enviarCadastro(dadosCadastro);
+  enviarCadastro(dadosCadastro);
 }
-
 
 // ENVIO PARA O BACKEND
 
 function enviarCadastro(dadosCadastro) {
-    var botaoSalvar =
-        document.querySelector(".btn-salvar");
+  var botaoSalvar = document.querySelector(".btn-salvar");
 
-    botaoSalvar.disabled = true;
+  botaoSalvar.disabled = true;
 
-    mostrarMensagem(
-        "Salvando funcionário...",
-        false
-    );
+  mostrarMensagem("Salvando funcionário...", false);
 
-    fetch("/usuarios/cadastrar", {
-        method: "POST",
+  fetch("/usuarios/cadastrar", {
+    method: "POST",
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+    headers: {
+      "Content-Type": "application/json",
+    },
 
-        body: JSON.stringify(dadosCadastro)
+    body: JSON.stringify(dadosCadastro),
+  })
+    .then(function (resposta) {
+      return resposta.json().then(function (conteudo) {
+        return {
+          ok: resposta.ok,
+          conteudo: conteudo,
+        };
+      });
     })
-        .then(function (resposta) {
-            return resposta
-                .json()
-                .then(function (conteudo) {
-                    return {
-                        ok: resposta.ok,
-                        conteudo: conteudo
-                    };
-                });
-        })
-        .then(function (resultado) {
-            if (!resultado.ok) {
-                throw new Error(
-                    resultado.conteudo.mensagem ||
-                    "Não foi possível cadastrar."
-                );
-            }
+    .then(function (resultado) {
+      if (!resultado.ok) {
+        throw new Error(
+          resultado.conteudo.mensagem || "Não foi possível cadastrar.",
+        );
+      }
 
-            mostrarMensagem(
-                resultado.conteudo.mensagem,
-                false
-            );
+      mostrarMensagem(resultado.conteudo.mensagem, false);
 
-            limparFormulario();
+      limparFormulario();
 
-            setTimeout(function () {
-                window.location.href = "./login.html";
-            }, 1500);
-        })
-        .catch(function (erro) {
-            mostrarMensagem(erro.message, true);
-        })
-        .finally(function () {
-            botaoSalvar.disabled = false;
-        });
+      setTimeout(function () {
+        window.location.href = "./login.html";
+      }, 1500);
+    })
+    .catch(function (erro) {
+      mostrarMensagem(erro.message, true);
+    })
+    .finally(function () {
+      botaoSalvar.disabled = false;
+    });
 }
-
 
 // MOSTRAR OU OCULTAR SENHA
 
 function mostrar_senha() {
-    var campoSenha =
-        document.getElementById("senha_ipt");
+  var campoSenha = document.getElementById("senha_ipt");
 
-    if (campoSenha.type === "password") {
-        campoSenha.type = "text";
-    } else {
-        campoSenha.type = "password";
-    }
+  if (campoSenha.type === "password") {
+    campoSenha.type = "text";
+  } else {
+    campoSenha.type = "password";
+  }
 }
-
 
 // STATUS
 
 function configurarStatus() {
-    var campoStatus =
-        document.getElementById("status_ipt");
+  var campoStatus = document.getElementById("status_ipt");
 
-    var textoStatus =
-        document.querySelector(".texto-status");
+  var textoStatus = document.querySelector(".texto-status");
 
-    function atualizarStatus() {
-        if (campoStatus.checked) {
-            textoStatus.textContent = "Ativo";
-        } else {
-            textoStatus.textContent = "Inativo";
-        }
+  function atualizarStatus() {
+    if (campoStatus.checked) {
+      textoStatus.textContent = "Ativo";
+    } else {
+      textoStatus.textContent = "Inativo";
     }
+  }
 
-    campoStatus.addEventListener(
-        "change",
-        atualizarStatus
-    );
+  campoStatus.addEventListener("change", atualizarStatus);
 
-    atualizarStatus();
+  atualizarStatus();
 }
-
 
 // MÁSCARAS DE CPF E TELEFONE
 
 function configurarMascaras() {
-    var campoCpf =
-        document.getElementById("cpf_ipt");
+  var campoCpf = document.getElementById("cpf_ipt");
 
-    var campoTelefone =
-        document.getElementById("telefone_ipt");
+  var campoTelefone = document.getElementById("telefone_ipt");
 
-    campoCpf.addEventListener("input", function () {
-        var cpf = campoCpf.value
-            .replace(/\D/g, "")
-            .slice(0, 11);
+  campoCpf.addEventListener("input", function () {
+    var cpf = campoCpf.value.replace(/\D/g, "").slice(0, 11);
 
-        cpf = cpf.replace(
-            /(\d{3})(\d)/,
-            "$1.$2"
-        );
+    cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
 
-        cpf = cpf.replace(
-            /(\d{3})(\d)/,
-            "$1.$2"
-        );
+    cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
 
-        cpf = cpf.replace(
-            /(\d{3})(\d{1,2})$/,
-            "$1-$2"
-        );
+    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
 
-        campoCpf.value = cpf;
-    });
+    campoCpf.value = cpf;
+  });
 
-    campoTelefone.addEventListener("input", function () {
-        var telefone = campoTelefone.value
-            .replace(/\D/g, "")
-            .slice(0, 11);
+  campoTelefone.addEventListener("input", function () {
+    var telefone = campoTelefone.value.replace(/\D/g, "").slice(0, 11);
 
-        if (telefone.length <= 10) {
-            telefone = telefone.replace(
-                /(\d{2})(\d)/,
-                "($1) $2"
-            );
+    if (telefone.length <= 10) {
+      telefone = telefone.replace(/(\d{2})(\d)/, "($1) $2");
 
-            telefone = telefone.replace(
-                /(\d{4})(\d)/,
-                "$1-$2"
-            );
-        } else {
-            telefone = telefone.replace(
-                /(\d{2})(\d)/,
-                "($1) $2"
-            );
+      telefone = telefone.replace(/(\d{4})(\d)/, "$1-$2");
+    } else {
+      telefone = telefone.replace(/(\d{2})(\d)/, "($1) $2");
 
-            telefone = telefone.replace(
-                /(\d{5})(\d)/,
-                "$1-$2"
-            );
-        }
+      telefone = telefone.replace(/(\d{5})(\d)/, "$1-$2");
+    }
 
-        campoTelefone.value = telefone;
-    });
+    campoTelefone.value = telefone;
+  });
 }
 
+function carregarUsuarioMenu() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) {
+    return;
+  }
+  nome_usuario.textContent = nomeUsuario;
+}
 
 // MENSAGEM
 
 function mostrarMensagem(texto, erro) {
-    var mensagem =
-        document.getElementById("mensagem_cadastro");
+  var mensagem = document.getElementById("mensagem_cadastro");
 
-    mensagem.textContent = texto;
+  mensagem.textContent = texto;
 
-    if (erro) {
-        mensagem.style.color = "#ff7777";
-    } else {
-        mensagem.style.color = "#7dff91";
-    }
+  if (erro) {
+    mensagem.style.color = "#ff7777";
+  } else {
+    mensagem.style.color = "#7dff91";
+  }
 }
-
 
 // LIMPEZA DO FORMULÁRIO
 
 function limparFormulario() {
-    document.getElementById("nome_ipt").value = "";
-    document.getElementById("email_ipt").value = "";
-    document.getElementById("cpf_ipt").value = "";
-    document.getElementById("senha_ipt").value = "";
-    document.getElementById("data_nasc_input").value = "";
-    document.getElementById("telefone_ipt").value = "";
-    document.getElementById("cargo_ipt").value = "";
-    document.getElementById("unidade_local_ipt").value = "";
+  document.getElementById("nome_ipt").value = "";
+  document.getElementById("email_ipt").value = "";
+  document.getElementById("cpf_ipt").value = "";
+  document.getElementById("senha_ipt").value = "";
+  document.getElementById("data_nasc_input").value = "";
+  document.getElementById("telefone_ipt").value = "";
+  document.getElementById("cargo_ipt").value = "";
+  document.getElementById("unidade_local_ipt").value = "";
 }
-
 
 // BOTÕES DE NAVEGAÇÃO
 
 function cancelar() {
-    window.history.back();
+  window.history.back();
 }
 
 function voltar() {
-    window.history.back();
+  window.history.back();
 }
 
 function notificacao() {
-    alert("Você não possui novas notificações.");
+  alert("Você não possui novas notificações.");
 }
 
 //menu
 
 function ativarTorres() {
-    torres.classList.add("ativo");
-    usuarios.classList.remove("ativo");
-    cargos.classList.remove("ativo");
-    alertas.classList.remove("ativo");
-    manual.classList.remove("ativo");
+  torres.classList.add("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.remove("ativo");
 }
 
 function ativarUsuarios() {
-    torres.classList.remove("ativo");
-    usuarios.classList.add("ativo");
-    cargos.classList.remove("ativo");
-    alertas.classList.remove("ativo");
-    manual.classList.remove("ativo");
+  torres.classList.remove("ativo");
+  usuarios.classList.add("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.remove("ativo");
 }
 
 function ativarCargos() {
-    torres.classList.remove("ativo");
-    usuarios.classList.remove("ativo");
-    cargos.classList.add("ativo");
-    alertas.classList.remove("ativo");
-    manual.classList.remove("ativo");
+  torres.classList.remove("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.add("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.remove("ativo");
 }
 
 function ativarAlertas() {
-    torres.classList.remove("ativo");
-    usuarios.classList.remove("ativo");
-    cargos.classList.remove("ativo");
-    alertas.classList.add("ativo");
-    manual.classList.remove("ativo");
+  torres.classList.remove("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.add("ativo");
+  manual.classList.remove("ativo");
 }
 
 function ativarManual() {
-    torres.classList.remove("ativo");
-    usuarios.classList.remove("ativo");
-    cargos.classList.remove("ativo");
-    alertas.classList.remove("ativo");
-    manual.classList.add("ativo");
+  torres.classList.remove("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.add("ativo");
 }

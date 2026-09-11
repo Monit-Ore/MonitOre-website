@@ -2,13 +2,26 @@
 
 
 * {
+    box-sizing: border-box;
     margin: 0;
   padding: 0;
 }
 
 body {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr;
+    min-height: 100vh;
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #1f1f1f;
+}
+
+.conteudo_layout {
+    grid-column: 2;
+    position: relative;
+    min-width: 0;
+    min-height: 100vh;
+    padding: 1.5rem;
+    background-color: #1f1f1f;
 }
 
 :root {
@@ -20,51 +33,10 @@ body {
     --cinza: #8f8e8e;
 }
 
-.btn-notificacao {
-    background-color: #1f1f1f;
-    border: 2px solid var(--cinza);
-    border-radius: 5px;
-    padding: 7px 9px;
-    position: fixed;
-    top: 3%;
-    right: 3%;
-    z-index: 9999;
-    cursor: pointer;
-}
-
-.btn-notificacao .icone-sino {
-    color: var(--branco);
-    font-size: 1.5rem;
-}
-
-.btn-notificacao .icone-menu {
-    color: var(--amarelo);
-    font-size: 2rem;
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .btn-notificacao {
-        background: transparent;
-        border: none;
-        border-radius: 0;
-        padding: 0;
-        position: absolute;
-    }
-
-    .btn-notificacao .icone-sino {
-        display: none !important;
-    }
-
-    .btn-notificacao .icone-menu {
-        display: inline-block !important;
-    }
-}
-
 header {
     margin-top: 3%;
     margin-left: 3%;
-    width: 97%;
+    width: 80%;
     height: 80px;
     display: flex;
     flex-direction: column;
@@ -89,6 +61,38 @@ header span{
     border-radius: 12px;
 }
 
+    body {
+        display: block;
+    }
+
+    .conteudo_layout {
+        width: 100%;
+        padding: 15px;
+    }
+
+
+.btn-notificacao {
+    background-color: #1f1f1f;
+    border: 2px solid var(--cinza);
+    border-radius: 5px;
+    padding: 7px 9px;
+    position: fixed;
+    top: 3%;
+    right: 3%;
+    z-index: 9999;
+    cursor: pointer;
+}
+
+.btn-notificacao .icone-sino {
+    color: var(--branco);
+    font-size: 1.5rem;
+}
+
+.btn-notificacao .icone-menu {
+    color: var(--amarelo);
+    font-size: 2rem;
+    display: none;
+}
 .header-box{
     display: flex;
     flex-direction: row;
@@ -201,4 +205,46 @@ header span{
 .torre-codigo {
     color: var(--branco);
     font-size: 1.1rem;
-}   
+}  
+
+@media (max-width: 900px) {
+    .navegacao {
+        display: none;
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 10000;
+        width: min(320px, 85vw);
+    }
+
+    body.menu-aberto .navegacao {
+        display: flex;
+    }
+
+    .btn-notificacao {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        position: absolute;
+    }
+
+    .btn-notificacao .icone-sino {
+        display: none !important;
+    }
+
+    .btn-notificacao .icone-menu {
+        display: inline-block !important;
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    .conteudo_layout {
+        padding: 0;
+    }
+}
