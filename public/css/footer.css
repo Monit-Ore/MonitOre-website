@@ -109,8 +109,12 @@
     font-size: 1.2vw;
 
     line-height: 1.4;
-
+    cursor: pointer;
     margin: 0;
+}
+
+.boxDireitaFooter p:hover {
+    text-decoration: underline;
 }
 
 
@@ -123,7 +127,7 @@
     .footer {
         min-height: auto;
 
-        flex-direction: column;
+        flex-direction: column-reverse;
 
         padding: 8vw 5vw;
 

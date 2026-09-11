@@ -20,6 +20,7 @@
 }
 
 .NavComputador img {
+    cursor: pointer;
     width: 15%;
 }
 
@@ -37,6 +38,7 @@
     font-weight: bolder;
     font-size: 3vh;
     transition: 0.5s;
+    cursor: pointer;
 }
 
 .opcoes_header a:hover {
