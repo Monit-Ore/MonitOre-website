@@ -9,9 +9,6 @@ const SISTEMAS_OPERACIONAIS = [
   "CentOS Stream 9",
 ];
 
-function mapearStatusExibicao(statusBanco) {
-  return statusBanco === "Alerta" ? "Alerta" : "Regular";
-}
 
 async function selecaoTorre(req, res) {
   try {
@@ -34,7 +31,6 @@ async function selecaoTorre(req, res) {
       mapaMineradoras.get(nomeMineradora).push({
         id_torre: torre.id_torre,
         codigo: torre.codigo,
-        status: mapearStatusExibicao(torre.status_operacional),
       });
     });
 
@@ -88,7 +84,6 @@ async function cadastrarTorre(req, res) {
       fk_mineradora,
       localizacao,
       descricao,
-      monitoramento_ativo,
       servidor,
       componentes,
     } = req.body;
@@ -104,8 +99,7 @@ async function cadastrarTorre(req, res) {
       !servidor ||
       !servidor.identificador ||
       !servidor.ip ||
-      !servidor.sistema_operacional ||
-      !servidor.status
+      !servidor.sistema_operacional
     ) {
       return res.status(400).json({
         mensagem:
@@ -122,6 +116,7 @@ async function cadastrarTorre(req, res) {
     const codigoJaExiste = await torresModel.verificarCodigoExistente(
       fkEmpresa,
       codigo,
+      servidor?.uuid_agente ?? servidor?.identificador,
     );
 
     if (codigoJaExiste) {
@@ -137,7 +132,6 @@ async function cadastrarTorre(req, res) {
       fk_mineradora,
       localizacao,
       descricao,
-      monitoramento_ativo ?? true,
       servidor,
       componentes,
     );
