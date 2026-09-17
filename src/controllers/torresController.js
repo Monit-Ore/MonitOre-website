@@ -8,6 +8,9 @@ const SISTEMAS_OPERACIONAIS = [
   "Debian 12",
   "CentOS Stream 9",
 ];
+function mapearStatusExibicao(statusBanco) {
+  return statusBanco === "Alerta" ? "Alerta" : "Regular";
+}
 
 
 async function selecaoTorre(req, res) {
@@ -31,7 +34,8 @@ async function selecaoTorre(req, res) {
       mapaMineradoras.get(nomeMineradora).push({
         id_torre: torre.id_torre,
         codigo: torre.codigo,
-      });
+        status: mapearStatusExibicao(torre.status_operacional),
+        });
     });
 
     const resposta = Array.from(
@@ -99,7 +103,8 @@ async function cadastrarTorre(req, res) {
       !servidor ||
       !servidor.identificador ||
       !servidor.ip ||
-      !servidor.sistema_operacional
+      !servidor.sistema_operacional ||
+      !servidor.status
     ) {
       return res.status(400).json({
         mensagem:
