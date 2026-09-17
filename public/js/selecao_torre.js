@@ -23,11 +23,12 @@ async function carregarTorres() {
 }
 
 function ordenarTorres(lista) {
-  return [...lista].sort((a, b) => {
-    const codigoA = (a.codigo || "").toString().toLowerCase();
-    const codigoB = (b.codigo || "").toString().toLowerCase();
-    return codigoA.localeCompare(codigoB);
-  });
+  const prioridade = {
+    Alerta: 1,
+    Regular: 2,
+  };
+
+  return lista.sort((a, b) => prioridade[a.status] - prioridade[b.status]);
 }
 
 function renderizarMineradoras(grupos) {
@@ -56,10 +57,13 @@ function renderizarMineradoras(grupos) {
 }
 
 function criarCardTorre(torre) {
+    const statusClasse = torre.status.toLowerCase();
+
   return `
     <div class="torre-div">
         <div class="torre-card" data-id-torre="${torre.id_torre}">
             <img src="./imgs/institucional/LogoBanner.png" class="torre-icon" alt="Logo" />
+            <span class="torre-status ${statusClasse}">${torre.status}</span>
         </div>
         <span class="torre-codigo">${torre.codigo}</span>
     </div>

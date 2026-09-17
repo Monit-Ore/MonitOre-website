@@ -6,7 +6,7 @@ var mysql = require("mysql2");
 async function listarTorresComMineradora(fkEmpresa) {
   var empresa = mysql.escape(fkEmpresa);
   var instrucaoSql = `SELECT
-      t.id_torre, t.codigo,
+      t.id_torre, t.codigo, t.status_operacional,
       m.razao_social AS mineradora_nome
      FROM torre t
      INNER JOIN mineradora m ON m.id_mineradora = t.fk_mineradora
@@ -96,6 +96,7 @@ async function criarTorre(
 }
 
 module.exports = {
+  
   listarTorresComMineradora,
   verificarCodigoExistente,
   listarMineradoras,
