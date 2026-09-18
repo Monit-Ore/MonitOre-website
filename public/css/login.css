@@ -12,591 +12,294 @@
     font-style: normal;
 }
 
-
-/* 
-    CONFIGURAÇÃO GERAL
- */
-
 * {
     box-sizing: border-box;
-}
-
-body {
     margin: 0;
     padding: 0;
-
-    font-family: 'Sansation', Arial, sans-serif;
 }
 
 :root {
-    --branco: #FFFFFF;
-    --amarelo: #FFD741;
-    --preto: #000000;
-
-    --cinza-card: rgba(185, 175, 150, 0.72);
-    --cinza-input: rgba(99, 85, 63, 0.55);
+    --amarelo-destaque: #e8a800; 
+    --amarelo-hover: #cf9500;
+    --borda-input: #cfcfcf;
+    --texto-placeholder: #a5a5a5;
+    --texto-label: #222222;
 }
 
+body {
+    min-height: 100vh;
+    font-family: 'Sansation', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #1a1a1a;
+}
 
-/**
-
-    BANNER LOGIN
-
-*/
-
-.banner_login {
-    background-image: url("../imgs/banner principal.jpg");
-
-    background-repeat: no-repeat;
-
-    background-size: cover;
-
-    background-position: center;
-
-    width: 100%;
-
-    height: 100vh;
-
+/* layout dividido (na metade) */
+.split_layout {
     display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    position: relative;
+    width: 100%;
+    min-height: 100vh;
 }
 
+/* lado esquerdo */
+.lado_esquerdo {
+    flex: 1;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 40px;
+}
 
-/**
-
-    BOTÃO VOLTAR
-
-*/
-
+/* botao de voltar */
 .botao_voltar {
     position: absolute;
-
-    top: 3%;
-
-    left: 2%;
-
-    color: var(--branco);
-
-    text-decoration: none;
-
-    z-index: 2;
-
+    top: 36px;
+    left: 40px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--amarelo-destaque);
     display: flex;
-
     align-items: center;
-
     justify-content: center;
+    color: var(--amarelo-destaque);
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .botao_voltar svg {
-    width: 48px;
-
-    height: 48px;
+    width: 20px;
+    height: 20px;
 }
 
 .botao_voltar:hover {
-    cursor: pointer;
-
-    opacity: 0.8;
+    transform: scale(1.05);
+    opacity: 0.9;
 }
 
-
-/**
-
-    CONTAINER LOGIN
-
-*/
-
+/* area central do formulário */
 .login_container {
-    width: 100%;
-
-    height: 100%;
-
+    flex: 1;
     display: flex;
-
     justify-content: center;
-
     align-items: center;
 }
-
-
-/**
-
-    CARD LOGIN
-
-*/
 
 .login_card {
-    width: 460px;
-
-    min-height: 445px;
-
-    padding: 45px 48px 35px 48px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    background-color: var(--cinza-card);
-
-    border: 3px solid var(--amarelo);
-
-    border-radius: 34px;
-
-    backdrop-filter: blur(5px);
-
-    -webkit-backdrop-filter: blur(5px);
+    width: 100%;
+    max-width: 360px;
 }
-
-
-/**
-
-    TÍTULO
-
-*/
 
 .login_card h1 {
-    margin: 8px 0 40px 0;
-
-    color: var(--branco);
-
-    font-family: 'Sansation', Arial, sans-serif;
-
-    font-size: 46px;
-
-    font-weight: bold;
+    font-size: 32px;
+    color: var(--amarelo-destaque);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
 }
-
-
-/**
-
-    FORMULÁRIO
-
-*/
 
 #form_login {
-    width: 100%;
-
     display: flex;
-
     flex-direction: column;
-
-    align-items: center;
-
-    gap: 20px;
+    gap: 18px;
+    width: 100%;
 }
 
+/* campo de labels */
+.campo_grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
 
-/**
-
-    CAMPO
-
-*/
+.campo_grupo label {
+    font-size: 17px;
+    color: var(--texto-label);
+    font-weight: 500;
+}
 
 .campo {
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-
     position: relative;
+    width: 100%;
 }
 
 .campo input {
     width: 100%;
-
-    height: 58px;
-
-    padding: 0 17px;
-
-    background-color: var(--cinza-input);
-
-    border: 3px solid var(--branco);
-
-    border-radius: 13px;
-
-    color: var(--branco);
-
-    font-family: 'Sansation', Arial, sans-serif;
-
-    font-size: 16px;
-
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--borda-input);
+    border-radius: 2px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #333;
     outline: none;
+    transition: border-color 0.2s ease;
 }
 
 .campo input::placeholder {
-    color: var(--branco);
-
-    opacity: 0.75;
-
-    font-family: 'Sansation', Arial, sans-serif;
+    color: var(--texto-placeholder);
 }
 
 .campo input:focus {
-    border-color: var(--amarelo);
+    border-color: var(--amarelo-destaque);
 }
 
-
-/**
-
-    AUTOFILL
-
-*/
-
-.campo input:-webkit-autofill,
-.campo input:-webkit-autofill:hover,
-.campo input:-webkit-autofill:focus,
-.campo input:-webkit-autofill:active {
-
-    -webkit-text-fill-color: var(--branco);
-
-    -webkit-box-shadow:
-        0 0 0 1000px rgb(99, 85, 63) inset;
-
-    transition:
-        background-color 5000s ease-in-out 0s;
-
-    font-family: 'Sansation', Arial, sans-serif;
-}
-
-
-/**
-
-    SENHA
-
-*/
-
+/* olho de mostrar senha */
 .campo_senha input {
-    padding-right: 50px;
+    padding-right: 42px;
 }
-
-
-/* *
-
-    BOTÃO MOSTRAR SENHA
-
-*/
 
 .botao_senha {
     position: absolute;
-
-    right: 15px;
-
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
-
     border: none;
-
-    color: var(--branco);
-
-    font-size: 20px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 0;
-}
-
-.botao_senha:hover {
     cursor: pointer;
-
-    opacity: 0.8;
+    color: #666;
+    padding: 0;
+    display: flex;
+    align-items: center;
 }
 
+.botao_senha svg {
+    width: 20px;
+    height: 20px;
+}
 
-/**
-
-    MENSAGEM
-
-*/
 
 .mensagem_login {
-    width: 100%;
-
-    min-height: 0;
-
-    margin: 0;
-
-    color: var(--branco);
-
-    font-family: 'Sansation', Arial, sans-serif;
-
-    font-size: 14px;
-
+    font-size: 13px;
+    color: #d93025;
     text-align: center;
+    min-height: 16px;
+    margin: -4px 0 0 0;
 }
 
-
-/**
-
-      BOTÃO ENTRAR
-
-*/
-
+/* botao */
 .botao_entrar {
-    width: 156px;
-
-    height: 57px;
-
-    margin-top: 10px;
-
-    background-color: var(--amarelo);
-
+    width: 100%;
+    height: 48px;
+    background-color: var(--amarelo-destaque);
+    color: #ffffff;
     border: none;
-
-    border-radius: 16px;
-
-    color: var(--preto);
-
-    font-family: 'Sansation', Arial, sans-serif;
-
-    font-size: 22px;
-
-    font-weight: bold;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .botao_entrar:hover {
-    cursor: pointer;
-
-    opacity: 0.9;
+    background-color: var(--amarelo-hover);
 }
 
-
-/**
-
-        CADASTRO
-
-*/
-
-.cadastro {
-    margin-top: 18px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    gap: 7px;
-
-    color: var(--branco);
-
-    font-family: 'Sansation', Arial, sans-serif;
-
-    font-size: 15px;
+.botao_entrar:active {
+    transform: scale(0.99);
 }
 
-.cadastro span {
-    text-decoration: underline;
+/* imagem */
+.lado_direito {
+    flex: 1;
+    background-image: url("../imgs/banner principal.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.cadastro a {
-    color: var(--amarelo);
-
-    font-weight: bold;
-
-    text-decoration: underline;
-}
-
-.cadastro a:hover {
-    opacity: 0.8;
-}
-
-
-/**
-
-    RESPONSIVO
-
-*/
-
+/* responsivo */
 @media screen and (max-width: 768px) {
-
-
-    /**
-    
-        BANNER RESPONSIVO
-    
-    */
-
-    .banner_login {
-        width: 100%;
-
-        min-height: 100vh;
-
+    /*  recebe a imagem cobrindo toda a tela*/
+    .split_layout {
+        background-image: url("../imgs/banner principal.jpg");
         background-size: cover;
-
-        background-position: 62% center;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
 
-    /**
-    
-        LOGIN RESPONSIVO
-    
-    */
+    .lado_direito {
+        display: none;
+    }
 
-    .login_container {
-        width: 100%;
-
+    /* A esquerda fica transparente para mostrar a foto */
+    .lado_esquerdo {
+        background: transparent;
+        padding: 24px 16px;
         min-height: 100vh;
-
-        padding: 20px;
-
         display: flex;
-
+        flex-direction: column;
         justify-content: center;
-
         align-items: center;
     }
 
+    .login_container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 36px;
+    }
 
-    /**
-    
-        CARD RESPONSIVO
-    
-    */
-
+    /* o formulário vira o card branco com cantos arredondados */
     .login_card {
         width: 100%;
-
-        max-width: 360px;
-
-        min-height: auto;
-
-        padding: 38px 24px 30px 24px;
-
-        border-radius: 25px;
+        max-width: 350px;
+        background-color: #ffffff;
+        border-radius: 18px;
+        padding: 24px 22px 30px 22px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+        position: relative;
     }
 
+     
+    .login_card .botao_voltar {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 32px;
+        height: 32px;
+    }
 
-    /*
-    
-        TÍTULO RESPONSIVO
-    
-    */
+    .login_card .botao_voltar svg {
+        width: 16px;
+        height: 16px;
+    }
 
     .login_card h1 {
-        margin: 0 0 30px 0;
-
-        font-size: 32px;
+        margin: 4px 0 20px 0;
+        font-size: 28px;
+        text-align: center;
     }
 
+    /* logo */
+.logo_responsiva {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    transform: translateY(120px);
+}
 
-    /*
-    
-        FORM RESPONSIVO
-    
-    */
-
-    #form_login {
-        width: 100%;
-
-        gap: 15px;
+    .logo_responsiva img {
+        max-width: 80%;
+        width: 260px;
+        height: auto;
     }
+}
 
-
-    /*
-    
-        CAMPO RESPONSIVO
-    
-    */
-
-    .campo {
-        width: 100%;
+/* sme responsividade oculta a logo inferior */
+@media screen and (min-width: 769px) {
+    .logo_responsiva {
+        display: none;
     }
-
-    .campo input {
-        width: 100%;
-
-        height: 50px;
-
-        padding: 0 14px;
-
-        font-size: 14px;
-
-        border-radius: 10px;
-    }
-
-
-    /*
-    
-        SENHA RESPONSIVO
-    
-    */
-
-    .campo_senha input {
-        padding-right: 45px;
-    }
-
-    .botao_senha {
-        right: 13px;
-
-        font-size: 18px;
-    }
-
-
-    /**
-    
-        BOTÃO RESPONSIVO
-    
-    */
-
-    .botao_entrar {
-        width: 130px;
-
-        height: 48px;
-
-        margin-top: 8px;
-
-        font-size: 17px;
-
-        border-radius: 13px;
-    }
-
-
-    /**
-    
-    CADASTRO RESPONSIVO
-    
-    */
-
-    .cadastro {
-        margin-top: 16px;
-
-        gap: 5px;
-
-        font-size: 12px;
-
-        flex-wrap: wrap;
-    }
-
-
-    /**
-    
-        VOLTAR RESPONSIVO
-    
-    */
-
-    .botao_voltar {
-        top: 18px;
-
-        left: 16px;
-    }
-
-    .botao_voltar svg {
-        width: 36px;
-
-        height: 36px;
-    }
-
 }
