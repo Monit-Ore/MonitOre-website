@@ -625,6 +625,7 @@ body {
     margin-top: 1.5vw;
     display: flex;
     align-items: center;
+
 }
 
 .button_esquerda_secaoImpactoNegocios button {
@@ -639,6 +640,7 @@ body {
     padding: 0;
     transition: 0.5s;
     cursor: pointer;
+    border:#000000 solid 2px;
 }
 
 .direita_secaoImpactoNegocios {
