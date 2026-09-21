@@ -57,7 +57,7 @@ function renderizarMineradoras(grupos) {
 }
 
 function criarCardTorre(torre) {
-  const statusClasse = torre.status.toLowerCase();
+    const statusClasse = torre.status.toLowerCase();
 
   return `
     <div class="torre-div">

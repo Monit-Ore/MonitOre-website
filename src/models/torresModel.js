@@ -2,15 +2,6 @@ var database = require("../database/config");
 
 var mysql = require("mysql2");
 
-function mapearStatusServidorBanco(statusForm) {
-  const mapa = {
-    Ativo: "Online",
-    Inativo: "Offline",
-    Alerta: "Alerta",
-    Manutenção: "Manutenção",
-  };
-  return mapa[statusForm] || "Offline";
-}
 
 async function listarTorresComMineradora(fkEmpresa) {
   var empresa = mysql.escape(fkEmpresa);
@@ -55,33 +46,31 @@ async function criarTorre(
   fk_mineradora,
   localizacao,
   descricao,
-  monitoramento_ativo,
   servidor,
   componentes,
 ) {
   var instrucaoTorre = `INSERT INTO torre
-        (nome, codigo, localizacao, descricao, status_operacional, monitoramento_ativo, fk_empresa, fk_mineradora)
+        (nome, codigo, localizacao, descricao, fk_empresa, fk_mineradora)
        VALUES (
         ${mysql.escape(nome)},
         ${mysql.escape(codigo)},
         ${mysql.escape(localizacao)},
         ${mysql.escape(descricao || null)},
-        'Operacional',
-        ${mysql.escape(monitoramento_ativo ?? true)},
         ${mysql.escape(fkEmpresa)},
         ${mysql.escape(fk_mineradora)}
        )`;
   var resultadoTorre = await database.executar(instrucaoTorre);
   var idTorre = resultadoTorre.insertId;
 
+  var uuidAgente = servidor?.uuid_agente ?? servidor?.identificador ?? null;
+
   var instrucaoPlc = `INSERT INTO plc
-        (uuid_agente, hostname, ip, sistema_operacional, status_operacional, fk_torre)
+        (uuid_agente, hostname, ip, sistema_operacional, fk_torre)
        VALUES (
-        ${mysql.escape(servidor.uuid_agente)},
+        ${mysql.escape(uuidAgente)},
         ${mysql.escape(servidor.hostname || null)},
         ${mysql.escape(servidor.ip)},
         ${mysql.escape(servidor.sistema_operacional)},
-        ${mysql.escape(mapearStatusServidorBanco(servidor.status))},
         ${mysql.escape(idTorre)}
        )`;
   var resultadoPlc = await database.executar(instrucaoPlc);
@@ -107,7 +96,7 @@ async function criarTorre(
 }
 
 module.exports = {
-  mapearStatusServidorBanco,
+  
   listarTorresComMineradora,
   verificarCodigoExistente,
   listarMineradoras,

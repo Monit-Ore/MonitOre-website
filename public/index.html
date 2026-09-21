@@ -90,7 +90,7 @@
         </div>
     </div>
 
-    <div class="secaoSolucao">
+    <div class="secaoSolucao" id ="solucao">
       <div class="esquerda_secaoSolucao">
           <h1>NOSSA <br> SOLUÇÃO</h1>
           <p>Solução completa para garantir a continuidade e eficiência da sua extração mineral</p>
@@ -163,9 +163,12 @@
           <p>Paradasa inesperadas não afetam apenas a produção, mas todo o resultado da operação.</p>
           <p>Veja o impacto financeiro de uma falha grave em uma mina de performace com faturamento anual de R$ 5 bilhões e margem operacional de 25%</p>
         </div>
-        <div class="button_esquerda_secaoImpactoNegocios">
-          <button>VER MAIS DA SOLUÇÃO  ➤</button>
-        </div>
+        <!-- Botão Desktop -->
+<div class="button_esquerda_secaoImpactoNegocios">
+  <button type="button" onclick="document.getElementById('solucao').scrollIntoView({ behavior: 'smooth' })">
+    VER MAIS DA SOLUÇÃO ➤
+  </button>
+</div>
         </div>
       <div class="direita_secaoImpactoNegocios">
           <div class="CaixaMetricas">
@@ -198,9 +201,11 @@
             </div>
 
           </div>
-          <div class="botaocelular button_esquerda_secaoImpactoNegocios">
-            <button class="irParaSobre">VER MAIS DA SOLUÇÃO  ➤</button>
-          </div>
+ <div class="botaocelular button_esquerda_secaoImpactoNegocios">
+  <button type="button" onclick="document.getElementById('solucao').scrollIntoView({ behavior: 'smooth' })">
+    VER MAIS DA SOLUÇÃO ➤
+  </button>
+</div>
           <div class="ImagemDesign">
             <img src="imgs/institucional/designMetricas.svg" alt="">
           </div>

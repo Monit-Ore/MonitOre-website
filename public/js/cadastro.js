@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   carregarCargos();
   carregarMineradoras();
-  configurarStatus();
+
   configurarMascaras();
   carregarUsuarioMenu();
 
@@ -89,7 +89,7 @@ function salvar() {
 
   var idCargo = document.getElementById("cargo_ipt").value;
 
-  var statusAtivo = document.getElementById("status_ipt").checked;
+
 
   if (nome.length < 3) {
     mostrarMensagem("Informe o nome completo do funcionário.", true);
@@ -130,7 +130,6 @@ function salvar() {
 
     idMineradora: idMineradora ? Number(idMineradora) : null,
 
-    statusAtividade: statusAtivo ? "Ativo" : "Inativo",
   };
 
   enviarCadastro(dadosCadastro);
@@ -173,9 +172,6 @@ function enviarCadastro(dadosCadastro) {
 
       limparFormulario();
 
-      setTimeout(function () {
-        window.location.href = "./login.html";
-      }, 1500);
     })
     .catch(function (erro) {
       mostrarMensagem(erro.message, true);
@@ -195,26 +191,6 @@ function mostrar_senha() {
   } else {
     campoSenha.type = "password";
   }
-}
-
-// STATUS
-
-function configurarStatus() {
-  var campoStatus = document.getElementById("status_ipt");
-
-  var textoStatus = document.querySelector(".texto-status");
-
-  function atualizarStatus() {
-    if (campoStatus.checked) {
-      textoStatus.textContent = "Ativo";
-    } else {
-      textoStatus.textContent = "Inativo";
-    }
-  }
-
-  campoStatus.addEventListener("change", atualizarStatus);
-
-  atualizarStatus();
 }
 
 // MÁSCARAS DE CPF E TELEFONE

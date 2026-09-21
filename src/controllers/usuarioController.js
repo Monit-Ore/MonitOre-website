@@ -157,7 +157,6 @@ async function cadastrar(req, res) {
   var senha = req.body.senha;
   var dataNascimento = req.body.dataNascimento;
   var telefone = req.body.telefone;
-  var statusAtividade = req.body.statusAtividade;
   var idCargo = req.body.idCargo;
   var idMineradora = req.body.idMineradora;
 
@@ -225,8 +224,6 @@ async function cadastrar(req, res) {
     });
   }
 
-  statusAtividade = statusAtividade === "Inativo" ? "Inativo" : "Ativo";
-
   try {
     var usuariosComEmail = await usuarioModel.buscarPorEmail(email);
 
@@ -270,7 +267,6 @@ async function cadastrar(req, res) {
       senha,
       dataNascimento || null,
       telefone ? telefone.trim() : null,
-      statusAtividade,
       idCargo,
       idMineradora || null,
     );

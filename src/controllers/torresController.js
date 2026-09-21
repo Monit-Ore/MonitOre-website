@@ -8,10 +8,10 @@ const SISTEMAS_OPERACIONAIS = [
   "Debian 12",
   "CentOS Stream 9",
 ];
-
 function mapearStatusExibicao(statusBanco) {
   return statusBanco === "Alerta" ? "Alerta" : "Regular";
 }
+
 
 async function selecaoTorre(req, res) {
   try {
@@ -35,7 +35,7 @@ async function selecaoTorre(req, res) {
         id_torre: torre.id_torre,
         codigo: torre.codigo,
         status: mapearStatusExibicao(torre.status_operacional),
-      });
+        });
     });
 
     const resposta = Array.from(
@@ -88,7 +88,6 @@ async function cadastrarTorre(req, res) {
       fk_mineradora,
       localizacao,
       descricao,
-      monitoramento_ativo,
       servidor,
       componentes,
     } = req.body;
@@ -122,6 +121,7 @@ async function cadastrarTorre(req, res) {
     const codigoJaExiste = await torresModel.verificarCodigoExistente(
       fkEmpresa,
       codigo,
+      servidor?.uuid_agente ?? servidor?.identificador,
     );
 
     if (codigoJaExiste) {
@@ -137,7 +137,6 @@ async function cadastrarTorre(req, res) {
       fk_mineradora,
       localizacao,
       descricao,
-      monitoramento_ativo ?? true,
       servidor,
       componentes,
     );

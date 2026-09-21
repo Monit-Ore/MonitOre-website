@@ -123,7 +123,6 @@ function cadastrar(
   senha,
   dataNascimento,
   telefone,
-  statusAtividade,
   idCargo,
   idMineradora,
 ) {
@@ -132,7 +131,6 @@ function cadastrar(
   var cpfSeguro = mysql.escape(cpf);
   var senhaSegura = mysql.escape(senha);
   var telefoneSeguro = mysql.escape(telefone || null);
-  var statusSeguro = mysql.escape(statusAtividade);
 
   var dataNascimentoSegura = dataNascimento
     ? mysql.escape(dataNascimento)
@@ -149,7 +147,6 @@ function cadastrar(
             data_nascimento,
             telefone,
             primeiro_acesso,
-            status_atividade,
             ultimo_acesso,
             fk_cargo,
             fk_mineradora
@@ -162,7 +159,6 @@ function cadastrar(
             ${dataNascimentoSegura},
             ${telefoneSeguro},
             TRUE,
-            ${statusSeguro},
             NULL,
             ${Number(idCargo)},
             ${mineradoraSegura}
