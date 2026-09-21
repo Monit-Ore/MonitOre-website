@@ -34,7 +34,7 @@ body {
 }
 
 .titulo .titulo_imagem {
-    width: 7vw;
+    width: 4vw;
 }
 
 .titulo .titulo_imagem img {
@@ -45,7 +45,7 @@ body {
 
 .container .titulo h1 {
     color: var(--branco);
-    font-size: 4vw;
+    font-size: 3vw;
     font-weight: bolder;
     margin: 0;
     padding: 0;
@@ -61,7 +61,7 @@ body {
     width: 100%;
     margin: 0;
     height: 100%;
-    font-size: 2.5vw;
+    font-size: 1.5vw;
     color: white;
 }
 
@@ -142,7 +142,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 65%;
-    font-size: 3vw;
+    font-size: 2.5vw;
     font-weight: bolder;
 }
 
@@ -166,11 +166,11 @@ body {
 }
 
 .TopicoTexto h1 {
-    font-size: 3vw;
+    font-size: 2vw;
 }
 
 .TopicoTexto p {
-    font-size: 1.5vw;
+    font-size: 1.2vw;
 }
 
 @media screen and (max-width: 768px) {
@@ -256,14 +256,14 @@ body {
     width: 100%;
     padding-bottom: 10px;
     padding-left: 3vw;
-    font-size: 4vw;
+    font-size: 3vw;
     border-bottom: 10px #FFD741 solid;
 }
 
 .esquerda_secaoSolucao p {
     padding-left: 4vw;
     padding-top: 2vw;
-    font-size: 2vw;
+    font-size: 1.9vw;
     font-weight: bolder;
     height: 50%;
     width: 100%;
@@ -506,7 +506,7 @@ body {
 }
 
 .cimaDireitaInformacoes h1 {
-    font-size: 2.7vw;
+    font-size: 2.4vw;
     width: 80%;
     overflow-wrap: break-word;
     padding-bottom: 3vw;
@@ -514,13 +514,13 @@ body {
 
 .cimaDireitaInformacoes p {
     overflow-wrap: break-word;
-    font-size: 1.7vw;
+    font-size: 1.6vw;
     width: 80%;
 }
 
 .cimaDireitaInformacoes ul{
     padding-top: 1vw;
-    font-size: 1.7vw;
+    font-size: 1.6vw;
     width: 70%;
 }
 
@@ -558,7 +558,6 @@ body {
     .direitaInformacoes {
         width: 100%;
         height: 100%;
-        
     }
 
     .cimaDireitaInformacoes {
@@ -605,25 +604,25 @@ body {
 .texto_esquerda_secaoImpactoNegocios {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     height: 55%;
 }
 
 .texto_esquerda_secaoImpactoNegocios h1 {
-    font-size: 2.7vw;
+    font-size: 2.4vw;
 }
 
 .texto_esquerda_secaoImpactoNegocios p:nth-of-type(1) {
-    font-size: 1.7vw;
+    font-size: 1.6vw;
 }
 
 .texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
-    font-size: 1.7vw;
+    font-size: 1.6vw;
 }
 
 .button_esquerda_secaoImpactoNegocios {
     height: 30%;
-    margin-top: 2vw;
+    margin-top: 1.5vw;
     display: flex;
     align-items: center;
 }
