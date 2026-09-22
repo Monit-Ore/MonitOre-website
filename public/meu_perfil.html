@@ -22,7 +22,7 @@
     <aside class="navegacao">
       <div class="logo_navegacao">
         <img src="./imgs/LogoHeader.svg" alt="Monitore" />
-      </div>
+      </div> 
 
       <nav class="menu_navegacao">
         <ul>
@@ -85,93 +85,85 @@
     <!-- Conteúdo principal -->
     <div class="conteudo_layout">
       <header class="superior_tela">
-        <button
-          class="botao_voltar"
-          type="button"
-          onclick="voltar()"
-          aria-label="Voltar"
-        >
-          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-        </button>
+        
+          
 
         <div class="titulo_superior">
-          <h1>Cadastro de Funcionário</h1>
+          <h1>Meu Perfil</h1>
 
-          <h2>Preencha os dados do novo funcionário</h2>
+          <h2>Gerencie suas informações pessoais e de segurança.</h2>
         </div>
-
-        <button
+        
+        <!-- <button
           class="botao_notificacao btn-notificacao"
           type="button"
           aria-label="Abrir menu"
         >
           <i class="fa-regular fa-bell icone-sino" aria-hidden="true"></i>
-          <i class="fa-solid fa-bars icone-menu"></i>
-        </button>
+          <i class="fa-solid fa-bars icone-menu"></i> 
+        </button> -->
       </header>
 
-      <main class="conteudo">
+      <main class="conteudo perfil_input">
+
         <section class="card_conteudo">
-          <div class="titulo_formulario">
-            <h1>Dados do Usuário</h1>
+           <div class="superior_tela fundo_padrao">
+            <div class="avatar_usuario perfil_icon" id="avatar_usuario">
+              <i class="fa-sharp fa-regular fa-user" aria-hidden="true"></i>
+            </div>
+            
+
+            <div class="titulo_superior">
+              <h1><span id="nome">Nome</span></h1>
+
+              <h2><span id="cargo">cargo</span> • <span id="email">email</span></h2>
+            </div>
+           </div>
+        </section>
+
+        <section class="card_conteudo">
+          <div class="titulo_cards">
+            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+            <h1><label for="telefone_ipt">Telefone</label></h1>
           </div>
 
           <div class="container_formularios">
             <!-- Coluna esquerda -->
             <div class="formulario">
-              <label for="nome_ipt"> Nome completo* </label>
+
+              <label for="telefone_ipt">Novo número de telefone</label>
 
               <input
-                type="text"
-                id="nome_ipt"
-                placeholder="Digite o nome completo"
-                autocomplete="name"
-                required
+                type="tel"
+                id="telefone_ipt"
+                placeholder="(00) 00000-0000"
+                inputmode="tel"
+                autocomplete="tel"
+                maxlength="15"
               />
-
-              <label for="email_ipt"> Digite o e-mail* </label>
-
-              <input
-                type="email"
-                id="email_ipt"
-                placeholder="Digite o e-mail"
-                autocomplete="email"
-                required
-              />
-
-              <label for="data_nasc_input"> Data de nascimento </label>
-
-              <input type="date" id="data_nasc_input" />
-
-              <label for="unidade_local_ipt"> Unidade/Local </label>
-
-              <select id="unidade_local_ipt">
-                <option value="">Selecione uma unidade</option>
-              </select>
+              <button type="button" class="btn-salvar" onclick="salvar()">
+                <span>Salvar telefone</span>
+              </button>
             </div>
+          </div>
+        </section>
 
-            <!-- Coluna direita -->
+        <section class="card_conteudo">
+          <div class="titulo_cards">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            <h1><label for="cur_senha_ipt">Alterar senha</label></h1>
+          </div>
+          <div class="container_formularios">  
             <div class="formulario">
-              <label for="cpf_ipt"> CPF* </label>
 
-              <input
-                type="text"
-                id="cpf_ipt"
-                placeholder="000.000.000-00"
-                inputmode="numeric"
-                autocomplete="off"
-                maxlength="14"
-                required
-              />
-
-              <label for="senha_ipt"> Senha* </label>
+              <label for="cur_senha_ipt">Senha atual</label>
 
               <div class="senha_container">
                 <input
                   type="password"
-                  id="senha_ipt"
-                  placeholder="Digite sua senha"
-                  autocomplete="new-password"
+                  id="cur_senha_ipt"
+                  placeholder="********"
+                  autocomplete="current-password"
                   minlength="6"
                   required
                 />
@@ -186,26 +178,34 @@
                 </button>
               </div>
 
-              <label for="telefone_ipt"> Telefone </label>
 
-              <input
-                type="tel"
-                id="telefone_ipt"
-                placeholder="(00) 00000-0000"
-                inputmode="tel"
-                autocomplete="tel"
-                maxlength="15"
-              />
+              <label for="senha_ipt">Nova senha</label>
 
-              <label for="cargo_ipt"> Cargo* </label>
+              <div class="senha_container">
+                <input
+                  type="password"
+                  id="senha_ipt"
+                  placeholder="********"
+                  autocomplete="new-password"
+                  minlength="6"
+                  required
+                />
 
-              <select id="cargo_ipt" required>
-                <option value="">Selecione um cargo</option>
-              </select>
+                <button
+                  type="button"
+                  class="botao_senha"
+                  onclick="mostrar_senha()"
+                  aria-label="Mostrar ou ocultar senha"
+                >
+                  👁
+                </button>
+              </div>
+              <button type="button" class="btn-salvar" onclick="salvar()">
+                <span>Alterar senha</span>
+              </button>
             </div>
           </div>
 
-          <!-- Status -->
         </section>
 
         <!-- Mensagem de sucesso ou erro -->
@@ -223,21 +223,11 @@
             <span>Cancelar</span>
           </button>
 
-          <button type="button" class="btn-salvar" onclick="salvar()">
-            🗁
-
-            <span>Salvar Funcionário</span>
-          </button>
+          
         </div>
       </main>
     </div>
 
     <script src="./js/cadastro.js"></script>
-
-    <script>
-      usuario_logado.addEventListener("click", () => {
-        window.location = '/meu_perfil.html';
-      });
-    </script>
   </body>
 </html>
