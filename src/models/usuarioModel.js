@@ -231,6 +231,34 @@ function listarMineradoras() {
 
 // EXPORTAÇÕES
 
+// GERENCIAR PERFIL
+
+function atualizarTel(idUsuario, telefone) {
+  var instrucaoSql = `
+        UPDATE usuario
+        SET telefone = ${telefone}
+        WHERE id_usuario = ${Number(idUsuario)};
+    `;
+
+  console.log("Executando SQL de adicionar ou atualizar telefone:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+
+function atualizarSenha(idUsuario, senha) {
+  var instrucaoSql = `
+        UPDATE usuario
+        SET senha = "${senha}"
+        WHERE id_usuario = ${Number(idUsuario)};
+    `;
+
+  console.log("Executando SQL de atualizar senha:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+
 module.exports = {
   buscarPorEmail,
   buscarPorCpf,
@@ -240,4 +268,6 @@ module.exports = {
   atualizarUltimoAcesso,
   listarCargos,
   listarMineradoras,
+  atualizarTel,
+  atualizarSenha
 };

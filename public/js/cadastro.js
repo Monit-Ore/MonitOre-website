@@ -137,6 +137,7 @@ function salvar() {
 
 // ENVIO PARA O BACKEND
 
+
 function enviarCadastro(dadosCadastro) {
   var botaoSalvar = document.querySelector(".btn-salvar");
 
@@ -328,3 +329,27 @@ function ativarManual() {
   alertas.classList.remove("ativo");
   manual.classList.add("ativo");
 }
+
+function ativarPerfil() {
+  torres.classList.remove("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.remove("ativo");
+  perfil.classList.add("ativo");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  carregarUsuarioMenu();
+
+  const botaoMenu = document.querySelector(".btn-notificacao");
+
+  botaoMenu?.addEventListener("click", () =>
+    document.body.classList.toggle("menu-aberto"),
+  );
+
+  document.getElementById("botao_sair")?.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "./login.html";
+  });
+});
