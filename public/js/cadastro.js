@@ -137,6 +137,7 @@ function salvar() {
 
 // ENVIO PARA O BACKEND
 
+
 function enviarCadastro(dadosCadastro) {
   var botaoSalvar = document.querySelector(".btn-salvar");
 
@@ -183,8 +184,17 @@ function enviarCadastro(dadosCadastro) {
 
 // MOSTRAR OU OCULTAR SENHA
 
-function mostrar_senha() {
-  var campoSenha = document.getElementById("senha_ipt");
+function mostrar_senha(num) {
+  if (num == 1) {
+    var campoSenha = document.getElementById("cur_senha_ipt");
+  } else if (num == 2) {
+    var campoSenha = document.getElementById("senha_ipt");
+  } else if (num == 3) {
+    var campoSenha = document.getElementById("confirm_senha_ipt");
+  } else {
+    var campoSenha = document.getElementById("senha_ipt");
+  }
+  
 
   if (campoSenha.type === "password") {
     campoSenha.type = "text";
@@ -319,3 +329,27 @@ function ativarManual() {
   alertas.classList.remove("ativo");
   manual.classList.add("ativo");
 }
+
+function ativarPerfil() {
+  torres.classList.remove("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.remove("ativo");
+  perfil.classList.add("ativo");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  carregarUsuarioMenu();
+
+  const botaoMenu = document.querySelector(".btn-notificacao");
+
+  botaoMenu?.addEventListener("click", () =>
+    document.body.classList.toggle("menu-aberto"),
+  );
+
+  document.getElementById("botao_sair")?.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "./login.html";
+  });
+});
