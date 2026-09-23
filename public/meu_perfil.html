@@ -37,7 +37,7 @@
           </a>
           <a
             href="#"
-            class="item_menu ativo"
+            class="item_menu"
             id="usuarios"
             onclick="ativarUsuarios()"
           >
@@ -66,10 +66,12 @@
           <span>Configurações</span>
         </div>
 
-        <div class="usuario_navegacao" id="usuario_logado">
-          <div class="avatar_usuario" id="avatar_usuario">US</div>
+        <div class="usuario_navegacao item_menu ativo" id="usuario_logado">
+          <div class="avatar_usuario" id="avatar_usuario">
+            <i class="fa-sharp fa-regular fa-user" aria-hidden="true"></i>
+          </div>
           <div class="info_usuario">
-            <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+            <span class="nome_usuario" id="nome_usuario">Nome</span>
             <span class="cargo_usuario" id="cargo_usuario"></span>
           </div>
           <i class="fa-solid fa-chevron-right icone_menu"></i>
@@ -114,7 +116,7 @@
             
 
             <div class="titulo_superior">
-              <h1><span id="nome">Nome</span></h1>
+              <h1><span id="nome_usuario">Nome</span></h1>
 
               <h2><span id="cargo">cargo</span> • <span id="email">email</span></h2>
             </div>
@@ -148,7 +150,7 @@
           </div>
         </section>
 
-        <section class="card_conteudo">
+        <section class="card_conteudo senhas">
           <div class="titulo_cards">
             <i class="fa-solid fa-lock" aria-hidden="true"></i>
             <h1><label for="cur_senha_ipt">Alterar senha</label></h1>
@@ -159,50 +161,80 @@
               <label for="cur_senha_ipt">Senha atual</label>
 
               <div class="senha_container">
-                <input
-                  type="password"
-                  id="cur_senha_ipt"
-                  placeholder="********"
-                  autocomplete="current-password"
-                  minlength="6"
-                  required
-                />
+                  <input
+                    type="password"
+                    id="cur_senha_ipt"
+                    placeholder="********"
+                    autocomplete="current-password"
+                    minlength="6"
+                    required
+                  />
 
-                <button
-                  type="button"
-                  class="botao_senha"
-                  onclick="mostrar_senha()"
-                  aria-label="Mostrar ou ocultar senha"
-                >
-                  👁
-                </button>
+                  <button
+                    type="button"
+                    class="botao_senha"
+                    onclick="mostrar_senha(1)"
+                    aria-label="Mostrar ou ocultar senha"
+                  >
+                    👁
+                  </button>
+                </div>
               </div>
+              <div class="form_senhas">
+                <div class="formulario">
 
+                  <label for="senha_ipt">Nova senha</label>
 
-              <label for="senha_ipt">Nova senha</label>
+                  <div class="senha_container">
+                    <input
+                      type="password"
+                      id="senha_ipt"
+                      placeholder="********"
+                      autocomplete="new-password"
+                      minlength="6"
+                      required
+                    />
 
-              <div class="senha_container">
-                <input
-                  type="password"
-                  id="senha_ipt"
-                  placeholder="********"
-                  autocomplete="new-password"
-                  minlength="6"
-                  required
-                />
+                    <button
+                      type="button"
+                      class="botao_senha"
+                      onclick="mostrar_senha(2)"
+                      aria-label="Mostrar ou ocultar senha"
+                    >
+                      👁
+                    </button>
+                  </div>
+                </div>
+                  <div class="formulario">
+                    <label for="confirm_senha_ipt">Confirmar nova senha</label>
 
-                <button
-                  type="button"
-                  class="botao_senha"
-                  onclick="mostrar_senha()"
-                  aria-label="Mostrar ou ocultar senha"
-                >
-                  👁
-                </button>
-              </div>
+                    <div class="senha_container">
+                      <input
+                        type="password"
+                        id="confirm_senha_ipt"
+                        placeholder="********"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                      />
+
+                      <button
+                        type="button"
+                        class="botao_senha"
+                        onclick="mostrar_senha(3)"
+                        aria-label="Mostrar ou ocultar senha"
+                      >
+                        👁
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>    
               <button type="button" class="btn-salvar" onclick="salvar()">
                 <span>Alterar senha</span>
               </button>
+
             </div>
           </div>
 

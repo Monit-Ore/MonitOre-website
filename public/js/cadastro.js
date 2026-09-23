@@ -183,8 +183,17 @@ function enviarCadastro(dadosCadastro) {
 
 // MOSTRAR OU OCULTAR SENHA
 
-function mostrar_senha() {
-  var campoSenha = document.getElementById("senha_ipt");
+function mostrar_senha(num) {
+  if (num == 1) {
+    var campoSenha = document.getElementById("cur_senha_ipt");
+  } else if (num == 2) {
+    var campoSenha = document.getElementById("senha_ipt");
+  } else if (num == 3) {
+    var campoSenha = document.getElementById("confirm_senha_ipt");
+  } else {
+    var campoSenha = document.getElementById("senha_ipt");
+  }
+  
 
   if (campoSenha.type === "password") {
     campoSenha.type = "text";
