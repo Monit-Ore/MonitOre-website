@@ -242,6 +242,10 @@ function ativarManual() {
   ativarMenu("manual");
 }
 
+function ativarPerfil() {
+  ativarMenu("perfil");
+}
+
 function carregarUsuarioMenu() {
   const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
   if (!nomeUsuario) {

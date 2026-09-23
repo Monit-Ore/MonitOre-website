@@ -36,8 +36,8 @@
             <span>Torres</span>
           </a>
           <a
-            href="#"
-            class="item_menu ativo"
+            href="/cadastro.html"
+            class="item_menu"
             id="usuarios"
             onclick="ativarUsuarios()"
           >
@@ -66,13 +66,17 @@
           <span>Configurações</span>
         </div>
 
-        <div class="usuario_navegacao" id="usuario_logado">
-          <div class="avatar_usuario" id="avatar_usuario">US</div>
+        <div id="perfil" onclick="ativarPerfil()">
+          <div class="usuario_navegacao item_menu ativo" id="usuario_logado">
+          <div class="avatar_usuario" id="avatar_usuario">
+            <i class="fa-sharp fa-regular fa-user" aria-hidden="true"></i>
+          </div>
           <div class="info_usuario">
             <span class="nome_usuario" id="nome_usuario">Carregando...</span>
             <span class="cargo_usuario" id="cargo_usuario"></span>
           </div>
-          <i class="fa-solid fa-chevron-right icone_menu"></i>
+            <i class="fa-solid fa-chevron-right icone_menu"></i>
+          </div>
         </div>
 
         <button class="botao_sair" id="botao_sair" type="button">
@@ -114,7 +118,7 @@
             
 
             <div class="titulo_superior">
-              <h1><span id="nome">Nome</span></h1>
+              <h1><span id="nome_user">Nome</span></h1>
 
               <h2><span id="cargo">cargo</span> • <span id="email">email</span></h2>
             </div>
@@ -141,14 +145,14 @@
                 autocomplete="tel"
                 maxlength="15"
               />
-              <button type="button" class="btn-salvar" onclick="salvar()">
+              <button type="button" class="btn-salvar" onclick="atualizarTelefone()">
                 <span>Salvar telefone</span>
               </button>
             </div>
           </div>
         </section>
 
-        <section class="card_conteudo">
+        <section class="card_conteudo senhas">
           <div class="titulo_cards">
             <i class="fa-solid fa-lock" aria-hidden="true"></i>
             <h1><label for="cur_senha_ipt">Alterar senha</label></h1>
@@ -159,50 +163,80 @@
               <label for="cur_senha_ipt">Senha atual</label>
 
               <div class="senha_container">
-                <input
-                  type="password"
-                  id="cur_senha_ipt"
-                  placeholder="********"
-                  autocomplete="current-password"
-                  minlength="6"
-                  required
-                />
+                  <input
+                    type="password"
+                    id="cur_senha_ipt"
+                    placeholder="********"
+                    autocomplete="current-password"
+                    minlength="6"
+                    required
+                  />
 
-                <button
-                  type="button"
-                  class="botao_senha"
-                  onclick="mostrar_senha()"
-                  aria-label="Mostrar ou ocultar senha"
-                >
-                  👁
-                </button>
+                  <button
+                    type="button"
+                    class="botao_senha"
+                    onclick="mostrar_senha(1)"
+                    aria-label="Mostrar ou ocultar senha"
+                  >
+                    👁
+                  </button>
+                </div>
               </div>
+              <div class="form_senhas">
+                <div class="formulario">
 
+                  <label for="senha_ipt">Nova senha</label>
 
-              <label for="senha_ipt">Nova senha</label>
+                  <div class="senha_container">
+                    <input
+                      type="password"
+                      id="senha_ipt"
+                      placeholder="********"
+                      autocomplete="new-password"
+                      minlength="6"
+                      required
+                    />
 
-              <div class="senha_container">
-                <input
-                  type="password"
-                  id="senha_ipt"
-                  placeholder="********"
-                  autocomplete="new-password"
-                  minlength="6"
-                  required
-                />
+                    <button
+                      type="button"
+                      class="botao_senha"
+                      onclick="mostrar_senha(2)"
+                      aria-label="Mostrar ou ocultar senha"
+                    >
+                      👁
+                    </button>
+                  </div>
+                </div>
+                  <div class="formulario">
+                    <label for="confirm_senha_ipt">Confirmar nova senha</label>
 
-                <button
-                  type="button"
-                  class="botao_senha"
-                  onclick="mostrar_senha()"
-                  aria-label="Mostrar ou ocultar senha"
-                >
-                  👁
-                </button>
-              </div>
-              <button type="button" class="btn-salvar" onclick="salvar()">
+                    <div class="senha_container">
+                      <input
+                        type="password"
+                        id="confirm_senha_ipt"
+                        placeholder="********"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                      />
+
+                      <button
+                        type="button"
+                        class="botao_senha"
+                        onclick="mostrar_senha(3)"
+                        aria-label="Mostrar ou ocultar senha"
+                      >
+                        👁
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>    
+              <button type="button" class="btn-salvar" onclick="atualizarSenha()">
                 <span>Alterar senha</span>
               </button>
+
             </div>
           </div>
 
@@ -229,5 +263,75 @@
     </div>
 
     <script src="./js/cadastro.js"></script>
+
+    <script>
+      nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+      nome_user.innerHTML = sessionStorage.NOME_USUARIO;
+      cargo_usuario.innerHTML = sessionStorage.CARGO_USUARIO;
+      cargo.innerHTML = sessionStorage.CARGO_USUARIO;
+      email.innerHTML = sessionStorage.EMAIL_USUARIO;
+
+      var id = sessionStorage.ID_USUARIO;
+
+      function atualizarTelefone() {
+       let telefone = telefone_ipt.value.trim();
+
+        fetch("/usuarios/atualizar/telefone", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userServer: id,
+                telServer: telefone
+            }),
+        })
+        .then(function (resposta){
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                console.log("resposta está ok");
+            } else {
+              throw "Houve um erro ao tentar realizar a alteração!";
+            }
+        })
+        .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        });
+
+        return false;
+      }
+
+      function atualizarSenha() {
+       let current_senha = cur_senha_ipt.value;
+       let senha = senha_ipt.value;
+       let confirmacao_senha = confirm_senha_ipt.value;
+      
+      if (senha != confirmacao_senha) {
+        return false;
+      }
+
+        fetch("/usuarios/atualizar/senha", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userServer: id,
+                senhaAtualServer: current_senha,
+                senhaNovaServer: senha,
+                emailServer: sessionStorage.EMAIL_USUARIO
+            }),
+        })
+        .then(function (resposta){
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                console.log("resposta está ok");
+            }
+        })
+
+      }
+    </script>
   </body>
 </html>

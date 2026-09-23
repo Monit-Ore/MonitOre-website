@@ -325,9 +325,86 @@ async function listarMineradoras(req, res) {
 
 // EXPORTAÇÕES
 
+// GERENCIAR PERFIL
+
+function atualizarTelefone(req, res) {
+  var id = req.body.userServer;
+  var telefone = req.body.telServer;
+
+  if (!telefone) {
+        return res.status(400).send("Telefone inválido!");
+    }
+
+  usuarioModel.atualizarTel(id, telefone)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+}
+
+async function atualizarSenha(req, res) {
+  var id = req.body.userServer;
+  var senha_atual = req.body.senhaAtualServer;
+  var nova_senha = req.body.senhaNovaServer;
+  var email = req.body.emailServer;
+
+  try {
+    var resultado = await usuarioModel.buscarPorEmail(email);
+
+    if (resultado.length === 0) {
+      return res.status(401).json({
+        mensagem: "Email ou senha inválidos.",
+      });
+    }
+
+    var usuario = resultado[0];
+
+    // Comparação direta da senha em texto.
+    if (senha_atual !== usuario.senha) {
+      return res.status(401).json({
+        mensagem: "Senha inválida.",
+      });
+    }
+  
+    usuarioModel.atualizarSenha(id, nova_senha)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+  } catch {
+    console.log(
+        "\nHouve um erro ao realizar a alteração! Erro: ",
+        erro.sqlMessage
+    );
+    res.status(500).json(erro.sqlMessage);
+  }
+}
+
 module.exports = {
   autenticar,
   cadastrar,
   listarCargos,
   listarMineradoras,
+  atualizarTelefone,
+  atualizarSenha
 };

@@ -385,6 +385,10 @@ aside span{
 
   gap: 30px;
 }
+.senhas .container_formularios {
+  flex-direction: column;
+
+}
 
 .formulario {
   display: flex;
@@ -394,6 +398,7 @@ aside span{
 
   gap: 10px;
 }
+
 
 .formulario label {
   color: #ffffff;
@@ -421,7 +426,6 @@ aside span{
 }
 
 .perfil_input input {
-  border-color: #ecbe10;
   border-radius: 8px;
 }
 
@@ -441,6 +445,24 @@ aside span{
 .formulario select option {
   background-color: #424242;
   color: #ffffff;
+}
+
+.form_senhas {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 2vw;
+}
+
+
+.form_senhas .formulario {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.senhas input {
+  height: 50px;
 }
 
 

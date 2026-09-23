@@ -33,5 +33,15 @@ router.get("/mineradoras", function (req, res) {
     usuarioController.listarMineradoras(req, res);
 });
 
+// GERENCIAMENTO DO PERFIL
+
+router.post("/atualizar/telefone", function (req, res) {
+    usuarioController.atualizarTelefone(req, res);
+});
+
+router.post("/atualizar/senha", function (req, res) {
+    usuarioController.atualizarSenha(req, res);
+});
+
 
 module.exports = router;
