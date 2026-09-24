@@ -91,23 +91,23 @@ async function autenticar(req, res) {
 
     var usuario = resultado[0];
 
-    if (usuario.status_usuario !== "Ativo") {
-      return res.status(403).json({
-        mensagem: "Usuário inativo.",
-      });
-    }
+    //if (usuario.status_usuario !== "Ativo") {
+    //  return res.status(403).json({
+    //    mensagem: "Usuário inativo.",
+    //  });
+    //}
 
-    if (usuario.status_cargo !== "Ativo") {
-      return res.status(403).json({
-        mensagem: "Cargo do usuário está inativo.",
-      });
-    }
+    //if (usuario.status_cargo !== "Ativo") {
+    //  return res.status(403).json({
+    //    mensagem: "Cargo do usuário está inativo.",
+    //  });
+    //}
 
-    if (usuario.status_empresa !== "Ativo") {
-      return res.status(403).json({
-        mensagem: "Empresa do usuário está inativa.",
-      });
-    }
+    //if (usuario.status_empresa !== "Ativo") {
+    //  return res.status(403).json({
+    //    mensagem: "Empresa do usuário está inativa.",
+    //  });
+    //}
 
     // Comparação direta da senha em texto.
     if (senha !== usuario.senha) {
