@@ -61,10 +61,7 @@
       </nav>
 
       <div class="rodape_navegacao">
-        <div class="item_menu" data-pagina="configuracoes">
-          <i class="fa-solid fa-gear icone_menu"></i>
-          <span>Configurações</span>
-        </div>
+    
 
         <div class="usuario_navegacao" id="usuario_logado">
           <div class="avatar_usuario" id="avatar_usuario">US</div>
@@ -206,21 +203,6 @@
           </div>
 
           <!-- Status -->
-          <div class="status">
-            <h3>Status</h3>
-
-            <p>Status do usuário</p>
-
-            <div class="status-controle">
-              <label class="troca">
-                <input type="checkbox" id="status_ipt" checked />
-
-                <span class="deslizar"></span>
-              </label>
-
-              <span class="texto-status"> Ativo </span>
-            </div>
-          </div>
         </section>
 
         <!-- Mensagem de sucesso ou erro -->
@@ -248,5 +230,11 @@
     </div>
 
     <script src="./js/cadastro.js"></script>
+
+    <script>
+      usuario_logado.addEventListener("click", () => {
+        window.location = '/meu_perfil.html';
+      });
+    </script>
   </body>
 </html>

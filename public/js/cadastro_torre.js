@@ -180,14 +180,11 @@ async function salvarTorre(evento) {
     fk_mineradora: Number(document.getElementById("mineradora_ipt").value),
     localizacao: document.getElementById("local_ipt").value,
     descricao: document.getElementById("descricao_ipt").value || null,
-    monitoramento_ativo: document.getElementById("toggle-monitoramento")
-      .checked,
     servidor: {
       identificador: document.getElementById("identificador_ipt").value,
       hostname: document.getElementById("hostname_ipt").value || null,
       ip: document.getElementById("ip_ipt").value,
       sistema_operacional: document.getElementById("so_ipt").value,
-      status: document.getElementById("status_ipt").value,
     },
     componentes: metricasAdicionadas.map(({ fk_componente, valor_limite }) => ({
       fk_componente,
@@ -245,17 +242,46 @@ function ativarManual() {
   ativarMenu("manual");
 }
 
+function ativarPerfil() {
+  ativarMenu("perfil");
+}
+
 function carregarUsuarioMenu() {
   const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
   if (!nomeUsuario) {
     return;
   }
   nome_usuario.textContent = nomeUsuario;
+
+  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+  if (!cargoUsuario) {
+    return;
+  }
+  cargo_usuario.textContent = cargoUsuario;
+}
+
+function carregarIniciais() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  const iniciais = [];
+
+  for (let i = 0; i < nomeUsuario.length; i++) {
+    
+    if (i == 0) {
+      iniciais.push(nomeUsuario[i]);
+    }
+
+    if (nomeUsuario[i] == " ") {
+      iniciais.push(nomeUsuario[i + 1])
+      break;
+    }
+    
+  }
+  avatar_usuario.textContent = iniciais.join('');
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarioMenu();
-
+  carregarIniciais();
   const botaoMenu = document.querySelector(".btn-notificacao");
 
   botaoMenu?.addEventListener("click", () =>

@@ -58,10 +58,6 @@
       </nav>
 
       <div class="rodape_navegacao">
-        <div class="item_menu" data-pagina="configuracoes">
-          <i class="fa-solid fa-gear icone_menu"></i>
-          <span>Configurações</span>
-        </div>
 
         <div class="usuario_navegacao" id="usuario_logado">
           <div class="avatar_usuario" id="avatar_usuario">US</div>
@@ -119,5 +115,11 @@
         </div>
       </div>
     </main>
+    <script>
+      usuario_logado.addEventListener("click", () => {
+        window.location = '/meu_perfil.html';
+      });
+    </script>
   </body>
+  
 </html>

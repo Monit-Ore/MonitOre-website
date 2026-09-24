@@ -91,23 +91,23 @@ async function autenticar(req, res) {
 
     var usuario = resultado[0];
 
-    if (usuario.status_usuario !== "Ativo") {
-      return res.status(403).json({
-        mensagem: "Usuário inativo.",
-      });
-    }
+    //if (usuario.status_usuario !== "Ativo") {
+    //  return res.status(403).json({
+    //    mensagem: "Usuário inativo.",
+    //  });
+    //}
 
-    if (usuario.status_cargo !== "Ativo") {
-      return res.status(403).json({
-        mensagem: "Cargo do usuário está inativo.",
-      });
-    }
+    //if (usuario.status_cargo !== "Ativo") {
+    //  return res.status(403).json({
+    //    mensagem: "Cargo do usuário está inativo.",
+    //  });
+    //}
 
-    if (usuario.status_empresa !== "Ativo") {
-      return res.status(403).json({
-        mensagem: "Empresa do usuário está inativa.",
-      });
-    }
+    //if (usuario.status_empresa !== "Ativo") {
+    //  return res.status(403).json({
+    //    mensagem: "Empresa do usuário está inativa.",
+    //  });
+    //}
 
     // Comparação direta da senha em texto.
     if (senha !== usuario.senha) {
@@ -157,7 +157,6 @@ async function cadastrar(req, res) {
   var senha = req.body.senha;
   var dataNascimento = req.body.dataNascimento;
   var telefone = req.body.telefone;
-  var statusAtividade = req.body.statusAtividade;
   var idCargo = req.body.idCargo;
   var idMineradora = req.body.idMineradora;
 
@@ -225,8 +224,6 @@ async function cadastrar(req, res) {
     });
   }
 
-  statusAtividade = statusAtividade === "Inativo" ? "Inativo" : "Ativo";
-
   try {
     var usuariosComEmail = await usuarioModel.buscarPorEmail(email);
 
@@ -270,7 +267,6 @@ async function cadastrar(req, res) {
       senha,
       dataNascimento || null,
       telefone ? telefone.trim() : null,
-      statusAtividade,
       idCargo,
       idMineradora || null,
     );
@@ -329,9 +325,86 @@ async function listarMineradoras(req, res) {
 
 // EXPORTAÇÕES
 
+// GERENCIAR PERFIL
+
+function atualizarTelefone(req, res) {
+  var id = req.body.userServer;
+  var telefone = req.body.telServer;
+
+  if (!telefone) {
+        return res.status(400).send("Telefone inválido!");
+    }
+
+  usuarioModel.atualizarTel(id, telefone)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+}
+
+async function atualizarSenha(req, res) {
+  var id = req.body.userServer;
+  var senha_atual = req.body.senhaAtualServer;
+  var nova_senha = req.body.senhaNovaServer;
+  var email = req.body.emailServer;
+
+  try {
+    var resultado = await usuarioModel.buscarPorEmail(email);
+
+    if (resultado.length === 0) {
+      return res.status(401).json({
+        mensagem: "Email ou senha inválidos.",
+      });
+    }
+
+    var usuario = resultado[0];
+
+    // Comparação direta da senha em texto.
+    if (senha_atual !== usuario.senha) {
+      return res.status(401).json({
+        mensagem: "Senha inválida.",
+      });
+    }
+  
+    usuarioModel.atualizarSenha(id, nova_senha)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+  } catch {
+    console.log(
+        "\nHouve um erro ao realizar a alteração! Erro: ",
+        erro.sqlMessage
+    );
+    res.status(500).json(erro.sqlMessage);
+  }
+}
+
 module.exports = {
   autenticar,
   cadastrar,
   listarCargos,
   listarMineradoras,
+  atualizarTelefone,
+  atualizarSenha
 };

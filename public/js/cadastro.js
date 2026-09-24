@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
   carregarCargos();
   carregarMineradoras();
-  configurarStatus();
+
   configurarMascaras();
   carregarUsuarioMenu();
-
+  carregarIniciais();
   var botaoMenu = document.querySelector(".btn-notificacao");
 
   if (botaoMenu) {
@@ -17,6 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // CARREGAMENTO DOS CARGOS
 
 function carregarCargos() {
+  if (window.location.pathname.includes('meu_perfil.html')) {
+    return;
+  }
   var campoCargo = document.getElementById("cargo_ipt");
 
   fetch("/usuarios/cargos")
@@ -45,6 +48,9 @@ function carregarCargos() {
 // CARREGAMENTO DAS MINERADORAS/UNIDADES
 
 function carregarMineradoras() {
+  if (window.location.pathname.includes('meu_perfil.html')) {
+    return;
+  }
   var campoUnidade = document.getElementById("unidade_local_ipt");
 
   fetch("/usuarios/mineradoras")
@@ -89,7 +95,7 @@ function salvar() {
 
   var idCargo = document.getElementById("cargo_ipt").value;
 
-  var statusAtivo = document.getElementById("status_ipt").checked;
+
 
   if (nome.length < 3) {
     mostrarMensagem("Informe o nome completo do funcionário.", true);
@@ -130,13 +136,13 @@ function salvar() {
 
     idMineradora: idMineradora ? Number(idMineradora) : null,
 
-    statusAtividade: statusAtivo ? "Ativo" : "Inativo",
   };
 
   enviarCadastro(dadosCadastro);
 }
 
 // ENVIO PARA O BACKEND
+
 
 function enviarCadastro(dadosCadastro) {
   var botaoSalvar = document.querySelector(".btn-salvar");
@@ -173,9 +179,6 @@ function enviarCadastro(dadosCadastro) {
 
       limparFormulario();
 
-      setTimeout(function () {
-        window.location.href = "./login.html";
-      }, 1500);
     })
     .catch(function (erro) {
       mostrarMensagem(erro.message, true);
@@ -187,34 +190,23 @@ function enviarCadastro(dadosCadastro) {
 
 // MOSTRAR OU OCULTAR SENHA
 
-function mostrar_senha() {
-  var campoSenha = document.getElementById("senha_ipt");
+function mostrar_senha(num) {
+  if (num == 1) {
+    var campoSenha = document.getElementById("cur_senha_ipt");
+  } else if (num == 2) {
+    var campoSenha = document.getElementById("senha_ipt");
+  } else if (num == 3) {
+    var campoSenha = document.getElementById("confirm_senha_ipt");
+  } else {
+    var campoSenha = document.getElementById("senha_ipt");
+  }
+  
 
   if (campoSenha.type === "password") {
     campoSenha.type = "text";
   } else {
     campoSenha.type = "password";
   }
-}
-
-// STATUS
-
-function configurarStatus() {
-  var campoStatus = document.getElementById("status_ipt");
-
-  var textoStatus = document.querySelector(".texto-status");
-
-  function atualizarStatus() {
-    if (campoStatus.checked) {
-      textoStatus.textContent = "Ativo";
-    } else {
-      textoStatus.textContent = "Inativo";
-    }
-  }
-
-  campoStatus.addEventListener("change", atualizarStatus);
-
-  atualizarStatus();
 }
 
 // MÁSCARAS DE CPF E TELEFONE
@@ -224,17 +216,19 @@ function configurarMascaras() {
 
   var campoTelefone = document.getElementById("telefone_ipt");
 
-  campoCpf.addEventListener("input", function () {
-    var cpf = campoCpf.value.replace(/\D/g, "").slice(0, 11);
+  if (campoCpf != null) {
+    campoCpf.addEventListener("input", function () {
+      var cpf = campoCpf.value.replace(/\D/g, "").slice(0, 11);
 
-    cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
 
-    cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
 
-    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+      cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
 
-    campoCpf.value = cpf;
-  });
+      campoCpf.value = cpf;
+    });
+  }
 
   campoTelefone.addEventListener("input", function () {
     var telefone = campoTelefone.value.replace(/\D/g, "").slice(0, 11);
@@ -259,6 +253,32 @@ function carregarUsuarioMenu() {
     return;
   }
   nome_usuario.textContent = nomeUsuario;
+
+  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+  if (!cargoUsuario) {
+    return;
+  }
+  cargo_usuario.textContent = cargoUsuario;
+}
+
+function carregarIniciais() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  const iniciais = [];
+
+  for (let i = 0; i < nomeUsuario.length; i++) {
+    
+    if (i == 0) {
+      iniciais.push(nomeUsuario[i]);
+    }
+
+    if (nomeUsuario[i] == " ") {
+      iniciais.push(nomeUsuario[i + 1])
+      break;
+    }
+    
+  }
+  avatar_usuario.textContent = iniciais.join('');
+  avatar_usuario_2.textContent = iniciais.join('');
 }
 
 // MENSAGEM
@@ -343,3 +363,28 @@ function ativarManual() {
   alertas.classList.remove("ativo");
   manual.classList.add("ativo");
 }
+
+function ativarPerfil() {
+  torres.classList.remove("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.remove("ativo");
+  perfil.classList.add("ativo");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  carregarUsuarioMenu();
+  carregarIniciais();
+
+  const botaoMenu = document.querySelector(".btn-notificacao");
+
+  botaoMenu?.addEventListener("click", () =>
+    document.body.classList.toggle("menu-aberto"),
+  );
+
+  document.getElementById("botao_sair")?.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "./login.html";
+  });
+});

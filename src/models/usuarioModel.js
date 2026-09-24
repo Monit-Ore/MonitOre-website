@@ -16,32 +16,19 @@ function buscarPorEmail(email) {
             u.senha,
             u.data_nascimento,
             u.telefone,
-            u.primeiro_acesso,
-            u.status_atividade AS status_usuario,
             u.ultimo_acesso,
-            u.fk_cargo,
-            u.fk_mineradora,
-
-            c.nome AS cargo,
-            c.status_atividade AS status_cargo,
-            c.fk_empresa,
+            u.cargo,
 
             e.razao_social AS empresa, 
-            e.id_empresa AS fk_empresa,
-            e.status_atividade AS status_empresa,
-
-            m.razao_social AS mineradora
+            e.id_empresa AS fk_empresa
 
         FROM usuario AS u
 
-        INNER JOIN cargo AS c
-            ON u.fk_cargo = c.id_cargo
-
         INNER JOIN empresa AS e
-            ON c.fk_empresa = e.id_empresa
+            ON u.fk_empresa = e.id_empresa
 
-        LEFT JOIN mineradora AS m
-            ON u.fk_mineradora = m.id_mineradora
+        /*LEFT JOIN mineradora AS m
+            ON u.fk_mineradora = m.id_mineradora*/
 
         WHERE u.email = ${emailSeguro};
     `;
@@ -123,7 +110,6 @@ function cadastrar(
   senha,
   dataNascimento,
   telefone,
-  statusAtividade,
   idCargo,
   idMineradora,
 ) {
@@ -132,7 +118,6 @@ function cadastrar(
   var cpfSeguro = mysql.escape(cpf);
   var senhaSegura = mysql.escape(senha);
   var telefoneSeguro = mysql.escape(telefone || null);
-  var statusSeguro = mysql.escape(statusAtividade);
 
   var dataNascimentoSegura = dataNascimento
     ? mysql.escape(dataNascimento)
@@ -149,7 +134,6 @@ function cadastrar(
             data_nascimento,
             telefone,
             primeiro_acesso,
-            status_atividade,
             ultimo_acesso,
             fk_cargo,
             fk_mineradora
@@ -162,7 +146,6 @@ function cadastrar(
             ${dataNascimentoSegura},
             ${telefoneSeguro},
             TRUE,
-            ${statusSeguro},
             NULL,
             ${Number(idCargo)},
             ${mineradoraSegura}
@@ -235,6 +218,34 @@ function listarMineradoras() {
 
 // EXPORTAÇÕES
 
+// GERENCIAR PERFIL
+
+function atualizarTel(idUsuario, telefone) {
+  var instrucaoSql = `
+        UPDATE usuario
+        SET telefone = ${telefone}
+        WHERE id_usuario = ${Number(idUsuario)};
+    `;
+
+  console.log("Executando SQL de adicionar ou atualizar telefone:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+
+function atualizarSenha(idUsuario, senha) {
+  var instrucaoSql = `
+        UPDATE usuario
+        SET senha = "${senha}"
+        WHERE id_usuario = ${Number(idUsuario)};
+    `;
+
+  console.log("Executando SQL de atualizar senha:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+
 module.exports = {
   buscarPorEmail,
   buscarPorCpf,
@@ -244,4 +255,6 @@ module.exports = {
   atualizarUltimoAcesso,
   listarCargos,
   listarMineradoras,
+  atualizarTel,
+  atualizarSenha
 };

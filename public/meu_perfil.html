@@ -1,0 +1,337 @@
+<!doctype html>
+
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Cadastro de Funcionário</title>
+
+    <link rel="stylesheet" href="./css/tela_cadastro.css" />
+
+    <link rel="icon" href="./imgs/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+
+  <body class="container_responsivo">
+    <!-- Menu lateral -->
+    <aside class="navegacao">
+      <div class="logo_navegacao">
+        <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+      </div> 
+
+      <nav class="menu_navegacao">
+        <ul>
+          <a
+            href="/selecao_torre.html"
+            class="item_menu"
+            id="torres"
+            onclick="ativarTorres()"
+          >
+            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
+            <span>Torres</span>
+          </a>
+          <a
+            href="/cadastro.html"
+            class="item_menu"
+            id="usuarios"
+            onclick="ativarUsuarios()"
+          >
+            <i class="fa-solid fa-users icone_menu"></i>
+            <span>Usuários</span>
+          </a>
+          <a href="#" class="item_menu" id="cargos" onclick="ativarCargos()">
+            <i class="fa-solid fa-briefcase icone_menu"></i>
+            <span>Cargos</span>
+          </a>
+          <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
+            <i class="fa-solid fa-bell icone_menu"></i>
+            <span>Alertas</span>
+            <span class="notificacao_alerta" id="notificacao_alertas"></span>
+          </a>
+          <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
+            <i class="fa-solid fa-book icone_menu"></i>
+            <span>Manual de Instalação</span>
+          </a>
+        </ul>
+      </nav>
+
+      <div class="rodape_navegacao">
+      
+
+        <div id="perfil" onclick="ativarPerfil()">
+          <div class="usuario_navegacao item_menu ativo" id="usuario_logado">
+          <div class="avatar_usuario" id="avatar_usuario">
+            <i class="fa-sharp fa-regular fa-user" aria-hidden="true"></i>
+          </div>
+          <div class="info_usuario">
+            <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+            <span class="cargo_usuario" id="cargo_usuario"></span>
+          </div>
+            <i class="fa-solid fa-chevron-right icone_menu"></i>
+          </div>
+        </div>
+
+        <button class="botao_sair" id="botao_sair" type="button">
+          <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Conteúdo principal -->
+    <div class="conteudo_layout">
+      <header class="superior_tela">
+        
+          
+
+        <div class="titulo_superior">
+          <h1>Meu Perfil</h1>
+
+          <h2>Gerencie suas informações pessoais e de segurança.</h2>
+        </div>
+        
+        <!-- <button
+          class="botao_notificacao btn-notificacao"
+          type="button"
+          aria-label="Abrir menu"
+        >
+          <i class="fa-regular fa-bell icone-sino" aria-hidden="true"></i>
+          <i class="fa-solid fa-bars icone-menu"></i> 
+        </button> -->
+      </header>
+
+      <main class="conteudo perfil_input">
+
+        <section class="card_conteudo">
+           <div class="superior_tela fundo_padrao">
+            <div class="avatar_usuario perfil_icon" id="avatar_usuario_2">
+              <i class="fa-sharp fa-regular fa-user" aria-hidden="true"></i>
+            </div>
+            
+
+            <div class="titulo_superior">
+              <h1><span id="nome_user">Nome</span></h1>
+
+              <h2><span id="cargo">cargo</span> • <span id="email">email</span></h2>
+            </div>
+           </div>
+        </section>
+
+        <section class="card_conteudo">
+          <div class="titulo_cards">
+            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+            <h1><label for="telefone_ipt">Telefone</label></h1>
+          </div>
+
+          <div class="container_formularios div_telefone">
+            <!-- Coluna esquerda -->
+            <div class="formulario">
+
+              <label for="telefone_ipt">Novo número de telefone</label>
+
+              <input
+                type="tel"
+                id="telefone_ipt"
+                placeholder="(00) 00000-0000"
+                inputmode="tel"
+                autocomplete="tel"
+                maxlength="15"
+              />
+              <button type="button" class="btn-salvar" onclick="atualizarTelefone()">
+                <span>Salvar telefone</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card_conteudo senhas">
+          <div class="titulo_cards">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            <h1><label for="cur_senha_ipt">Alterar senha</label></h1>
+          </div>
+          <div class="container_formularios">  
+            <div class="formulario">
+
+              <label for="cur_senha_ipt">Senha atual</label>
+
+              <div class="senha_container">
+                  <input
+                    type="password"
+                    id="cur_senha_ipt"
+                    placeholder="********"
+                    autocomplete="current-password"
+                    minlength="6"
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    class="botao_senha"
+                    onclick="mostrar_senha(1)"
+                    aria-label="Mostrar ou ocultar senha"
+                  >
+                    👁
+                  </button>
+                </div>
+              </div>
+              <div class="form_senhas">
+                <div class="formulario">
+
+                  <label for="senha_ipt">Nova senha</label>
+
+                  <div class="senha_container">
+                    <input
+                      type="password"
+                      id="senha_ipt"
+                      placeholder="********"
+                      autocomplete="new-password"
+                      minlength="6"
+                      required
+                    />
+
+                    <button
+                      type="button"
+                      class="botao_senha"
+                      onclick="mostrar_senha(2)"
+                      aria-label="Mostrar ou ocultar senha"
+                    >
+                      👁
+                    </button>
+                  </div>
+                </div>
+                  <div class="formulario">
+                    <label for="confirm_senha_ipt">Confirmar nova senha</label>
+
+                    <div class="senha_container">
+                      <input
+                        type="password"
+                        id="confirm_senha_ipt"
+                        placeholder="********"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                      />
+
+                      <button
+                        type="button"
+                        class="botao_senha"
+                        onclick="mostrar_senha(3)"
+                        aria-label="Mostrar ou ocultar senha"
+                      >
+                        👁
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>    
+              <button type="button" class="btn-salvar" onclick="atualizarSenha()">
+                <span>Alterar senha</span>
+              </button>
+              <p
+              id="mensagem_cadastro"
+              class="mensagem_cadastro"
+              aria-live="polite"
+              ></p>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Mensagem de sucesso ou erro -->
+        
+
+        <!-- Botões -->
+        <div class="botoes">
+          <button type="button" class="btn-cancelar" onclick="cancelar()">
+            ✕
+
+            <span>Cancelar</span>
+          </button>
+
+          
+        </div>
+      </main>
+    </div>
+
+    <script src="./js/cadastro.js"></script>
+
+    <script>
+      nome_user.innerHTML = sessionStorage.NOME_USUARIO;
+      cargo.innerHTML = sessionStorage.CARGO_USUARIO;
+      email.innerHTML = sessionStorage.EMAIL_USUARIO;
+
+      var id = sessionStorage.ID_USUARIO;
+
+      function atualizarTelefone() {
+       let telefone = telefone_ipt.value.trim();
+
+        fetch("/usuarios/atualizar/telefone", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userServer: id,
+                telServer: telefone
+            }),
+        })
+        .then(function (resposta){
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                console.log("resposta está ok");
+            } else {
+              throw "Houve um erro ao tentar realizar a alteração!";
+            }
+        })
+        .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        });
+
+        return false;
+      }
+
+      function atualizarSenha() {
+       let current_senha = cur_senha_ipt.value;
+       let senha = senha_ipt.value;
+       let confirmacao_senha = confirm_senha_ipt.value;
+      
+      if (senha != confirmacao_senha) {
+        console.log("erro");
+        
+        mostrarMensagem("As senhas não coincidem.", true);
+        return;
+      }
+
+        fetch("/usuarios/atualizar/senha", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userServer: id,
+                senhaAtualServer: current_senha,
+                senhaNovaServer: senha,
+                emailServer: sessionStorage.EMAIL_USUARIO
+            }),
+        })
+        .then(function (resposta){
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                console.log("resposta está ok");
+            } else {
+               mostrarMensagem("Senha inválida.", true);
+            }
+        })
+
+      }
+    </script>
+  </body>
+</html>

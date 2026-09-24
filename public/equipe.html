@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monit Ore | Página Equipe</title>
 
     <!-- <script src="./js/sessao.js"></script> -->
-    <script src="./js/equipe.js" defer></script>
     <script src="js/header.js" defer></script>
 
     <link rel="stylesheet" href="css/header.css">
@@ -15,78 +15,171 @@
     <link rel="stylesheet" href="css/equipe.css">
     <link rel="icon" href="./imgs/favicon.svg">
 </head>
-<body onload="CarregarEstilos()">
+
+<body>
     <div class="header">
-      <div class="NavComputador">
-        <img src="./imgs/LogoHeader.svg" class="irParaInicio" alt="Logo">
-        <div class="opcoes_header">
-            <a class="irParaInicio">Início</a>
-            <a class="irParaSobre">Sobre</a>
-            <a class="irParaEquipe">Equipe</a>
+        <div class="NavComputador">
+            <img src="./imgs/LogoHeader.svg" class="irParaInicio" alt="Logo">
+            <div class="opcoes_header">
+                <a class="irParaInicio">Início</a>
+                <a class="irParaSobre">Sobre</a>
+                <a class="irParaEquipe">Equipe</a>
+            </div>
+            <button class="IrParaLogin">Login</button>
         </div>
-        <button class="IrParaLogin">Login</button>
-      </div>
-      <div class="NavCelular">
-        <div class="BarraNavegacao">
-          <img src="./imgs/LogoHeader.svg" class="IrParaLogin" alt="Logo">
-          <img src="./imgs/Menu.svg" class="HeaderIconMenu" id="MenuHamburguer" alt="Logo">
+        <div class="NavCelular">
+            <div class="BarraNavegacao">
+                <img src="./imgs/LogoHeader.svg" class="IrParaLogin" alt="Logo">
+                <img src="./imgs/Menu.svg" class="HeaderIconMenu" id="MenuHamburguer" alt="Logo">
+            </div>
+            <div class="opcoes_celular" id="opcoes_celular">
+                <p class="irParaInicio">Inicio</p>
+                <p class="irParaSobre">Sobre</p>
+                <p class="irParaEquipe">Equipe</p>
+                <p class="IrParaLogin">Login</p>
+            </div>
         </div>
-        <div class="opcoes_celular" id="opcoes_celular">
-          <p class="irParaInicio">Inicio</p>
-          <p class="irParaSobre">Sobre</p>
-          <p class="irParaEquipe">Equipe</p>
-          <p class="IrParaLogin">Login</p>
-        </div>
-      </div>
     </div>
     <div class="EquipeTitulo">
         <h1>CONHEÇA NOSSA EQUIPE</h1>
         <p>Profissionais apaixonados pelo que fazem e comprometidos com resultados reais</p>
     </div>
     <div class="EquipeMembrosLayout" id="EquipeMembrosLayout">
+        <div class="card">
+            <div class="cardImg">
+                <img src="./imgs/Equipe/amanda.jpeg" alt="">
+            </div>
+            <p class="cardNome">Amanda de Oliveira</p>
+            <p class="cardCargo">Frontend Developer / Cloud Developer</p>
+            <hr class="LinhaAmarela">
+            <p class="cardDescricao">Analista de Cloud com virtualização na AWS e analista de dados</p>
+            <div class="cardRedesSociais">
+                <a href="https://github.com/AmandaTavares-0802"><img src="imgs/GithubLogo.svg" alt="Linkedin"></a>
+                <a href="https://www.linkedin.com/in/amanda-tavares-de-oliveira-7bb91542b/"><img
+                        src="imgs/LinkedinLogo.svg" alt="Github"></a>
+                <a href="mailto:amanda.oliveira@sptech.school"><img src="imgs/EmailIcon.svg" alt="Emaii"></a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cardImg">
+                <img src="./imgs/Equipe/arthur.jpeg" alt="">
+            </div>
+            <p class="cardNome">Arthur Martins</p>
+            <p class="cardCargo">Scrum Master / Backend Developer</p>
+            <hr class="LinhaAmarela">
+            <p class="cardDescricao">Desenvolvimento de páginas web integrando ao banco de dados</p>
+            <div class="cardRedesSociais">
+                <a href="https://github.com/arthursptech"><img src="imgs/GithubLogo.svg" alt="Linkedin"></a>
+                <a href="https://www.linkedin.com/in/arthur-martins-a00706373/"><img
+                        src="imgs/LinkedinLogo.svg" alt="Github"></a>
+                <a href="mailto:arthur.nmartins@sptech.school"><img src="imgs/EmailIcon.svg" alt="Emaii"></a>
+            </div>
+        </div>
+        
+        
+        <div class="card">
+            <div class="cardImg">
+                <img src="./imgs/Equipe/guilherme.jpeg" alt="">
+            </div>
+            <p class="cardNome">Guilherme Lima Pastorello</p>
+            <p class="cardCargo">Fullstack Developer</p>
+            <hr class="LinhaAmarela">
+            <p class="cardDescricao">Desenvolvimento de páginas web integrando ao banco de dados</p>
+            <div class="cardRedesSociais">
+                <a href="https://github.com/GuiPastorello"><img src="imgs/GithubLogo.svg" alt="Linkedin"></a>
+                <a href="https://www.linkedin.com/in/guilherme-lima-pastorello-62a8b7284/"><img
+                        src="imgs/LinkedinLogo.svg" alt="Github"></a>
+                <a href="mailto:guilherme.pastorello@sptech.school"><img src="imgs/EmailIcon.svg" alt="Emaii"></a>
+            </div>
+        </div>
+        
+        
+        <div class="card">
+            <div class="cardImg">
+                <img src="./imgs/Equipe/isaac1.jpeg" alt="">
+            </div>
+            <p class="cardNome">Isaac Azevedo</p>
+            <p class="cardCargo">Backend Developer</p>
+            <hr class="LinhaAmarela">
+            <p class="cardDescricao">Desenvolvimento de páginas web integrando ao banco de dados</p>
+            <div class="cardRedesSociais">
+                <a href="https://github.com/isaacazevedopinheiro"><img src="imgs/GithubLogo.svg" alt="Linkedin"></a>
+                <a href="https://www.linkedin.com/in/isaac-azevedo-041299341/"><img
+                        src="imgs/LinkedinLogo.svg" alt="Github"></a>
+                <a href="mailto:isaac.pinheiro@sptech.school"><img src="imgs/EmailIcon.svg" alt="Emaii"></a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="cardImg">
+                <img src="./imgs/Equipe/jeffersonbom.jpeg" alt="">
+            </div>
+            <p class="cardNome">Jefferson Lima</p>
+            <p class="cardCargo">Database Analyst</p>
+            <hr class="LinhaAmarela">
+            <p class="cardDescricao">Desenvolvimento da estrutura e integração do banco de dados</p>
+            <div class="cardRedesSociais">
+                <a href="https://github.com/Jefferson-Palma"><img src="imgs/GithubLogo.svg" alt="Linkedin"></a>
+                <a href="https://www.linkedin.com/in/jefferson-alexandre-lima-palma-a33568233/"><img
+                        src="imgs/LinkedinLogo.svg" alt="Github"></a>
+                <a href="mailto:jefferson.palma@sptech.school"><img src="imgs/EmailIcon.svg" alt="Emaii"></a>
+            </div>
+        </div>
+        
+        
+        <div class="card">
+            <div class="cardImg">
+                <img src="./imgs/Equipe/duda.jpeg" alt="">
+            </div>
+            <p class="cardNome">Maria Eduarda</p>
+            <p class="cardCargo">Product Owner</p>
+            <hr class="LinhaAmarela">
+            <p class="cardDescricao">Desenvolvimento de páginas web</p>
+            <div class="cardRedesSociais">
+                <a href="https://github.com/MariaEduardaFontanaNogueiro"><img src="imgs/GithubLogo.svg" alt="Linkedin"></a>
+                <a href="https://www.linkedin.com/in/maria-eduarda-fontana-nogueiro-8642803a9/"><img
+                        src="imgs/LinkedinLogo.svg" alt="Github"></a>
+                <a href="mailto:maria.nogueiro@sptech.school"><img src="imgs/EmailIcon.svg" alt="Emaii"></a>
+            </div>
+        </div>
 
     </div>
 
-<div class="footer">
-    <div class="esquerda_footer">
-        <div class="logoFooter">
-            <img src="imgs/LogoHeader.svg" alt="Logo MonitOre">
+    <div class="footer">
+        <div class="esquerda_footer">
+            <div class="logoFooter">
+                <img src="imgs/LogoHeader.svg" alt="Logo MonitOre">
+            </div>
+           
         </div>
-        <div class="RedeSociais">
-            <a href="#">
-                <img src="imgs/GithubLogo.svg" alt="GitHub">
-            </a>
-            <a href="#">
-                <img src="imgs/LinkedinLogo.svg" alt="LinkedIn">
-            </a>
+
+        <div class="direita_footer">
+            <div class="boxDireitaFooter">
+                <h1>Navegação</h1>
+
+                <p class="irParaInicio">Início</p>
+                <p class="irParaSobre">Sobre</p>
+                <p class="irParaEquipe">Equipe</p>
+                <p class="IrParaLogin">Login</p>
+            </div>
+
+            <div class="boxDireitaFooter">
+                <h1>MonitOre</h1>
+                <p>
+                    Sistema de monitoramento de hardware <em></em> torres de extração
+                </p>
+                <p>
+                    Tecnologia para prevenir falhas e reduzir impactos operacionais
+                </p>
+                <p>
+                    Seu sistema de PLC sempre em monitoramento
+                </p>
+            </div>
         </div>
     </div>
-
-    <div class="direita_footer">
-        <div class="boxDireitaFooter">
-            <h1>Navegação</h1>
-
-            <p class="irParaInicio">Início</p>
-            <p class="irParaSobre">Sobre</p>
-            <p class="irParaEquipe">Equipe</p>
-            <p class="IrParaLogin">Login</p>
-        </div>
-
-        <div class="boxDireitaFooter">
-            <h1>MonitOre</h1>
-            <p>
-                Sistema de monitoramento de hardware <em></em> torres de extração
-            </p>
-            <p>
-                Tecnologia para prevenir falhas e reduzir impactos operacionais
-            </p>
-            <p>
-                Seu sistema de PLC sempre em monitoramento
-            </p>
-        </div>
-    </div>
-</div>
 
 
 </body>
+
 </html>

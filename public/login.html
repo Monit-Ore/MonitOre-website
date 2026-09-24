@@ -2,72 +2,67 @@
 <html lang="pt-br">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Login | monitOre</title>
-
     <link rel="stylesheet" href="./css/login.css">
-
 </head>
+
 <body>
-    <div class="banner_login">
+    <div class="split_layout">
+        <!-- lado esquerdo -->
+        <div class="lado_esquerdo">
+            <a href="./index.html" class="botao_voltar" aria-label="Voltar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
 
-        <a href="./index.html" class="botao_voltar" aria-label="Voltar">
+            <main class="login_container">
+                <section class="login_card">
+                    <h1>Login</h1>
 
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <form id="form_login" onsubmit="autenticar(); return false;">
+                        <div class="campo_grupo">
+                            <label for="email">Email:</label>
+                            <div class="campo">
+                                <input type="email" id="email" name="email" placeholder="Email@email.com" autocomplete="email" required>
+                            </div>
+                        </div>
 
-                <path d="M20 12H5 M11 6L5 12L11 18" fill="none" stroke="currentColor" stroke-width="3"
-                    stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-        </a>
+                        <div class="campo_grupo">
+                            <label for="senha">Senha:</label>
+                            <div class="campo campo_senha">
+                                <input type="password" id="senha" name="senha" placeholder="Senha123@" autocomplete="current-password" required>
+                                <button type="button" id="botao_senha" class="botao_senha" onclick="mostrarSenha()" aria-label="Mostrar ou ocultar senha">
+                                    <!-- Ícone de olho riscado igual ao mockup -->
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
 
-        <main class="login_container">
-            <section class="login_card">
+                        <p id="mensagem_login" class="mensagem_login"></p>
 
-
-                <h1>Login</h1>
-                <form id="form_login" onsubmit="autenticar(); return false;">
-
-
-                    <div class="campo">
-
-                        <input type="email" id="email" name="email" placeholder="Email..." autocomplete="email"
-                            required>
-
-                    </div>
-
-
-                    <div class="campo campo_senha">
-
-                        <input type="password" id="senha" name="senha" placeholder="Senha..."
-                            autocomplete="current-password" required>
-
-                        <button type="button" id="botao_senha" class="botao_senha" onclick="mostrarSenha()"
-                            aria-label="Mostrar senha">
-                            👁
+                        <button type="submit" id="botao_entrar" class="botao_entrar">
+                            Entrar
                         </button>
+                    </form>
+                </section>
+                <div class="logo_responsiva">
+    <img src="./imgs/LogoHeader.svg" alt="monitOre" >
+</div>
+            </main>
+        </div>
 
-                    </div>
-
-                    <p id="mensagem_login" class="mensagem_login"></p>
-
-                    <button type="submit" id="botao_entrar" class="botao_entrar">
-                        Entrar
-                    </button>
-
-
-                </form>
-            </section>
-        </main>
+       <!-- imagem de fundo -->
+        <div class="lado_direito"></div>
     </div>
 
-
     <script src="./js/login.js"></script>
-
-
 </body>
 
 </html>

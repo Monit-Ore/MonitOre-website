@@ -58,10 +58,7 @@
       </nav>
 
       <div class="rodape_navegacao">
-        <div class="item_menu" data-pagina="configuracoes">
-          <i class="fa-solid fa-gear icone_menu"></i>
-          <span>Configurações</span>
-        </div>
+        
 
         <div class="usuario_navegacao" id="usuario_logado">
           <div class="avatar_usuario" id="avatar_usuario">US</div>
@@ -223,16 +220,7 @@
 
           </div>
         </div>
-        <div class="formulario">
-          <label for="so_ipt">
-              Status do Servidor <span class="asterisco">*</span></label
-            >
-
-                <select id="status_ipt" required>
-              <option value="Ativo"> 🟢 Ativo</option>
-              <option value="Inativo"> 🔴 Inativo</option>
-            </select>
-        </div>
+      
 
         <div>
             <div class="titulo_formulario">
@@ -254,7 +242,7 @@
           </div>
           <div class="formulario">
             <label for="porcentagem_ipt">
-              Porcentagem de Uso <span class="asterisco">*</span>
+              Métrica do alerta (%) <span class="asterisco">*</span>
             </label>
 
             <input
@@ -270,22 +258,6 @@
         </button>
         </div>
         <div id="lista-metricas" class="lista-metricas"></div>
-
-        <!-- Status -->
-        <div class="status">
-
-          <p>Monitoramento</p>
-
-          <div class="status-controle">
-            <label class="troca">
-              <input type="checkbox" id="toggle-monitoramento" checked />
-
-              <span class="deslizar"></span>
-            </label>
-
-            <span class="texto-status"> Ativo </span>
-          </div>
-        </div>
       </section>
 
       <!-- Mensagem de sucesso ou erro -->
@@ -310,5 +282,11 @@
       </div>
       </form>
     </main>
+
+    <script>
+      usuario_logado.addEventListener("click", () => {
+        window.location = '/meu_perfil.html';
+      });
+    </script>
   </body>
 </html>
