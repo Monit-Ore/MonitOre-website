@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monit Ore | Cadastro de Torre</title>
+
+    <link rel="stylesheet" href="./css/visualizacao_usuarios.css" />
+
+    <link rel="icon" href="./imgs/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body class="container_responsivo">
+    <aside class="navegacao">
+      <div class="logo_navegacao">
+        <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+      </div>
+
+      <nav class="menu_navegacao">
+        <ul>
+          <a
+            href="#"
+            class="item_menu"
+            id="torres"
+            onclick="ativarTorres()"
+          >
+            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
+            <span>Torres</span>
+          </a>
+          <a
+            href="#"
+            class="item_menu ativo"
+            id="usuarios"
+            onclick="ativarUsuarios()"
+          >
+            <i class="fa-solid fa-users icone_menu"></i>
+            <span>Usuários</span>
+          </a>
+          <a href="#" class="item_menu" id="cargos" onclick="ativarCargos()">
+            <i class="fa-solid fa-briefcase icone_menu"></i>
+            <span>Cargos</span>
+          </a>
+          <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
+            <i class="fa-solid fa-bell icone_menu"></i>
+            <span>Alertas</span>
+            <span class="notificacao_alerta" id="notificacao_alertas"></span>
+          </a>
+          <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
+            <i class="fa-solid fa-book icone_menu"></i>
+            <span>Manual de Instalação</span>
+          </a>
+        </ul>
+      </nav>
+
+      <div class="rodape_navegacao">
+        <div class="usuario_navegacao" id="usuario_logado">
+          <div class="avatar_usuario" id="avatar_usuario">US</div>
+          <div class="info_usuario">
+            <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+            <span class="cargo_usuario" id="cargo_usuario"></span>
+          </div>
+          <i class="fa-solid fa-chevron-right icone_menu"></i>
+        </div>
+
+        <button class="botao_sair" id="botao_sair" type="button">
+          <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
+    <main class="conteudo_visualizacao_usuarios">
+      <div class="titulo_pag">
+        <img src="./imgs/usuarios.svg" alt="Usuário" class="icone_titulo" />
+        <div>
+          <h1>Gerenciamento de Usuários</h1>
+          <p>Gerencie os usuários do sistema</p>
+        </div>
+      </div>
+
+      <div class="card_conteudo">
+        <div class="topo_lista">
+          <h2>Lista de Usuários</h2>
+          <div class="filtros">
+            <input type="text" id="busca" placeholder="Buscar usuário..." />
+            <button type="button">
+              <i class="fa-solid fa-filter"></i> Filtros
+            </button>
+            <button type="button" class="btn_amarelo">
+              <i class="fa-solid fa-plus"></i> Novo Usuário
+            </button>
+          </div>
+        </div>
+
+        <div class="tabela">
+          <div class="linha linha_titulo">
+            <div class="coluna">Usuário</div>
+            <div class="coluna">E-mail</div>
+            <div class="coluna">Cargo</div>
+            <div class="coluna">Último acesso</div>
+            <div class="coluna">Ações</div>
+          </div>
+
+          <div class="linha">
+            <div class="coluna">Fernando Brandão</div>
+            <div class="coluna">fernando.brandao@monitore.com</div>
+            <div class="coluna">
+              <span class="tag tag_admin">Administrador</span>
+            </div>
+            <div class="coluna">22/05/2026 15:43</div>
+            <div class="coluna">
+              <button type="button">
+                <img src="./imgs/editar.svg" alt="Editar" />
+              </button>
+              <button type="button">
+                <img src="./imgs/deletar.svg" alt="Excluir" />
+              </button>
+            </div>
+          </div>
+
+          <div class="linha">
+            <div class="coluna">Júlia Araripe</div>
+            <div class="coluna">julia.araripe@monitore.com</div>
+            <div class="coluna">
+              <span class="tag tag_admin">Administrador</span>
+            </div>
+            <div class="coluna">25/07/2026 05:29</div>
+            <div class="coluna">
+              <button type="button">
+                <img src="./imgs/editar.svg" alt="Editar" />
+              </button>
+              <button type="button">
+                <img src="./imgs/deletar.svg" alt="Excluir" />
+              </button>
+            </div>
+          </div>
+
+          <div class="linha">
+            <div class="coluna">Guilherme Lima</div>
+            <div class="coluna">guilherme.lima@monitore.com</div>
+            <div class="coluna">
+              <span class="tag tag_analista">Analista</span>
+            </div>
+            <div class="coluna">21/03/2026 22:34</div>
+            <div class="coluna">
+              <button type="button">
+                <img src="./imgs/editar.svg" alt="Editar" />
+              </button>
+              <button type="button">
+                <img src="./imgs/deletar.svg" alt="Excluir" />
+              </button>
+            </div>
+          </div>
+
+          <!-- copia esse bloco .linha pra completar os outros usuários -->
+        </div>
+
+        <div class="rodape">
+          <p>Mostrando 1 a 7 de 33 usuários</p>
+          <div class="paginas">
+            <button type="button">&lt;</button>
+            <button type="button" class="pagina_atual">1</button>
+            <button type="button">2</button>
+            <button type="button">3</button>
+            <span>...</span>
+            <button type="button">5</button>
+            <button type="button">&gt;</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
