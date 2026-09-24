@@ -16,32 +16,19 @@ function buscarPorEmail(email) {
             u.senha,
             u.data_nascimento,
             u.telefone,
-            u.primeiro_acesso,
-            u.status_atividade AS status_usuario,
             u.ultimo_acesso,
-            u.fk_cargo,
-            u.fk_mineradora,
-
-            c.nome AS cargo,
-            c.status_atividade AS status_cargo,
-            c.fk_empresa,
+            u.cargo,
 
             e.razao_social AS empresa, 
-            e.id_empresa AS fk_empresa,
-            e.status_atividade AS status_empresa,
-
-            m.razao_social AS mineradora
+            e.id_empresa AS fk_empresa
 
         FROM usuario AS u
 
-        INNER JOIN cargo AS c
-            ON u.fk_cargo = c.id_cargo
-
         INNER JOIN empresa AS e
-            ON c.fk_empresa = e.id_empresa
+            ON u.fk_empresa = e.id_empresa
 
-        LEFT JOIN mineradora AS m
-            ON u.fk_mineradora = m.id_mineradora
+        /*LEFT JOIN mineradora AS m
+            ON u.fk_mineradora = m.id_mineradora*/
 
         WHERE u.email = ${emailSeguro};
     `;
