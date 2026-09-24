@@ -454,6 +454,9 @@ aside span{
   gap: 2vw;
 }
 
+.div_telefone .formulario .btn-salvar {
+  margin-top: 15px;
+}
 
 .form_senhas .formulario {
   display: flex;
