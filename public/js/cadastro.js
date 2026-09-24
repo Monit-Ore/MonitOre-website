@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   configurarMascaras();
   carregarUsuarioMenu();
-
+  carregarIniciais();
   var botaoMenu = document.querySelector(".btn-notificacao");
 
   if (botaoMenu) {
@@ -17,6 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // CARREGAMENTO DOS CARGOS
 
 function carregarCargos() {
+  if (window.location.pathname.includes('meu_perfil.html')) {
+    return;
+  }
   var campoCargo = document.getElementById("cargo_ipt");
 
   fetch("/usuarios/cargos")
@@ -45,6 +48,9 @@ function carregarCargos() {
 // CARREGAMENTO DAS MINERADORAS/UNIDADES
 
 function carregarMineradoras() {
+  if (window.location.pathname.includes('meu_perfil.html')) {
+    return;
+  }
   var campoUnidade = document.getElementById("unidade_local_ipt");
 
   fetch("/usuarios/mineradoras")
@@ -210,17 +216,19 @@ function configurarMascaras() {
 
   var campoTelefone = document.getElementById("telefone_ipt");
 
-  campoCpf.addEventListener("input", function () {
-    var cpf = campoCpf.value.replace(/\D/g, "").slice(0, 11);
+  if (campoCpf != null) {
+    campoCpf.addEventListener("input", function () {
+      var cpf = campoCpf.value.replace(/\D/g, "").slice(0, 11);
 
-    cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
 
-    cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
 
-    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+      cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
 
-    campoCpf.value = cpf;
-  });
+      campoCpf.value = cpf;
+    });
+  }
 
   campoTelefone.addEventListener("input", function () {
     var telefone = campoTelefone.value.replace(/\D/g, "").slice(0, 11);
@@ -245,6 +253,32 @@ function carregarUsuarioMenu() {
     return;
   }
   nome_usuario.textContent = nomeUsuario;
+
+  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+  if (!cargoUsuario) {
+    return;
+  }
+  cargo_usuario.textContent = cargoUsuario;
+}
+
+function carregarIniciais() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  const iniciais = [];
+
+  for (let i = 0; i < nomeUsuario.length; i++) {
+    
+    if (i == 0) {
+      iniciais.push(nomeUsuario[i]);
+    }
+
+    if (nomeUsuario[i] == " ") {
+      iniciais.push(nomeUsuario[i + 1])
+      break;
+    }
+    
+  }
+  avatar_usuario.textContent = iniciais.join('');
+  avatar_usuario_2.textContent = iniciais.join('');
 }
 
 // MENSAGEM
@@ -341,6 +375,7 @@ function ativarPerfil() {
 
 document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarioMenu();
+  carregarIniciais();
 
   const botaoMenu = document.querySelector(".btn-notificacao");
 

@@ -109,7 +109,7 @@
 
         <section class="card_conteudo">
            <div class="superior_tela fundo_padrao">
-            <div class="avatar_usuario perfil_icon" id="avatar_usuario">
+            <div class="avatar_usuario perfil_icon" id="avatar_usuario_2">
               <i class="fa-sharp fa-regular fa-user" aria-hidden="true"></i>
             </div>
             
@@ -128,7 +128,7 @@
             <h1><label for="telefone_ipt">Telefone</label></h1>
           </div>
 
-          <div class="container_formularios">
+          <div class="container_formularios div_telefone">
             <!-- Coluna esquerda -->
             <div class="formulario">
 
@@ -233,18 +233,18 @@
               <button type="button" class="btn-salvar" onclick="atualizarSenha()">
                 <span>Alterar senha</span>
               </button>
-
+              <p
+              id="mensagem_cadastro"
+              class="mensagem_cadastro"
+              aria-live="polite"
+              ></p>
             </div>
           </div>
 
         </section>
 
         <!-- Mensagem de sucesso ou erro -->
-        <p
-          id="mensagem_cadastro"
-          class="mensagem_cadastro"
-          aria-live="polite"
-        ></p>
+        
 
         <!-- Botões -->
         <div class="botoes">
@@ -262,9 +262,7 @@
     <script src="./js/cadastro.js"></script>
 
     <script>
-      nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
       nome_user.innerHTML = sessionStorage.NOME_USUARIO;
-      cargo_usuario.innerHTML = sessionStorage.CARGO_USUARIO;
       cargo.innerHTML = sessionStorage.CARGO_USUARIO;
       email.innerHTML = sessionStorage.EMAIL_USUARIO;
 
@@ -305,7 +303,10 @@
        let confirmacao_senha = confirm_senha_ipt.value;
       
       if (senha != confirmacao_senha) {
-        return false;
+        console.log("erro");
+        
+        mostrarMensagem("As senhas não coincidem.", true);
+        return;
       }
 
         fetch("/usuarios/atualizar/senha", {
@@ -325,6 +326,8 @@
 
             if (resposta.ok) {
                 console.log("resposta está ok");
+            } else {
+               mostrarMensagem("Senha inválida.", true);
             }
         })
 
