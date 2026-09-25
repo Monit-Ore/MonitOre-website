@@ -411,7 +411,7 @@ INSERT INTO usuario (
     '11999991111',
     NULL,
     1,
-    'ADMIN'
+    'Administrador'
 ),
 (
     'Operador',
