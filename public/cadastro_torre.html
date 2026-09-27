@@ -119,10 +119,7 @@
             <select id="mineradora_ipt" required>
               <option value="" >Selecione a mineradora</option>
             </select>
-          </div>
 
-          <!-- Coluna direita -->
-          <div class="formulario">
             <label for="codigo_ipt">
               Código/Identificador <span class="asterisco">*</span>
             </label>
@@ -138,10 +135,10 @@
             />
 
             <label for="local_ipt">
-              Local <span class="asterisco">*</span>
+              CEP <span class="asterisco">*</span>
             </label>
 
-              <input
+              <input oninput="buscarCEP()"
                 type="text"
                 id="local_ipt"
                 placeholder="Ex.: Mina do Morro Velho"
@@ -149,6 +146,72 @@
                 minlength="6"
                 required
               />
+
+            <label for="nome_ipt">
+              UF <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="uf_ipt"
+              placeholder="Ex.: Torre 001"
+              autocomplete="name"
+              required
+            />
+          </div>
+
+          <!-- Coluna direita -->
+          <div class="formulario">
+            
+
+            <label for="local_ipt">
+              Número <span class="asterisco">*</span>
+            </label>
+
+              <input 
+                type="text"
+                id="numero_ipt"
+                placeholder="Ex.: 415a"
+                autocomplete="new-password"
+                minlength="6"
+                required
+              />
+
+              <label for="nome_ipt">
+              Logradouro <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="logradouro_ipt"
+              placeholder="Ex.: Torre 001"
+              autocomplete="name"
+              required
+            />
+
+            <label for="nome_ipt">
+              Cidade <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="cidade_ipt"
+              placeholder="Ex.: Torre 001"
+              autocomplete="name"
+              required
+            />
+
+            <label for="nome_ipt">
+              Complemento <span class="asterisco">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="nome_ipt"
+              placeholder="Ex.: Torre 001"
+              autocomplete="name"
+              required
+            />
           </div>
         </div>
         <div class="formulario">

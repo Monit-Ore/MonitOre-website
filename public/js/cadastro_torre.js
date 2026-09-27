@@ -5,6 +5,42 @@ const COMPONENTES = [
   { id: 4, nome: "Rede" },
 ];
 
+async function buscarCEP(cep) {
+  try {
+    // Validação básica do CEP (apenas números, 8 dígitos)
+    if (!/^\d{8}$/.test(cep)) {
+      throw new Error("CEP inválido. Use apenas 8 dígitos numéricos.");
+    }
+
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+    if (!response.ok) {
+      throw new Error(`Erro na requisição: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.erro) {
+      throw new Error("CEP não encontrado.");
+    }
+
+    console.log("Endereço encontrado:", data);
+
+    const campoCidade = document.getElementById('cidade_ipt');
+    const campoUF = document.getElementById('uf_ipt');
+    const campoLogradouro = document.getElementById('logradouro_ipt');
+    campoCidade.value=dados.localidade
+    campoCidade.readOnly=true
+    campoUF.value=dados.uf
+    campoUF.readOnly=true
+    campoLogradouro.value=dados.logradouro
+    campoLogradouro.readOnly=true    
+  } catch (error) {
+    console.error("Erro:", error.message);
+  }
+}
+
+
 const metricasAdicionadas = [];
 
 async function inicializarCadastro() {
@@ -295,3 +331,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 inicializarCadastro();
+
+
