@@ -174,7 +174,7 @@ function atualizarUltimoAcesso(idUsuario) {
 }
 
 // LISTAR USUARIOS
-function listarCargos(empresa) {
+function listarUsuarios(empresa) {
   var instrucaoSql = `
         SELECT
     u.id_usuario,
@@ -189,6 +189,34 @@ function listarCargos(empresa) {
     ON e.id_empresa = u.fk_empresa
       WHERE u.fk_empresa = ${empresa}
       ORDER BY u.nome;
+    `;
+
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+
+// LISTAR USUÁRIOS DA EMPRESA
+
+function listarUsuariosPorEmpresa(fkEmpresa) {
+  var instrucaoSql = `
+        SELECT
+            u.id_usuario,
+            u.nome,
+            u.email,
+            u.cargo,
+            DATE_FORMAT(u.ultimo_acesso, '%d/%m/%Y %H:%i') AS ultimo_acesso,
+            e.razao_social AS empresa
+
+        FROM usuario AS u
+
+        INNER JOIN empresa AS e
+            ON e.id_empresa = u.fk_empresa
+
+        WHERE u.fk_empresa = ${Number(fkEmpresa)}
+
+        ORDER BY u.nome;
     `;
 
   console.log("Executando SQL:");
@@ -277,6 +305,7 @@ module.exports = {
   buscarMineradoraPorId,
   cadastrar,
   atualizarUltimoAcesso,
+  listarUsuariosPorEmpresa,
   listarCargos,
   listarMineradoras,
   atualizarTel,

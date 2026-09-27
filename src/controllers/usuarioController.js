@@ -293,16 +293,16 @@ async function cadastrar(req, res) {
 // LISTAR USUARIOS
 
 async function listarUsuarios(req, res) {
-  let empresa = req.body.empresaServer;
+  var fkEmpresa = req.query.fkEmpresa || req.body.fkEmpresa;
 
-   if (!empresa) {
+  if (!fkEmpresa || Number.isNaN(Number(fkEmpresa))) {
     return res.status(400).json({
       mensagem: "Empresa não informada.",
     });
   }
 
   try {
-    var resultado = await usuarioModel.listarUsuarios(empresa);
+    var resultado = await usuarioModel.listarUsuariosPorEmpresa(fkEmpresa);
 
     return res.status(200).json(resultado);
   } catch (erro) {
@@ -313,7 +313,6 @@ async function listarUsuarios(req, res) {
     });
   }
 }
-
 
 // LISTAR CARGOS
 
@@ -427,6 +426,7 @@ async function atualizarSenha(req, res) {
 module.exports = {
   autenticar,
   cadastrar,
+  listarUsuarios,
   listarCargos,
   listarMineradoras,
   atualizarTelefone,

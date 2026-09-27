@@ -20,7 +20,7 @@ router.post("/cadastrar", function (req, res) {
 });
 // LISTAGEM DE USUARIOS
 router.get("/listar", function (req, res) {
-    usuarioController.listarCargos(req, res);
+    usuarioController.listarUsuarios(req, res);
 });
 
 // LISTAGEM DE CARGOS
