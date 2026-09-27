@@ -12,7 +12,6 @@ function mapearStatusExibicao(statusBanco) {
   return statusBanco === "Alerta" ? "Alerta" : "Regular";
 }
 
-
 async function selecaoTorre(req, res) {
   try {
     const { fkEmpresa } = req.query;
@@ -65,8 +64,7 @@ async function listarOpcoesCadastro(req, res) {
     const mineradoras = await torresModel.listarMineradoras(fkEmpresa);
 
     res.status(200).json({
-      mineradoras,
-      sistemasOperacionais: SISTEMAS_OPERACIONAIS,
+      mineradoras
     });
   } catch (erro) {
     console.error("Erro ao buscar opções de cadastro:", erro);
@@ -86,13 +84,12 @@ async function cadastrarTorre(req, res) {
       nome,
       codigo,
       fk_mineradora,
-      localizacao,
-      descricao,
-      servidor,
+      pc_industrial,
+      endereco,
       componentes,
     } = req.body;
 
-    if (!nome || !codigo || !fk_mineradora || !localizacao) {
+    if (!nome || !codigo || !fk_mineradora) {
       return res.status(400).json({
         mensagem:
           "Preencha todos os campos obrigatórios de Informações Gerais.",
@@ -100,15 +97,21 @@ async function cadastrarTorre(req, res) {
     }
 
     if (
-      !servidor ||
-      !servidor.identificador ||
-      !servidor.ip ||
-      !servidor.sistema_operacional ||
-      !servidor.status
+      !pc_industrial ||
+      !pc_industrial.identificador ||
+      !pc_industrial.hostname ||
+      !pc_industrial.uuid ||
+      !endereco.cep ||
+      !endereco.estado ||
+      !endereco.cidade ||
+      !endereco.logradouro ||
+      !endereco.bairro ||
+      !endereco.numero ||
+      !endereco.complemento
     ) {
       return res.status(400).json({
         mensagem:
-          "Preencha todos os campos obrigatórios de Informações do Servidor.",
+          "Preencha todos os campos obrigatórios de Informações do PC Industrial e/ou endereço da torre.",
       });
     }
 
@@ -121,7 +124,7 @@ async function cadastrarTorre(req, res) {
     const codigoJaExiste = await torresModel.verificarCodigoExistente(
       fkEmpresa,
       codigo,
-      servidor?.uuid_agente ?? servidor?.identificador,
+      pc_industrial.uuid
     );
 
     if (codigoJaExiste) {
@@ -135,10 +138,9 @@ async function cadastrarTorre(req, res) {
       nome,
       codigo,
       fk_mineradora,
-      localizacao,
-      descricao,
-      servidor,
-      componentes,
+      pc_industrial,
+      endereco,
+      componentes
     );
 
     res.status(201).json(novaTorre);

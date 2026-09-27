@@ -13,7 +13,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <script src="./js/cadastro_torre.js" defer></script>
+    <script src="./js/cadastro_torre.js" defer></script>  
   </head>
   <body class="container_responsivo">
     <aside class="navegacao">
@@ -85,7 +85,7 @@
           <i class="fa-solid fa-arrow-left"></i>
         </a>
         <div class="titulo-cabecalho">
-          <h1>Cadastro de Torre</h1>
+          <h1>Cadastro da Torre</h1>
           <span>Preencha as informações para cadastrar uma nova torre.</span>
         </div>
       </header>
@@ -134,106 +134,57 @@
               required
             />
 
-            <label for="local_ipt">
-              CEP <span class="asterisco">*</span>
-            </label>
-
-              <input oninput="buscarCEP()"
-                type="text"
-                id="local_ipt"
-                placeholder="Ex.: Mina do Morro Velho"
-                autocomplete="new-password"
-                minlength="6"
-                required
-              />
-
-            <label for="nome_ipt">
-              UF <span class="asterisco">*</span>
-            </label>
-
-            <input
-              type="text"
-              id="uf_ipt"
-              placeholder="Ex.: Torre 001"
-              autocomplete="name"
-              required
-            />
+           
           </div>
 
           <!-- Coluna direita -->
           <div class="formulario">
-            
-
-            <label for="local_ipt">
-              Número <span class="asterisco">*</span>
+            <label for="nome_ipt">
+              Bairro <span class="asterisco">*</span>
             </label>
-
-              <input 
-                type="text"
-                id="numero_ipt"
-                placeholder="Ex.: 415a"
-                autocomplete="new-password"
-                minlength="6"
-                required
-              />
-
-              <label for="nome_ipt">
-              Logradouro <span class="asterisco">*</span>
-            </label>
-
             <input
               type="text"
-              id="logradouro_ipt"
-              placeholder="Ex.: Torre 001"
+              id="bairro_ipt"
+              placeholder="Ex.: Centro"
               autocomplete="name"
               required
             />
 
             <label for="nome_ipt">
-              Cidade <span class="asterisco">*</span>
+              Número <span class="asterisco">*</span>
             </label>
-
             <input
               type="text"
-              id="cidade_ipt"
-              placeholder="Ex.: Torre 001"
-              autocomplete="name"
+              id="numero_ipt"
+              placeholder="Ex.: 1000"
+              autocomplete="number"
               required
             />
 
             <label for="nome_ipt">
               Complemento <span class="asterisco">*</span>
             </label>
-
             <input
               type="text"
-              id="nome_ipt"
-              placeholder="Ex.: Torre 001"
+              id="complemento_ipt"
+              placeholder="Ex.: Unidade Operacional"
               autocomplete="name"
               required
             />
+
           </div>
         </div>
-        <div class="formulario">
-          <label for="descricao_ipt"> Descrição/Observação</label>
 
-          <input
-            type="text"
-            id="descricao_ipt"
-            placeholder="Descrição da torre"
-            autocomplete="off"
-          />
-        </div>
 
         <div class="titulo_formulario">
           <i class="fa-solid fa-server icone-secao" aria-hidden="true"></i>
-          <h1>Informações do Servidor</h1>
+          <h1>Informações do PC Industrial</h1>
         </div>
         <div class="container_formularios">
           <!-- Coluna esquerda -->
           <div class="formulario">
             <label for="identificador_ipt">
-              Identificador do Servidor <span class="asterisco">*</span>
+              Identificador do PC Industrial <span class="asterisco">*</span>
             </label>
 
             <input
@@ -244,14 +195,14 @@
               required
             />
 
-            <label for="ip_ipt">
-              IP <span class="asterisco">*</span>
+            <label for="uuid_ipt">
+              UUID <span class="asterisco">*</span>
             </label>
 
             <input
               type="text"
-              id="ip_ipt"
-              placeholder="Ex.: 192.168.1.1"
+              id="uuid_ipt"
+              placeholder="Ex.: 550e8400-e29b-41d4-a716-446655440000"
               autocomplete="name"
               required
             />
@@ -273,14 +224,6 @@
               required
             />
 
-            <label for="so_ipt">
-              Sistema Operacional <span class="asterisco">*</span></label
-            >
-
-                <select id="so_ipt" required>
-              <option value="">Selecione o sistema operacional</option>
-            </select>
-
           </div>
         </div>
       
@@ -288,7 +231,7 @@
         <div>
             <div class="titulo_formulario">
               <i class="fa-solid fa-gears icone-secao" aria-hidden="true"></i>
-          <h1>Informações Técnicas/Métricas</h1>
+          <h1>Métricas do Componente</h1>
             </div>
           <p class="texto_metricas">Selecione quais componentes gostaria de monitorar nessa torre e as métricas de alertas</p>
         </div>

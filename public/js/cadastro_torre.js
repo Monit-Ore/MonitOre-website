@@ -214,18 +214,25 @@ async function salvarTorre(evento) {
     nome: document.getElementById("nome_ipt").value,
     codigo: document.getElementById("codigo_ipt").value,
     fk_mineradora: Number(document.getElementById("mineradora_ipt").value),
-    localizacao: document.getElementById("local_ipt").value,
-    descricao: document.getElementById("descricao_ipt").value || null,
-    servidor: {
+    pc_industrial: {
       identificador: document.getElementById("identificador_ipt").value,
       hostname: document.getElementById("hostname_ipt").value || null,
-      ip: document.getElementById("ip_ipt").value,
-      sistema_operacional: document.getElementById("so_ipt").value,
+      uuid: document.getElementById("uuid_ipt").value,
+    },
+    endereco: {
+      cep: document.getElementById("cep_ipt").value,
+      estado: document.getElementById("estado_ipt").value,
+      cidade: document.getElementById("cidade_ipt").value,
+      logradouro: document.getElementById("logradouro_ipt").value,
+      bairro: document.getElementById("bairro_ipt").value,
+      numero: document.getElementById("numero_ipt").value,
+      complemento: document.getElementById("complemento_ipt").value,
     },
     componentes: metricasAdicionadas.map(({ fk_componente, valor_limite }) => ({
       fk_componente,
-      valor_limite,
-    })),
+      valor_limite
+    }
+  )),
   };
 
   try {
