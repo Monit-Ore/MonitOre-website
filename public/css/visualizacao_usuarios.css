@@ -61,14 +61,22 @@ body {
   cursor: pointer;
 }
 
-.btn_amarelo {
-  background-color: #ecbe10 !important;
-  color: black !important;
+.btn_amarelo,
+.filtros a.btn_amarelo {
+  background-color: #ecbe10;
+  color: black;
   font-weight: bold;
-  border: none !important;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1.2;
 }
-
-/* tabela feita com div */
 
 .tabela {
   width: 100%;
