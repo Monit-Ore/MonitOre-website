@@ -18,7 +18,10 @@ router.post("/autenticar", function (req, res) {
 router.post("/cadastrar", function (req, res) {
     usuarioController.cadastrar(req, res);
 });
-
+// LISTAGEM DE USUARIOS
+router.get("/listar", function (req, res) {
+    usuarioController.listarCargos(req, res);
+});
 
 // LISTAGEM DE CARGOS
 

@@ -173,6 +173,30 @@ function atualizarUltimoAcesso(idUsuario) {
   return database.executar(instrucaoSql);
 }
 
+// LISTAR USUARIOS
+function listarCargos(empresa) {
+  var instrucaoSql = `
+        SELECT
+    u.id_usuario,
+    u.nome,
+    u.email,
+    u.cargo,
+    u.telefone,
+    DATE_FORMAT(u.ultimo_acesso, '%d/%m/%Y %H:%i') AS ultimo_acesso,
+    e.razao_social AS empresa
+      FROM usuario u
+      JOIN empresa e
+    ON e.id_empresa = u.fk_empresa
+      WHERE u.fk_empresa = ${empresa}
+      ORDER BY u.nome;
+    `;
+
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+
 // LISTAR CARGOS
 
 function listarCargos() {
@@ -256,5 +280,5 @@ module.exports = {
   listarCargos,
   listarMineradoras,
   atualizarTel,
-  atualizarSenha
+  atualizarSenha,
 };

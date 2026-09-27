@@ -290,6 +290,30 @@ async function cadastrar(req, res) {
     });
   }
 }
+// LISTAR USUARIOS
+
+async function listarUsuarios(req, res) {
+  let empresa = req.body.empresaServer;
+
+   if (!empresa) {
+    return res.status(400).json({
+      mensagem: "Empresa não informada.",
+    });
+  }
+
+  try {
+    var resultado = await usuarioModel.listarUsuarios(empresa);
+
+    return res.status(200).json(resultado);
+  } catch (erro) {
+    console.error("Erro ao listar usuarios:", erro);
+
+    return res.status(500).json({
+      mensagem: "Erro ao buscar usuarios.",
+    });
+  }
+}
+
 
 // LISTAR CARGOS
 
