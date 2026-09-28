@@ -308,6 +308,33 @@ function atualizarSenha(idUsuario, senha) {
   return database.executar(instrucaoSql);
 }
 
+function buscarUsuario(idEmpresa, termo) {
+  var instrucaoSql = `
+          SELECT
+            u.id_usuario,
+            u.nome,
+            u.email,
+            u.cargo,
+            DATE_FORMAT(u.ultimo_acesso, '%d/%m/%Y %H:%i') AS ultimo_acesso,
+            e.razao_social AS empresa
+
+        FROM usuario AS u
+
+        INNER JOIN empresa AS e
+            ON e.id_empresa = u.fk_empresa
+
+        WHERE u.fk_empresa = ${idEmpresa} AND
+        nome LIKE %${termo}% 
+
+        ORDER BY u.nome;
+     
+    `;
+
+  console.log("Executando SQL de atualizar senha:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
 module.exports = {
   buscarPorEmail,
   buscarPorCpf,
@@ -320,5 +347,5 @@ module.exports = {
   listarMineradoras,
   atualizarTel,
   atualizarSenha,
-  deletarUsuario
+  deletarUsuario,
 };

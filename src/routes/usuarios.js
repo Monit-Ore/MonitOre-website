@@ -23,6 +23,11 @@ router.post("/cadastrar", function (req, res) {
 router.delete("/deletar/:idUsuario", function(req, res) {
     usuarioController.deletarUsuario(req, res);
 });
+//Buscar Usuario Especifico
+
+router.get("/buscar", function(req, res){
+    usuarioController.buscarUsuario(req, res)
+})
 
 // LISTAGEM DE USUARIOS
 router.get("/listar", function (req, res) {

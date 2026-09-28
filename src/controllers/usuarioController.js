@@ -306,7 +306,7 @@ async function deletarUsuario(req, res) {
 
     return res.status(200).json(resultado);
   } catch (erro) {
-    console.error("Erro ao deletar usuario:", erro);
+    console.error("Erro ao lus usuario:", erro);
 
     return res.status(500).json({
       mensagem: "Erro ao deletar usuario.",
@@ -330,10 +330,39 @@ async function listarUsuarios(req, res) {
 
     return res.status(200).json(resultado);
   } catch (erro) {
-    console.error("Erro ao deletar usuario:", erro);
+    console.error("Erro ao listar usuarios:", erro);
 
     return res.status(500).json({
-      mensagem: "Erro ao deletar usuario.",
+      mensagem: "Erro ao listar usuarios.",
+    });
+  }
+}
+
+async function buscarUsuario(req, res) {
+  var idEmpresa = req.query.fkEmpresa;
+  var termo = req.query.termo;
+
+  if (!idEmpresa) {
+    return res.status(400).json({
+      mensagem: "Empresa não informada.",
+    });
+  }
+
+  if(!termo){
+    return res.status(400).json({
+      mensagem: "Termo não informado.",
+    });
+  }
+
+  try {
+    var resultado = await usuarioModel.buscarUsuario(idEmpresa, termo);
+
+    return res.status(200).json(resultado);
+  } catch (erro) {
+    console.error("Erro ao buscar usuario:", erro);
+
+    return res.status(500).json({
+      mensagem: "Erro ao buscar usuario.",
     });
   }
 }
@@ -455,5 +484,6 @@ module.exports = {
   listarMineradoras,
   atualizarTelefone,
   atualizarSenha,
-  deletarUsuario
+  deletarUsuario,
+  buscarUsuario
 };
