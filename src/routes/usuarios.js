@@ -18,6 +18,12 @@ router.post("/autenticar", function (req, res) {
 router.post("/cadastrar", function (req, res) {
     usuarioController.cadastrar(req, res);
 });
+
+// DELETAR
+router.delete("/deletar/:idUsuario", function(req, res) {
+    usuarioController.deletarUsuario(req, res);
+});
+
 // LISTAGEM DE USUARIOS
 router.get("/listar", function (req, res) {
     usuarioController.listarUsuarios(req, res);

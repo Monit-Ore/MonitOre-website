@@ -44,7 +44,7 @@ function montarLinhaUsuario(usuario) {
         <button type="button" aria-label="Editar usuário">
           <img src="./imgs/editar.svg" alt="Editar" />
         </button>
-        <button type="button" aria-label="Excluir usuário">
+        <button type="button" onclick="deletar(${usuario.id_usuario})" aria-label="Excluir usuário">
           <img src="./imgs/deletar.svg" alt="Excluir" />
         </button>
       </div>
@@ -150,6 +150,37 @@ function irParaPagina(pagina) {
   paginaAtual = pagina;
   renderizarUsuarios(pegarUsuariosDaPagina(paginaAtual));
   renderizarPaginacao();
+}
+
+async function deletar(idUsuario){
+
+  if (!idUsuario) {
+    console.log(
+      "Nenhum usuário válido foi informado.",
+    );
+    return;
+  }
+
+  try {
+    var resposta = await fetch(`/usuarios/deletar/${idUsuario}`, {
+      method: "DELETE",
+    });
+    var resultado = await resposta.json();
+
+    if (!resposta.ok) {
+      throw new Error(resultado.mensagem || "Erro ao deletar usuário.");
+    }
+
+    todosUsuarios = todosUsuarios.filter(function (usuario) {
+      return usuario.id_usuario !== idUsuario;
+    });
+    
+    irParaPagina(paginaAtual);
+    setTimeout(() => {  alert("Usuario deletado") }, 500)
+   
+  } catch (erro) {
+    console.error("Erro ao deletar usuário:", erro);
+  }
 }
 
 

@@ -290,26 +290,50 @@ async function cadastrar(req, res) {
     });
   }
 }
+
+// DELETAR
+async function deletarUsuario(req, res) {
+   var idUsuario = req.params.idUsuario;
+
+   if(!idUsuario){
+       return res.status(400).json({
+      mensagem: "Usuario não informado.",
+    });
+   }
+
+  try {
+    var resultado = await usuarioModel.deletarUsuario(idUsuario);
+
+    return res.status(200).json(resultado);
+  } catch (erro) {
+    console.error("Erro ao deletar usuario:", erro);
+
+    return res.status(500).json({
+      mensagem: "Erro ao deletar usuario.",
+    });
+  }
+}
+
 // LISTAR USUARIOS
 
 async function listarUsuarios(req, res) {
-  var fkEmpresa = req.query.fkEmpresa || req.body.fkEmpresa;
+  var idEmpresa = req.query.fkEmpresa;
 
-  if (!fkEmpresa || Number.isNaN(Number(fkEmpresa))) {
+  if (!idEmpresa) {
     return res.status(400).json({
       mensagem: "Empresa não informada.",
     });
   }
 
   try {
-    var resultado = await usuarioModel.listarUsuariosPorEmpresa(fkEmpresa);
+    var resultado = await usuarioModel.listarUsuariosPorEmpresa(idEmpresa);
 
     return res.status(200).json(resultado);
   } catch (erro) {
-    console.error("Erro ao listar usuarios:", erro);
+    console.error("Erro ao deletar usuario:", erro);
 
     return res.status(500).json({
-      mensagem: "Erro ao buscar usuarios.",
+      mensagem: "Erro ao deletar usuario.",
     });
   }
 }
@@ -430,5 +454,6 @@ module.exports = {
   listarCargos,
   listarMineradoras,
   atualizarTelefone,
-  atualizarSenha
+  atualizarSenha,
+  deletarUsuario
 };

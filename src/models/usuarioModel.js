@@ -224,7 +224,17 @@ function listarUsuariosPorEmpresa(fkEmpresa) {
 
   return database.executar(instrucaoSql);
 }
+// DELETAR
+function deletarUsuario(idUsuario) {
+  var instrucaoSql = `
+      DELETE FROM usuario WHERE id_usuario = ${idUsuario};
+    `;
 
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
 // LISTAR CARGOS
 
 function listarCargos() {
@@ -310,4 +320,5 @@ module.exports = {
   listarMineradoras,
   atualizarTel,
   atualizarSenha,
+  deletarUsuario
 };
