@@ -24,7 +24,7 @@
       <nav class="menu_navegacao">
         <ul>
           <a
-            href="#"
+            href="selecao_torre.html"
             class="item_menu"
             id="torres"
             onclick="ativarTorres()"
@@ -58,6 +58,7 @@
       </nav>
 
       <div class="rodape_navegacao">
+        <a href="meu_perfil.html" class="item_menu" id="perfil">
         <div class="usuario_navegacao" id="usuario_logado">
           <div class="avatar_usuario" id="avatar_usuario">US</div>
           <div class="info_usuario">
@@ -66,7 +67,7 @@
           </div>
           <i class="fa-solid fa-chevron-right icone_menu"></i>
         </div>
-
+</a>
         <button class="botao_sair" id="botao_sair" type="button">
           <i class="fa-solid fa-right-from-bracket icone_menu"></i>
           <span>Sair</span>
@@ -106,6 +107,21 @@
         </div>
       </div>
     </main>
+
+    <dialog id="modal_confirmar_exclusao" class="modal_exclusao" aria-labelledby="titulo_modal_exclusao">
+      <div class="conteudo_modal_exclusao">
+        <div class="icone_modal_exclusao" aria-hidden="true">
+          <img src="./imgs/excluir.svg" alt="Excluir" style="width: 50px;"/>
+        </div>
+        <h2 id="titulo_modal_exclusao">Exclusão de Usuário</h2>
+        <p>Tem certeza que deseja excluir este usuário?<br />Essa ação não pode ser desfeita.</p>
+      </div>
+      <div class="divisor_modal_exclusao" aria-hidden="true"></div>
+      <div class="acoes_modal_exclusao">
+        <button type="button" id="cancelar_exclusao" class="botao_cancelar_exclusao">Cancelar</button>
+        <button type="button" id="confirmar_exclusao" class="botao_confirmar_exclusao">Confirmar</button>
+      </div>
+    </dialog>
   </body>
 </html>
 

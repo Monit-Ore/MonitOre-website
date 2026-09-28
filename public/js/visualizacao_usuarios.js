@@ -1,6 +1,7 @@
 var totalUsuariosPorPagina = 10;
 var paginaAtual = 1;
 var todosUsuarios = [];
+var usuarioParaDeletar = null;
 
 async function carregarUsuariosDaEmpresa() {
   var fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
@@ -44,7 +45,7 @@ function montarLinhaUsuario(usuario) {
         <button type="button" aria-label="Editar usuário">
           <img src="./imgs/editar.svg" alt="Editar" />
         </button>
-        <button type="button" onclick="deletar(${usuario.id_usuario})" aria-label="Excluir usuário">
+        <button type="button" onclick="abrirModalDeletar(${usuario.id_usuario})" aria-label="Excluir usuário">
           <img src="./imgs/deletar.svg" alt="Excluir" />
         </button>
       </div>
@@ -167,6 +168,11 @@ function irParaPagina(pagina) {
   renderizarPaginacao();
 }
 
+function abrirModalDeletar(idUsuario) {
+  usuarioParaDeletar = idUsuario;
+  document.getElementById("modal_confirmar_exclusao").showModal();
+}
+
 async function deletar(idUsuario){
 
   if (!idUsuario) {
@@ -191,7 +197,8 @@ async function deletar(idUsuario){
     });
     
     irParaPagina(paginaAtual);
-    setTimeout(() => {  alert("Usuario deletado") }, 500)
+    document.getElementById("modal_confirmar_exclusao").close();
+    usuarioParaDeletar = null;
    
   } catch (erro) {
     console.error("Erro ao deletar usuário:", erro);
@@ -216,6 +223,10 @@ function carregarUsuarioMenu() {
 
 function carregarIniciais() {
   const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) {
+    return;
+  }
+
   const iniciais = [];
 
   for (let i = 0; i < nomeUsuario.length; i++) {
@@ -230,12 +241,25 @@ function carregarIniciais() {
     }
     
   }
-  avatar_usuario.textContent = iniciais.join('');
-  avatar_usuario_2.textContent = iniciais.join('');
+  var avatar = document.getElementById("avatar_usuario");
+  var segundoAvatar = document.getElementById("avatar_usuario_2");
+  if (avatar) avatar.textContent = iniciais.join('');
+  if (segundoAvatar) segundoAvatar.textContent = iniciais.join('');
 }
 
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("cancelar_exclusao")?.addEventListener("click", () => {
+    document.getElementById("modal_confirmar_exclusao").close();
+    usuarioParaDeletar = null;
+  });
+
+  document.getElementById("confirmar_exclusao")?.addEventListener("click", () => {
+    if (usuarioParaDeletar !== null) {
+      deletar(usuarioParaDeletar);
+    }
+  });
+
   carregarUsuarioMenu();
   carregarIniciais();
 

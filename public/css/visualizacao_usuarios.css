@@ -348,7 +348,6 @@ aside span{
   color: #b7b7b7;
 }
 
-
 .icone_seta {
   margin-left: auto;
 }
@@ -612,8 +611,157 @@ aside span{
 
     font-size: 15px;
   }
+}
 
-  /* conteudo principal */
+ /* MODAL EXCLUIR */
+ 
+.modal_exclusao {
+  position: fixed;
+  inset: 0;
+  width: 60vw;
+  max-width: 640px;
+  max-height: 70vh;
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  border: 5px solid #ecbe10;
+  border-radius: 28px;
+  background: #242222;
+  color: #ecbe10;
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.45);
+}
+
+.modal_exclusao[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal_exclusao::backdrop {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.conteudo_modal_exclusao {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 18px 22px;
+  text-align: center;
+}
+
+.icone_modal_exclusao {
+  display: grid;
+  width: 88px;
+  height: 88px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 4px solid #ecbe10;
+  border-radius: 50%;
+  background: #3b2e00;
+  font-size: 38px;
+}
+
+.conteudo_modal_exclusao h2 {
+  margin-top: 2px;
+  color: #ecbe10;
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.conteudo_modal_exclusao p {
+  margin-top: 12px;
+  color: #b7b7b7;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.divisor_modal_exclusao {
+  height: 3px;
+  flex: 0 0 auto;
+  background: #ecbe10;
+}
+
+.acoes_modal_exclusao {
+  display: flex;
+  gap: 16px;
+  padding: 26px 22px 28px;
+}
+
+.acoes_modal_exclusao button {
+  min-width: 0;
+  min-height: 68px;
+  flex: 1;
+  border: 2px solid #ecbe10;
+  border-radius: 12px;
+  font-size: 32px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.botao_cancelar_exclusao {
+  background: #2b2b2b;
+  color: #ecbe10;
+}
+
+.botao_cancelar_exclusao:hover {
+  background: #383838;
+}
+
+.botao_confirmar_exclusao {
+  background: #ecbe10;
+  color: #111111;
+}
+
+.botao_confirmar_exclusao:hover {
+  background: #ffd741;
+}
+
+.acoes_modal_exclusao button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+}
+
+@media screen and (max-width: 600px) {
+  .modal_exclusao {
+    width: 88vw;
+    max-height: 85vh;
+    border-width: 4px;
+    border-radius: 24px;
+  }
+
+  .conteudo_modal_exclusao {
+    padding: 28px 18px 24px;
+  }
+
+  .icone_modal_exclusao {
+    width: 96px;
+    height: 96px;
+    font-size: 42px;
+  }
+
+  .conteudo_modal_exclusao h2 {
+    margin-top: 12px;
+    font-size: 36px;
+  }
+
+  .conteudo_modal_exclusao p {
+    margin-top: 14px;
+    font-size: 22px;
+  }
+
+  .acoes_modal_exclusao {
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px 18px 28px;
+  }
+
+  .acoes_modal_exclusao button {
+    min-height: 68px;
+    font-size: 30px;
+  }
 }
 
 
