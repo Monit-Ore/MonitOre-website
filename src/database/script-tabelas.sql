@@ -156,15 +156,15 @@ INSERT INTO empresa (
     tipo
 )
 VALUES (
-    'MonitOre Sistemas Industriais Ltda.',
+    'SAE Towers',
     '00000000000001',
-    'contato@monitore.com.br',
+    'contato@saetowers.com.br',
     'Fabricante'
 );
 
 
 -- ============================================================
--- 10 MINERADORAS / CLIENTES
+-- MINERADORAS 
 -- ============================================================
 
 INSERT INTO empresa (
@@ -362,10 +362,7 @@ VALUES
 
 -- ============================================================
 -- TORRES
---
--- Fabricante:
--- id_empresa = 1
---
+
 -- Mineradoras:
 -- Vale             = 2
 -- CSN              = 3
@@ -377,9 +374,6 @@ VALUES
 -- Nexa             = 9
 -- MRN              = 10
 -- ArcelorMittal    = 11
---
--- 2 TORRES POR MINERADORA
--- TOTAL = 20 TORRES
 -- ============================================================
 
 INSERT INTO torre (
@@ -889,10 +883,6 @@ VALUES
 -- USUÁRIOS
 --
 -- TODOS OS USUÁRIOS SÃO DA FABRICANTE
--- fk_empresa = 1
---
--- 1 Administrador
--- 6 Operadores
 -- ============================================================
 
 INSERT INTO usuario (
@@ -914,7 +904,7 @@ VALUES
 
 (
     'Carlos Henrique Almeida',
-    'carlos.almeida@monitore.com.br',
+    'carlos.almeida@saetowers.com.br',
     '00000000001',
     '123456',
     '1990-05-15',
@@ -930,7 +920,7 @@ VALUES
 
 (
     'Mariana Souza Santos',
-    'mariana.santos@monitore.com.br',
+    'mariana.santos@saetowers.com.br',
     '00000000002',
     '123456',
     '1995-03-22',
@@ -942,7 +932,7 @@ VALUES
 
 (
     'Rafael Oliveira Costa',
-    'rafael.costa@monitore.com.br',
+    'rafael.costa@saetowers.com.br',
     '00000000003',
     '123456',
     '1993-07-10',
@@ -954,7 +944,7 @@ VALUES
 
 (
     'Juliana Martins Rocha',
-    'juliana.rocha@monitore.com.br',
+    'juliana.rocha@saetowers.com.br',
     '00000000004',
     '123456',
     '1997-11-05',
@@ -966,7 +956,7 @@ VALUES
 
 (
     'Lucas Ferreira Lima',
-    'lucas.lima@monitore.com.br',
+    'lucas.lima@saetowers.com.br',
     '00000000005',
     '123456',
     '1994-01-18',
@@ -978,7 +968,7 @@ VALUES
 
 (
     'Amanda Rodrigues Silva',
-    'amanda.silva@monitore.com.br',
+    'amanda.silva@saetowers.com.br',
     '00000000006',
     '123456',
     '1996-09-27',
@@ -990,7 +980,7 @@ VALUES
 
 (
     'Gabriel Pereira Mendes',
-    'gabriel.mendes@monitore.com.br',
+    'gabriel.mendes@saetowers.com.br',
     '00000000007',
     '123456',
     '1992-12-03',
