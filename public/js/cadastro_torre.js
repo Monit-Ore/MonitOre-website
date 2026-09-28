@@ -11,6 +11,7 @@ async function buscarCEP(cep) {
     if (!/^\d{8}$/.test(cep)) {
       throw new Error("CEP inválido. Use apenas 8 dígitos numéricos.");
     }
+    
 
     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
 
@@ -28,12 +29,15 @@ async function buscarCEP(cep) {
 
     const campoCidade = document.getElementById('cidade_ipt');
     const campoUF = document.getElementById('uf_ipt');
+    const campoBairro = document.getElementById('bairro_ipt');
     const campoLogradouro = document.getElementById('logradouro_ipt');
-    campoCidade.value=dados.localidade
+    campoCidade.value=data.localidade
     campoCidade.readOnly=true
-    campoUF.value=dados.uf
+    campoUF.value=data.uf
     campoUF.readOnly=true
-    campoLogradouro.value=dados.logradouro
+    campoBairro.value=data.bairro
+    campoBairro.readOnly=true
+    campoLogradouro.value=data.logradouro
     campoLogradouro.readOnly=true    
   } catch (error) {
     console.error("Erro:", error.message);
@@ -221,7 +225,7 @@ async function salvarTorre(evento) {
     },
     endereco: {
       cep: document.getElementById("cep_ipt").value,
-      estado: document.getElementById("estado_ipt").value,
+      estado: document.getElementById("uf_ipt").value,
       cidade: document.getElementById("cidade_ipt").value,
       logradouro: document.getElementById("logradouro_ipt").value,
       bairro: document.getElementById("bairro_ipt").value,
