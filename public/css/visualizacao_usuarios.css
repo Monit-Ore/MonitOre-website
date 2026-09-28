@@ -53,6 +53,8 @@ body {
 }
 
 .filtros button {
+  display: flex;
+  gap: 0.5rem;
   padding: 8px 14px;
   border-radius: 6px;
   border: 1px solid #ecbe10;
@@ -93,6 +95,11 @@ body {
 .linha_titulo {
   color: gray;
   font-size: 14px;
+}
+
+.sem_resultados {
+  justify-content: center;
+  color: gray;
 }
 
 .coluna {

@@ -77,6 +77,9 @@ function renderizarUsuarios(usuarios) {
     var usuario = usuarios[i];
     linhas += montarLinhaUsuario(usuario);
   }
+  if (!linhas) {
+    linhas = '<div class="linha sem_resultados">Nenhum usuário encontrado.</div>';
+  }
   tabela.innerHTML = cabecalho + linhas;
 }
 
@@ -103,6 +106,12 @@ function renderizarPaginacao() {
 
   var containerPaginas = rodape.querySelector(".paginas");
   var html = "";
+
+  if (totalPaginas === 0) {
+    html = '<button type="button" disabled>&lt;</button><button type="button" disabled>&gt;</button>';
+    containerPaginas.innerHTML = html;
+    return;
+  }
 
   if (paginaAtual === 1) {
     html += `<button type="button" disabled>&lt;</button>`;
@@ -145,6 +154,12 @@ function renderizarPaginacao() {
 
 function irParaPagina(pagina) {
   var totalPaginas = Math.ceil(todosUsuarios.length / totalUsuariosPorPagina);
+  if (totalPaginas === 0) {
+    paginaAtual = 1;
+    renderizarUsuarios([]);
+    renderizarPaginacao();
+    return;
+  }
   if (pagina < 1 || pagina > totalPaginas) return;
 
   paginaAtual = pagina;
@@ -234,5 +249,40 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.clear();
     window.location.href = "./login.html";
   });
-});
+})
+
+
+async function buscarUsuarios() {
+  var fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
+  var termo = busca.value
+
+  if (!fkEmpresa) {
+    console.log(
+      "Nenhuma empresa do usuário logado foi encontrada no sessionStorage.",
+    );
+    return;
+  }
+
+  if(!termo || termo.trim().length === 0){
+    carregarUsuariosDaEmpresa()
+  }else{
+
+  try {
+    var resposta = await fetch(`/usuarios/buscar?fkEmpresa=${fkEmpresa}&termo=${termo}`);
+    var usuarios = await resposta.json();
+
+    if (!resposta.ok) {
+      throw new Error(usuarios.mensagem || "Erro ao carregar usuários.");
+    }
+
+    todosUsuarios = usuarios || [];
+    irParaPagina(1); 
+  } catch (erro) {
+    console.error("Erro ao carregar funcionários:", erro);
+  }
+  }
+}
+
+
+
 carregarUsuariosDaEmpresa();

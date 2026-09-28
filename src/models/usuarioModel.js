@@ -309,6 +309,9 @@ function atualizarSenha(idUsuario, senha) {
 }
 
 function buscarUsuario(idEmpresa, termo) {
+  var empresaSegura = mysql.escape(idEmpresa)
+  var termoSeguro = mysql.escape(`%${termo}%`)
+
   var instrucaoSql = `
           SELECT
             u.id_usuario,
@@ -323,8 +326,8 @@ function buscarUsuario(idEmpresa, termo) {
         INNER JOIN empresa AS e
             ON e.id_empresa = u.fk_empresa
 
-        WHERE u.fk_empresa = ${idEmpresa} AND
-        nome LIKE %${termo}% 
+        WHERE u.fk_empresa = ${empresaSegura} AND
+        LOWER(nome) LIKE LOWER(${termoSeguro})
 
         ORDER BY u.nome;
      
@@ -348,4 +351,5 @@ module.exports = {
   atualizarTel,
   atualizarSenha,
   deletarUsuario,
+  buscarUsuario
 };

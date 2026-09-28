@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Monit Ore | Cadastro de Torre</title>
+    <title>Monit Ore | Gerenciamento de Usuários</title>
 
     <link rel="stylesheet" href="./css/visualizacao_usuarios.css" />
 
@@ -86,9 +86,9 @@
         <div class="topo_lista">
           <h2>Lista de Usuários</h2>
           <div class="filtros">
-            <input type="text" id="busca" placeholder="Buscar usuário..." />
-            <button type="button">
-              <i class="fa-solid fa-filter"></i> Filtros
+            <input type="search" id="busca" placeholder="Buscar usuário..."/>
+            <button type="button" onclick="buscarUsuarios()">
+             <img src="./imgs/search.svg" alt="Buscar" /> Buscar
             </button>
             <a href="./cadastro.html" class="btn_amarelo">
               <i class="fa-solid fa-plus"></i> Novo Usuário
