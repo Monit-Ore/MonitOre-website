@@ -19,6 +19,20 @@ router.post("/cadastrar", function (req, res) {
     usuarioController.cadastrar(req, res);
 });
 
+// DELETAR
+router.delete("/deletar/:idUsuario", function(req, res) {
+    usuarioController.deletarUsuario(req, res);
+});
+//Buscar Usuario Especifico
+
+router.get("/buscar", function(req, res){
+    usuarioController.buscarUsuario(req, res)
+})
+
+// LISTAGEM DE USUARIOS
+router.get("/listar", function (req, res) {
+    usuarioController.listarUsuarios(req, res);
+});
 
 // LISTAGEM DE CARGOS
 

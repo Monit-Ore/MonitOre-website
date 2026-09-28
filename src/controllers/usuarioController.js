@@ -291,6 +291,82 @@ async function cadastrar(req, res) {
   }
 }
 
+// DELETAR
+async function deletarUsuario(req, res) {
+   var idUsuario = req.params.idUsuario;
+
+   if(!idUsuario){
+       return res.status(400).json({
+      mensagem: "Usuario não informado.",
+    });
+   }
+
+  try {
+    var resultado = await usuarioModel.deletarUsuario(idUsuario);
+
+    return res.status(200).json(resultado);
+  } catch (erro) {
+    console.error("Erro ao lus usuario:", erro);
+
+    return res.status(500).json({
+      mensagem: "Erro ao deletar usuario.",
+    });
+  }
+}
+
+// LISTAR USUARIOS
+
+async function listarUsuarios(req, res) {
+  var idEmpresa = req.query.fkEmpresa;
+
+  if (!idEmpresa) {
+    return res.status(400).json({
+      mensagem: "Empresa não informada.",
+    });
+  }
+
+  try {
+    var resultado = await usuarioModel.listarUsuariosPorEmpresa(idEmpresa);
+
+    return res.status(200).json(resultado);
+  } catch (erro) {
+    console.error("Erro ao listar usuarios:", erro);
+
+    return res.status(500).json({
+      mensagem: "Erro ao listar usuarios.",
+    });
+  }
+}
+
+async function buscarUsuario(req, res) {
+  var idEmpresa = req.query.fkEmpresa;
+  var termo = req.query.termo;
+
+  if (!idEmpresa) {
+    return res.status(400).json({
+      mensagem: "Empresa não informada.",
+    });
+  }
+
+  if(!termo){
+    return res.status(400).json({
+      mensagem: "Termo não informado.",
+    });
+  }
+
+  try {
+    var resultado = await usuarioModel.buscarUsuario(idEmpresa, termo);
+
+    return res.status(200).json(resultado);
+  } catch (erro) {
+    console.error("Erro ao buscar usuario:", erro);
+
+    return res.status(500).json({
+      mensagem: "Erro ao buscar usuario.",
+    });
+  }
+}
+
 // LISTAR CARGOS
 
 async function listarCargos(req, res) {
@@ -403,8 +479,11 @@ async function atualizarSenha(req, res) {
 module.exports = {
   autenticar,
   cadastrar,
+  listarUsuarios,
   listarCargos,
   listarMineradoras,
   atualizarTelefone,
-  atualizarSenha
+  atualizarSenha,
+  deletarUsuario,
+  buscarUsuario
 };

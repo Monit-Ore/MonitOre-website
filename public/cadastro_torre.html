@@ -13,6 +13,41 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="./js/cadastro_torre.js" defer></script>
 </head>
+      <nav class="menu_navegacao">
+        <ul>
+          <a
+            href="/selecao_torre.html"
+            class="item_menu ativo"
+            id="torres"
+            onclick="ativarTorres()"
+          >
+            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
+            <span>Torres</span>
+          </a>
+          <a
+            href="/visualizacao_usuarios.html"
+            class="item_menu"
+            id="usuarios"
+            onclick="ativarUsuarios()"
+          >
+            <i class="fa-solid fa-users icone_menu"></i>
+            <span>Usuários</span>
+          </a>
+          <a href="#" class="item_menu" id="cargos" onclick="ativarCargos()">
+            <i class="fa-solid fa-briefcase icone_menu"></i>
+            <span>Cargos</span>
+          </a>
+          <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
+            <i class="fa-solid fa-bell icone_menu"></i>
+            <span>Alertas</span>
+            <span class="notificacao_alerta" id="notificacao_alertas"></span>
+          </a>
+          <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
+            <i class="fa-solid fa-book icone_menu"></i>
+            <span>Manual de Instalação</span>
+          </a>
+        </ul>
+      </nav>
 
 <body class="container_responsivo">
   <aside class="navegacao">
