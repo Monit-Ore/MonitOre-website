@@ -132,8 +132,8 @@ function mostrarMensagem(texto, erro) {
   mensagemLogin.textContent = texto;
 
   if (erro) {
-    mensagemLogin.style.color = "#ffdddd";
+    mensagemLogin.style.color = "#f64747";
   } else {
-    mensagemLogin.style.color = "#d7ffd7";
+    mensagemLogin.style.color = "#53fd53";
   }
 }
