@@ -9,6 +9,7 @@
     <title>Cadastro de Funcionário</title>
 
     <link rel="stylesheet" href="./css/tela_cadastro.css" />
+    <link rel="stylesheet" href="css/editar_usuario.css">
     <script src="js/meu_perfil.js"></script>
 
     <link rel="icon" href="./imgs/favicon.svg" />
@@ -65,7 +66,7 @@
       
 
         <div id="perfil" onclick="ativarPerfil()">
-          <div class="usuario_navegacao item_menu ativo" id="usuario_logado">
+          <div class="usuario_navegacao item_menu" id="usuario_logado">
           <div class="avatar_usuario" id="avatar_usuario">
             <i class="fa-sharp fa-regular fa-user" aria-hidden="true"></i>
           </div>
@@ -112,6 +113,17 @@
               <h2><span id="cargo">cargo</span> • <span id="email">email</span></h2>
             </div>
            </div>
+        </section>
+
+        <section class="card_conteudo">
+            <div class="titulo_cards">
+                <i class="fa-solid fa-user-gear" aria-hidden="true"></i>
+                <h1>Permissão do Usuário</h1>
+            </div>
+            <div class="divisao-btn-cargo">
+                <button type="button" class="btn-administrador">Administrador</button>
+                <button type="button" class="btn-Operador">Operador</button>
+            </div>
         </section>
 
         <section class="card_conteudo">
