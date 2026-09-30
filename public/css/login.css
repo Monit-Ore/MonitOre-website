@@ -168,6 +168,54 @@ body {
     height: 20px;
 }
 
+/* Div de carregamento  */
+
+.loading-div {
+  width: 50px;
+  display: none;
+  flex-direction: column;
+  position: fixed; 
+  top: 0 ; 
+  left: 0 ;
+  width: 100vw !important;
+  height: 100vh ;
+  background-color: rgba(0,0,0,0.75);
+  justify-content: center;
+  align-items: center;
+  color:#f0ab45;
+  font-size: 20px;
+  z-index: 1000;
+}
+
+.stage {
+      position: relative;
+      width: 400px;
+      height: 400px;
+}
+.shape {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -20px 0 0 -20px;
+    width: 40px;
+    height: 40px;
+    background: #f0ab45;
+    border-color: #f0ab45;
+}
+
+.shape.vazio {
+    background: transparent;
+    border: 8px solid #f0ab45;
+    box-sizing: border-box;
+}
+
+/* .loading-div img {
+  height: 50px;
+  width: 50px;
+} */
+.loading-div p {
+  margin-left: 10px;
+}
 
 .mensagem_login {
     font-size: 13px;
