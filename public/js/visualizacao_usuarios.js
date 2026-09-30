@@ -54,7 +54,10 @@ function montarLinhaUsuario(usuario) {
 }
 
 function redirecionarEditar(idUsuario){
-  sessionStorage.setItem("ID_EDITAR_USUARIO", idUsuario)
+  sessionStorage.setItem("ID_EDITAR_USUARIO", idUsuario);
+  var cargo = sessionStorage.getItem("CARGO_EDITAR_USUARIO");
+  console.log(cargo);
+  
   window.location.href = "./editar_usuario.html"
 }
 

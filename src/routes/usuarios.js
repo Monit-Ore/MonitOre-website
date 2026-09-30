@@ -34,6 +34,10 @@ router.get("/listar", function (req, res) {
     usuarioController.listarUsuarios(req, res);
 });
 
+router.get("/buscarID/:idUsuario", function(req, res){
+    usuarioController.BuscarPorID(req,res);
+})
+
 // LISTAGEM DE CARGOS
 
 router.get("/cargos", function (req, res) {

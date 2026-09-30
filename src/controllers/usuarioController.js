@@ -476,6 +476,28 @@ async function atualizarSenha(req, res) {
   }
 }
 
+async function BuscarPorID(req,res) {
+  var idUsuario = req.params.idUsuario;
+
+   if(!idUsuario){
+       return res.status(400).json({
+      mensagem: "Usuario não informado.",
+    });
+   }
+
+  try {
+    var resultado = await usuarioModel.BuscarPorID(idUsuario);
+
+    return res.status(200).json(resultado);
+  } catch (erro) {
+    console.error("Erro ao buscar usuario:", erro);
+
+    return res.status(500).json({
+      mensagem: "Erro ao buscar usuario.",
+    });
+  }
+}
+
 module.exports = {
   autenticar,
   cadastrar,
@@ -485,5 +507,6 @@ module.exports = {
   atualizarTelefone,
   atualizarSenha,
   deletarUsuario,
-  buscarUsuario
+  buscarUsuario,
+  BuscarPorID
 };

@@ -285,7 +285,7 @@ function listarMineradoras() {
 function atualizarTel(idUsuario, telefone) {
   var instrucaoSql = `
         UPDATE usuario
-        SET telefone = ${telefone}
+        SET telefone = '${telefone}'
         WHERE id_usuario = ${Number(idUsuario)};
     `;
 
@@ -338,6 +338,27 @@ function buscarUsuario(idEmpresa, termo) {
 
   return database.executar(instrucaoSql);
 }
+
+function BuscarPorID(idUsuario){
+  var instrucaoSql = `
+    SELECT 
+      u.nome,
+      u.email,
+      u.telefone,
+      u.senha,
+      u.cargo
+
+    FROM usuario as u
+    WHERE u.id_usuario = ${idUsuario};
+  `
+
+  console.log("Executando SQL de visualizar");
+  console.log(instrucaoSql);
+  
+  
+  return database.executar(instrucaoSql)
+}
+
 module.exports = {
   buscarPorEmail,
   buscarPorCpf,
@@ -351,5 +372,6 @@ module.exports = {
   atualizarTel,
   atualizarSenha,
   deletarUsuario,
-  buscarUsuario
+  buscarUsuario,
+  BuscarPorID
 };
