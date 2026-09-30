@@ -516,6 +516,20 @@ async function BuscarPorID(req, res) {
   }
 }
 
+async function atualizarCargo(req,res){
+  var idUsuario = req.body.userServer;
+  var cargo = req.body.senhaNovaServer;
+
+  try {
+    var resultado = await usuarioModel.atualizarCargo(idUsuario, cargo);
+
+    return res.status(200).json(resultado);
+  } catch (erro) {
+    console.error("Erro na controller ao atualizar cargo:", erro);
+    return res.status(500).json({ mensagem: "Erro interno ao atualizar o cargo." });
+  }
+}
+
 module.exports = {
   autenticar,
   cadastrar,
@@ -527,5 +541,6 @@ module.exports = {
   deletarUsuario,
   buscarUsuario,
   BuscarPorID,
-  atualizarSenhaAdmin
+  atualizarSenhaAdmin,
+  atualizarCargo
 };

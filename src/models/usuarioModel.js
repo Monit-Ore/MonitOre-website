@@ -308,6 +308,19 @@ function atualizarSenha(idUsuario, senha) {
   return database.executar(instrucaoSql);
 }
 
+function atualizarCargo(idUsuario, cargo){
+  var instrucaoSql = `
+    UPDATE usuario
+    SET cargo = "${cargo}"
+    WHERE id_usuario = ${Number(idUsuario)};
+  `
+
+  console.log("Executando SQL de atualizar cargo:");
+  console.log(instrucaoSql);
+  
+  return database.executar(instrucaoSql);
+}
+
 function atualizarSenhaAdmin(idUsuario, senha) {
   var instrucaoSql = `
         UPDATE usuario
@@ -387,5 +400,6 @@ module.exports = {
   deletarUsuario,
   buscarUsuario,
   BuscarPorID,
-  atualizarSenhaAdmin
+  atualizarSenhaAdmin,
+  atualizarCargo
 };

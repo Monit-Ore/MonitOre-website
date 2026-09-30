@@ -109,8 +109,10 @@
                     <h1>Permissão do Usuário</h1>
                 </div>
                 <div class="divisao-btn-cargo">
-                    <button type="button" class="btn-administrador">Administrador</button>
-                    <button type="button" class="btn-Operador">Operador</button>
+                    <button type="button" class="desativado" onclick="mudarCargo(this)"
+                        value="Administrador">Administrador</button>
+                    <button type="button" class="desativado" onclick="mudarCargo(this)"
+                        value="Operador">Operador</button>
                 </div>
             </section>
 
@@ -229,10 +231,13 @@
                             cargo = usuario.cargo;
                             email = usuario.email;
 
-                            document.getElementById("nome_user").innerHTML = usuario.nome
-                            document.getElementById("cargo").innerHTML = usuario.cargo
-                            document.getElementById("email").innerHTML = usuario.email
-                            
+                            document.getElementById("nome_user").innerHTML = usuario.nome;
+                            document.getElementById("cargo").innerHTML = usuario.cargo;
+                            document.getElementById("email").innerHTML = usuario.email;
+
+                            atualizarEstiloBotoesCargo(usuario.cargo);
+
+
                         })
                     } else {
                         console.log("Erro na resposta do servidor");
@@ -306,6 +311,57 @@
                     }
                 })
 
+        }
+
+        function atualizarEstiloBotoesCargo(cargoAtual) {
+
+            var btnAdmin = document.querySelector('button[value="Administrador"]');
+            var btnOperador = document.querySelector('button[value="Operador"]');
+
+            if (!btnAdmin || !btnOperador) return;
+
+            btnAdmin.className = "desativado";
+            btnOperador.className = "desativado";
+
+            if (cargoAtual === "Administrador") {
+                btnAdmin.className = "ativo";
+            } else if (cargoAtual === "Operador") {
+                btnOperador.className = "ativo";
+            }
+        }
+
+        function mudarCargo(botao_mudar) {
+            novoCargo = botao_mudar.value;
+            if (novoCargo == cargo) {
+                mostrarMensagem("Ele já tem esse cargo")
+                return
+            }
+
+            fetch("/usuarios/atualizarCargo", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    userServer: id,
+                    senhaNovaServer: novoCargo
+                }),
+            })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
+
+                    if (resposta.ok) {
+                        console.log("resposta está ok");
+
+                        cargo = novoCargo;
+                        atualizarEstiloBotoesCargo(cargo);
+                        document.getElementById("cargo").innerHTML = cargo;
+
+                        mostrarMensagem("Troca validada", true)
+                    } else {
+                        mostrarMensagem("Cargo inválida.", true);
+                    }
+                })
         }
     </script>
 </body>
