@@ -42,7 +42,7 @@ function montarLinhaUsuario(usuario) {
       </div>
       <div class="coluna">${usuario.ultimo_acesso || "---"}</div>
       <div class="coluna">
-        <button type="button" aria-label="Editar usuário">
+        <button type="button" aria-label="Editar usuário" onclick="redirecionarEditar(${usuario.id_usuario})">
           <img src="./imgs/editar.svg" alt="Editar" />
         </button>
         <button type="button" onclick="abrirModalDeletar(${usuario.id_usuario})" aria-label="Excluir usuário">
@@ -51,6 +51,11 @@ function montarLinhaUsuario(usuario) {
       </div>
     </div>
   `;
+}
+
+function redirecionarEditar(idUsuario){
+  sessionStorage.setItem("ID_EDITAR_USUARIO", idUsuario)
+  window.location.href = "./editar_usuario.html"
 }
 
 function pegarUsuariosDaPagina(pagina) {
