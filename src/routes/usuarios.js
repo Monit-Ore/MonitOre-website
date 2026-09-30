@@ -61,5 +61,9 @@ router.post("/atualizar/senha", function (req, res) {
     usuarioController.atualizarSenha(req, res);
 });
 
+router.post("/atualizarSenhaAdmin", function(req,res){
+    usuarioController.atualizarSenhaAdmin(req,res);
+})
+
 
 module.exports = router;

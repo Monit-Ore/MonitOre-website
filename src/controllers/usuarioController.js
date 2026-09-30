@@ -293,13 +293,13 @@ async function cadastrar(req, res) {
 
 // DELETAR
 async function deletarUsuario(req, res) {
-   var idUsuario = req.params.idUsuario;
+  var idUsuario = req.params.idUsuario;
 
-   if(!idUsuario){
-       return res.status(400).json({
+  if (!idUsuario) {
+    return res.status(400).json({
       mensagem: "Usuario não informado.",
     });
-   }
+  }
 
   try {
     var resultado = await usuarioModel.deletarUsuario(idUsuario);
@@ -348,7 +348,7 @@ async function buscarUsuario(req, res) {
     });
   }
 
-  if(!termo){
+  if (!termo) {
     return res.status(400).json({
       mensagem: "Termo não informado.",
     });
@@ -408,24 +408,24 @@ function atualizarTelefone(req, res) {
   var telefone = req.body.telServer;
 
   if (!telefone) {
-        return res.status(400).send("Telefone inválido!");
-    }
+    return res.status(400).send("Telefone inválido!");
+  }
 
   usuarioModel.atualizarTel(id, telefone)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+    .then(
+      function (resultado) {
+        res.json(resultado);
+      }
+    ).catch(
+      function (erro) {
+        console.log(erro);
+        console.log(
+          "\nHouve um erro ao realizar o cadastro! Erro: ",
+          erro.sqlMessage
+        );
+        res.status(500).json(erro.sqlMessage);
+      }
+    );
 }
 
 async function atualizarSenha(req, res) {
@@ -451,39 +451,57 @@ async function atualizarSenha(req, res) {
         mensagem: "Senha inválida.",
       });
     }
-  
+
     usuarioModel.atualizarSenha(id, nova_senha)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+      .then(
+        function (resultado) {
+          res.json(resultado);
+        }
+      ).catch(
+        function (erro) {
+          console.log(erro);
+          console.log(
+            "\nHouve um erro ao realizar o cadastro! Erro: ",
+            erro.sqlMessage
+          );
+          res.status(500).json(erro.sqlMessage);
+        }
+      );
   } catch {
     console.log(
-        "\nHouve um erro ao realizar a alteração! Erro: ",
-        erro.sqlMessage
+      "\nHouve um erro ao realizar a alteração! Erro: ",
+      erro.sqlMessage
     );
     res.status(500).json(erro.sqlMessage);
   }
 }
 
-async function BuscarPorID(req,res) {
+async function atualizarSenhaAdmin(req, res) {
+  var idUsuario = req.body.userServer;
+  var novaSenha = req.body.senhaNovaServer;
+
+  if (!idUsuario || !novaSenha) {
+    return res.status(400).json({ mensagem: "Dados incompletos para atualização." });
+  }
+
+  try {
+    var resultado = await usuarioModel.atualizarSenhaAdmin(idUsuario, novaSenha);
+
+    return res.status(200).json(resultado);
+  } catch (erro) {
+    console.error("Erro na controller ao atualizar senha:", erro);
+    return res.status(500).json({ mensagem: "Erro interno ao atualizar a senha." });
+  }
+}
+
+async function BuscarPorID(req, res) {
   var idUsuario = req.params.idUsuario;
 
-   if(!idUsuario){
-       return res.status(400).json({
+  if (!idUsuario) {
+    return res.status(400).json({
       mensagem: "Usuario não informado.",
     });
-   }
+  }
 
   try {
     var resultado = await usuarioModel.BuscarPorID(idUsuario);
@@ -508,5 +526,6 @@ module.exports = {
   atualizarSenha,
   deletarUsuario,
   buscarUsuario,
-  BuscarPorID
+  BuscarPorID,
+  atualizarSenhaAdmin
 };

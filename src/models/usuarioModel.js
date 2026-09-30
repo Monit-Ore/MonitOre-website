@@ -308,6 +308,19 @@ function atualizarSenha(idUsuario, senha) {
   return database.executar(instrucaoSql);
 }
 
+function atualizarSenhaAdmin(idUsuario, senha) {
+  var instrucaoSql = `
+        UPDATE usuario
+        SET senha = "${senha}"
+        WHERE id_usuario = ${Number(idUsuario)};
+    `;
+
+  console.log("Executando SQL de atualizar senha:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+
 function buscarUsuario(idEmpresa, termo) {
   var empresaSegura = mysql.escape(idEmpresa)
   var termoSeguro = mysql.escape(`%${termo}%`)
@@ -373,5 +386,6 @@ module.exports = {
   atualizarSenha,
   deletarUsuario,
   buscarUsuario,
-  BuscarPorID
+  BuscarPorID,
+  atualizarSenhaAdmin
 };

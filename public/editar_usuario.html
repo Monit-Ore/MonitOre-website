@@ -141,20 +141,6 @@
                     <h1><label for="cur_senha_ipt">Alterar senha</label></h1>
                 </div>
                 <div class="container_formularios">
-                    <div class="formulario">
-
-                        <label for="cur_senha_ipt">Senha atual</label>
-
-                        <div class="senha_container">
-                            <input type="password" id="cur_senha_ipt" placeholder="********"
-                                autocomplete="current-password" minlength="6" required />
-
-                            <button type="button" class="botao_senha" onclick="mostrar_senha(1)"
-                                aria-label="Mostrar ou ocultar senha">
-                                👁
-                            </button>
-                        </div>
-                    </div>
                     <div class="form_senhas">
                         <div class="formulario">
 
@@ -289,7 +275,6 @@
         }
 
         function atualizarSenha() {
-            let current_senha = cur_senha_ipt.value;
             let senha = senha_ipt.value;
             let confirmacao_senha = confirm_senha_ipt.value;
 
@@ -300,16 +285,14 @@
                 return;
             }
 
-            fetch("/usuarios/atualizar/senha", {
+            fetch("/usuarios/atualizarSenhaAdmin", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     userServer: id,
-                    senhaAtualServer: current_senha,
-                    senhaNovaServer: senha,
-                    emailServer: sessionStorage.EMAIL_USUARIO
+                    senhaNovaServer: senha
                 }),
             })
                 .then(function (resposta) {
@@ -317,6 +300,7 @@
 
                     if (resposta.ok) {
                         console.log("resposta está ok");
+                        mostrarMensagem("Troca validada", true)
                     } else {
                         mostrarMensagem("Senha inválida.", true);
                     }
