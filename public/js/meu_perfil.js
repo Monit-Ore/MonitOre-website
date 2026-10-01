@@ -42,24 +42,24 @@ function carregarUsuarioMenu() {
   cargo_usuario.textContent = cargoUsuario;
 }
 
-function carregarIniciais() {
-  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
-  const iniciais = [];
+// function carregarIniciais() {
+//   const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+//   const iniciais = [];
 
-  for (let i = 0; i < nomeUsuario.length; i++) {
+//   for (let i = 0; i < nomeUsuario.length; i++) {
     
-    if (i == 0) {
-      iniciais.push(nomeUsuario[i]);
-    }
+//     if (i == 0) {
+//       iniciais.push(nomeUsuario[i]);
+//     }
 
-    if (nomeUsuario[i] == " ") {
-      iniciais.push(nomeUsuario[i + 1])
-      break;
-    }
+//     if (nomeUsuario[i] == " ") {
+//       iniciais.push(nomeUsuario[i + 1])
+//       break;
+//     }
     
-  }
-  avatar_usuario.textContent = iniciais.join('');
-}
+//   }
+//   avatar_usuario.textContent = iniciais.join('');
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarioMenu();
