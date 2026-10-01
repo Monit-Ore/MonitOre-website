@@ -228,9 +228,32 @@ body {
 
 .logo_navegacao {
   padding: 25px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .logo_navegacao img {
   max-width: 100%;
+}
+
+.logo_container {
+  position: relative;
+  width: 120px;
+  display: inline-block;
+}
+
+#yellow-icon {
+  width: auto;
+  position: absolute;
+  left: 50%;
+  height: 100%;
+  /* transform: translateX(-50%); */
+}
+
+#letters {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .menu_navegacao {
