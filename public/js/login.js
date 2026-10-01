@@ -7,7 +7,7 @@ for (let i = 0; i < 8; i++) {
       quadrados.className = 'shape' + (i % 2 ? ' vazio' : '');
 
       const tamanho = utils.random(25, 75);
-
+  
       quadrados.style.width = quadrados.style.height = tamanho + 'px';
       quadrados.style.margin = `${-tamanho / 2}px 0 0 ${-tamanho / 2}px`;
       stage.appendChild(quadrados);
