@@ -23,6 +23,7 @@ var app = express();
 var indexRouter = require("./src/routes/index");
 var usuariosRouter = require("./src/routes/usuarios");
 var torresRouter = require("./src/routes/torres");
+var empresaRouter = require("./src/routes/empresas");
 
 // =========================================================
 // MIDDLEWARES
@@ -58,6 +59,8 @@ app.use("/equipe", equipeRouter);
 app.use("/usuarios", usuariosRouter);
 
 app.use("/torres", torresRouter);
+
+app.use("/empresas", empresaRouter);
 
 // Rotas resultantes:
 //

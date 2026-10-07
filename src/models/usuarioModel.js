@@ -173,6 +173,68 @@ function atualizarUltimoAcesso(idUsuario) {
   return database.executar(instrucaoSql);
 }
 
+// LISTAR USUARIOS
+function listarUsuarios(empresa) {
+  var instrucaoSql = `
+        SELECT
+    u.id_usuario,
+    u.nome,
+    u.email,
+    u.cargo,
+    u.telefone,
+    DATE_FORMAT(u.ultimo_acesso, '%d/%m/%Y %H:%i') AS ultimo_acesso,
+    e.razao_social AS empresa
+      FROM usuario u
+      JOIN empresa e
+    ON e.id_empresa = u.fk_empresa
+      WHERE u.fk_empresa = ${empresa}
+      ORDER BY u.nome;
+    `;
+
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+
+// LISTAR USUÁRIOS DA EMPRESA
+
+function listarUsuariosPorEmpresa(fkEmpresa) {
+  var instrucaoSql = `
+        SELECT
+            u.id_usuario,
+            u.nome,
+            u.email,
+            u.cargo,
+            DATE_FORMAT(u.ultimo_acesso, '%d/%m/%Y %H:%i') AS ultimo_acesso,
+            e.razao_social AS empresa
+
+        FROM usuario AS u
+
+        INNER JOIN empresa AS e
+            ON e.id_empresa = u.fk_empresa
+
+        WHERE u.fk_empresa = ${Number(fkEmpresa)}
+
+        ORDER BY u.nome;
+    `;
+
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+// DELETAR
+function deletarUsuario(idUsuario) {
+  var instrucaoSql = `
+      DELETE FROM usuario WHERE id_usuario = ${idUsuario};
+    `;
+
+  console.log("Executando SQL:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
 // LISTAR CARGOS
 
 function listarCargos() {
@@ -223,7 +285,7 @@ function listarMineradoras() {
 function atualizarTel(idUsuario, telefone) {
   var instrucaoSql = `
         UPDATE usuario
-        SET telefone = ${telefone}
+        SET telefone = '${telefone}'
         WHERE id_usuario = ${Number(idUsuario)};
     `;
 
@@ -246,6 +308,83 @@ function atualizarSenha(idUsuario, senha) {
   return database.executar(instrucaoSql);
 }
 
+function atualizarCargo(idUsuario, cargo){
+  var instrucaoSql = `
+    UPDATE usuario
+    SET cargo = "${cargo}"
+    WHERE id_usuario = ${Number(idUsuario)};
+  `
+
+  console.log("Executando SQL de atualizar cargo:");
+  console.log(instrucaoSql);
+  
+  return database.executar(instrucaoSql);
+}
+
+function atualizarSenhaAdmin(idUsuario, senha) {
+  var instrucaoSql = `
+        UPDATE usuario
+        SET senha = "${senha}"
+        WHERE id_usuario = ${Number(idUsuario)};
+    `;
+
+  console.log("Executando SQL de atualizar senha:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+
+function buscarUsuario(idEmpresa, termo) {
+  var empresaSegura = mysql.escape(idEmpresa)
+  var termoSeguro = mysql.escape(`%${termo}%`)
+
+  var instrucaoSql = `
+          SELECT
+            u.id_usuario,
+            u.nome,
+            u.email,
+            u.cargo,
+            DATE_FORMAT(u.ultimo_acesso, '%d/%m/%Y %H:%i') AS ultimo_acesso,
+            e.razao_social AS empresa
+
+        FROM usuario AS u
+
+        INNER JOIN empresa AS e
+            ON e.id_empresa = u.fk_empresa
+
+        WHERE u.fk_empresa = ${empresaSegura} AND
+        LOWER(nome) LIKE LOWER(${termoSeguro})
+
+        ORDER BY u.nome;
+     
+    `;
+
+  console.log("Executando SQL de atualizar senha:");
+  console.log(instrucaoSql);
+
+  return database.executar(instrucaoSql);
+}
+
+function BuscarPorID(idUsuario){
+  var instrucaoSql = `
+    SELECT 
+      u.nome,
+      u.email,
+      u.telefone,
+      u.senha,
+      u.cargo
+
+    FROM usuario as u
+    WHERE u.id_usuario = ${idUsuario};
+  `
+
+  console.log("Executando SQL de visualizar");
+  console.log(instrucaoSql);
+  
+  
+  return database.executar(instrucaoSql)
+}
+
 module.exports = {
   buscarPorEmail,
   buscarPorCpf,
@@ -253,8 +392,14 @@ module.exports = {
   buscarMineradoraPorId,
   cadastrar,
   atualizarUltimoAcesso,
+  listarUsuariosPorEmpresa,
   listarCargos,
   listarMineradoras,
   atualizarTel,
-  atualizarSenha
+  atualizarSenha,
+  deletarUsuario,
+  buscarUsuario,
+  BuscarPorID,
+  atualizarSenhaAdmin,
+  atualizarCargo
 };

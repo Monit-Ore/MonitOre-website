@@ -1,0 +1,44 @@
+    .ativo {
+        width: 190px;
+        background-color: #ecbe10;
+        color: #1e1e1e;
+        border: 1px solid #ecbe10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        height: 46px;
+        border-radius: 6px;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        gap: 12px;
+    }
+
+
+    .desativado{
+        width: 190px;
+        background-color: #C5B1ED13;
+        color: #C5B1ED;
+        border: 1px solid #C5B1ED;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        height: 46px;
+        border-radius: 6px;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        gap: 12px;
+    }
+
+    .divisao-btn-cargo{
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .btn-administrador:hover, .btn-Operador:hover{
+        opacity: 0.85;
+    }

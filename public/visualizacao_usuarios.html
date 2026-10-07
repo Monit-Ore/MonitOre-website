@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monit Ore | Gerenciamento de Usuários</title>
+
+    <link rel="stylesheet" href="./css/visualizacao_usuarios.css" />
+
+    <link rel="icon" href="./imgs/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+
+  <body class="container_responsivo">
+    <aside class="navegacao">
+      <div class="logo_navegacao">
+        <div class="logo_container">
+          <img id="yellow-icon" src="./imgs/logo_icon_yellow.png">
+          <img id="letters" src="./imgs/logo_letters_white.png">
+        </div>
+      </div>
+
+      <nav class="menu_navegacao">
+        <ul>
+          <a
+            href="selecao_torre.html"
+            class="item_menu"
+            id="torres"
+            onclick="ativarTorres()"
+          >
+            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
+            <span>Torres</span>
+          </a>
+          <a
+            href="#"
+            class="item_menu ativo"
+            id="usuarios"
+            onclick="ativarUsuarios()"
+          >
+            <i class="fa-solid fa-users icone_menu"></i>
+            <span>Usuários</span>
+          </a>
+          <a href="#" class="item_menu" id="cargos" onclick="ativarCargos()">
+            <i class="fa-solid fa-briefcase icone_menu"></i>
+            <span>Cargos</span>
+          </a>
+          <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
+            <i class="fa-solid fa-bell icone_menu"></i>
+            <span>Alertas</span>
+            <span class="notificacao_alerta" id="notificacao_alertas"></span>
+          </a>
+          <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
+            <i class="fa-solid fa-book icone_menu"></i>
+            <span>Manual de Instalação</span>
+          </a>
+        </ul>
+      </nav>
+
+      <div class="rodape_navegacao">
+        <a href="meu_perfil.html" class="item_menu" id="perfil">
+        <div class="usuario_navegacao" id="usuario_logado">
+          <div class="avatar_usuario" id="avatar_usuario">US</div>
+          <div class="info_usuario">
+            <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+            <span class="cargo_usuario" id="cargo_usuario"></span>
+          </div>
+          <i class="fa-solid fa-chevron-right icone_menu"></i>
+        </div>
+</a>
+        <button class="botao_sair" id="botao_sair" type="button">
+          <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
+    <main class="conteudo_visualizacao_usuarios">
+      <div class="titulo_pag">
+        <img src="./imgs/usuarios.svg" alt="Usuário" class="icone_titulo" />
+        <div>
+          <h1>Gerenciamento de Usuários</h1>
+          <p>Gerencie os usuários do sistema</p>
+        </div>
+      </div>
+
+      <div class="card_conteudo">
+        <div class="topo_lista">
+          <h2>Lista de Usuários</h2>
+          <div class="filtros">
+            <input type="search" id="busca" placeholder="Buscar usuário..."/>
+            <button type="button" onclick="buscarUsuarios()">
+             <img src="./imgs/search.svg" alt="Buscar" /> Buscar
+            </button>
+            <a href="./cadastro.html" class="btn_amarelo">
+              <i class="fa-solid fa-plus"></i> Novo Usuário
+            </a>
+          </div>
+        </div>
+
+        <div class="tabela">
+        </div>
+
+        <div class="rodape">
+          <p>Mostrando ? a ? de ? usuários</p>
+          <div class="paginas">
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <dialog id="modal_confirmar_exclusao" class="modal_exclusao" aria-labelledby="titulo_modal_exclusao">
+      <div class="conteudo_modal_exclusao">
+        <div class="icone_modal_exclusao" aria-hidden="true">
+          <img src="./imgs/excluir.svg" alt="Excluir" style="width: 50px;"/>
+        </div>
+        <h2 id="titulo_modal_exclusao">Exclusão de Usuário</h2>
+        <p>Tem certeza que deseja excluir este usuário?<br />Essa ação não pode ser desfeita.</p>
+      </div>
+      <div class="divisor_modal_exclusao" aria-hidden="true"></div>
+      <div class="acoes_modal_exclusao">
+        <button type="button" id="cancelar_exclusao" class="botao_cancelar_exclusao">Cancelar</button>
+        <button type="button" id="confirmar_exclusao" class="botao_confirmar_exclusao">Confirmar</button>
+      </div>
+    </dialog>
+  </body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
+<script src="./js/visualizacao_usuarios.js"></script>

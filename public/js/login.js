@@ -1,6 +1,52 @@
+const { animate, utils } = anime;
+
+const stage = document.getElementById('stage');
+
+for (let i = 0; i < 8; i++) {
+      const quadrados = document.createElement('div');
+      quadrados.className = 'shape' + (i % 2 ? ' vazio' : '');
+
+      const tamanho = utils.random(25, 75);
+  
+      quadrados.style.width = quadrados.style.height = tamanho + 'px';
+      quadrados.style.margin = `${-tamanho / 2}px 0 0 ${-tamanho / 2}px`;
+      stage.appendChild(quadrados);
+}
+
+
+function moverQuadrados() {
+  console.log('moverQuadrados chamada');
+  const animeQuad = animate('.shape', {
+  x: () => utils.random(-100, 100),
+  y: () => utils.random(-100, 100),
+  rotate: () => utils.random(-180, 180),
+  duration: () => utils.random(500, 1000),
+  composition: 'blend',
+  ease: 'inOutQuad'
+  });
+}
+
+
+
+// carregamento (loading)
+function aguardar() {
+    var divAguardar = document.getElementById("div_aguardar");
+    moverQuadrados();
+    setInterval(moverQuadrados, 500);
+    divAguardar.style.display = "flex";
+    
+}
+
+function finalizarAguardar(texto) {
+    var divAguardar = document.getElementById("div_aguardar");
+    moverQuadrados.revert();
+    divAguardar.style.display = "none";
+}
+
 // AUTENTICAÇÃO
 
 function autenticar() {
+  
   var campoEmail = document.getElementById("email");
 
   var campoSenha = document.getElementById("senha");
@@ -27,7 +73,7 @@ function autenticar() {
   // Validação da senha.
   if (senha === "") {
     mostrarMensagem("Informe a sua senha.", true);
-
+    
     campoSenha.focus();
     return;
   }
@@ -69,6 +115,7 @@ function autenticar() {
 
       mostrarMensagem(resultado.conteudo.mensagem, false);
 
+      
       redirecionarUsuario();
     })
     .catch(function (erro) {
@@ -101,9 +148,10 @@ function salvarDadosUsuario(usuario) {
 // REDIRECIONAMENTO
 
 function redirecionarUsuario() {
+  aguardar();
   setTimeout(function () {
       window.location.href = "./selecao_torre.html";
-  }, 1000);
+  }, 2000);
 }
 
 // MOSTRAR OU OCULTAR SENHA
@@ -132,8 +180,9 @@ function mostrarMensagem(texto, erro) {
   mensagemLogin.textContent = texto;
 
   if (erro) {
-    mensagemLogin.style.color = "#ffdddd";
+    mensagemLogin.style.color = "#f64747";
   } else {
-    mensagemLogin.style.color = "#d7ffd7";
+    mensagemLogin.style.color = "#53fd53";
   }
 }
+

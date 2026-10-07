@@ -1,9 +1,51 @@
+const { createTimeline, stagger, spring } = anime;
+
 const COMPONENTES = [
   { id: 1, nome: "CPU" },
   { id: 2, nome: "RAM" },
   { id: 3, nome: "Disco" },
   { id: 4, nome: "Rede" },
 ];
+
+async function buscarCEP(cep) {
+  try {
+    // Validação básica do CEP (apenas números, 8 dígitos)
+    if (!/^\d{8}$/.test(cep)) {
+      throw new Error("CEP inválido. Use apenas 8 dígitos numéricos.");
+    }
+    
+
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+    if (!response.ok) {
+      throw new Error(`Erro na requisição: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.erro) {
+      throw new Error("CEP não encontrado.");
+    }
+
+    console.log("Endereço encontrado:", data);
+
+    const campoCidade = document.getElementById('cidade_ipt');
+    const campoUF = document.getElementById('uf_ipt');
+    const campoBairro = document.getElementById('bairro_ipt');
+    const campoLogradouro = document.getElementById('logradouro_ipt');
+    campoCidade.value=data.localidade
+    campoCidade.readOnly=true
+    campoUF.value=data.uf
+    campoUF.readOnly=true
+    campoBairro.value=data.bairro
+    campoBairro.readOnly=true
+    campoLogradouro.value=data.logradouro
+    campoLogradouro.readOnly=true    
+  } catch (error) {
+    console.error("Erro:", error.message);
+  }
+}
+
 
 const metricasAdicionadas = [];
 
@@ -185,7 +227,7 @@ async function salvarTorre(evento) {
     },
     endereco: {
       cep: document.getElementById("cep_ipt").value,
-      estado: document.getElementById("estado_ipt").value,
+      estado: document.getElementById("uf_ipt").value,
       cidade: document.getElementById("cidade_ipt").value,
       logradouro: document.getElementById("logradouro_ipt").value,
       bairro: document.getElementById("bairro_ipt").value,
@@ -299,6 +341,36 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.clear();
     window.location.href = "./login.html";
   });
+
+  const logo_anime = createTimeline({
+    defaults: {
+      ease: spring({
+      bounce: 0.3,
+      duration: 400
+      })
+    }
+  });
+
+  logo_anime.add(
+    '#yellow-icon', {
+    translateY: [-100, 0],
+    translateX: ['-50%', '-50%'],
+    opacity: [0, 1],
+    duration: 900,
+
+  })
+  .add(
+    '#letters', {
+    
+    translateY: [
+      { from: 0, to: 20, duration: 300, ease: 'outQuad' },
+      { to: 0, duration: 400, ease: 'outBounce' },
+    ],
+    
+    
+  }, '-=700');
 });
 
 inicializarCadastro();
+
+

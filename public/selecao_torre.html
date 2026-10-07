@@ -13,14 +13,17 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <script src="./js/selecao_torre.js"></script>
+
   </head>
   <body class="container_responsivo">
     <aside class="navegacao">
       <div class="logo_navegacao">
-        <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+        <div class="logo_container">
+          <img id="yellow-icon" src="./imgs/logo_icon_yellow.png">
+          <img id="letters" src="./imgs/logo_letters_white.png">
+        </div>
+</div
       </div>
-
       <nav class="menu_navegacao">
         <ul>
           <a
@@ -33,7 +36,7 @@
             <span>Torres</span>
           </a>
           <a
-            href="/cadastro.html"
+            href="/visualizacao_usuarios.html"
             class="item_menu"
             id="usuarios"
             onclick="ativarUsuarios()"
@@ -41,9 +44,11 @@
             <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
           </a>
-          <li class="item_menu" id="cargos" onclick="ativarCargos()">
-            <i class="fa-solid fa-briefcase icone_menu"></i>
-            <span>Cargos</span>
+          <li>
+            <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora">
+              <i class="fa-solid fa-hammer icone_menu"></i>
+              <span>Cadastro de Mineradora</span>
+            </a>
           </li>
           <li class="item_menu" id="alertas" onclick="ativarAlertas()">
             <i class="fa-solid fa-bell icone_menu"></i>
@@ -76,15 +81,6 @@
     </aside>
 
     <main class="conteudo_layout">
-      <button
-        class="btn-notificacao"
-        type="button"
-        aria-label="Abrir menu"
-        aria-expanded="false"
-      >
-        <i class="fa-regular fa-bell icone-sino"></i>
-        <i class="fa-solid fa-bars icone-menu"></i>
-      </button>
       <header>
         <h1>Seleção de Torre</h1>
         <span>Selecione a torre que deseja verificar os dados</span>
@@ -115,6 +111,8 @@
         </div>
       </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
+    <script src="./js/selecao_torre.js"></script>
     <script>
       usuario_logado.addEventListener("click", () => {
         window.location = '/meu_perfil.html';
