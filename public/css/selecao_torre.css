@@ -72,6 +72,7 @@ header span{
 
 
 .btn-notificacao {
+    display: none; 
     background-color: #1f1f1f;
     border: 2px solid var(--cinza);
     border-radius: 5px;
