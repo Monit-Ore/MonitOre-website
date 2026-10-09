@@ -41,16 +41,17 @@
 }
 
 .sobre-texto {
+    box-sizing: border-box;
     width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-start;
-    padding-left: 3vw;
+    padding-left: 10vw;
 }
 
 .sobre-texto h2 {
-    font-size: 4vw;
+    font-size: 3vw;
     line-height: 1.1;
     color: var(--preto);
     margin-bottom: 0.69vw;
@@ -70,11 +71,11 @@
 
 .sobre-paragrafos {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .sobre-paragrafos p {
-    font-size: 2vw;
+    font-size: 1.7vw;
     color: var(--preto);
     max-width: 45%;
     text-align: justify;
@@ -94,7 +95,7 @@
 
 @media screen and (max-width: 768px) {
     .sobre-projeto {
-        height: 90vw;
+        height: 60vw;
     }
 
     .sobre-texto {
@@ -121,7 +122,7 @@
     .sobre-paragrafos p {
         text-align: justify;
         max-width: 100%;
-        font-size: 3.5vw;
+        font-size: 2.5vw;
     }
 
     .sobre-grafismo {
@@ -258,7 +259,7 @@
         padding: 4vw 10%;
         display: flex;
         flex-direction: column;
-        height: 60vw;
+        height: 50vw;
     }
 
     .como-funciona-textos {
@@ -309,14 +310,14 @@
 
 .detalhes-solucao {
     background-color: white;
-    padding: 2vw 10%;
+    padding: 2vw 10vw;
     display: flex;
     flex-direction: column;
     height: 40vw;
 }
 
 .detalhes-solucao-titulo {
-    width: 50vw;
+    width: fit-content;
 }
 
 .detalhes-solucao-titulo h2 {
@@ -353,12 +354,17 @@
 
 @media screen and (max-width: 768px) {
     .detalhes-solucao {
-        height: 60vw;
+        height: 70vw;
+    }
+
+    .detalhes-solucao-titulo {
+        width: fit-content;
     }
 
     .detalhes-solucao-titulo h2 {
         font-size: 4vw;
     }
+    
 
     .detalhes-solucao-textos {
         height: 40vw;
@@ -371,6 +377,7 @@
 
     .detalhes-solucao-textos-esquerda p {
         font-size: 2.5vw;
+        margin-bottom: 4vh;
     }
 
     .detalhes-solucao-textos-direita {
@@ -380,7 +387,7 @@
 
     .detalhes-solucao-textos-direita p {
         width: 45%;
-        font-size: 2vw;
+        font-size: 2.5vw;
     }
 
 }
