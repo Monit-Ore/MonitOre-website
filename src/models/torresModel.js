@@ -112,11 +112,11 @@ var instrucaoEndereco = `INSERT INTO endereco
         (componente) =>
           `(${mysql.escape(idpc_industrial)}, ${mysql.escape(
             componente.fk_componente,
-          )}, ${mysql.escape(componente.valor_limite)})`,
+          )}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(componente.alerta_atencao)})`,
       )
       .join(", ");
     var instrucaoComponentes = `INSERT INTO limite_alerta
-        (fk_pc_industrial, fk_componente, valor_limite)
+        (fk_pc_industrial, fk_componente, critico, atencao)
        VALUES ${valores}`;
 
     await database.executar(instrucaoComponentes);

@@ -134,18 +134,24 @@ function preencherSelectEstatico(
 
 function adicionarMetrica() {
   const selectComponente = document.getElementById("componente_ipt");
-  const inputPorcentagem = document.getElementById("porcentagem_ipt");
+  
 
   const fkComponente = Number(selectComponente.value);
-  const valorLimite = Number(inputPorcentagem.value);
+  const alertaCritico = Number(document.getElementById("alerta_critico_ipt").value);
+  const alertaAtencao = Number(document.getElementById("alerta_atencao_ipt").value);
 
   if (!fkComponente) {
     alert("Selecione um componente.");
     return;
   }
 
-  if (!valorLimite || valorLimite <= 0 || valorLimite > 100) {
-    alert("Informe uma porcentagem válida (1 a 100).");
+  if (!alertaCritico || alertaCritico <= 0 || alertaCritico > 100) {
+    alert("Informe uma porcentagem válida (1 a 100) para o Alerta Crítico.");
+    return;
+  }
+
+  if (!alertaAtencao || alertaAtencao <= 0 || alertaAtencao > 100) {
+    alert("Informe uma porcentagem válida (1 a 100) para o Alerta Atenção.");
     return;
   }
 
@@ -161,14 +167,16 @@ function adicionarMetrica() {
 
   metricasAdicionadas.push({
     fk_componente: fkComponente,
-    valor_limite: valorLimite,
+    alerta_critico: alertaCritico,
+    alerta_atencao: alertaAtencao,
     nome: componente.nome,
   });
 
   renderizarMetricas();
 
   selectComponente.value = "";
-  inputPorcentagem.value = "";
+  document.getElementById("alerta_critico_ipt").value = "";
+  document.getElementById("alerta_atencao_ipt").value = "";
 }
 
 function renderizarMetricas() {
@@ -181,7 +189,8 @@ function renderizarMetricas() {
 
     linha.innerHTML = `
       <span class="metrica-nome">${tituloMetrica(metrica.nome)}</span>
-      <span class="metrica-valor">${metrica.valor_limite}%</span>
+      <span class="metrica-valor">${metrica.alerta_critico}%</span>
+      <span class="metrica-valor">${metrica.alerta_atencao}%</span>
       <button type="button" class="btn-remover-metrica" data-indice="${indice}">
         <i class="fa-solid fa-trash"></i>
       </button>
@@ -234,9 +243,10 @@ async function salvarTorre(evento) {
       numero: document.getElementById("numero_ipt").value,
       complemento: document.getElementById("complemento_ipt").value,
     },
-    componentes: metricasAdicionadas.map(({ fk_componente, valor_limite }) => ({
+    componentes: metricasAdicionadas.map(({ fk_componente, alerta_critico, alerta_atencao }) => ({
       fk_componente,
-      valor_limite
+      alerta_critico,
+      alerta_atencao
     }
   )),
   };
