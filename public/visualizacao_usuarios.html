@@ -18,10 +18,7 @@
   <body class="container_responsivo">
     <aside class="navegacao">
       <div class="logo_navegacao">
-        <div class="logo_container">
-          <img id="yellow-icon" src="./imgs/logo_icon_yellow.png">
-          <img id="letters" src="./imgs/logo_letters_white.png">
-        </div>
+         <img src="./imgs/LogoHeader.svg" alt="Monitore" />
       </div>
 
       <nav class="menu_navegacao">
@@ -44,10 +41,10 @@
             <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
           </a>
-          <a href="#" class="item_menu" id="cargos" onclick="ativarCargos()">
-            <i class="fa-solid fa-briefcase icone_menu"></i>
-            <span>Cargos</span>
-          </a>
+          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora">
+              <i class="fa-solid fa-hammer icone_menu"></i>
+              <span>Cadastro de Mineradora</span>
+            </a>
           <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
             <i class="fa-solid fa-bell icone_menu"></i>
             <span>Alertas</span>
@@ -61,21 +58,22 @@
       </nav>
 
       <div class="rodape_navegacao">
-        <a href="meu_perfil.html" class="item_menu" id="perfil">
-        <div class="usuario_navegacao" id="usuario_logado">
-          <div class="avatar_usuario" id="avatar_usuario">US</div>
-          <div class="info_usuario">
-            <span class="nome_usuario" id="nome_usuario">Carregando...</span>
-            <span class="cargo_usuario" id="cargo_usuario"></span>
-          </div>
-          <i class="fa-solid fa-chevron-right icone_menu"></i>
+
+
+      <div class="usuario_navegacao" id="usuario_logado">
+        <div class="avatar_usuario" id="avatar_usuario">US</div>
+        <div class="info_usuario">
+          <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+          <span class="cargo_usuario" id="cargo_usuario"></span>
         </div>
-</a>
-        <button class="botao_sair" id="botao_sair" type="button">
-          <i class="fa-solid fa-right-from-bracket icone_menu"></i>
-          <span>Sair</span>
-        </button>
+        <i class="fa-solid fa-chevron-right icone_menu"></i>
       </div>
+
+      <button class="botao_sair" id="botao_sair" type="button">
+        <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+        <span>Sair</span>
+      </button>
+    </div>
     </aside>
     <main class="conteudo_visualizacao_usuarios">
       <div class="titulo_pag">
@@ -104,7 +102,7 @@
         </div>
 
         <div class="rodape">
-          <p>Mostrando ? a ? de ? usuários</p>
+          <p>Mostrando ?-? de ? usuários</p>
           <div class="paginas">
           </div>
         </div>
@@ -130,3 +128,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
 <script src="./js/visualizacao_usuarios.js"></script>
+<script>
+  usuario_logado.addEventListener("click", () => {
+      window.location = '/meu_perfil.html';
+    });
+</script>

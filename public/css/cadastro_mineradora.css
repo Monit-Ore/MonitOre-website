@@ -61,6 +61,9 @@ body {
 
 .logo_navegacao {
   padding: 25px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .logo_navegacao img {
   max-width: 100%;

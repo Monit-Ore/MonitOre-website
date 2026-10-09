@@ -1,4 +1,4 @@
-const { createTimeline, stagger, spring } = anime;
+
 
 
 
@@ -398,33 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "./login.html";
   });
 
-  const logo_anime = createTimeline({
-    defaults: {
-      ease: spring({
-      bounce: 0.3,
-      duration: 400
-      })
-    }
-  });
-
-  logo_anime.add(
-    '#yellow-icon', {
-    translateY: [-100, 0],
-    translateX: ['-50%', '-50%'],
-    opacity: [0, 1],
-    duration: 900,
-
-  })
-  .add(
-    '#letters', {
-    
-    translateY: [
-      { from: 0, to: 20, duration: 300, ease: 'outQuad' },
-      { to: 0, duration: 400, ease: 'outBounce' },
-    ],
-    
-    
-  }, '-=700');
+ 
 });
 
 
