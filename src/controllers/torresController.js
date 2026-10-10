@@ -150,8 +150,101 @@ async function cadastrarTorre(req, res) {
   }
 }
 
+
+async function buscarTorrePorId(req, res) {
+  try {
+    const { id } = req.params;
+    const { fkEmpresa } = req.query;
+
+    if (!fkEmpresa) {
+      return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    }
+
+    const torre = await torresModel.buscarTorrePorId(id, fkEmpresa);
+
+    if (!torre) {
+      return res.status(404).json({ mensagem: "Torre não encontrada." });
+    }
+
+    res.status(200).json(torre);
+  } catch (erro) {
+    console.error("Erro ao buscar torre por ID:", erro);
+    res.status(500).json({ mensagem: "Erro ao buscar torre." });
+  }
+}
+
+async function atualizarTorre(req, res) {
+  try {
+    const { id } = req.params;
+    const { fkEmpresa } = req.query;
+
+    if (!fkEmpresa) {
+      return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    }
+
+    const {
+      nome,
+      codigo,
+      fk_mineradora,
+      pc_industrial,
+      endereco,
+      componentes,
+    } = req.body;
+
+    if (!nome || !codigo || !fk_mineradora) {
+      return res.status(400).json({
+        mensagem: "Preencha todos os campos obrigatórios de Informações Gerais.",
+      });
+    }
+
+    if (
+      !pc_industrial ||
+      !pc_industrial.identificador ||
+      !pc_industrial.hostname ||
+      !pc_industrial.uuid ||
+      !endereco.cep ||
+      !endereco.estado ||
+      !endereco.cidade ||
+      !endereco.logradouro ||
+      !endereco.bairro ||
+      !endereco.numero ||
+      !endereco.complemento
+    ) {
+      return res.status(400).json({
+        mensagem: "Preencha todos os campos obrigatórios do PC Industrial e Endereço.",
+      });
+    }
+
+    if (!Array.isArray(componentes) || componentes.length === 0) {
+      return res.status(400).json({
+        mensagem: "Adicione ao menos uma métrica de componente para monitorar.",
+      });
+    }
+
+    await torresModel.atualizarTorre(
+      id,
+      fkEmpresa,
+      nome,
+      codigo,
+      fk_mineradora,
+      pc_industrial,
+      endereco,
+      componentes
+    );
+
+    res.status(200).json({ mensagem: "Torre atualizada com sucesso!" });
+  } catch (erro) {
+    console.error("Erro ao atualizar torre:", erro);
+    res.status(500).json({ mensagem: "Erro ao atualizar torre." });
+  }
+}
+
+// Certifique-se de exportar as novas funções junto com as antigas:
 module.exports = {
   selecaoTorre,
   listarOpcoesCadastro,
   cadastrarTorre,
+  buscarTorrePorId,
+  atualizarTorre,
+  
 };
