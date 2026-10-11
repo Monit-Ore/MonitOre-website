@@ -44,15 +44,12 @@ async function verificarCodigoExistente(fkEmpresa, codigo, uuidAgente) {
   return resultado.length > 0;
 }
 
-async function listarMineradoras(fkEmpresa) {
+async function listarMineradoras() {
   var instrucaoSql = `SELECT DISTINCT
     m.id_empresa AS id_mineradora,
     m.razao_social
 FROM empresa m
-INNER JOIN torre t
-    ON t.fk_mineradora = m.id_empresa
-WHERE t.fk_fabricante = ${mysql.escape(fkEmpresa)}
-  AND m.tipo = 'Mineradora'
+WHERE m.tipo = 'Mineradora'
 ORDER BY m.razao_social ASC;`;
   return database.executar(instrucaoSql);
 }

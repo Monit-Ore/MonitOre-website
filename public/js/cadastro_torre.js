@@ -83,7 +83,7 @@ async function carregarOpcoes(idUsuario) {
       throw new Error(`Falha ao buscar opções: ${resposta.status}`);
     }
 
-    const { mineradoras, sistemasOperacionais } = await resposta.json();
+    const { mineradoras} = await resposta.json();
 
     preencherSelect(
       "mineradora_ipt",
@@ -91,12 +91,6 @@ async function carregarOpcoes(idUsuario) {
       "id_mineradora",
       "razao_social",
       "Selecione a mineradora",
-    );
-    preencherSelectEstatico(
-      "so_ipt",
-      sistemasOperacionais.map((s) => ({ id: s, nome: s })),
-      null,
-      "Selecione o SO",
     );
   } catch (erro) {
     console.error("Erro ao carregar opções de cadastro:", erro);

@@ -57,11 +57,7 @@ async function listarOpcoesCadastro(req, res) {
   try {
     const { fkEmpresa } = req.query;
 
-    if (!fkEmpresa) {
-      return res.status(401).json({ mensagem: "Usuário não autenticado." });
-    }
-
-    const mineradoras = await torresModel.listarMineradoras(fkEmpresa);
+    const mineradoras = await torresModel.listarMineradoras();
 
     res.status(200).json({
       mineradoras
