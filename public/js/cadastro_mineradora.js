@@ -178,11 +178,3 @@ function ativarUsuarios() {
 function ativarCargos() {
   window.location.href = "/cargos.html";
 }
-
-function ativarAlertas() {
-  window.location.href = "/alertas.html";
-}
-
-function ativarManual() {
-  window.location.href = "/manual.html";
-}
