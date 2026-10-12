@@ -1,4 +1,3 @@
-
 var totalUsuariosPorPagina = 10;
 var paginaAtual = 1;
 var todosUsuarios = [];
