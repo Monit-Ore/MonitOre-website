@@ -23,7 +23,7 @@ async function carregarUsuariosDaEmpresa() {
     }
 
     todosUsuarios = usuarios || [];
-    irParaPagina(1); 
+    irParaPagina(1);
   } catch (erro) {
     console.error("Erro ao carregar funcionários:", erro);
   }
@@ -54,11 +54,11 @@ function montarLinhaUsuario(usuario) {
   `;
 }
 
-function redirecionarEditar(idUsuario){
+function redirecionarEditar(idUsuario) {
   sessionStorage.setItem("ID_EDITAR_USUARIO", idUsuario);
   var cargo = sessionStorage.getItem("CARGO_EDITAR_USUARIO");
   console.log(cargo);
-  
+
   window.location.href = "./editar_usuario.html"
 }
 
@@ -182,7 +182,7 @@ function abrirModalDeletar(idUsuario) {
   document.getElementById("modal_confirmar_exclusao").showModal();
 }
 
-async function deletar(idUsuario){
+async function deletar(idUsuario) {
 
   if (!idUsuario) {
     console.log(
@@ -204,11 +204,11 @@ async function deletar(idUsuario){
     todosUsuarios = todosUsuarios.filter(function (usuario) {
       return usuario.id_usuario !== idUsuario;
     });
-    
+
     irParaPagina(paginaAtual);
     document.getElementById("modal_confirmar_exclusao").close();
     usuarioParaDeletar = null;
-   
+
   } catch (erro) {
     console.error("Erro ao deletar usuário:", erro);
   }
@@ -239,7 +239,7 @@ function carregarIniciais() {
   const iniciais = [];
 
   for (let i = 0; i < nomeUsuario.length; i++) {
-    
+
     if (i == 0) {
       iniciais.push(nomeUsuario[i]);
     }
@@ -248,7 +248,7 @@ function carregarIniciais() {
       iniciais.push(nomeUsuario[i + 1])
       break;
     }
-    
+
   }
   var avatar = document.getElementById("avatar_usuario");
   var segundoAvatar = document.getElementById("avatar_usuario_2");
@@ -283,13 +283,14 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "./login.html";
   });
 
- 
+
 })
 
 
 async function buscarUsuarios() {
   var fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
-  var termo = busca.value
+  const inputBusca = document.getElementById("busca");
+  const termo = inputBusca ? inputBusca.value.trim() : "";
 
   if (!fkEmpresa) {
     console.log(
@@ -298,23 +299,23 @@ async function buscarUsuarios() {
     return;
   }
 
-  if(!termo || termo.trim().length === 0){
+  if (!termo) {
     carregarUsuariosDaEmpresa()
-  }else{
+  } else {
 
-  try {rodape
-    var resposta = await fetch(`/usuarios/buscar?fkEmpresa=${fkEmpresa}&termo=${termo}`);
-    var usuarios = await resposta.json();
+    try {
+      var resposta = await fetch(`/usuarios/buscar?fkEmpresa=${fkEmpresa}&termo=${termo}`);
+      var usuarios = await resposta.json();
 
-    if (!resposta.ok) {
-      throw new Error(usuarios.mensagem || "Erro ao carregar usuários.");
+      if (!resposta.ok) {
+        throw new Error(usuarios.mensagem || "Erro ao carregar usuários.");
+      }
+
+      todosUsuarios = usuarios || [];
+      irParaPagina(1);
+    } catch (erro) {
+      console.error("Erro ao carregar funcionários:", erro);
     }
-
-    todosUsuarios = usuarios || [];
-    irParaPagina(1); 
-  } catch (erro) {
-    console.error("Erro ao carregar funcionários:", erro);
-  }
   }
 }
 
