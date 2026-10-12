@@ -1,4 +1,3 @@
-/* Fundo geral escuro para combinar com a dashboard */
 body {
     background-color: #121212;
     color: #ffffff;
@@ -12,7 +11,8 @@ body {
     gap: 20px;
 }
 
-/* Card Superior */
+
+
 .container_1_dash {
     display: flex;
     border: 2px solid gold;
@@ -26,7 +26,7 @@ body {
     flex: 1;
     position: relative;
     width: 100%;
-    height: 360px;
+    height: 800px;
     margin-top: 10px;
 }
 
@@ -46,7 +46,8 @@ body {
     gap: 4px;
 }
 
-/* Cards de Métricas (CPU, RAM, Disco) */
+
+
 .container_metricas {
     display: flex;
     gap: 20px;
@@ -74,7 +75,8 @@ body {
     margin: 2px 0;
 }
 
-/* Seção do Meio */
+
+
 .container_meio {
     display: flex;
     gap: 20px;
@@ -88,6 +90,7 @@ body {
     flex: 2;
     display: flex;
     flex-direction: column;
+    height: 400px;
 }
 
 
@@ -96,10 +99,12 @@ body {
     background-color: #1c1c1c;
     border: 1px solid #333;
     border-radius: 5px;
-    padding: 15px;
+    padding: 30px;
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    
     gap: 12px;
 }
 
@@ -123,7 +128,8 @@ body {
     height: 100%;
 }
 
-/* Tabela de Histórico */
+
+
 .container_tabela {
     background-color: #1c1c1c;
     border: 1px solid #333;
@@ -178,26 +184,13 @@ th {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Container dos Cards */
 .container_metricas {
     display: flex;
     gap: 20px;
 }
 
-/* Estrutura individual do Card */
+
+
 .card_metrica {
     background-color: #1c1c1c;
     border: 1px solid #333;
@@ -209,7 +202,8 @@ th {
     gap: 12px;
 }
 
-/* Topo do card (Ícone + Nome) */
+
+
 .topo_card_metrica {
     display: flex;
     align-items: center;
@@ -218,14 +212,13 @@ th {
     font-size: 14px;
 }
 
-/* Corpo dividindo em duas colunas */
+
 .corpo_card_metrica {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-/* Lado esquerdo (Valor grande + Badge) */
 .lado_esquerdo {
     display: flex;
     flex-direction: column;
@@ -240,7 +233,6 @@ th {
     line-height: 1;
 }
 
-/* Estilo da pílula de status */
 .badge_status {
     display: inline-block;
     padding: 3px 8px;
@@ -259,7 +251,6 @@ th {
     color: #f1c40f;
 }
 
-/* Linha divisória vertical */
 .divisor_vertical {
     width: 1px;
     height: 55px;
@@ -267,7 +258,7 @@ th {
     margin: 0 15px;
 }
 
-/* Lado direito (Média, Pico, Limite) */
+
 .lado_direito {
     display: flex;
     flex-direction: column;
