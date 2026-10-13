@@ -1,4 +1,4 @@
-const { createTimeline, stagger, spring } = anime;
+
 
 const COMPONENTES = [
   { id: 1, nome: "CPU" },
@@ -83,7 +83,7 @@ async function carregarOpcoes(idUsuario) {
       throw new Error(`Falha ao buscar opções: ${resposta.status}`);
     }
 
-    const { mineradoras, sistemasOperacionais } = await resposta.json();
+    const { mineradoras} = await resposta.json();
 
     preencherSelect(
       "mineradora_ipt",
@@ -91,12 +91,6 @@ async function carregarOpcoes(idUsuario) {
       "id_mineradora",
       "razao_social",
       "Selecione a mineradora",
-    );
-    preencherSelectEstatico(
-      "so_ipt",
-      sistemasOperacionais.map((s) => ({ id: s, nome: s })),
-      null,
-      "Selecione o SO",
     );
   } catch (erro) {
     console.error("Erro ao carregar opções de cadastro:", erro);
@@ -134,18 +128,24 @@ function preencherSelectEstatico(
 
 function adicionarMetrica() {
   const selectComponente = document.getElementById("componente_ipt");
-  const inputPorcentagem = document.getElementById("porcentagem_ipt");
+  
 
   const fkComponente = Number(selectComponente.value);
-  const valorLimite = Number(inputPorcentagem.value);
+  const alertaCritico = Number(document.getElementById("alerta_critico_ipt").value);
+  const alertaAtencao = Number(document.getElementById("alerta_atencao_ipt").value);
 
   if (!fkComponente) {
     alert("Selecione um componente.");
     return;
   }
 
-  if (!valorLimite || valorLimite <= 0 || valorLimite > 100) {
-    alert("Informe uma porcentagem válida (1 a 100).");
+  if (!alertaCritico || alertaCritico <= 0 || alertaCritico > 100) {
+    alert("Informe uma porcentagem válida (1 a 100) para o Alerta Crítico.");
+    return;
+  }
+
+  if (!alertaAtencao || alertaAtencao <= 0 || alertaAtencao > 100) {
+    alert("Informe uma porcentagem válida (1 a 100) para o Alerta Atenção.");
     return;
   }
 
@@ -161,14 +161,16 @@ function adicionarMetrica() {
 
   metricasAdicionadas.push({
     fk_componente: fkComponente,
-    valor_limite: valorLimite,
+    alerta_critico: alertaCritico,
+    alerta_atencao: alertaAtencao,
     nome: componente.nome,
   });
 
   renderizarMetricas();
 
   selectComponente.value = "";
-  inputPorcentagem.value = "";
+  document.getElementById("alerta_critico_ipt").value = "";
+  document.getElementById("alerta_atencao_ipt").value = "";
 }
 
 function renderizarMetricas() {
@@ -181,7 +183,8 @@ function renderizarMetricas() {
 
     linha.innerHTML = `
       <span class="metrica-nome">${tituloMetrica(metrica.nome)}</span>
-      <span class="metrica-valor">${metrica.valor_limite}%</span>
+      <span class="metrica-valor">${metrica.alerta_critico}%</span>
+      <span class="metrica-valor">${metrica.alerta_atencao}%</span>
       <button type="button" class="btn-remover-metrica" data-indice="${indice}">
         <i class="fa-solid fa-trash"></i>
       </button>
@@ -234,9 +237,10 @@ async function salvarTorre(evento) {
       numero: document.getElementById("numero_ipt").value,
       complemento: document.getElementById("complemento_ipt").value,
     },
-    componentes: metricasAdicionadas.map(({ fk_componente, valor_limite }) => ({
+    componentes: metricasAdicionadas.map(({ fk_componente, alerta_critico, alerta_atencao }) => ({
       fk_componente,
-      valor_limite
+      alerta_critico,
+      alerta_atencao
     }
   )),
   };
@@ -342,33 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "./login.html";
   });
 
-  const logo_anime = createTimeline({
-    defaults: {
-      ease: spring({
-      bounce: 0.3,
-      duration: 400
-      })
-    }
-  });
-
-  logo_anime.add(
-    '#yellow-icon', {
-    translateY: [-100, 0],
-    translateX: ['-50%', '-50%'],
-    opacity: [0, 1],
-    duration: 900,
-
-  })
-  .add(
-    '#letters', {
-    
-    translateY: [
-      { from: 0, to: 20, duration: 300, ease: 'outQuad' },
-      { to: 0, duration: 400, ease: 'outBounce' },
-    ],
-    
-    
-  }, '-=700');
+ 
 });
 
 inicializarCadastro();
