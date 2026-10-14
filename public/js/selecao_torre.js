@@ -16,6 +16,16 @@ document.addEventListener("click", (evento) => {
     sessionStorage.setItem("idTorreEmEdicao", idTorre);
     window.location.href = "./alteracao_torre.html";
   }
+
+  const torreCard = evento.target.closest(".torre-card");
+  if (torreCard) {
+    const idTorre = torreCard.dataset.idTorre;
+    
+    // Salva o ID da torre selecionada no sessionStorage
+    sessionStorage.setItem("ID_TORRE_SELECIONADA", idTorre);
+    
+    window.location.href = "./dashboard_torre.html"; 
+  }
 });
 
 // 2. Quando o usuário clicar no botão de "Cadastrar Nova Torre":

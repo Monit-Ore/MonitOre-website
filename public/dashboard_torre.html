@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monit Ore | Cadastro de Torre</title>
+
+  <link rel="stylesheet" href="./css/tela_cadastro.css" />
+  <link rel="stylesheet" href="./css/cadastro_torre.css" />
+  <link rel="stylesheet" href="./css/dashboard_torre.css">
+  <link rel="icon" href="./imgs/favicon.svg" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="container_responsivo">
+  <aside class="navegacao">
+    <div class="logo_navegacao">
+      <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+    </div>
+
+    <nav class="menu_navegacao">
+      <ul>
+        <a href="/selecao_torre.html" class="item_menu ativo" id="torres" onclick="ativarTorres()">
+          <i class="fa-solid fa-tower-broadcast icone_menu"></i>
+          <span>Torres</span>
+        </a>
+        <a href="/cadastro.html" class="item_menu" id="usuarios" onclick="ativarUsuarios()">
+          <i class="fa-solid fa-users icone_menu"></i>
+          <span>Usuários</span>
+        </a>
+        <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora">
+          <i class="fa-solid fa-hammer icone_menu"></i>
+          <span>Cadastro de Mineradora</span>
+        </a>
+        <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
+          <i class="fa-solid fa-bell icone_menu"></i>
+          <span>Alertas</span>
+          <span class="notificacao_alerta" id="notificacao_alertas"></span>
+        </a>
+        <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
+          <i class="fa-solid fa-book icone_menu"></i>
+          <span>Manual de Instalação</span>
+        </a>
+      </ul>
+    </nav>
+
+    <div class="rodape_navegacao">
+      <div class="usuario_navegacao" id="usuario_logado">
+        <div class="avatar_usuario" id="avatar_usuario">US</div>
+        <div class="info_usuario">
+          <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+          <span class="cargo_usuario" id="cargo_usuario"></span>
+        </div>
+        <i class="fa-solid fa-chevron-right icone_menu"></i>
+      </div>
+
+      <button class="botao_sair" id="botao_sair" type="button">
+        <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+        <span>Sair</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="conteudo_layout">
+    <!-- Topo da Torre -->
+    <div class="container_1_dash">
+      <img src="./imgs/institucional/LogoBanner.png" alt="Logo Torre">
+      <div class="textos">
+        <h2><span id="nome_torre">TORRE 07</span>  | <span id="nome_mineradora">MINERADORA VALE</span></h2>
+        <div>
+          <p>Status: <span style="color: green;">● ONLINE</span></p>
+        </div>
+        <p style="color: #888;"> Código: <span id="codigo_torre">TORRE-007</span></p>
+        <p style="color: #888;">PC Industrial: <span id="host_pc"> PC-TORRE_007</span>  | Última atualização: 14/04/2026 16:32</p>
+      </div>
+    </div>
+
+    <!-- Cards de Métricas (CPU, RAM, Disco) -->
+    <div class="container_metricas">
+      <!-- Card CPU -->
+      <div class="card_metrica">
+        <div class="topo_card_metrica">
+           <img src="./imgs/institucional/Group.svg" alt="">
+          <span>CPU</span>
+        </div>
+        <div class="corpo_card_metrica">
+          <div class="lado_esquerdo">
+            <div class="valor_metrica">72%</div>
+            <span class="badge_status normal">● Normal</span>
+          </div>
+          <div class="divisor_vertical"></div>
+          <div class="lado_direito">
+            <div class="linha_detalhe"><span>Média</span> <span>65%</span></div>
+            <div class="linha_detalhe"><span>Pico</span> <span>94%</span></div>
+            <div class="linha_detalhe"><span>Limite</span> <span>80%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card RAM -->
+      <div class="card_metrica">
+        <div class="topo_card_metrica">
+          <img src="./imgs/institucional/Group (1).svg" alt="">
+          <span>RAM</span>
+        </div>
+        <div class="corpo_card_metrica">
+          <div class="lado_esquerdo">
+            <div class="valor_metrica">68%</div>
+            <span class="badge_status alerta">● Alerta</span>
+          </div>
+          <div class="divisor_vertical"></div>
+          <div class="lado_direito">
+            <div class="linha_detalhe"><span>Média</span> <span>61%</span></div>
+            <div class="linha_detalhe"><span>Pico</span> <span>92%</span></div>
+            <div class="linha_detalhe"><span>Limite</span> <span>60%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Disco -->
+      <div class="card_metrica">
+        <div class="topo_card_metrica">
+          <img src="./imgs/institucional/Icon.svg" alt="">
+          <span>Disco</span>
+        </div>
+        <div class="corpo_card_metrica">
+          <div class="lado_esquerdo">
+            <div class="valor_metrica">54%</div>
+            <span class="badge_status normal">● Normal</span>
+          </div>
+          <div class="divisor_vertical"></div>
+          <div class="lado_direito">
+            <div class="linha_detalhe"><span>Média</span> <span>48%</span></div>
+            <div class="linha_detalhe"><span>Pico</span> <span>88%</span></div>
+            <div class="linha_detalhe"><span>Limite</span> <span>75%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container_meio">
+      <div class="card_grafico">
+        
+        <div id="div-header">
+          <h3>    
+            <img src="./imgs/institucional/Icon (1).svg" alt="">
+            Desempenho dos Componentes <span class="sub_texto">(últimas 24 horas)</span>
+          </h3>
+          
+          <select id="filtroGrafico" onchange="alterarVisualizacaoGrafico(this.value)" >
+            <option value="all">Todos os Componentes</option>
+            <option value="cpu">CPU</option>
+            <option value="ram">RAM</option>
+            <option value="disco">Disco</option>
+          </select>
+        </div>
+
+        <div class="conteudo_grafico">
+          <canvas id="graficoDesempenho"></canvas>
+        </div>
+      </div>
+
+      <div class="card_alertas_componente">
+        <h3>
+            <img src="./imgs/institucional/Group.svg" alt="">
+            Alertas por Componente</h3>
+        <div class="item_alerta_barra">
+          <span>CPU</span>
+          <div class="barra"><div class="progresso" style="width: 15%;"></div></div>
+          <span>1</span>
+        </div>
+        <div class="item_alerta_barra">
+          <span>RAM</span>
+          <div class="barra"><div class="progresso" style="width: 30%;"></div></div>
+          <span>2</span>
+        </div>
+        <div class="item_alerta_barra">
+          <span>Disco</span>
+          <div class="barra"><div class="progresso" style="width: 15%;"></div></div>
+          <span>1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Histórico de Alertas (Tabela) -->
+    <div class="container_tabela">
+      <div class="topo_tabela">
+        <h3>
+            <img src="./imgs/institucional/LogoBanner.svg" id="img_historico" alt="">
+            Histórico de Alertas <span class="sub_texto">(últimas 24h)</span></h3>
+        <button type="button" class="btn_ver_todos">Ver todos</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Horário</th>
+            <th>Componente</th>
+            <th>Torre</th>
+            <th>Mineradora</th>
+            <th>Valor</th>
+            <th>Limite</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>14/04 19:00</td>
+            <td>Disco</td>
+            <td>Torre 07</td>
+            <td>Vale</td>
+            <td>88%</td>
+            <td>75%</td>
+            <td><span class="tag_alerta">ALERTA</span></td>
+          </tr>
+          <tr>
+            <td>14/04 18:00</td>
+            <td>CPU</td>
+            <td>Torre 07</td>
+            <td>Vale</td>
+            <td>81%</td>
+            <td>80%</td>
+            <td><span class="tag_alerta">ALERTA</span></td>
+          </tr>
+          <tr>
+            <td>14/04 12:00</td>
+            <td>RAM</td>
+            <td>Torre 07</td>
+            <td>Vale</td>
+            <td>62%</td>
+            <td>60%</td>
+            <td><span class="tag_alerta">ALERTA</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    const labelsHorarios = ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'];
+
+    // Estrutura de dados centralizada para facilitar a troca de visão e limiares
+    const configComponentes = {
+        cpu: {
+            label: 'CPU',
+            data: [50, 52, 55, 58, 62, 81, 65],
+            borderColor: '#f1c40f',
+            backgroundColor: '#f1c40f',
+            alerta: 75,
+            critico: 90
+        },
+        ram: {
+            label: 'RAM',
+            data: [45, 48, 50, 53, 56, 75, 58],
+            borderColor: '#3498db',
+            backgroundColor: '#3498db',
+            alerta: 60,
+            critico: 75
+        },
+        disco: {
+            label: 'Disco',
+            data: [35, 38, 40, 42, 45, 88, 48],
+            borderColor: '#2ecc71',
+            backgroundColor: '#2ecc71',
+            alerta: 75,
+            critico: 85
+        }
+    };
+
+    // Configuração inicial do Gráfico com Chart.js
+    const ctx = document.getElementById('graficoDesempenho').getContext('2d');
+    const graficoDesempenho = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labelsHorarios,
+            datasets: [
+                {
+                    label: 'CPU',
+                    data: configComponentes.cpu.data,
+                    borderColor: configComponentes.cpu.borderColor,
+                    backgroundColor: configComponentes.cpu.backgroundColor,
+                    tension: 0.1
+                },
+                {
+                    label: 'RAM',
+                    data: configComponentes.ram.data,
+                    borderColor: configComponentes.ram.borderColor,
+                    backgroundColor: configComponentes.ram.backgroundColor,
+                    tension: 0.1
+                },
+                {
+                    label: 'Disco',
+                    data: configComponentes.disco.data,
+                    borderColor: configComponentes.disco.borderColor,
+                    backgroundColor: configComponentes.disco.backgroundColor,
+                    tension: 0.1
+                },
+                {
+                    label: 'Limite CPU (80%)',
+                    data: [80, 80, 80, 80, 80, 80, 80],
+                    borderColor: '#f1c40f',
+                    borderWidth: 1.5,
+                    borderDash: [6, 6],
+                    pointRadius: 0,
+                    fill: false
+                },
+                {
+                    label: 'Limite RAM (60%)',
+                    data: [60, 60, 60, 60, 60, 60, 60],
+                    borderColor: '#3498db',
+                    borderWidth: 1.5,
+                    borderDash: [6, 6],
+                    pointRadius: 0,
+                    fill: false
+                },
+                {
+                    label: 'Limite Disco (75%)',
+                    data: [75, 75, 75, 75, 75, 75, 75],
+                    borderColor: '#2ecc71',
+                    borderWidth: 1.5,
+                    borderDash: [6, 6],
+                    pointRadius: 0,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#ffffff',
+                        boxWidth: 12
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: '#333333' },
+                    ticks: { color: '#aaaaaa' }
+                },
+                y: {
+                    min: 0,
+                    max: 100,
+                    grid: { color: '#333333' },
+                    ticks: { color: '#aaaaaa' }
+                }
+            }
+        }
+    });
+
+    // Função que altera a visualização entre Todos e Individual (com faixas de Alerta e Crítico)
+    function alterarVisualizacaoGrafico(opcao) {
+        if (opcao === 'all') {
+            graficoDesempenho.data.datasets = [
+                {
+                    label: 'CPU',
+                    data: configComponentes.cpu.data,
+                    borderColor: configComponentes.cpu.borderColor,
+                    backgroundColor: configComponentes.cpu.backgroundColor,
+                    tension: 0.1
+                },
+                {
+                    label: 'RAM',
+                    data: configComponentes.ram.data,
+                    borderColor: configComponentes.ram.borderColor,
+                    backgroundColor: configComponentes.ram.backgroundColor,
+                    tension: 0.1
+                },
+                {
+                    label: 'Disco',
+                    data: configComponentes.disco.data,
+                    borderColor: configComponentes.disco.borderColor,
+                    backgroundColor: configComponentes.disco.borderColor,
+                    tension: 0.1
+                },
+                {
+                    label: 'Limite CPU (80%)',
+                    data: Array(labelsHorarios.length).fill(80),
+                    borderColor: '#f1c40f',
+                    borderWidth: 1.5,
+                    borderDash: [6, 6],
+                    pointRadius: 0,
+                    fill: false
+                },
+                {
+                    label: 'Limite RAM (60%)',
+                    data: Array(labelsHorarios.length).fill(60),
+                    borderColor: '#3498db',
+                    borderWidth: 1.5,
+                    borderDash: [6, 6],
+                    pointRadius: 0,
+                    fill: false
+                },
+                {
+                    label: 'Limite Disco (75%)',
+                    data: Array(labelsHorarios.length).fill(75),
+                    borderColor: '#2ecc71',
+                    borderWidth: 1.5,
+                    borderDash: [6, 6],
+                    pointRadius: 0,
+                    fill: false
+                }
+            ];
+        } else {
+            const comp = configComponentes[opcao];
+            if (!comp) return;
+
+            graficoDesempenho.data.datasets = [
+                {
+                    label: comp.label,
+                    data: comp.data,
+                    borderColor: comp.borderColor,
+                    backgroundColor: comp.backgroundColor,
+                    borderWidth: 3,
+                    tension: 0.1
+                },
+                {
+                    label: `Faixa de Alerta (${comp.alerta}%)`,
+                    data: Array(labelsHorarios.length).fill(comp.alerta),
+                    borderColor: '#f39c12', // Laranja para alerta
+                    borderWidth: 2,
+                    borderDash: [4, 4],
+                    pointRadius: 0,
+                    fill: false
+                },
+                {
+                    label: `Faixa Crítica (${comp.critico}%)`,
+                    data: Array(labelsHorarios.length).fill(comp.critico),
+                    borderColor: '#e74c3c', // Vermelho para crítico
+                    borderWidth: 2,
+                    borderDash: [2, 2],
+                    pointRadius: 0,
+                    fill: false
+                }
+            ];
+        }
+        graficoDesempenho.update();
+    }
+
+    // Redirecionamento do perfil do usuário
+    const usuarioLogadoEl = document.getElementById("usuario_logado");
+    if(usuarioLogadoEl) {
+      usuarioLogadoEl.addEventListener("click", () => {
+        window.location = '/meu_perfil.html';
+      });
+    }
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+  const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");
+  const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
+
+  // Validação de segurança
+  if (!idTorre || !fkEmpresa) {
+    alert("Nenhuma torre selecionada ou sessão expirada.");
+    window.location.href = "./selecao_torre.html";
+    return;
+  }
+
+  // Dispara a função para buscar os dados no backend
+  carregarDadosTorre(idTorre, fkEmpresa);
+
+  // Demais funções da página
+  carregarUsuarioMenu();
+  carregarIniciais();
+});
+
+// Função que consome a rota do Controller/Model que você já possui
+async function carregarDadosTorre(idTorre, fkEmpresa) {
+  try {
+    // Utiliza a rota router.get("/:id", ...) mapeada no seu torres.js
+    const resposta = await fetch(`/torres/${idTorre}?fkEmpresa=${fkEmpresa}`);
+
+    if (!resposta.ok) {
+      throw new Error(`Erro ao buscar dados da torre: ${resposta.status}`);
+    }
+
+    const dadosTorre = await resposta.json();
+    console.log("Dados da torre carregados com sucesso:", dadosTorre);
+
+    // Preenche a interface com os dados retornados do banco
+    atualizarInterfaceDashboard(dadosTorre);
+
+  } catch (erro) {
+    console.error("Erro ao carregar dados do dashboard:", erro);
+  }
+}
+
+function atualizarInterfaceDashboard(torre) {
+    nome_torre.innerHTML=`${torre.nome}`
+    nome_mineradora.innerHTML=`${torre.razao_social}`
+    host_pc.innerHTML=`${torre.pc_industrial.hostname}`
+    codigo_torre.innerHTML=`${torre.codigo}`
+
+    if (torre.componentes && Array.isArray(torre.componentes)) {
+      torre.componentes.forEach(comp => {
+        let chave = '';
+        const nomeComp = (comp.nome_componente || '').toLowerCase();
+        
+        // Identifica se é CPU, RAM ou Disco pelo nome ou ID do componente
+        if (nomeComp.includes('cpu') || comp.fk_componente === 1) chave = 'cpu';
+        else if (nomeComp.includes('ram') || comp.fk_componente === 2) chave = 'ram';
+        else if (nomeComp.includes('disco') || nomeComp.includes('disk') || comp.fk_componente === 3) chave = 'disco';
+
+        if (chave && configComponentes[chave]) {
+          configComponentes[chave].alerta = Number(comp.atencao);
+          configComponentes[chave].critico = Number(comp.critico);
+        }
+      });
+    }
+
+    // Atualiza o gráfico caso já esteja renderizado na tela com os novos limites do banco
+    const selectFiltro = document.getElementById("filtroGrafico");
+    if (selectFiltro) {
+      alterarVisualizacaoGrafico(selectFiltro.value);
+    }
+
+}
+  </script>
+</body>
+</html>

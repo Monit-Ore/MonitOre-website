@@ -129,6 +129,7 @@ async function buscarTorrePorId(id, fkEmpresa) {
     t.codigo, 
     t.nome, 
     t.fk_mineradora,
+    m.razao_social,
     e.cep, 
     e.logradouro, 
     e.numero, 
@@ -167,6 +168,7 @@ async function buscarTorrePorId(id, fkEmpresa) {
     nome: torre.nome,
     codigo: torre.codigo,
     fk_mineradora: torre.fk_mineradora,
+    razao_social:torre.razao_social,
     endereco: {
       cep: torre.cep,
       logradouro: torre.logradouro,

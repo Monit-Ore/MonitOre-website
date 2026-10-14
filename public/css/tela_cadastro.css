@@ -12,6 +12,12 @@
   /* border: 1px solid red; */
 }
 
+.botao_senha svg {
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+    }
+
 button,
 input,
 select {
