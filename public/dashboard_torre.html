@@ -13,11 +13,8 @@
   <link rel="icon" href="./imgs/favicon.svg" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
 </head>
-      
 
 <body class="container_responsivo">
   <aside class="navegacao">
@@ -52,8 +49,6 @@
     </nav>
 
     <div class="rodape_navegacao">
-
-
       <div class="usuario_navegacao" id="usuario_logado">
         <div class="avatar_usuario" id="avatar_usuario">US</div>
         <div class="info_usuario">
@@ -70,9 +65,7 @@
     </div>
   </aside>
 
-
-
-<main class="conteudo_layout">
+  <main class="conteudo_layout">
     <!-- Topo da Torre -->
     <div class="container_1_dash">
       <img src="./imgs/institucional/LogoBanner.png" alt="Logo Torre">
@@ -85,51 +78,6 @@
         <p style="color: #888;">PC Industrial: PC-TORRE_007 | Última atualização: 14/04/2026 16:32</p>
       </div>
     </div>
-
-    <!-- Cards de Métricas (CPU, RAM, Disco) -->
-    <!-- <div class="container_metricas">
-      <div class="card_metrica">
-        <div class="titulo_metrica">
-            <img src="./imgs/institucional/Group.svg" alt="">
-            CPU
-        </div>
-        <div class="valor_metrica">72%</div>
-        <div class="detalhes_metrica">
-          <p>Média: 65%</p>
-          <p>Pico: 94%</p>
-          <p>Limite: 80%</p>
-        </div>
-        <span style="color: green;">● Normal</span>
-      </div>
-
-      <div class="card_metrica">
-        <div class="titulo_metrica">
-            <img src="./imgs/institucional/Group (1).svg" alt="">
-            RAM
-        </div>
-        <div class="valor_metrica">68%</div>
-        <div class="detalhes_metrica">
-          <p>Média: 61%</p>
-          <p>Pico: 92%</p>
-          <p>Limite: 60%</p>
-        </div>
-        <span style="color: orange;">● Alerta</span>
-      </div>
-
-      <div class="card_metrica">
-        <div class="titulo_metrica">
-            <img src="./imgs/institucional/Icon.svg" alt="">
-            Disco</div>
-        <div class="valor_metrica">54%</div>
-        <div class="detalhes_metrica">
-          <p>Média: 48%</p>
-          <p>Pico: 88%</p>
-          <p>Limite: 75%</p>
-        </div>
-        <span style="color: green;">● Normal</span>
-      </div>
-    </div> -->
-
 
     <!-- Cards de Métricas (CPU, RAM, Disco) -->
     <div class="container_metricas">
@@ -198,9 +146,21 @@
     <div class="container_meio">
       <div class="card_grafico">
         
-        <h3>    
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+          <h3>    
             <img src="./imgs/institucional/Icon (1).svg" alt="">
-            Desempenho dos Componentes <span class="sub_texto">(últimas 24 horas)</span></h3>
+            Desempenho dos Componentes <span class="sub_texto">(últimas 24 horas)</span>
+          </h3>
+          
+          <!-- Seletor de Visualização do Gráfico -->
+          <select id="filtroGrafico" onchange="alterarVisualizacaoGrafico(this.value)" style="background-color: #1a1a1a; color: #ffffff; border: 1px solid #444; padding: 6px 12px; border-radius: 6px; font-size: 13px; cursor: pointer;">
+            <option value="all">Todos os Componentes</option>
+            <option value="cpu">CPU</option>
+            <option value="ram">RAM</option>
+            <option value="disco">Disco</option>
+          </select>
+        </div>
+
         <div class="conteudo_grafico">
           <canvas id="graficoDesempenho"></canvas>
         </div>
@@ -209,8 +169,6 @@
       <div class="card_alertas_componente">
         <h3>
             <img src="./imgs/institucional/Group.svg" alt="">
-
-
             Alertas por Componente</h3>
         <div class="item_alerta_barra">
           <span>CPU</span>
@@ -283,39 +241,65 @@
     </div>
   </main>
 
-
-  </main>
   <script>
-    // Configuração do Gráfico com Chart.js e linhas tracejadas de limite
+    const labelsHorarios = ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'];
+
+    // Estrutura de dados centralizada para facilitar a troca de visão e limiares
+    const configComponentes = {
+        cpu: {
+            label: 'CPU',
+            data: [50, 52, 55, 58, 62, 81, 65],
+            borderColor: '#f1c40f',
+            backgroundColor: '#f1c40f',
+            alerta: 75,
+            critico: 90
+        },
+        ram: {
+            label: 'RAM',
+            data: [45, 48, 50, 53, 56, 75, 58],
+            borderColor: '#3498db',
+            backgroundColor: '#3498db',
+            alerta: 60,
+            critico: 75
+        },
+        disco: {
+            label: 'Disco',
+            data: [35, 38, 40, 42, 45, 88, 48],
+            borderColor: '#2ecc71',
+            backgroundColor: '#2ecc71',
+            alerta: 75,
+            critico: 85
+        }
+    };
+
+    // Configuração inicial do Gráfico com Chart.js
     const ctx = document.getElementById('graficoDesempenho').getContext('2d');
     const graficoDesempenho = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
+            labels: labelsHorarios,
             datasets: [
-                // Linhas de Desempenho dos Componentes
                 {
                     label: 'CPU',
-                    data: [50, 52, 55, 58, 62, 81, 65],
-                    borderColor: '#f1c40f',
-                    backgroundColor: '#f1c40f',
+                    data: configComponentes.cpu.data,
+                    borderColor: configComponentes.cpu.borderColor,
+                    backgroundColor: configComponentes.cpu.backgroundColor,
                     tension: 0.1
                 },
                 {
                     label: 'RAM',
-                    data: [45, 48, 50, 53, 56, 75, 58],
-                    borderColor: '#3498db',
-                    backgroundColor: '#3498db',
+                    data: configComponentes.ram.data,
+                    borderColor: configComponentes.ram.borderColor,
+                    backgroundColor: configComponentes.ram.backgroundColor,
                     tension: 0.1
                 },
                 {
                     label: 'Disco',
-                    data: [35, 38, 40, 42, 45, 88, 48],
-                    borderColor: '#2ecc71',
-                    backgroundColor: '#2ecc71',
+                    data: configComponentes.disco.data,
+                    borderColor: configComponentes.disco.borderColor,
+                    backgroundColor: configComponentes.disco.backgroundColor,
                     tension: 0.1
                 },
-                // Linhas Tracejadas de Limite
                 {
                     label: 'Limite CPU (80%)',
                     data: [80, 80, 80, 80, 80, 80, 80],
@@ -358,32 +342,115 @@
             },
             scales: {
                 x: {
-                    grid: {
-                        color: '#333333'
-                    },
-                    ticks: {
-                        color: '#aaaaaa'
-                    }
+                    grid: { color: '#333333' },
+                    ticks: { color: '#aaaaaa' }
                 },
                 y: {
                     min: 0,
                     max: 100,
-                    grid: {
-                        color: '#333333'
-                    },
-                    ticks: {
-                        color: '#aaaaaa'
-                    }
+                    grid: { color: '#333333' },
+                    ticks: { color: '#aaaaaa' }
                 }
             }
         }
     });
 
+    // Função que altera a visualização entre Todos e Individual (com faixas de Alerta e Crítico)
+    function alterarVisualizacaoGrafico(opcao) {
+        if (opcao === 'all') {
+            graficoDesempenho.data.datasets = [
+                {
+                    label: 'CPU',
+                    data: configComponentes.cpu.data,
+                    borderColor: configComponentes.cpu.borderColor,
+                    backgroundColor: configComponentes.cpu.backgroundColor,
+                    tension: 0.1
+                },
+                {
+                    label: 'RAM',
+                    data: configComponentes.ram.data,
+                    borderColor: configComponentes.ram.borderColor,
+                    backgroundColor: configComponentes.ram.backgroundColor,
+                    tension: 0.1
+                },
+                {
+                    label: 'Disco',
+                    data: configComponentes.disco.data,
+                    borderColor: configComponentes.disco.borderColor,
+                    backgroundColor: configComponentes.disco.borderColor,
+                    tension: 0.1
+                },
+                {
+                    label: 'Limite CPU (80%)',
+                    data: Array(labelsHorarios.length).fill(80),
+                    borderColor: '#f1c40f',
+                    borderWidth: 1.5,
+                    borderDash: [6, 6],
+                    pointRadius: 0,
+                    fill: false
+                },
+                {
+                    label: 'Limite RAM (60%)',
+                    data: Array(labelsHorarios.length).fill(60),
+                    borderColor: '#3498db',
+                    borderWidth: 1.5,
+                    borderDash: [6, 6],
+                    pointRadius: 0,
+                    fill: false
+                },
+                {
+                    label: 'Limite Disco (75%)',
+                    data: Array(labelsHorarios.length).fill(75),
+                    borderColor: '#2ecc71',
+                    borderWidth: 1.5,
+                    borderDash: [6, 6],
+                    pointRadius: 0,
+                    fill: false
+                }
+            ];
+        } else {
+            const comp = configComponentes[opcao];
+            if (!comp) return;
+
+            graficoDesempenho.data.datasets = [
+                {
+                    label: comp.label,
+                    data: comp.data,
+                    borderColor: comp.borderColor,
+                    backgroundColor: comp.backgroundColor,
+                    borderWidth: 3,
+                    tension: 0.1
+                },
+                {
+                    label: `Faixa de Alerta (${comp.alerta}%)`,
+                    data: Array(labelsHorarios.length).fill(comp.alerta),
+                    borderColor: '#f39c12', // Laranja para alerta
+                    borderWidth: 2,
+                    borderDash: [4, 4],
+                    pointRadius: 0,
+                    fill: false
+                },
+                {
+                    label: `Faixa Crítica (${comp.critico}%)`,
+                    data: Array(labelsHorarios.length).fill(comp.critico),
+                    borderColor: '#e74c3c', // Vermelho para crítico
+                    borderWidth: 2,
+                    borderDash: [2, 2],
+                    pointRadius: 0,
+                    fill: false
+                }
+            ];
+        }
+        graficoDesempenho.update();
+    }
+
     // Redirecionamento do perfil do usuário
-    usuario_logado.addEventListener("click", () => {
-      window.location = '/meu_perfil.html';
-    });
+    const usuarioLogadoEl = document.getElementById("usuario_logado");
+    if(usuarioLogadoEl) {
+      usuarioLogadoEl.addEventListener("click", () => {
+        window.location = '/meu_perfil.html';
+      });
+    }
   </script>
 </body>
-
 </html>
