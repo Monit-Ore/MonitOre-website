@@ -142,18 +142,16 @@
       </div>
     </div>
 
-    <!-- Seção do Meio: Gráfico e Alertas por Componente -->
     <div class="container_meio">
       <div class="card_grafico">
         
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+        <div id="div-header">
           <h3>    
             <img src="./imgs/institucional/Icon (1).svg" alt="">
             Desempenho dos Componentes <span class="sub_texto">(últimas 24 horas)</span>
           </h3>
           
-          <!-- Seletor de Visualização do Gráfico -->
-          <select id="filtroGrafico" onchange="alterarVisualizacaoGrafico(this.value)" style="background-color: #1a1a1a; color: #ffffff; border: 1px solid #444; padding: 6px 12px; border-radius: 6px; font-size: 13px; cursor: pointer;">
+          <select id="filtroGrafico" onchange="alterarVisualizacaoGrafico(this.value)" >
             <option value="all">Todos os Componentes</option>
             <option value="cpu">CPU</option>
             <option value="ram">RAM</option>

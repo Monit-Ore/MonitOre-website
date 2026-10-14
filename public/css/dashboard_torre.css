@@ -282,3 +282,22 @@ th {
     height: 20px;
     width: 30px;
 }
+
+#filtroGrafico{
+    background-color: #1a1a1a; 
+    color: #ffffff;
+    border: 1px solid #444;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px; 
+    cursor: pointer;
+}
+
+#div-header{
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    margin-bottom: 10px;
+}
