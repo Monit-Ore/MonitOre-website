@@ -70,12 +70,12 @@
     <div class="container_1_dash">
       <img src="./imgs/institucional/LogoBanner.png" alt="Logo Torre">
       <div class="textos">
-        <h2>TORRE 07 | MINERADORA VALE</h2>
+        <h2><span id="nome_torre">TORRE 07</span>  | <span id="nome_mineradora">MINERADORA VALE</span></h2>
         <div>
           <p>Status: <span style="color: green;">● ONLINE</span></p>
         </div>
-        <p style="color: #888;"> Código: TORRE-007</p>
-        <p style="color: #888;">PC Industrial: PC-TORRE_007 | Última atualização: 14/04/2026 16:32</p>
+        <p style="color: #888;"> Código: <span id="codigo_torre">TORRE-007</span></p>
+        <p style="color: #888;">PC Industrial: <span id="host_pc"> PC-TORRE_007</span>  | Última atualização: 14/04/2026 16:32</p>
       </div>
     </div>
 
@@ -449,6 +449,55 @@
         window.location = '/meu_perfil.html';
       });
     }
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+  const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");
+  const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
+
+  // Validação de segurança
+  if (!idTorre || !fkEmpresa) {
+    alert("Nenhuma torre selecionada ou sessão expirada.");
+    window.location.href = "./selecao_torre.html";
+    return;
+  }
+
+  // Dispara a função para buscar os dados no backend
+  carregarDadosTorre(idTorre, fkEmpresa);
+
+  // Demais funções da página
+  carregarUsuarioMenu();
+  carregarIniciais();
+});
+
+// Função que consome a rota do Controller/Model que você já possui
+async function carregarDadosTorre(idTorre, fkEmpresa) {
+  try {
+    // Utiliza a rota router.get("/:id", ...) mapeada no seu torres.js
+    const resposta = await fetch(`/torres/${idTorre}?fkEmpresa=${fkEmpresa}`);
+
+    if (!resposta.ok) {
+      throw new Error(`Erro ao buscar dados da torre: ${resposta.status}`);
+    }
+
+    const dadosTorre = await resposta.json();
+    console.log("Dados da torre carregados com sucesso:", dadosTorre);
+
+    // Preenche a interface com os dados retornados do banco
+    atualizarInterfaceDashboard(dadosTorre);
+
+  } catch (erro) {
+    console.error("Erro ao carregar dados do dashboard:", erro);
+  }
+}
+
+function atualizarInterfaceDashboard(torre) {
+    nome_torre.innerHTML=`${torre.nome}`
+    nome_mineradora.innerHTML=`${torre.razao_social}`
+    host_pc.innerHTML=`PC Industrial:${torre.pc_industrial.hostname}`
+    codigo_torre.innerHTML=`${torre.codigo}`
+
+}
   </script>
 </body>
 </html>
