@@ -494,8 +494,31 @@ async function carregarDadosTorre(idTorre, fkEmpresa) {
 function atualizarInterfaceDashboard(torre) {
     nome_torre.innerHTML=`${torre.nome}`
     nome_mineradora.innerHTML=`${torre.razao_social}`
-    host_pc.innerHTML=`PC Industrial:${torre.pc_industrial.hostname}`
+    host_pc.innerHTML=`${torre.pc_industrial.hostname}`
     codigo_torre.innerHTML=`${torre.codigo}`
+
+    if (torre.componentes && Array.isArray(torre.componentes)) {
+      torre.componentes.forEach(comp => {
+        let chave = '';
+        const nomeComp = (comp.nome_componente || '').toLowerCase();
+        
+        // Identifica se é CPU, RAM ou Disco pelo nome ou ID do componente
+        if (nomeComp.includes('cpu') || comp.fk_componente === 1) chave = 'cpu';
+        else if (nomeComp.includes('ram') || comp.fk_componente === 2) chave = 'ram';
+        else if (nomeComp.includes('disco') || nomeComp.includes('disk') || comp.fk_componente === 3) chave = 'disco';
+
+        if (chave && configComponentes[chave]) {
+          configComponentes[chave].alerta = Number(comp.atencao);
+          configComponentes[chave].critico = Number(comp.critico);
+        }
+      });
+    }
+
+    // Atualiza o gráfico caso já esteja renderizado na tela com os novos limites do banco
+    const selectFiltro = document.getElementById("filtroGrafico");
+    if (selectFiltro) {
+      alterarVisualizacaoGrafico(selectFiltro.value);
+    }
 
 }
   </script>
