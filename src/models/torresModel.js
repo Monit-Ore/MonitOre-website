@@ -263,11 +263,37 @@ async function atualizarTorre(
 }
 
 
+async function listarTorresPorUsuario(idUsuario, fkEmpresa) {
+  var instrucaoSql = `
+    SELECT
+      t.id_torre,
+      t.nome,
+      t.codigo,
+      pc.status_operacional,
+      m.razao_social AS mineradora_nome
+    FROM permissionamento p
+    INNER JOIN torre t
+      ON t.id_torre = p.torre_id_torre
+    INNER JOIN empresa m
+      ON m.id_empresa = t.fk_mineradora
+    INNER JOIN PC_Industrial pc
+      ON pc.fk_torre = t.id_torre
+    WHERE p.usuario_id_usuario = ${Number(idUsuario)}
+      AND t.fk_fabricante = ${fkEmpresa}
+    ORDER BY m.razao_social ASC, t.codigo ASC;
+  `;
+
+  return database.executar(instrucaoSql, [idUsuario, fkEmpresa]);
+}
+
+
+
 module.exports = {
   listarTorresComMineradora,
   verificarCodigoExistente,
   listarMineradoras,
   criarTorre,
   buscarTorrePorId, 
-  atualizarTorre    
+  atualizarTorre,
+  listarTorresPorUsuario  
 };
