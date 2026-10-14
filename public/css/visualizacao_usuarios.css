@@ -20,6 +20,10 @@ body {
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+body[data-permissao-pagina="usuarios"] {
+  visibility: hidden;
+}
+
 .conteudo_visualizacao_usuarios {
   display: flex;
   flex-direction: column;
@@ -767,5 +771,4 @@ aside span{
     font-size: 30px;
   }
 }
-
 
