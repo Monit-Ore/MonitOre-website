@@ -1,44 +1,295 @@
-    .ativo {
-        width: 190px;
-        background-color: #ecbe10;
-        color: #1e1e1e;
-        border: 1px solid #ecbe10;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        height: 46px;
-        border-radius: 6px;
-        font-size: 15px;
-        font-weight: bold;
-        cursor: pointer;
-        gap: 12px;
+
+/* =========================================================
+   BOTÕES DE CARGO
+========================================================= */
+
+.ativo,
+.desativado {
+    width: 190px;
+    max-width: 100%;
+    min-height: 46px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    gap: 12px;
+    transition: opacity 0.2s, background-color 0.2s;
+}
+
+.ativo {
+    background-color: #ecbe10;
+    color: #1e1e1e;
+    border: 1px solid #ecbe10;
+}
+
+.desativado {
+    background-color: #C5B1ED13;
+    color: #C5B1ED;
+    border: 1px solid #C5B1ED;
+}
+
+.ativo:hover,
+.desativado:hover {
+    opacity: 0.85;
+}
+
+.divisao-btn-cargo {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 100%;
+}
+
+/* =========================================================
+   ACESSO ÀS TORRES
+========================================================= */
+
+.acesso_torres {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.acesso_torres .descricao_acesso {
+    display: block;
+    color: #aaa;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 8px 0 15px;
+}
+
+.lista_mineradoras {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.lista_mineradoras > p,
+.lista_mineradoras > label {
+    color: #aaa;
+    font-size: 13px;
+}
+
+.item_mineradora {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #292929;
+    border: 1px solid #3b3b3b;
+    border-radius: 10px;
+    padding: 14px;
+}
+
+.cabecalho_mineradora {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.nome_mineradora {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.icone_mineradora {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: #ecbe10;
+    color: #1e1e1e;
+}
+
+.torres_mineradora {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 100%;
+}
+
+/* =========================================================
+   BOTÕES DE TORRE
+========================================================= */
+
+.botao_torre {
+    min-height: 36px;
+    max-width: 100%;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    background-color: #C5B1ED13;
+    color: #C5B1ED;
+    border: 1px solid #C5B1ED;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+    transition: opacity 0.2s, background-color 0.2s;
+}
+
+.botao_torre.selecionada {
+    background-color: #ecbe1013;
+    color: #ecbe10;
+    border: 1px solid #ecbe10;
+}
+
+.botao_torre.selecionada::before {
+    content: "✓ ";
+}
+
+.botao_torre:hover {
+    opacity: 0.85;
+}
+
+.botao_torre:focus-visible,
+.selecionar_todas:focus-visible,
+.ativo:focus-visible,
+.desativado:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   SELECIONAR TODAS AS TORRES
+========================================================= */
+
+.selecionar_todas {
+    min-height: 36px;
+    padding: 8px;
+    background-color: transparent;
+    color: #ecbe10;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.selecionar_todas:hover {
+    opacity: 0.85;
+}
+
+/* =========================================================
+   BOTÃO SALVAR ACESSOS
+========================================================= */
+
+.acesso_torres .btn-salvar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    min-height: 40px;
+    max-width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background-color: #ecbe10;
+    color: #1e1e1e;
+    border: 1px solid #ecbe10;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.acesso_torres .btn-salvar:hover {
+    opacity: 0.85;
+}
+
+/* =========================================================
+   MENSAGENS
+========================================================= */
+
+#mensagem_acesso {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 768px) {
+    .divisao-btn-cargo {
+        gap: 10px;
     }
 
-
-    .desativado{
-        width: 190px;
-        background-color: #C5B1ED13;
-        color: #C5B1ED;
-        border: 1px solid #C5B1ED;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        height: 46px;
-        border-radius: 6px;
-        font-size: 15px;
-        font-weight: bold;
-        cursor: pointer;
-        gap: 12px;
+    .divisao-btn-cargo .ativo,
+    .divisao-btn-cargo .desativado {
+        flex: 1;
+        width: auto;
     }
 
-    .divisao-btn-cargo{
-        display: flex;
-        flex-direction: row;
-        gap: 15px;
+    .cabecalho_mineradora {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    .btn-administrador:hover, .btn-Operador:hover{
-        opacity: 0.85;
+    .torres_mineradora {
+        justify-content: flex-start;
+        width: 100%;
     }
+
+    .botao_torre {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .divisao-btn-cargo {
+        flex-direction: column;
+    }
+
+    .divisao-btn-cargo .ativo,
+    .divisao-btn-cargo .desativado {
+        width: 100%;
+    }
+
+    .item_mineradora {
+        padding: 10px;
+    }
+
+    .nome_mineradora {
+        font-size: 13px;
+    }
+
+    .torres_mineradora {
+        gap: 6px;
+    }
+
+    .botao_torre {
+        padding: 7px 9px;
+        font-size: 11px;
+    }
+
+    .selecionar_todas {
+        padding: 7px 4px;
+    }
+
+    .acesso_torres .btn-salvar {
+        width: 100%;
+    }
+}

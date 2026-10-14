@@ -24,21 +24,24 @@
         <nav class="menu_navegacao">
             <ul>
                 <li>
-                    <a href="/selecao_torre.html" class="item_menu" id="torres" data-permissao="torres" onclick="ativarTorres()">
+                    <a href="/selecao_torre.html" class="item_menu" id="torres" data-permissao="torres"
+                        onclick="ativarTorres()">
                         <i class="fa-solid fa-tower-broadcast icone_menu"></i>
                         <span>Torres</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="./cadastro.html" class="item_menu ativo" id="usuarios" data-permissao="usuarios" onclick="ativarUsuarios()">
+                    <a href="./cadastro.html" class="item_menu ativo" id="usuarios" data-permissao="usuarios"
+                        onclick="ativarUsuarios()">
                         <i class="fa-solid fa-users icone_menu"></i>
                         <span>Usuários</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras">
+                    <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora"
+                        data-permissao="mineradoras">
                         <i class="fa-solid fa-hammer icone_menu"></i>
                         <span>Cadastro de Mineradora</span>
                     </a>
@@ -119,14 +122,8 @@
                     <div class="formulario">
                         <label for="telefone_ipt">Novo número de telefone</label>
 
-                        <input
-                            type="tel"
-                            id="telefone_ipt"
-                            placeholder="(00) 00000-0000"
-                            inputmode="tel"
-                            autocomplete="tel"
-                            maxlength="15"
-                        />
+                        <input type="tel" id="telefone_ipt" placeholder="(00) 00000-0000" inputmode="tel"
+                            autocomplete="tel" maxlength="15" />
 
                         <button type="button" class="btn-salvar" onclick="atualizarTelefone()">
                             <span>Salvar telefone</span>
@@ -147,21 +144,11 @@
                             <label for="senha_ipt">Nova senha</label>
 
                             <div class="senha_container">
-                                <input
-                                    type="password"
-                                    id="senha_ipt"
-                                    placeholder="********"
-                                    autocomplete="new-password"
-                                    minlength="6"
-                                    required
-                                />
+                                <input type="password" id="senha_ipt" placeholder="********" autocomplete="new-password"
+                                    minlength="6" required />
 
-                                <button
-                                    type="button"
-                                    class="botao_senha"
-                                    onclick="mostrar_senha(2)"
-                                    aria-label="Mostrar ou ocultar senha"
-                                >
+                                <button type="button" class="botao_senha" onclick="mostrar_senha(2)"
+                                    aria-label="Mostrar ou ocultar senha">
                                     👁
                                 </button>
                             </div>
@@ -171,21 +158,11 @@
                             <label for="confirm_senha_ipt">Confirmar nova senha</label>
 
                             <div class="senha_container">
-                                <input
-                                    type="password"
-                                    id="confirm_senha_ipt"
-                                    placeholder="********"
-                                    autocomplete="new-password"
-                                    minlength="6"
-                                    required
-                                />
+                                <input type="password" id="confirm_senha_ipt" placeholder="********"
+                                    autocomplete="new-password" minlength="6" required />
 
-                                <button
-                                    type="button"
-                                    class="botao_senha"
-                                    onclick="mostrar_senha(3)"
-                                    aria-label="Mostrar ou ocultar senha"
-                                >
+                                <button type="button" class="botao_senha" onclick="mostrar_senha(3)"
+                                    aria-label="Mostrar ou ocultar senha">
                                     👁
                                 </button>
                             </div>
@@ -199,6 +176,29 @@
 
                 <p id="mensagem_cadastro" class="mensagem_cadastro" aria-live="polite"></p>
             </section>
+
+            <section class="card_conteudo acesso_torres">
+                <div class="titulo_cards">
+                    <i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i>
+                    <h1>Acesso às torres</h1>
+                </div>
+
+                <label class="descricao_acesso">
+                    Defina quais torres de cada mineradora este usuário poderá visualizar.
+                </label>
+
+                <div id="lista_mineradoras" class="lista_mineradoras">
+                    <label>Carregando mineradoras e torres...</label>
+                </div>
+
+                <p id="mensagem_acesso" class="mensagem_cadastro" aria-live="polite"></p>
+
+                <button type="button" class="btn-salvar" onclick="salvarAcessosTorres()">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>Salvar acessos</span>
+                </button>
+            </section>
+
 
             <div class="botoes">
                 <button type="button" class="btn-cancelar" onclick="cancelar()">
@@ -320,10 +320,17 @@
         }
 
         function atualizarEstiloBotoesCargo(cargoAtual) {
-            var btnAdmin = document.querySelector('button[value="Administrador"]');
-            var btnOperador = document.querySelector('button[value="Operador"]');
+            var btnAdmin = document.querySelector(
+                'button[value="Administrador"]'
+            );
 
-            if (!btnAdmin || !btnOperador) return;
+            var btnOperador = document.querySelector(
+                'button[value="Operador"]'
+            );
+
+            if (!btnAdmin || !btnOperador) {
+                return;
+            }
 
             btnAdmin.className = "desativado";
             btnOperador.className = "desativado";
@@ -369,6 +376,216 @@
                     }
                 });
         }
+
+
+        var torresDisponiveis = [];
+        var torresSelecionadas = [];
+
+        function carregarAcessosTorres() {
+            var idUsuario = sessionStorage.ID_EDITAR_USUARIO;
+            var lista = document.getElementById("lista_mineradoras");
+
+            if (!idUsuario) {
+                lista.innerHTML = "<p>Não foi possível identificar o usuário.</p>";
+                return;
+            }
+
+            Promise.all([
+                fetch("/usuarios/torres"),
+                fetch("/usuarios/torres/acessos/" + idUsuario)
+            ])
+                .then(function (respostas) {
+                    console.log("Status /usuarios/torres:", respostas[0].status);
+                    console.log("Status /usuarios/torres/acessos:", respostas[1].status);
+
+                    if (!respostas[0].ok || !respostas[1].ok) {
+                        throw new Error(
+                            "Erro HTTP: torres = " + respostas[0].status +
+                            ", acessos = " + respostas[1].status
+                        );
+                    }
+
+                    return Promise.all([
+                        respostas[0].json(),
+                        respostas[1].json()
+                    ]);
+                })
+                .then(function (dados) {
+                    torresDisponiveis = dados[0];
+
+                    torresSelecionadas = dados[1].map(function (item) {
+                        return Number(item.torre_id_torre);
+                    });
+
+                    renderizarMineradoras();
+                })
+                .catch(function (erro) {
+                    console.error("Erro ao carregar as torres:", erro);
+                    lista.innerHTML = "<p>Erro ao carregar mineradoras e torres.</p>";
+                });
+        }
+
+        function escaparHTML(valor) {
+            return String(valor)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function renderizarMineradoras() {
+            var lista = document.getElementById("lista_mineradoras");
+            var mineradoras = [];
+
+            for (var i = 0; i < torresDisponiveis.length; i++) {
+                var torre = torresDisponiveis[i];
+                var encontrada = false;
+
+                for (var j = 0; j < mineradoras.length; j++) {
+                    if (mineradoras[j].id === Number(torre.id_mineradora)) {
+                        mineradoras[j].torres.push(torre);
+                        encontrada = true;
+                        break;
+                    }
+                }
+
+                if (!encontrada) {
+                    mineradoras.push({
+                        id: Number(torre.id_mineradora),
+                        nome: torre.nome_mineradora,
+                        torres: [torre]
+                    });
+                }
+            }
+
+            if (mineradoras.length === 0) {
+                lista.innerHTML = "<p>Nenhuma mineradora ou torre cadastrada.</p>";
+                return;
+            }
+
+            lista.innerHTML = "";
+
+            mineradoras.forEach(function (mineradora) {
+                var htmlTorres = "";
+
+                mineradora.torres.forEach(function (torre) {
+                    var idTorre = Number(torre.id_torre);
+                    var selecionada = torresSelecionadas.includes(idTorre);
+
+                    htmlTorres += `
+                <button
+                    type="button"
+                    class="botao_torre ${selecionada ? "selecionada" : ""}"
+                    aria-pressed="${selecionada}"
+                    onclick="alternarTorre(${idTorre})">
+                    ${escaparHTML(torre.nome_torre)}
+                </button>
+            `;
+                });
+
+                lista.innerHTML += `
+            <div class="item_mineradora">
+                <div class="cabecalho_mineradora">
+                    <div class="nome_mineradora">
+                        <span class="icone_mineradora">
+                            <i class="fa-solid fa-mountain-sun"></i>
+                        </span>
+
+                        <span>${escaparHTML(mineradora.nome)}</span>
+                    </div>
+
+                    <div class="torres_mineradora">
+                        ${htmlTorres}
+
+                        <button
+                            type="button"
+                            class="selecionar_todas"
+                            onclick="alternarTodasTorres(${mineradora.id})">
+                            Selecionar todas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+            });
+        }
+
+        function alternarTorre(idTorre) {
+            idTorre = Number(idTorre);
+
+            var indice = torresSelecionadas.indexOf(idTorre);
+
+            if (indice === -1) {
+                torresSelecionadas.push(idTorre);
+            } else {
+                torresSelecionadas.splice(indice, 1);
+            }
+
+            renderizarMineradoras();
+        }
+
+        function alternarTodasTorres(idMineradora) {
+            var torresMineradora = torresDisponiveis.filter(function (torre) {
+                return Number(torre.id_mineradora) === Number(idMineradora);
+            });
+
+            var todasSelecionadas = torresMineradora.every(function (torre) {
+                return torresSelecionadas.includes(Number(torre.id_torre));
+            });
+
+            torresMineradora.forEach(function (torre) {
+                var idTorre = Number(torre.id_torre);
+                var indice = torresSelecionadas.indexOf(idTorre);
+
+                if (todasSelecionadas && indice !== -1) {
+                    torresSelecionadas.splice(indice, 1);
+                } else if (!todasSelecionadas && indice === -1) {
+                    torresSelecionadas.push(idTorre);
+                }
+            });
+
+            renderizarMineradoras();
+        }
+
+        function salvarAcessosTorres() {
+            var idUsuario = sessionStorage.ID_EDITAR_USUARIO;
+            var mensagem = document.getElementById("mensagem_acesso");
+
+            fetch("/usuarios/torres/acessos/" + idUsuario, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    torres: torresSelecionadas
+                })
+            })
+                .then(function (resposta) {
+                    return resposta.json().then(function (dados) {
+                        if (!resposta.ok) {
+                            throw new Error(dados.mensagem || "Erro ao salvar os acessos.");
+                        }
+
+                        return dados;
+                    });
+                })
+                .then(function (dados) {
+                    mensagem.textContent = dados.mensagem;
+                    mensagem.style.color = "#f5c400";
+                })
+                .catch(function (erro) {
+                    console.error("Erro ao salvar acessos:", erro);
+                    mensagem.textContent = erro.message;
+                    mensagem.style.color = "#ff6b6b";
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            buscarDadosUsuario();
+            carregarAcessosTorres();
+        });
+
     </script>
 
 </body>
