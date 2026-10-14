@@ -4,12 +4,14 @@ const permissoes = {
         "usuarios",
         "torres",
         "mineradoras",
-        "gerenciar-torres"
+        "gerenciar-torres",
+        "visualizacao_torre"
     ],
 
     operador: [
         "torres",
-        "dashboard"
+        "dashboard",
+        "visualizacao_torre"
     ]
 };
 
