@@ -4,7 +4,6 @@ const COMPONENTES = [
   { id: 1, nome: "CPU" },
   { id: 2, nome: "RAM" },
   { id: 3, nome: "Disco" },
-  { id: 4, nome: "Rede" },
 ];
 
 async function buscarCEP(cep) {
@@ -206,7 +205,6 @@ function tituloMetrica(nomeComponente) {
     CPU: "Porcentagem CPU",
     RAM: "Uso da Memória RAM",
     Disco: "Disponibilidade do Disco",
-    Rede: "Disponibilidade de Rede",
   };
   return rotulos[nomeComponente] || nomeComponente;
 }
@@ -350,5 +348,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 inicializarCadastro();
-
 
