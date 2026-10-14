@@ -1,120 +1,153 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Monit Ore | Seleção de Torre</title>
+<html lang="pt-BR">
 
-    <link rel="stylesheet" href="./css/tela_cadastro.css" />
-    <link rel="stylesheet" href="./css/selecao_torre.css" />
-    <link rel="icon" href="./imgs/favicon.svg" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  </head>
-  <body class="container_responsivo">
-    <aside class="navegacao">
-      <div class="logo_navegacao">
-         <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+  <title>Monit Ore | Seleção de Torre</title>
 
-      </div>
-      <nav class="menu_navegacao">
-        <ul>
+  <link rel="stylesheet" href="./css/selecao_torre.css" />
+  <link rel="icon" href="./imgs/favicon.svg" />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+</head>
+
+<body class="container_responsivo" data-permissao-pagina="torres">
+
+  <aside class="navegacao">
+
+    <div class="logo_navegacao">
+      <img src="./imgs/LogoHeader.svg" alt="MonitOre" />
+    </div>
+
+    <nav class="menu_navegacao">
+      <ul>
+
+        <li>
           <a
-            href="/selecao_torre.html"
+            href="./selecao_torre.html"
             class="item_menu ativo"
             id="torres"
+            data-permissao="torres"
             onclick="ativarTorres()"
           >
             <i class="fa-solid fa-tower-broadcast icone_menu"></i>
             <span>Torres</span>
           </a>
+        </li>
+
+        <li>
           <a
-            href="/visualizacao_usuarios.html"
+            href="./visualizacao_usuarios.html"
             class="item_menu"
             id="usuarios"
+            data-permissao="usuarios"
             onclick="ativarUsuarios()"
           >
             <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
           </a>
-          <li>
-            <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora">
-              <i class="fa-solid fa-hammer icone_menu"></i>
-              <span>Cadastro de Mineradora</span>
-            </a>
-          </li>
-          <li class="item_menu" id="alertas" onclick="ativarAlertas()">
-            <i class="fa-solid fa-bell icone_menu"></i>
-            <span>Alertas</span>
-            <span class="notificacao_alerta" id="notificacao_alertas"></span>
-          </li>
-          <li class="item_menu" id="manual" onclick="ativarManual()">
-            <i class="fa-solid fa-book icone_menu"></i>
-            <span>Manual de Instalação</span>
-          </li>
-        </ul>
-      </nav>
+        </li>
 
-      <div class="rodape_navegacao">
-
-        <div class="usuario_navegacao" id="usuario_logado">
-          <div class="avatar_usuario" id="avatar_usuario">US</div>
-          <div class="info_usuario">
-            <span class="nome_usuario" id="nome_usuario">Carregando...</span>
-            <span class="cargo_usuario" id="cargo_usuario"></span>
-          </div>
-          <i class="fa-solid fa-chevron-right icone_menu"></i>
-        </div>
-
-        <button class="botao_sair" id="botao_sair" type="button">
-          <i class="fa-solid fa-right-from-bracket icone_menu"></i>
-          <span>Sair</span>
-        </button>
-      </div>
-    </aside>
-
-    <main class="conteudo_layout">
-      <header>
-        <h1>Seleção de Torre</h1>
-        <span>Selecione a torre que deseja verificar os dados</span>
-      </header>
-      <div class="container">
-        <div class="header-box">
-          <span>Mineradoras Parceiras</span>
-          <a href="./cadastro_torre.html" class="btn-add">
-            <span>Nova Torre</span>
-            <i class="fa-solid fa-plus"></i>
+        <li>
+          <a
+            href="./cadastro_mineradora.html"
+            class="item_menu"
+            id="menu_mineradora"
+            data-permissao="mineradoras"
+          >
+            <i class="fa-solid fa-hammer icone_menu"></i>
+            <span>Cadastro de Mineradora</span>
           </a>
+        </li>
+
+      </ul>
+    </nav>
+
+    <div class="rodape_navegacao">
+
+      <div class="usuario_navegacao" id="usuario_logado">
+        <div class="avatar_usuario" id="avatar_usuario">US</div>
+
+        <div class="info_usuario">
+          <span class="nome_usuario" id="nome_usuario">
+            Carregando...
+          </span>
+
+          <span class="cargo_usuario" id="cargo_usuario"></span>
         </div>
-        <div id="mineradora-group" class="mineradora-group">
-          <span class="mineradora-nome">IBRAM</span>
-          <div class="torres-scroll">
-            <div class="torre-div">
-              <div class="torre-card">
-                <img
-                  src="./imgs/institucional/LogoBanner.png"
-                  class="torre-icon"
-                  alt="Logo"
-                />
-                <span class="torre-status alerta">Alerta</span>
-              </div>
-              <span class="torre-codigo">Torre 002</span>
-            </div>
-          </div>
-        </div>
+
+        <i class="fa-solid fa-chevron-right icone_menu"></i>
       </div>
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
-    <script src="./js/selecao_torre.js"></script>
-    <script>
-      usuario_logado.addEventListener("click", () => {
-        window.location = '/meu_perfil.html';
-      });
-    </script>
-  </body>
-  
+
+      <button
+        class="botao_sair"
+        id="botao_sair"
+        type="button"
+      >
+        <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+        <span>Sair</span>
+      </button>
+
+    </div>
+  </aside>
+
+  <main class="conteudo_layout">
+
+    <button
+      class="btn-notificacao"
+      type="button"
+      aria-label="Abrir menu"
+    >
+      <i class="fa-regular fa-bell icone-sino"></i>
+      <i class="fa-solid fa-bars icone-menu"></i>
+    </button>
+
+    <header>
+      <h1>Seleção de Torre</h1>
+      <span>Selecione a torre que deseja verificar os dados</span>
+    </header>
+
+    <div class="container">
+
+      <div class="header-box">
+        <span>Mineradoras Parceiras</span>
+
+        <a
+          href="./cadastro_torre.html"
+          class="btn-add"
+          id="btn-cadastrar-nova-torre"
+          data-permissao="gerenciar-torres"
+        >
+          <span>Nova Torre</span>
+          <i class="fa-solid fa-plus"></i>
+        </a>
+      </div>
+
+      <!-- As mineradoras e suas torres serão inseridas pelo JavaScript -->
+      <div id="mineradora-group" class="mineradora-group">
+        <p class="lista-vazia">Carregando torres...</p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
+
+  <script src="./js/permissao.js"></script>
+  <script src="./js/selecao_torre.js"></script>
+
+  <script>
+    document.getElementById("usuario_logado")?.addEventListener("click", () => {
+      window.location.href = "/meu_perfil.html";
+    });
+  </script>
+
+</body>
 </html>

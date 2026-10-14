@@ -1,11 +1,15 @@
+const cargoUsuario = (sessionStorage.getItem("CARGO_USUARIO") || "")
+  .trim()
+  .toLowerCase();
 
-
+const podeEditar = cargoUsuario === "administrador";
 
 
 document.addEventListener("click", (evento) => {
-  const cardTorre = evento.target.closest(".torre-card");
   
-  if (cardTorre) {
+  const btnEditar = evento.target.closest(".btn-editar");
+  if (btnEditar) {
+    const cardTorre = btnEditar.closest(".torre-card");
     const idTorre = cardTorre.dataset.idTorre;
     
     // Salva o ID no sessionStorage e redireciona para a tela de alteração
@@ -90,6 +94,7 @@ function criarCardTorre(torre) {
     <div class="torre-div">
         <div class="torre-card" data-id-torre="${torre.id_torre}">
             <img src="./imgs/institucional/LogoBanner.png" class="torre-icon" alt="Logo" />
+            ${podeEditar ? `<i class="fa-solid fa-pen-to-square btn-editar"></i>` : ""}
             <span class="torre-status ${statusClasse}">${torre.status}</span>
         </div>
         <span class="torre-codigo">${torre.codigo}</span>

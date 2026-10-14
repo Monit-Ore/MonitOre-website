@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   configurarMascaraCnpj();
 
   // Menu responsivo mobile
-  const botaoMenu = document.querySelector(".botao_notificacao");
+  const botaoMenu = document.querySelector(".btn_notificacao");
   if (botaoMenu) {
     botaoMenu.addEventListener("click", function () {
       document.body.classList.toggle("menu-aberto");
@@ -185,4 +185,10 @@ function ativarAlertas() {
 
 function ativarManual() {
   window.location.href = "/manual.html";
+}
+
+function ativarMenu(idAtivo) {
+  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
+    item.classList.toggle("ativo", item.id === idAtivo);
+  });
 }

@@ -638,6 +638,31 @@ aside span{
   min-height: 60px;
 }
 
+.btn-notificacao {
+display: none;
+    background-color: #1f1f1f;
+    border: 2px solid var(--cinza);
+    border-radius: 5px;
+    padding: 7px 9px;
+    position: fixed;
+    top: 3%;
+    right: 3%;
+    z-index: 9999;
+    cursor: pointer;
+}
+
+.btn-notificacao .icone-sino {
+    color: #ffffff;
+    font-size: 1.5rem;
+}
+
+.btn-notificacao .icone-menu {
+    color: #ecbe10;
+    font-size: 2rem;
+    display: none;
+}
+
+
 .btn-cancelar,
 .btn-salvar {
   display: flex;

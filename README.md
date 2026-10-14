@@ -1,4 +1,5 @@
-#logo Monit Ore
+<img src="./public/imgs/LogoHeader.svg">
+
 # Sistema Inteligente de Monitoramento de Infraestrutura de computadores industriais
 Projeto do 2º Semestre (2026.2) — Desenvolvimento de uma aplicação client e web voltada ao monitoramento de hardware e processos.
 

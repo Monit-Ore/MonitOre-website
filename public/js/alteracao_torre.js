@@ -1,10 +1,9 @@
-const { createTimeline, stagger, spring } = anime;
+
 
 const COMPONENTES = [
   { id: 1, nome: "CPU" },
   { id: 2, nome: "RAM" },
   { id: 3, nome: "Disco" },
-  { id: 4, nome: "Rede" },
 ];
 
 // Pega o ID salvo no sessionStorage (se existir, estamos editando)
@@ -99,7 +98,8 @@ async function carregarDadosTorre(id) {
         if (componenteInfo) {
           metricasAdicionadas.push({
             fk_componente: comp.fk_componente,
-            valor_limite: comp.valor_limite,
+            alerta_critico: comp.critico,
+            alerta_atencao: comp.atencao,
             nome: componenteInfo.nome
           });
         }
@@ -152,17 +152,23 @@ function preencherSelectEstatico(idSelect, itens, _naoUsado, textoPadrao = "Sele
 
 function adicionarMetrica() {
   const selectComponente = document.getElementById("componente_ipt");
-  const inputPorcentagem = document.getElementById("porcentagem_ipt");
+  const inputAlertaCritico = document.getElementById("alerta_critico_ipt");
+  const inputAlertaAtencao = document.getElementById("alerta_atencao_ipt");
 
   const fkComponente = Number(selectComponente.value);
-  const valorLimite = Number(inputPorcentagem.value);
+  const alertaCritico = Number(inputAlertaCritico.value);
+  const alertaAtencao = Number(inputAlertaAtencao.value);
 
   if (!fkComponente) {
     alert("Selecione um componente.");
     return;
   }
-  if (!valorLimite || valorLimite <= 0 || valorLimite > 100) {
-    alert("Informe uma porcentagem válida (1 a 100).");
+  if (!alertaCritico || alertaCritico <= 0 || alertaCritico > 100) {
+    alert("Informe uma porcentagem válida (1 a 100) para o Alerta Crítico.");
+    return;
+  }
+  if (!alertaAtencao || alertaAtencao <= 0 || alertaAtencao > 100) {
+    alert("Informe uma porcentagem válida (1 a 100) para o Alerta Atenção.");
     return;
   }
 
@@ -175,13 +181,15 @@ function adicionarMetrica() {
   const componente = COMPONENTES.find((c) => c.id === fkComponente);
   metricasAdicionadas.push({
     fk_componente: fkComponente,
-    valor_limite: valorLimite,
+    alerta_critico: alertaCritico,
+    alerta_atencao: alertaAtencao,
     nome: componente.nome,
   });
 
   renderizarMetricas();
   selectComponente.value = "";
-  inputPorcentagem.value = "";
+  inputAlertaCritico.value = "";
+  inputAlertaAtencao.value = "";
 }
 
 function renderizarMetricas() {
@@ -193,7 +201,8 @@ function renderizarMetricas() {
     linha.classList.add("metrica-item");
     linha.innerHTML = `
       <span class="metrica-nome">${tituloMetrica(metrica.nome)}</span>
-      <span class="metrica-valor">${metrica.valor_limite}%</span>
+      <span class="metrica-valor">Crítico: ${metrica.alerta_critico}%</span>
+      <span class="metrica-valor">Atenção: ${metrica.alerta_atencao}%</span>
       <button type="button" class="btn-remover-metrica" data-indice="${indice}">
         <i class="fa-solid fa-trash"></i>
       </button>
@@ -215,7 +224,6 @@ function tituloMetrica(nomeComponente) {
     CPU: "Porcentagem CPU",
     RAM: "Uso da Memória RAM",
     Disco: "Disponibilidade do Disco",
-    Rede: "Disponibilidade de Rede",
   };
   return rotulos[nomeComponente] || nomeComponente;
 }
@@ -247,9 +255,10 @@ async function salvarOuAtualizarTorre(evento) {
       numero: document.getElementById("numero_ipt").value,
       complemento: document.getElementById("complemento_ipt").value,
     },
-    componentes: metricasAdicionadas.map(({ fk_componente, valor_limite }) => ({
+    componentes: metricasAdicionadas.map(({ fk_componente, alerta_critico, alerta_atencao }) => ({
       fk_componente,
-      valor_limite
+      alerta_critico,
+      alerta_atencao
     })),
   };
 

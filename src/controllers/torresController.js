@@ -173,9 +173,15 @@ async function atualizarTorre(req, res) {
   try {
     const { id } = req.params;
     const { fkEmpresa } = req.query;
+    const idTorre = Number(id);
+    const idEmpresa = Number(fkEmpresa);
 
-    if (!fkEmpresa) {
+    if (!Number.isInteger(idEmpresa) || idEmpresa <= 0) {
       return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    }
+
+    if (!Number.isInteger(idTorre) || idTorre <= 0) {
+      return res.status(400).json({ mensagem: "ID de torre inválido." });
     }
 
     const {
@@ -187,7 +193,14 @@ async function atualizarTorre(req, res) {
       componentes,
     } = req.body;
 
-    if (!nome || !codigo || !fk_mineradora) {
+    if (
+      typeof nome !== "string" ||
+      !nome.trim() ||
+      typeof codigo !== "string" ||
+      !codigo.trim() ||
+      !Number.isInteger(Number(fk_mineradora)) ||
+      Number(fk_mineradora) <= 0
+    ) {
       return res.status(400).json({
         mensagem: "Preencha todos os campos obrigatórios de Informações Gerais.",
       });
@@ -198,6 +211,7 @@ async function atualizarTorre(req, res) {
       !pc_industrial.identificador ||
       !pc_industrial.hostname ||
       !pc_industrial.uuid ||
+      !endereco ||
       !endereco.cep ||
       !endereco.estado ||
       !endereco.cidade ||
@@ -217,12 +231,30 @@ async function atualizarTorre(req, res) {
       });
     }
 
+    const componentesValidos = componentes.every((componente) =>
+      componente &&
+      Number.isInteger(Number(componente.fk_componente)) &&
+      Number(componente.fk_componente) > 0 &&
+      Number.isFinite(Number(componente.alerta_critico)) &&
+      Number(componente.alerta_critico) > 0 &&
+      Number(componente.alerta_critico) <= 100 &&
+      Number.isFinite(Number(componente.alerta_atencao)) &&
+      Number(componente.alerta_atencao) > 0 &&
+      Number(componente.alerta_atencao) <= 100
+    );
+
+    if (!componentesValidos) {
+      return res.status(400).json({
+        mensagem: "Informe limites de alerta válidos para todos os componentes.",
+      });
+    }
+
     await torresModel.atualizarTorre(
-      id,
-      fkEmpresa,
-      nome,
-      codigo,
-      fk_mineradora,
+      idTorre,
+      idEmpresa,
+      nome.trim(),
+      codigo.trim(),
+      Number(fk_mineradora),
       pc_industrial,
       endereco,
       componentes
@@ -231,6 +263,9 @@ async function atualizarTorre(req, res) {
     res.status(200).json({ mensagem: "Torre atualizada com sucesso!" });
   } catch (erro) {
     console.error("Erro ao atualizar torre:", erro);
+    if (erro.message === "Torre não encontrada.") {
+      return res.status(404).json({ mensagem: erro.message });
+    }
     res.status(500).json({ mensagem: "Erro ao atualizar torre." });
   }
 }

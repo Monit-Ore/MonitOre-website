@@ -154,7 +154,8 @@ async function buscarTorrePorId(id, fkEmpresa) {
   // Busca os componentes vinculados a este PC Industrial
   var instrucaoComponentes = `SELECT 
     la.fk_componente, 
-    la.valor_limite
+    la.critico,
+    la.atencao
     FROM limite_alerta la
     INNER JOIN PC_Industrial pc ON pc.id_pc_industrial = la.fk_pc_industrial
     WHERE pc.fk_torre = ${mysql.escape(id)};`;
@@ -200,6 +201,7 @@ async function atualizarTorre(
     FROM torre t 
     LEFT JOIN PC_Industrial pc ON pc.fk_torre = t.id_torre 
     WHERE t.id_torre = ${mysql.escape(idTorre)}
+      AND t.fk_fabricante = ${mysql.escape(fkEmpresa)}
   `);
 
   if (dadosAtuais.length === 0) {
@@ -244,11 +246,16 @@ async function atualizarTorre(
     var valores = componentes
       .map(
         (componente) =>
-          `(${mysql.escape(idPcIndustrial)}, ${mysql.escape(componente.fk_componente)}, ${mysql.escape(componente.valor_limite)})`
+          `(${mysql.escape(idPcIndustrial)}, ${mysql.escape(componente.fk_componente)}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(componente.alerta_atencao)})`
       )
       .join(", ");
     
-    var instrucaoComponentes = `INSERT INTO limite_alerta (fk_pc_industrial, fk_componente, valor_limite) VALUES ${valores}`;
+    var instrucaoComponentes = `    INSERT INTO limite_alerta (
+      fk_pc_industrial,
+      fk_componente,
+      critico,
+      atencao
+    ) VALUES ${valores}`;
     await database.executar(instrucaoComponentes);
   }
 
