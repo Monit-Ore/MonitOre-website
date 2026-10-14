@@ -124,10 +124,14 @@
 
   <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
   <script src="./js/selecao_torre.js"></script>
+  <script src="./js/permissao.js"></script>
   <script>
     document.getElementById("usuario_logado")?.addEventListener("click", () => {
       window.location = '/meu_perfil.html';
     });
+
+    const cargo = sessionStorage.getItem("CARGO_USUARIO");
+    const podeEditar = permissoes[cargo]?.includes("torres");
   </script>
 </body>
 

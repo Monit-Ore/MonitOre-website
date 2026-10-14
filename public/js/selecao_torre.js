@@ -88,7 +88,7 @@ function criarCardTorre(torre) {
     <div class="torre-div">
         <div class="torre-card" data-id-torre="${torre.id_torre}">
             <img src="./imgs/institucional/LogoBanner.png" class="torre-icon" alt="Logo" />
-            <i class="fa-solid fa-pen-to-square btn-editar"></i>
+            ${podeEditar ? `<i class="fa-solid fa-pen-to-square btn-editar"></i>` : ""}
             <span class="torre-status ${statusClasse}">${torre.status}</span>
         </div>
         <span class="torre-codigo">${torre.codigo}</span>
