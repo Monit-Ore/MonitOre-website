@@ -226,14 +226,27 @@ function listarUsuariosPorEmpresa(fkEmpresa) {
 }
 // DELETAR
 function deletarUsuario(idUsuario) {
-  var instrucaoSql = `
-      DELETE FROM usuario WHERE id_usuario = ${idUsuario};
-    `;
+  var id = Number(idUsuario);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error("ID de usuário inválido.");
+  }
+
+  var instrucoesSql = [
+    `
+      DELETE FROM permissionamento
+      WHERE usuario_id_usuario = ${id};
+    `,
+    `
+      DELETE FROM usuario
+      WHERE id_usuario = ${id};
+    `,
+  ];
 
   console.log("Executando SQL:");
-  console.log(instrucaoSql);
+  console.log(instrucoesSql);
 
-  return database.executar(instrucaoSql);
+  return database.executarTransacao(instrucoesSql);
 }
 // LISTAR CARGOS
 
