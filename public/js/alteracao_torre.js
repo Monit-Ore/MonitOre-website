@@ -1,4 +1,4 @@
-const { createTimeline, stagger, spring } = anime;
+
 
 const COMPONENTES = [
   { id: 1, nome: "CPU" },

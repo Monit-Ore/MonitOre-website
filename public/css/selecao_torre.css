@@ -307,6 +307,26 @@ header span {
   padding-top: 10px;
   flex-shrink: 0;
   cursor: pointer;
+  position: relative;
+}
+
+.btn-editar {
+  color:var(--amarelo);
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 0.5s;
+}
+
+.torre-card:hover .btn-editar {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.btn-editar:hover {
+  transform: scale(1.1);
 }
 
 .torre-icon {
