@@ -1,19 +1,23 @@
 const permissoes = {
-    Administrador: [
+    administrador: [
         "dashboard",
-        "torres",
         "usuarios",
-        "mineradoras"
+        "torres",
+        "mineradoras",
+        "gerenciar-torres"
     ],
 
-    Operador: [
+    operador: [
+        "torres",
         "dashboard"
     ]
 };
 
 function aplicarPermissoes() {
 
-    const cargo = sessionStorage.getItem("CARGO_USUARIO");
+    const cargo = (sessionStorage.getItem("CARGO_USUARIO") || "")
+        .trim()
+        .toLowerCase();
 
     // Se não houver um cargo válido, não libera os menus.
     const itensPermitidos = permissoes[cargo] || [];
@@ -30,17 +34,18 @@ function aplicarPermissoes() {
 
     });
 
-    // Impede a navegação para páginas administrativas
-    // por meio deste controle do frontend.
     const pagina = document.body.dataset.permissaoPagina;
 
-    if (pagina === "perfil") {
+    if (pagina && pagina !== "perfil" && !itensPermitidos.includes(pagina)) {
+        document.body.style.display = "none";
+        const destino = sessionStorage.getItem("CARGO_USUARIO")
+            ? "/selecao_torre.html"
+            : "/login.html";
+        window.location.replace(destino);
         return;
     }
 
-    if (pagina && !itensPermitidos.includes(pagina)) {
-        window.location.replace("/dashboard.html");
-    }
+    document.body.style.visibility = "visible";
 }
 
 document.addEventListener("DOMContentLoaded", aplicarPermissoes);

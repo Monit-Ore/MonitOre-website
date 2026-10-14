@@ -1,3 +1,9 @@
+const cargoUsuario = (sessionStorage.getItem("CARGO_USUARIO") || "")
+  .trim()
+  .toLowerCase();
+
+const podeEditar = cargoUsuario === "administrador";
+
 
 document.addEventListener("click", (evento) => {
   
