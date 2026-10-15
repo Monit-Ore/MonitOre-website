@@ -105,7 +105,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    
+
     gap: 12px;
 }
 
@@ -157,7 +157,8 @@ table {
     font-size: 14px;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #333;
@@ -279,37 +280,98 @@ th {
     font-weight: 500;
 }
 
-#img_historico{
+#img_historico {
     height: 20px;
     width: 30px;
 }
 
-#filtroGrafico{
-    background-color: #1a1a1a; 
+#filtroGrafico {
+    background-color: #1a1a1a;
     color: #ffffff;
     border: 1px solid #444;
     padding: 6px 12px;
     border-radius: 6px;
-    font-size: 13px; 
+    font-size: 13px;
     cursor: pointer;
 }
 
-#div-header{
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    flex-wrap: wrap; 
-    gap: 10px; 
+#div-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-bottom: 10px;
 }
 
-@media screen and (max-width: 768px){
-    .container_metricas{
+@media screen and (max-width: 768px) {
+    .container_metricas {
         flex-wrap: wrap;
         gap: 15px;
     }
 
-    .card_metrica{
+    .card_metrica {
         flex: 1 1 280px;
+    }
+
+    .container_meio {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .tabelaResponsividade {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .container_meio {
+        display: flex;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 20px;
+    }
+
+    .card_grafico {
+        width: 100% !important;
+        height: auto !important;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    #div-header {
+        display: flex;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+        width: 100% !important;
+    }
+
+    #div-header h3 {
+        font-size: 15px !important;
+        line-height: 1.4;
+    }
+
+    #filtroGrafico {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .conteudo_grafico {
+        width: 100% !important;
+        position: relative !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        margin-top: 20px;
+    }
+
+    .conteudo_grafico canvas {
+        width: auto !important;
+        height: 300px !important;
+    }
+
+    .topo_tabela{
+        flex-wrap: wrap;
+        gap: 10px;
     }
 }
