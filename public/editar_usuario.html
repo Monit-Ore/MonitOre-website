@@ -74,6 +74,14 @@
 
     <div class="conteudo_layout">
         <header class="superior_tela">
+            <button
+            class="botao_voltar"
+            type="button"
+            onclick="voltar()"
+            aria-label="Voltar"
+            >
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            </button>    
             <div class="titulo_superior">
                 <h1>Alterar Usuário</h1>
                 <h2>Gerencie as informações dos usuários</h2>
@@ -220,6 +228,11 @@
     <script src="./js/cadastro.js"></script>
 
     <script>
+        document.getElementById("usuario_logado").addEventListener("click", () => {
+        window.location.href = "/meu_perfil.html";
+        });
+
+
         var nome;
         var email;
         var cargo;

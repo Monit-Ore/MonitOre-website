@@ -15,6 +15,7 @@ document.addEventListener("click", (evento) => {
     // Salva o ID no sessionStorage e redireciona para a tela de alteração
     sessionStorage.setItem("idTorreEmEdicao", idTorre);
     window.location.href = "./alteracao_torre.html";
+    return;
   }
 
   const torreCard = evento.target.closest(".torre-card");

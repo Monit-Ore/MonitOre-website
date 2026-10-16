@@ -272,7 +272,6 @@ header span {
   font-size: 1.1rem;
   display: block;
   margin-bottom: 1%;
-  margin-left: 1%;
 }
 
 .torre-div {
@@ -315,15 +314,9 @@ header span {
   position: absolute;
   top: 8px;
   right: 8px;
-  opacity: 0;
-  pointer-events: none;
   transition-duration: 0.5s;
 }
 
-.torre-card:hover .btn-editar {
-  opacity: 1;
-  pointer-events: auto;
-}
 
 .btn-editar:hover {
   transform: scale(1.1);

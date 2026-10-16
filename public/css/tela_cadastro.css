@@ -239,7 +239,7 @@ aside span{
 .superior_tela {
   display: flex;
   align-items: center;
-
+  gap: 16px;
   width: 100%;
   min-height: 100px;
 
@@ -252,9 +252,7 @@ aside span{
   background-color: inherit;
 }
 
-.botao_voltar,
-.botao_notificacao,
-.icon_user {
+.botao_voltar {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,7 +280,7 @@ aside span{
 
 
 .botao_voltar {
-  margin-left: 20px;
+  margin-left: 30px;
 }
 
 .botao_notificacao {
@@ -307,10 +305,6 @@ aside span{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
-  margin-left: 40px;
-  margin-right: 90px;
-
   color: #ffffff;
 }
 
