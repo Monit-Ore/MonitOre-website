@@ -1,4 +1,36 @@
 // É SO TROCAR OS DADOS AQUI PRA DASHBOARD COM DADOS REAIS DO BACK
+
+function carregarUsuarioMenu() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) {
+    return;
+  }
+  nome_usuario.textContent = nomeUsuario;
+
+  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+  if (!cargoUsuario) {
+    return;
+  }
+  cargo_usuario.textContent = cargoUsuario;
+}
+
+function carregarIniciais() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  const iniciais = [];
+
+  for (let i = 0; i < nomeUsuario.length; i++) {
+    if (i == 0) {
+      iniciais.push(nomeUsuario[i]);
+    }
+
+    if (nomeUsuario[i] == " ") {
+      iniciais.push(nomeUsuario[i + 1]);
+      break;
+    }
+  }
+  avatar_usuario.textContent = iniciais.join('');
+}
+
 const dadosIniciais = {
   kpis: {
     monitoradas: 12,
@@ -185,7 +217,9 @@ async function carregarDadosDashboard() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // TENHO Q ESTUDAR OQUE FAZ (ASS: ISAAC)
+
+  carregarUsuarioMenu();
+  carregarIniciais();
   criarGraficoStatus(dadosIniciais.statusIpc);
   criarGraficoMineradoras(dadosIniciais.mineradoras);
   criarGraficoTorres(dadosIniciais.torres);
