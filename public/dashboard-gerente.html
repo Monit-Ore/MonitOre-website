@@ -141,7 +141,7 @@
           <span>MÉDIA PROCESSOS ATIVOS</span>
         </div>
         <div class="kpi_valor" id="kpi_media_processos">148</div>
-        <span class="kpi_sub">Média por IPC em execução</span>
+        <span class="kpi_sub">Média por Torre em execução</span>
       </div>
 
       <!-- KPI 2: processo mais consumidao -->
@@ -165,13 +165,43 @@
       </div> -->
 
       <!-- KPI 4: tempo de resposta -->
-      <div class="kpi_card borda_verde">
+      <!-- <div class="kpi_card borda_verde">
         <div class="kpi_topo">
           <i class="fa-solid fa-network-wired icone_kpi verde"></i>
           <span>LATÊNCIA MÉDIA COLETA</span>
         </div>
         <div class="kpi_valor" id="kpi_latencia">42 ms</div>
         <span class="kpi_sub">Fluxo estável de dados</span>
+      </div> -->
+
+      <!-- KPI: Torre com maior uso de CPU -->
+      <div class="kpi_card borda_vermelha">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-bolt icone_kpi vermelho"></i>
+          <span>MAIOR USO DE CPU</span>
+        </div>
+        <div class="kpi_valor" id="kpi_torre_cpu" style="font-size: 1.4rem; padding-top: 4px;">Torre 07</div>
+        <span class="kpi_sub" id="kpi_sub_torre_cpu">94% de consumo</span>
+      </div>
+
+      <!-- KPI: Torre com maior uso de RAM -->
+      <div class="kpi_card borda_amarela">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-memory icone_kpi amarelo"></i>
+          <span>MAIOR USO DE RAM</span>
+        </div>
+        <div class="kpi_valor" id="kpi_torre_ram" style="font-size: 1.4rem; padding-top: 4px;">Torre 03</div>
+        <span class="kpi_sub" id="kpi_sub_torre_ram">92% de consumo</span>
+      </div>
+
+      <!-- KPI: Torre com maior uso de Disco -->
+      <div class="kpi_card borda_amarela">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-hard-drive icone_kpi amarelo"></i>
+          <span>MAIOR USO DE DISCO</span>
+        </div>
+        <div class="kpi_valor" id="kpi_torre_disco" style="font-size: 1.4rem; padding-top: 4px;">Torre 01</div>
+        <span class="kpi_sub" id="kpi_sub_torre_disco">87% de ocupação</span>
       </div>
 
       <!-- KPI 5: Alertas 24h -->
@@ -190,7 +220,7 @@
       <div class="card_painel card_donut">
         <div class="painel_header">
           <i class="fa-solid fa-chart-pie icone_painel"></i>
-          <h3>Status das IPCs</h3>
+          <h3>Status das Torres</h3>
         </div>
         <div class="donut_container">
           <div class="donut_wrapper">
@@ -208,12 +238,12 @@
             </div>
             <div class="legenda_item">
               <span class="ponto amarelo"></span>
-              <span class="legenda_nome">Em alerta</span>
+              <span class="legenda_nome">Em Atenção</span>
               <span class="legenda_num" id="pct_alerta">2 (16,7%)</span>
             </div>
             <div class="legenda_item">
               <span class="ponto vermelho"></span>
-              <span class="legenda_nome">Offline</span>
+              <span class="legenda_nome">Critico</span>
               <span class="legenda_num" id="pct_offline">0 (0,0%)</span>
             </div>
           </div>
@@ -222,7 +252,7 @@
 
       <div class="card_painel card_barras">
         <div class="painel_header">
-          <h3>IPC em alerta por mineradora</h3>
+          <h3>Torre em alerta por mineradora</h3>
         </div>
         <div class="barras_grafico_container">
           <canvas id="graficoMineradoras"></canvas>
