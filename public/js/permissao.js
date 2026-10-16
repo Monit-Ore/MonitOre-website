@@ -1,6 +1,6 @@
 const permissoes = {
     administrador: [
-        "dashboard",
+        "dashboard-torre",
         "dashboard-gerente",
         "usuarios",
         "torres",
@@ -11,7 +11,7 @@ const permissoes = {
 
     operador: [
         "torres",
-        "dashboard",
+        "dashboard-torre",
         "visualizacao_torre"
     ]
 };
