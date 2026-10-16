@@ -1,6 +1,7 @@
 const permissoes = {
     administrador: [
         "dashboard",
+        "dashboard-gerente",
         "usuarios",
         "torres",
         "mineradoras",
