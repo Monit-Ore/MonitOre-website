@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Monit Ore | Dashboard Gerente</title>
+
+  <link rel="stylesheet" href="./css/dashboard-gerente.css" />
+  <link rel="icon" href="./imgs/favicon.svg" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="container_responsivo" data-permissao-pagina="dashboard-gerente">
+
+  <!-- BARRA LATERAL ORIGINAL -->
+  <aside class="navegacao">
+    <div class="logo_navegacao">
+      <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+    </div>
+
+    <nav class="menu_navegacao">
+      <ul>
+        <li>
+          <a
+            href="./dashboard-gerente.html"
+            class="item_menu ativo"
+            id="dashboard-gerente"
+            data-permissao="dashboard-gerente"
+            onclick="ativarDashboardGerente()"
+          >
+            <i class="fa-solid fa-chart-line icone_menu"></i>
+            <span>Dashboard Gerente</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="./selecao_torre.html"
+            class="item_menu"
+            id="torres"
+            data-permissao="torres"
+            onclick="ativarTorres()"
+          >
+            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
+            <span>Torres</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="./visualizacao_usuarios.html"
+            class="item_menu"
+            id="usuarios"
+            data-permissao="usuarios"
+            onclick="ativarUsuarios()"
+          >
+            <i class="fa-solid fa-users icone_menu"></i>
+            <span>Usuários</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="./cadastro_mineradora.html"
+            class="item_menu"
+            id="menu_mineradora"
+            data-permissao="mineradoras"
+          >
+            <i class="fa-solid fa-hammer icone_menu"></i>
+            <span>Cadastro de Mineradora</span>
+          </a>
+        </li>
+
+        <!-- <li>
+          <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
+            <i class="fa-solid fa-bell icone_menu"></i>
+            <span>Alertas</span>
+            <span class="notificacao_alerta" id="notificacao_alertas"></span>
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
+            <i class="fa-solid fa-book icone_menu"></i>
+            <span>Manual de Instalação</span>
+          </a>
+        </li>
+      </ul> -->
+    </nav>
+
+    <div class="rodape_navegacao">
+      <div class="usuario_navegacao" id="usuario_logado">
+        <div class="avatar_usuario" id="avatar_usuario">US</div>
+
+        <div class="info_usuario">
+          <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+          <span class="cargo_usuario" id="cargo_usuario"></span>
+        </div>
+
+        <i class="fa-solid fa-chevron-right icone_menu"></i>
+      </div>
+
+      <button class="botao_sair" id="botao_sair" type="button">
+        <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+        <span>Sair</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEUDAO -->
+  <main class="conteudo_layout">
+    <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+      <i class="fa-regular fa-bell icone-sino"></i>
+      <i class="fa-solid fa-bars icone-menu"></i>
+    </button>
+
+    <header class="header_dashboard">
+      <div class="titulo_com_icone">
+        <i class="fa-solid fa-chart-simple icone_titulo_amarelo"></i>
+        <div>
+          <h1>Visão Executiva</h1>
+          <p>Resumo da operação das torres de monitoramento</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- KPIS ATUALIZADOS -->
+    <section class="kpis_grid">
+
+      <!-- KPI 1: Média ativos -->
+      <div class="kpi_card borda_amarela">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-microchip icone_kpi amarelo"></i>
+          <span>MÉDIA PROCESSOS ATIVOS</span>
+        </div>
+        <div class="kpi_valor" id="kpi_media_processos">148</div>
+        <span class="kpi_sub">Média por IPC em execução</span>
+      </div>
+
+      <!-- KPI 2: processo mais consumidao -->
+      <!-- <div class="kpi_card borda_amarela">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-fire icone_kpi amarelo"></i>
+          <span>PROCESSO TOP CONSUMO</span>
+        </div>
+        <div class="kpi_valor" id="kpi_top_processo" style="font-size: 1.4rem; padding-top: 5px;">java (extrator)</div>
+        <span class="kpi_sub">41% CPU médio na rede</span>
+      </div> -->
+
+      <!-- KPI 3: Torres com mais de 80% de uso? -->
+      <!-- <div class="kpi_card borda_vermelha">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-triangle-exclamation icone_kpi vermelho"></i>
+          <span>TORRES CRÍTICAS (>80%)</span>
+        </div>
+        <div class="kpi_valor" id="kpi_torres_criticas">0 / 12</div>
+        <span class="kpi_sub">Sob alta carga de processos</span>
+      </div> -->
+
+      <!-- KPI 4: tempo de resposta -->
+      <div class="kpi_card borda_verde">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-network-wired icone_kpi verde"></i>
+          <span>LATÊNCIA MÉDIA COLETA</span>
+        </div>
+        <div class="kpi_valor" id="kpi_latencia">42 ms</div>
+        <span class="kpi_sub">Fluxo estável de dados</span>
+      </div>
+
+      <!-- KPI 5: Alertas 24h -->
+      <div class="kpi_card borda_amarela">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-bell icone_kpi amarelo"></i>
+          <span>ALERTAS NAS ÚLTIMAS 24H</span>
+        </div>
+        <div class="kpi_valor" id="kpi_alertas_total">7</div>
+        <span class="kpi_sub">Total de ocorrências</span>
+      </div>
+
+    </section>
+    <!--  1: STATUS DONUT -->
+    <section class="dash_linha">
+      <div class="card_painel card_donut">
+        <div class="painel_header">
+          <i class="fa-solid fa-chart-pie icone_painel"></i>
+          <h3>Status das IPCs</h3>
+        </div>
+        <div class="donut_container">
+          <div class="donut_wrapper">
+            <canvas id="graficoStatus"></canvas>
+            <div class="donut_centro">
+              <strong id="donut_total">12</strong>
+              <span>Total</span>
+            </div>
+          </div>
+          <div class="donut_legendas">
+            <div class="legenda_item">
+              <span class="ponto verde"></span>
+              <span class="legenda_nome">Online</span>
+              <span class="legenda_num" id="pct_online">10 (83,3%)</span>
+            </div>
+            <div class="legenda_item">
+              <span class="ponto amarelo"></span>
+              <span class="legenda_nome">Em alerta</span>
+              <span class="legenda_num" id="pct_alerta">2 (16,7%)</span>
+            </div>
+            <div class="legenda_item">
+              <span class="ponto vermelho"></span>
+              <span class="legenda_nome">Offline</span>
+              <span class="legenda_num" id="pct_offline">0 (0,0%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card_painel card_barras">
+        <div class="painel_header">
+          <h3>IPC em alerta por mineradora</h3>
+        </div>
+        <div class="barras_grafico_container">
+          <canvas id="graficoMineradoras"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!--  2: ALETYAA por torre + tabela  -->
+    <section class="dash_linha">
+      <div class="card_painel">
+        <div class="painel_header">
+          <i class="fa-solid fa-tower-broadcast icone_painel"></i>
+          <h3>Alertas por torre</h3>
+        </div>
+        <div class="barras_grafico_container">
+          <canvas id="graficoTorres"></canvas>
+        </div>
+      </div>
+
+      <div class="card_painel">
+        <div class="painel_header_com_botao">
+          <div class="painel_header">
+            <i class="fa-solid fa-bell icone_painel"></i>
+            <h3>Lista de alertas <small>(Últimas 24h)</small></h3>
+          </div>
+          <a href="#" class="btn_ver_todos">Ver todos</a>
+        </div>
+
+        <div class="tabela_responsiva">
+          <table class="tabela_alertas">
+            <thead>
+              <tr>
+                <th>Data/Hora</th>
+                <th>Torre</th>
+                <th>Mineradora</th>
+                <th>Componente</th>
+                <th>Valor</th>
+                <th>Limite</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tabela_alertas_corpo">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
+  <script src="./js/dashboard-gerente.js"></script>
+  <script>
+    document.getElementById("usuario_logado")?.addEventListener("click", () => {
+      window.location = "/meu_perfil.html";
+    });
+  </script>
+</body>
+
+</html>
