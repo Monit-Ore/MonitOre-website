@@ -6,15 +6,26 @@ const podeEditar = cargoUsuario === "administrador";
 
 
 document.addEventListener("click", (evento) => {
-  
+
   const btnEditar = evento.target.closest(".btn-editar");
   if (btnEditar) {
     const cardTorre = btnEditar.closest(".torre-card");
     const idTorre = cardTorre.dataset.idTorre;
-    
+
     // Salva o ID no sessionStorage e redireciona para a tela de alteração
     sessionStorage.setItem("idTorreEmEdicao", idTorre);
     window.location.href = "./alteracao_torre.html";
+    return;
+  }
+
+  const torreCard = evento.target.closest(".torre-card");
+  if (torreCard) {
+    const idTorre = torreCard.dataset.idTorre;
+    
+    // Salva o ID da torre selecionada no sessionStorage
+    sessionStorage.setItem("ID_TORRE_SELECIONADA", idTorre);
+    
+    window.location.href = "./dashboard_torre.html"; 
   }
 });
 
@@ -31,8 +42,11 @@ btnNovaTorre?.addEventListener("click", () => {
 
 async function carregarTorres() {
   try {
+    const idUsuario = sessionStorage.getItem("ID_USUARIO");
+    const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
+
     const resposta = await fetch(
-      `/torres/listarTorres?fkEmpresa=${sessionStorage.getItem("FK_EMPRESA_USUARIO")}`,
+      `/torres/listarTorres?fkEmpresa=${encodeURIComponent(fkEmpresa)}&idUsuario=${encodeURIComponent(idUsuario)}`
     );
 
     if (!resposta.ok) {
@@ -88,7 +102,7 @@ function renderizarMineradoras(grupos) {
 }
 
 function criarCardTorre(torre) {
-    const statusClasse = torre.status.toLowerCase();
+  const statusClasse = torre.status.toLowerCase();
 
   return `
     <div class="torre-div">
@@ -151,7 +165,7 @@ function carregarIniciais() {
   const iniciais = [];
 
   for (let i = 0; i < nomeUsuario.length; i++) {
-    
+
     if (i == 0) {
       iniciais.push(nomeUsuario[i]);
     }
@@ -160,7 +174,7 @@ function carregarIniciais() {
       iniciais.push(nomeUsuario[i + 1])
       break;
     }
-    
+
   }
   avatar_usuario.textContent = iniciais.join('');
 }
@@ -180,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "./login.html";
   });
 
- 
+
 });
 
 carregarTorres();

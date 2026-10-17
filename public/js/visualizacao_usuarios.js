@@ -256,6 +256,28 @@ function carregarIniciais() {
 }
 
 
+function voltar() {
+  window.history.back();
+}
+
+function ativarTorres() {
+  window.location.href = "/selecao_torre.html";
+}
+
+function ativarUsuarios() {
+  window.location.href = "./visualizacao_usuarios.html";
+}
+
+function ativarMineradora() {
+  window.location.href = "./cadastro_mineradora.html";
+}
+
+function ativarMenu(idAtivo) {
+  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
+    item.classList.toggle("ativo", item.id === idAtivo);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("cancelar_exclusao")?.addEventListener("click", () => {
     document.getElementById("modal_confirmar_exclusao").close();
@@ -317,7 +339,6 @@ async function buscarUsuarios() {
     }
   }
 }
-
 
 
 carregarUsuariosDaEmpresa();

@@ -3,6 +3,12 @@
    BOTÕES DE CARGO
 ========================================================= */
 
+.botao_senha svg {
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+    }
+
 .ativo,
 .desativado {
     width: 190px;

@@ -12,15 +12,22 @@ function mapearStatusExibicao(statusBanco) {
   return statusBanco === "Alerta" ? "Alerta" : "Regular";
 }
 
+
 async function selecaoTorre(req, res) {
   try {
-    const { fkEmpresa } = req.query;
+    const { fkEmpresa, idUsuario } = req.query;
 
-    if (!fkEmpresa) {
-      return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    if (!fkEmpresa || !idUsuario) {
+      return res.status(400).json({
+        mensagem: "Identificação do usuário e fabricante obrigatórias.",
+      });
     }
 
-    const torres = await torresModel.listarTorresComMineradora(fkEmpresa);
+    const torres = await torresModel.listarTorresPorUsuario(
+      idUsuario,
+      fkEmpresa
+    );
+
     const mapaMineradoras = new Map();
 
     torres.forEach((torre) => {
@@ -34,7 +41,7 @@ async function selecaoTorre(req, res) {
         id_torre: torre.id_torre,
         codigo: torre.codigo,
         status: mapearStatusExibicao(torre.status_operacional),
-        });
+      });
     });
 
     const resposta = Array.from(
@@ -42,16 +49,19 @@ async function selecaoTorre(req, res) {
       ([mineradora, listaTorres]) => ({
         mineradora,
         torres: listaTorres,
-      }),
+      })
     );
 
-    res.status(200).json(resposta);
-    console.log("Resposta enviada:", resposta);
+    return res.status(200).json(resposta);
   } catch (erro) {
     console.error("Erro ao buscar torres para seleção:", erro);
-    res.status(500).json({ mensagem: "Erro ao buscar torres." });
+
+    return res.status(500).json({
+      mensagem: "Erro ao buscar torres.",
+    });
   }
 }
+
 
 async function listarOpcoesCadastro(req, res) {
   try {

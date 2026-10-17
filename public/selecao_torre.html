@@ -29,12 +29,38 @@
       <ul>
 
         <li>
+          <a href="./dashboard-gerente.html"
+            class="item_menu "
+            id="dashboard-gerente"
+            data-permissao="dashboard-gerente"
+            onclick="ativarDashboardGerente()">
+             <i class="fa-solid fa-chart-line icone_menu"></i>
+            <span>Dashboard Gerente</span>
+          </a>
+
+        </li>
+
+        
+        <li>
+          <a href="./dashboard_torre.html"
+            class="item_menu "
+            id="dashboard-torre"
+            data-permissao="dashboard-torre"
+          >
+             <i class="fa-solid fa-chart-line icone_menu"></i>
+            <span>Dashboard Torres</span>
+          </a>
+
+        </li>
+
+
+        <li>
           <a
+          
             href="./selecao_torre.html"
             class="item_menu ativo"
             id="torres"
             data-permissao="torres"
-            onclick="ativarTorres()"
           >
             <i class="fa-solid fa-tower-broadcast icone_menu"></i>
             <span>Torres</span>
@@ -47,7 +73,6 @@
             class="item_menu"
             id="usuarios"
             data-permissao="usuarios"
-            onclick="ativarUsuarios()"
           >
             <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
@@ -107,7 +132,7 @@
       <i class="fa-regular fa-bell icone-sino"></i>
       <i class="fa-solid fa-bars icone-menu"></i>
     </button>
-
+    
     <header>
       <h1>Seleção de Torre</h1>
       <span>Selecione a torre que deseja verificar os dados</span>
@@ -129,8 +154,8 @@
         </a>
       </div>
 
-      <!-- As mineradoras e suas torres serão inseridas pelo JavaScript -->
-      <div id="mineradora-group" class="mineradora-group">
+      
+      <div id="mineradora-group">
         <p class="lista-vazia">Carregando torres...</p>
       </div>
 
@@ -147,6 +172,8 @@
     document.getElementById("usuario_logado")?.addEventListener("click", () => {
       window.location.href = "/meu_perfil.html";
     });
+
+    
   </script>
 
 </body>
