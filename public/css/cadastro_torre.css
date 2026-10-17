@@ -16,12 +16,12 @@ body {
 }
 
 .conteudo_layout {
-    grid-column: 2;
-    position: relative;
-    min-width: 0;
-    min-height: 100vh;
-    padding: 1.5rem;
-    background-color: #1f1f1f;
+    grid-column: 2 !important; 
+    position: relative !important;
+    min-width: 0 !important;
+    min-height: 100vh !important;
+    padding: 0 !important;
+    background-color: #1f1f1f !important;
 }
 
 :root {
@@ -93,7 +93,7 @@ body {
 
 header {
     margin-top: 3%;
-    margin-left: 3%;
+    margin-left: 2%;
     width: 80%;
     height: 80px;
     display: flex;
@@ -101,21 +101,27 @@ header {
     gap: 16px;
   }
 .botao-voltar {
-  width: 42px;
-  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  color: var(--amarelo);
-  border: 1px solid var(--amarelo);
-  border-radius: 7px;
-  font-size: 1.4rem;
+
+  width: 50px;
+  height: 50px;
+  margin-left: 30px;
+  border: 2px solid #ecbe10;
+
+  background-color: #1e1e1e;
+  color: #ecbe10;
+
+  font-size: 34px;
+
+  cursor: pointer;
+  user-select: none;
   text-decoration: none;
 }
+
 .botao-voltar:hover {
-  background-color: var(--amarelo);
-  color: var(--preto);
+  background-color: #303030;
 }
 .titulo-cabecalho {
   display: flex;

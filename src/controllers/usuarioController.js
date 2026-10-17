@@ -54,7 +54,6 @@ function cpfValido(cpf) {
   return resto === Number(cpf.substring(10, 11));
 }
 
-// AUTENTICAR
 
 async function autenticar(req, res) {
   var email = req.body.email;
@@ -91,30 +90,16 @@ async function autenticar(req, res) {
 
     var usuario = resultado[0];
 
-    //if (usuario.status_usuario !== "Ativo") {
-    //  return res.status(403).json({
-    //    mensagem: "Usuário inativo.",
-    //  });
-    //}
-
-    //if (usuario.status_cargo !== "Ativo") {
-    //  return res.status(403).json({
-    //    mensagem: "Cargo do usuário está inativo.",
-    //  });
-    //}
-
-    //if (usuario.status_empresa !== "Ativo") {
-    //  return res.status(403).json({
-    //    mensagem: "Empresa do usuário está inativa.",
-    //  });
-    //}
-
-    // Comparação direta da senha em texto.
     if (senha !== usuario.senha) {
       return res.status(401).json({
         mensagem: "Email ou senha inválidos.",
       });
     }
+
+    req.session.ID_USUARIO = usuario.id_usuario;
+    req.session.FK_EMPRESA_USUARIO = usuario.fk_empresa;
+    req.session.NOME_USUARIO = usuario.nome;
+    req.session.CARGO_USUARIO = usuario.cargo;
 
     await usuarioModel.atualizarUltimoAcesso(usuario.id_usuario);
 
@@ -147,8 +132,6 @@ async function autenticar(req, res) {
     });
   }
 }
-
-// CADASTRAR
 
 async function cadastrar(req, res) {
   var nome = req.body.nome;
@@ -291,7 +274,6 @@ async function cadastrar(req, res) {
   }
 }
 
-// DELETAR
 async function deletarUsuario(req, res) {
   var idUsuario = req.params.idUsuario;
 
@@ -367,8 +349,6 @@ async function buscarUsuario(req, res) {
   }
 }
 
-// LISTAR CARGOS
-
 async function listarCargos(req, res) {
   try {
     var resultado = await usuarioModel.listarCargos();
@@ -383,8 +363,6 @@ async function listarCargos(req, res) {
   }
 }
 
-// LISTAR MINERADORAS
-
 async function listarMineradoras(req, res) {
   try {
     var resultado = await usuarioModel.listarMineradoras();
@@ -398,10 +376,6 @@ async function listarMineradoras(req, res) {
     });
   }
 }
-
-// EXPORTAÇÕES
-
-// GERENCIAR PERFIL
 
 function atualizarTelefone(req, res) {
   var id = req.body.userServer;
@@ -445,7 +419,6 @@ async function atualizarSenha(req, res) {
 
     var usuario = resultado[0];
 
-    // Comparação direta da senha em texto.
     if (senha_atual !== usuario.senha) {
       return res.status(401).json({
         mensagem: "Senha inválida.",
@@ -530,6 +503,115 @@ async function atualizarCargo(req,res){
   }
 }
 
+
+
+async function listarTorresPorMineradora(req, res) {
+    try {
+        if (!req.session || !req.session.FK_EMPRESA_USUARIO) {
+            return res.status(401).json({
+                mensagem: "Sessão não identificada. Faça login novamente."
+            });
+        }
+
+        var idFabricante = Number(req.session.FK_EMPRESA_USUARIO);
+
+        var resultado = await usuarioModel.listarTorresPorMineradora(
+            idFabricante
+        );
+
+        return res.status(200).json(resultado);
+
+    } catch (erro) {
+        console.error("Erro ao buscar as torres:", erro);
+
+        return res.status(500).json({
+            mensagem: "Erro ao buscar as torres."
+        });
+    }
+}
+
+
+async function buscarAcessosTorres(req, res) {
+    var idUsuario = Number(req.params.idUsuario);
+    console.log("Sessão recebida:", req.session);
+    var idFabricante = Number(req.session.FK_EMPRESA_USUARIO);
+
+    if (!Number.isInteger(idUsuario) || idUsuario <= 0) {
+        return res.status(400).json({
+            mensagem: "ID de usuário inválido."
+        });
+    }
+
+    if (!Number.isInteger(idFabricante) || idFabricante <= 0) {
+        return res.status(401).json({
+            mensagem: "Fabricante não identificado na sessão."
+        });
+    }
+
+    try {
+        var resultado = await usuarioModel.buscarAcessosTorres(
+            idUsuario,
+            idFabricante
+        );
+
+        return res.status(200).json(resultado);
+
+    } catch (erro) {
+        console.error("Erro ao buscar os acessos:", erro);
+
+        return res.status(500).json({
+            mensagem: "Erro ao buscar os acessos do usuário."
+        });
+    }
+}
+
+
+async function salvarAcessosTorres(req, res) {
+    var idUsuario = Number(req.params.idUsuario);
+    var torres = req.body.torres;
+
+    if (!Number.isInteger(idUsuario) || idUsuario <= 0) {
+        return res.status(400).json({
+            mensagem: "ID de usuário inválido."
+        });
+    }
+
+    if (!Array.isArray(torres)) {
+        return res.status(400).json({
+            mensagem: "Informe uma lista válida de torres."
+        });
+    }
+
+    // Identifica o fabricante que está usando o site.
+    var idFabricante = Number(req.session.FK_EMPRESA_USUARIO);
+
+    if (!Number.isInteger(idFabricante) || idFabricante <= 0) {
+        return res.status(401).json({
+            mensagem: "Fabricante não identificado na sessão."
+        });
+    }
+
+    try {
+        var resultado = await usuarioModel.salvarAcessosTorres(
+            idUsuario,
+            torres,
+            idFabricante
+        );
+
+        return res.status(200).json(resultado);
+
+    } catch (erro) {
+        console.error("Erro ao salvar os acessos:", erro);
+
+        return res.status(400).json({
+            mensagem: erro.message || "Erro ao atualizar os acessos."
+        });
+    }
+}
+
+
+
+
 module.exports = {
   autenticar,
   cadastrar,
@@ -542,5 +624,8 @@ module.exports = {
   buscarUsuario,
   BuscarPorID,
   atualizarSenhaAdmin,
-  atualizarCargo
+  atualizarCargo,
+  listarTorresPorMineradora,
+  buscarAcessosTorres,
+  salvarAcessosTorres
 };

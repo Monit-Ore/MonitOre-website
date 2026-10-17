@@ -21,14 +21,17 @@
     <!-- Menu lateral -->
     <aside class="navegacao">
       <div class="logo_navegacao">
-        <div class="logo_container">
-          <img id="yellow-icon" src="./imgs/logo_icon_yellow.png">
-          <img id="letters" src="./imgs/logo_letters_white.png">
-        </div>
+         <img src="./imgs/LogoHeader.svg" alt="Monitore" />
       </div>
 
       <nav class="menu_navegacao">
         <ul>
+          <li>
+            <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente" data-permissao="dashboard-gerente">
+              <i class="fa-solid fa-chart-line icone_menu"></i>
+              <span>Dashboard Gerente</span>
+            </a>
+          </li>
           <a
             href="/selecao_torre.html"
             class="item_menu"
@@ -48,20 +51,11 @@
             <span>Usuários</span>
           </a>
           <li>
-            <a href="./cadastro_mineradora.html" class="item_menu " id="menu_mineradora">
+            <a href="./cadastro_mineradora.html" class="item_menu " id="menu_mineradora" data-permissao="mineradoras">
               <i class="fa-solid fa-hammer icone_menu"></i>
               <span>Cadastro de Mineradora</span>
             </a>
           </li>
-          <a href="#" class="item_menu" id="alertas" onclick="ativarAlertas()">
-            <i class="fa-solid fa-bell icone_menu"></i>
-            <span>Alertas</span>
-            <span class="notificacao_alerta" id="notificacao_alertas"></span>
-          </a>
-          <a href="#" class="item_menu" id="manual" onclick="ativarManual()">
-            <i class="fa-solid fa-book icone_menu"></i>
-            <span>Manual de Instalação</span>
-          </a>
         </ul>
       </nav>
 

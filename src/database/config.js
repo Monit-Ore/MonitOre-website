@@ -33,6 +33,35 @@ function executar(instrucao) {
     });
 }
 
+async function executarTransacao(instrucoes) {
+    if (process.env.AMBIENTE_PROCESSO !== "producao" && process.env.AMBIENTE_PROCESSO !== "desenvolvimento") {
+        throw new Error("AMBIENTE NÃO CONFIGURADO EM .env");
+    }
+
+    var conexao = mysql.createConnection(mySqlConfig).promise();
+
+    try {
+        await conexao.beginTransaction();
+
+        var resultados = [];
+
+        for (var instrucao of instrucoes) {
+            var [resultado] = await conexao.query(instrucao);
+            resultados.push(resultado);
+        }
+
+        await conexao.commit();
+        return resultados;
+    } catch (erro) {
+        await conexao.rollback();
+        throw erro;
+    } finally {
+        await conexao.end();
+    }
+}
+
+
 module.exports = {
-    executar
+    executar,
+    executarTransacao
 };

@@ -226,14 +226,27 @@ function listarUsuariosPorEmpresa(fkEmpresa) {
 }
 // DELETAR
 function deletarUsuario(idUsuario) {
-  var instrucaoSql = `
-      DELETE FROM usuario WHERE id_usuario = ${idUsuario};
-    `;
+  var id = Number(idUsuario);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error("ID de usuário inválido.");
+  }
+
+  var instrucoesSql = [
+    `
+      DELETE FROM permissionamento
+      WHERE usuario_id_usuario = ${id};
+    `,
+    `
+      DELETE FROM usuario
+      WHERE id_usuario = ${id};
+    `,
+  ];
 
   console.log("Executando SQL:");
-  console.log(instrucaoSql);
+  console.log(instrucoesSql);
 
-  return database.executar(instrucaoSql);
+  return database.executarTransacao(instrucoesSql);
 }
 // LISTAR CARGOS
 
@@ -385,6 +398,133 @@ function BuscarPorID(idUsuario){
   return database.executar(instrucaoSql)
 }
 
+
+
+function listarTorresPorMineradora(idFabricante) {
+    var instrucaoSql = `
+        SELECT
+            m.id_empresa AS id_mineradora,
+            m.razao_social AS nome_mineradora,
+            t.id_torre,
+            t.nome AS nome_torre
+        FROM torre AS t
+        INNER JOIN empresa AS m
+            ON t.fk_mineradora = m.id_empresa
+        WHERE t.fk_fabricante = ${Number(idFabricante)}
+        ORDER BY
+            m.razao_social,
+            t.nome;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+
+function buscarAcessosTorres(idUsuario, idFabricante) {
+    var instrucaoSql = `
+        SELECT p.torre_id_torre
+        FROM permissionamento AS p
+        INNER JOIN torre AS t
+            ON t.id_torre = p.torre_id_torre
+        INNER JOIN usuario AS u
+            ON u.id_usuario = p.usuario_id_usuario
+        WHERE p.usuario_id_usuario = ${Number(idUsuario)}
+          AND u.fk_empresa = ${Number(idFabricante)}
+          AND t.fk_fabricante = ${Number(idFabricante)};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+
+async function salvarAcessosTorres(idUsuario, torres, idFabricante) {
+    var id = Number(idUsuario);
+    var fabricante = Number(idFabricante);
+
+    if (!Number.isInteger(id) || id <= 0) {
+        throw new Error("Usuário inválido.");
+    }
+
+    if (!Number.isInteger(fabricante) || fabricante <= 0) {
+        throw new Error("Fabricante inválido.");
+    }
+
+    if (!Array.isArray(torres)) {
+        throw new Error("A lista de torres é inválida.");
+    }
+
+    var idsTorres = [];
+
+    torres.forEach(function (idTorre) {
+        var numero = Number(idTorre);
+
+        if (!Number.isInteger(numero) || numero <= 0) {
+            throw new Error("ID de torre inválido.");
+        }
+
+        if (!idsTorres.includes(numero)) {
+            idsTorres.push(numero);
+        }
+    });
+
+    // Verifica se o usuário existe e pertence ao fabricante.
+    var usuario = await database.executar(`
+        SELECT id_usuario
+        FROM usuario
+        WHERE id_usuario = ${id}
+          AND fk_empresa = ${fabricante};
+    `);
+
+    if (usuario.length === 0) {
+        throw new Error(
+            "Usuário não encontrado ou não pertence ao fabricante conectado."
+        );
+    }
+
+    // Confere se todas as torres pertencem ao fabricante conectado.
+    if (idsTorres.length > 0) {
+        var torresValidas = await database.executar(`
+            SELECT id_torre
+            FROM torre
+            WHERE fk_fabricante = ${fabricante}
+              AND id_torre IN (${idsTorres.join(",")});
+        `);
+
+        if (torresValidas.length !== idsTorres.length) {
+            throw new Error(
+                "Uma ou mais torres não pertencem ao fabricante conectado."
+            );
+        }
+    }
+
+    // Atualiza os acessos do usuário.
+    await database.executar(`
+        DELETE FROM permissionamento
+        WHERE usuario_id_usuario = ${id};
+    `);
+
+    if (idsTorres.length > 0) {
+        var valores = idsTorres.map(function (idTorre) {
+            return `(${id}, ${idTorre})`;
+        });
+
+        await database.executar(`
+            INSERT INTO permissionamento (
+                usuario_id_usuario,
+                torre_id_torre
+            )
+            VALUES ${valores.join(",")};
+        `);
+    }
+
+    return {
+        mensagem: "Acessos às torres atualizados com sucesso."
+    };
+}
+
+
+
+
 module.exports = {
   buscarPorEmail,
   buscarPorCpf,
@@ -401,5 +541,8 @@ module.exports = {
   buscarUsuario,
   BuscarPorID,
   atualizarSenhaAdmin,
-  atualizarCargo
+  atualizarCargo,
+  listarTorresPorMineradora,
+  buscarAcessosTorres,
+  salvarAcessosTorres
 };

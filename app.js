@@ -25,10 +25,6 @@ var usuariosRouter = require("./src/routes/usuarios");
 var torresRouter = require("./src/routes/torres");
 var empresaRouter = require("./src/routes/empresas");
 
-// =========================================================
-// MIDDLEWARES
-// =========================================================
-
 var equipeRouter = require("./src/routes/equipe");
 
 
@@ -42,16 +38,25 @@ app.use(
   }),
 );
 
-// Disponibiliza HTML, CSS, JavaScript, imagens e fontes
-// armazenados dentro da pasta public.
 app.use(express.static(path.join(__dirname, "public")));
 
 // Permite requisições do frontend.
 app.use(cors());
 
-// =========================================================
-// REGISTRO DAS ROTAS
-// =========================================================
+var session = require("express-session");
+
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || "monitore-chave-desenvolvimento",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false,
+            httpOnly: true,
+            sameSite: "lax"
+        }
+    })
+);
 
 app.use("/", indexRouter);
 app.use("/equipe", equipeRouter);
@@ -62,16 +67,6 @@ app.use("/torres", torresRouter);
 
 app.use("/empresas", empresaRouter);
 
-// Rotas resultantes:
-//
-// POST /usuarios/autenticar
-// POST /usuarios/cadastrar
-// GET  /usuarios/cargos
-// GET  /usuarios/mineradoras
-
-// =========================================================
-// INICIALIZAÇÃO DO SERVIDOR
-// =========================================================
 
 app.listen(PORTA_APP, function () {
   console.log(`

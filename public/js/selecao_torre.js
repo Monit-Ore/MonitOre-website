@@ -1,9 +1,52 @@
-const { createTimeline, stagger, spring } = anime;
+const cargoUsuario = (sessionStorage.getItem("CARGO_USUARIO") || "")
+  .trim()
+  .toLowerCase();
+
+const podeEditar = cargoUsuario === "administrador";
+
+
+document.addEventListener("click", (evento) => {
+
+  const btnEditar = evento.target.closest(".btn-editar");
+  if (btnEditar) {
+    const cardTorre = btnEditar.closest(".torre-card");
+    const idTorre = cardTorre.dataset.idTorre;
+
+    // Salva o ID no sessionStorage e redireciona para a tela de alteração
+    sessionStorage.setItem("idTorreEmEdicao", idTorre);
+    window.location.href = "./alteracao_torre.html";
+    return;
+  }
+
+  const torreCard = evento.target.closest(".torre-card");
+  if (torreCard) {
+    const idTorre = torreCard.dataset.idTorre;
+    
+    // Salva o ID da torre selecionada no sessionStorage
+    sessionStorage.setItem("ID_TORRE_SELECIONADA", idTorre);
+    
+    window.location.href = "./dashboard_torre.html"; 
+  }
+});
+
+// 2. Quando o usuário clicar no botão de "Cadastrar Nova Torre":
+const btnNovaTorre = document.getElementById("btn-cadastrar-nova-torre"); // Ajuste o ID conforme o seu HTML
+btnNovaTorre?.addEventListener("click", () => {
+  // Limpa para garantir que o sistema saiba que é um cadastro novo (POST)
+  sessionStorage.removeItem("idTorreEmEdicao");
+  window.location.href = "./alteracao_torre.html";
+});
+
+
+
 
 async function carregarTorres() {
   try {
+    const idUsuario = sessionStorage.getItem("ID_USUARIO");
+    const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
+
     const resposta = await fetch(
-      `/torres/listarTorres?fkEmpresa=${sessionStorage.getItem("FK_EMPRESA_USUARIO")}`,
+      `/torres/listarTorres?fkEmpresa=${encodeURIComponent(fkEmpresa)}&idUsuario=${encodeURIComponent(idUsuario)}`
     );
 
     if (!resposta.ok) {
@@ -59,12 +102,13 @@ function renderizarMineradoras(grupos) {
 }
 
 function criarCardTorre(torre) {
-    const statusClasse = torre.status.toLowerCase();
+  const statusClasse = torre.status.toLowerCase();
 
   return `
     <div class="torre-div">
         <div class="torre-card" data-id-torre="${torre.id_torre}">
             <img src="./imgs/institucional/LogoBanner.png" class="torre-icon" alt="Logo" />
+            ${podeEditar ? `<i class="fa-solid fa-pen-to-square btn-editar"></i>` : ""}
             <span class="torre-status ${statusClasse}">${torre.status}</span>
         </div>
         <span class="torre-codigo">${torre.codigo}</span>
@@ -121,7 +165,7 @@ function carregarIniciais() {
   const iniciais = [];
 
   for (let i = 0; i < nomeUsuario.length; i++) {
-    
+
     if (i == 0) {
       iniciais.push(nomeUsuario[i]);
     }
@@ -130,7 +174,7 @@ function carregarIniciais() {
       iniciais.push(nomeUsuario[i + 1])
       break;
     }
-    
+
   }
   avatar_usuario.textContent = iniciais.join('');
 }
@@ -150,33 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "./login.html";
   });
 
-  const logo_anime = createTimeline({
-    defaults: {
-      ease: spring({
-      bounce: 0.3,
-      duration: 400
-      })
-    }
-  });
 
-  logo_anime.add(
-    '#yellow-icon', {
-    translateY: [-100, 0],
-    translateX: ['-50%', '-50%'],
-    opacity: [0, 1],
-    duration: 900,
-
-  })
-  .add(
-    '#letters', {
-    
-    translateY: [
-      { from: 0, to: 20, duration: 300, ease: 'outQuad' },
-      { to: 0, duration: 400, ease: 'outBounce' },
-    ],
-    
-    
-  }, '-=700');
 });
 
 carregarTorres();

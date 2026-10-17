@@ -12,15 +12,22 @@ function mapearStatusExibicao(statusBanco) {
   return statusBanco === "Alerta" ? "Alerta" : "Regular";
 }
 
+
 async function selecaoTorre(req, res) {
   try {
-    const { fkEmpresa } = req.query;
+    const { fkEmpresa, idUsuario } = req.query;
 
-    if (!fkEmpresa) {
-      return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    if (!fkEmpresa || !idUsuario) {
+      return res.status(400).json({
+        mensagem: "Identificação do usuário e fabricante obrigatórias.",
+      });
     }
 
-    const torres = await torresModel.listarTorresComMineradora(fkEmpresa);
+    const torres = await torresModel.listarTorresPorUsuario(
+      idUsuario,
+      fkEmpresa
+    );
+
     const mapaMineradoras = new Map();
 
     torres.forEach((torre) => {
@@ -34,7 +41,7 @@ async function selecaoTorre(req, res) {
         id_torre: torre.id_torre,
         codigo: torre.codigo,
         status: mapearStatusExibicao(torre.status_operacional),
-        });
+      });
     });
 
     const resposta = Array.from(
@@ -42,26 +49,25 @@ async function selecaoTorre(req, res) {
       ([mineradora, listaTorres]) => ({
         mineradora,
         torres: listaTorres,
-      }),
+      })
     );
 
-    res.status(200).json(resposta);
-    console.log("Resposta enviada:", resposta);
+    return res.status(200).json(resposta);
   } catch (erro) {
     console.error("Erro ao buscar torres para seleção:", erro);
-    res.status(500).json({ mensagem: "Erro ao buscar torres." });
+
+    return res.status(500).json({
+      mensagem: "Erro ao buscar torres.",
+    });
   }
 }
+
 
 async function listarOpcoesCadastro(req, res) {
   try {
     const { fkEmpresa } = req.query;
 
-    if (!fkEmpresa) {
-      return res.status(401).json({ mensagem: "Usuário não autenticado." });
-    }
-
-    const mineradoras = await torresModel.listarMineradoras(fkEmpresa);
+    const mineradoras = await torresModel.listarMineradoras();
 
     res.status(200).json({
       mineradoras
@@ -150,8 +156,136 @@ async function cadastrarTorre(req, res) {
   }
 }
 
+
+async function buscarTorrePorId(req, res) {
+  try {
+    const { id } = req.params;
+    const { fkEmpresa } = req.query;
+
+    if (!fkEmpresa) {
+      return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    }
+
+    const torre = await torresModel.buscarTorrePorId(id, fkEmpresa);
+
+    if (!torre) {
+      return res.status(404).json({ mensagem: "Torre não encontrada." });
+    }
+
+    res.status(200).json(torre);
+  } catch (erro) {
+    console.error("Erro ao buscar torre por ID:", erro);
+    res.status(500).json({ mensagem: "Erro ao buscar torre." });
+  }
+}
+
+async function atualizarTorre(req, res) {
+  try {
+    const { id } = req.params;
+    const { fkEmpresa } = req.query;
+    const idTorre = Number(id);
+    const idEmpresa = Number(fkEmpresa);
+
+    if (!Number.isInteger(idEmpresa) || idEmpresa <= 0) {
+      return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    }
+
+    if (!Number.isInteger(idTorre) || idTorre <= 0) {
+      return res.status(400).json({ mensagem: "ID de torre inválido." });
+    }
+
+    const {
+      nome,
+      codigo,
+      fk_mineradora,
+      pc_industrial,
+      endereco,
+      componentes,
+    } = req.body;
+
+    if (
+      typeof nome !== "string" ||
+      !nome.trim() ||
+      typeof codigo !== "string" ||
+      !codigo.trim() ||
+      !Number.isInteger(Number(fk_mineradora)) ||
+      Number(fk_mineradora) <= 0
+    ) {
+      return res.status(400).json({
+        mensagem: "Preencha todos os campos obrigatórios de Informações Gerais.",
+      });
+    }
+
+    if (
+      !pc_industrial ||
+      !pc_industrial.identificador ||
+      !pc_industrial.hostname ||
+      !pc_industrial.uuid ||
+      !endereco ||
+      !endereco.cep ||
+      !endereco.estado ||
+      !endereco.cidade ||
+      !endereco.logradouro ||
+      !endereco.bairro ||
+      !endereco.numero ||
+      !endereco.complemento
+    ) {
+      return res.status(400).json({
+        mensagem: "Preencha todos os campos obrigatórios do PC Industrial e Endereço.",
+      });
+    }
+
+    if (!Array.isArray(componentes) || componentes.length === 0) {
+      return res.status(400).json({
+        mensagem: "Adicione ao menos uma métrica de componente para monitorar.",
+      });
+    }
+
+    const componentesValidos = componentes.every((componente) =>
+      componente &&
+      Number.isInteger(Number(componente.fk_componente)) &&
+      Number(componente.fk_componente) > 0 &&
+      Number.isFinite(Number(componente.alerta_critico)) &&
+      Number(componente.alerta_critico) > 0 &&
+      Number(componente.alerta_critico) <= 100 &&
+      Number.isFinite(Number(componente.alerta_atencao)) &&
+      Number(componente.alerta_atencao) > 0 &&
+      Number(componente.alerta_atencao) <= 100
+    );
+
+    if (!componentesValidos) {
+      return res.status(400).json({
+        mensagem: "Informe limites de alerta válidos para todos os componentes.",
+      });
+    }
+
+    await torresModel.atualizarTorre(
+      idTorre,
+      idEmpresa,
+      nome.trim(),
+      codigo.trim(),
+      Number(fk_mineradora),
+      pc_industrial,
+      endereco,
+      componentes
+    );
+
+    res.status(200).json({ mensagem: "Torre atualizada com sucesso!" });
+  } catch (erro) {
+    console.error("Erro ao atualizar torre:", erro);
+    if (erro.message === "Torre não encontrada.") {
+      return res.status(404).json({ mensagem: erro.message });
+    }
+    res.status(500).json({ mensagem: "Erro ao atualizar torre." });
+  }
+}
+
+// Certifique-se de exportar as novas funções junto com as antigas:
 module.exports = {
   selecaoTorre,
   listarOpcoesCadastro,
   cadastrarTorre,
+  buscarTorrePorId,
+  atualizarTorre,
+  
 };

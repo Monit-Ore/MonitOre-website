@@ -1,5 +1,3 @@
-const { createTimeline, stagger, spring } = anime;
-
 var totalUsuariosPorPagina = 10;
 var paginaAtual = 1;
 var todosUsuarios = [];
@@ -24,7 +22,7 @@ async function carregarUsuariosDaEmpresa() {
     }
 
     todosUsuarios = usuarios || [];
-    irParaPagina(1); 
+    irParaPagina(1);
   } catch (erro) {
     console.error("Erro ao carregar funcionários:", erro);
   }
@@ -55,11 +53,11 @@ function montarLinhaUsuario(usuario) {
   `;
 }
 
-function redirecionarEditar(idUsuario){
+function redirecionarEditar(idUsuario) {
   sessionStorage.setItem("ID_EDITAR_USUARIO", idUsuario);
   var cargo = sessionStorage.getItem("CARGO_EDITAR_USUARIO");
   console.log(cargo);
-  
+
   window.location.href = "./editar_usuario.html"
 }
 
@@ -113,7 +111,7 @@ function renderizarPaginacao() {
   var textoInfo = rodape.querySelector("p");
   var inicio = totalUsuarios === 0 ? 0 : (paginaAtual - 1) * totalUsuariosPorPagina + 1;
   var fim = Math.min(paginaAtual * totalUsuariosPorPagina, totalUsuarios);
-  textoInfo.textContent = "Mostrando " + inicio + " a " + fim + " de " + totalUsuarios + " usuários";
+  textoInfo.textContent = "Mostrando " + inicio + "-" + fim + " de " + totalUsuarios + " usuários";
 
   var containerPaginas = rodape.querySelector(".paginas");
   var html = "";
@@ -183,7 +181,7 @@ function abrirModalDeletar(idUsuario) {
   document.getElementById("modal_confirmar_exclusao").showModal();
 }
 
-async function deletar(idUsuario){
+async function deletar(idUsuario) {
 
   if (!idUsuario) {
     console.log(
@@ -205,11 +203,11 @@ async function deletar(idUsuario){
     todosUsuarios = todosUsuarios.filter(function (usuario) {
       return usuario.id_usuario !== idUsuario;
     });
-    
+
     irParaPagina(paginaAtual);
     document.getElementById("modal_confirmar_exclusao").close();
     usuarioParaDeletar = null;
-   
+
   } catch (erro) {
     console.error("Erro ao deletar usuário:", erro);
   }
@@ -240,7 +238,7 @@ function carregarIniciais() {
   const iniciais = [];
 
   for (let i = 0; i < nomeUsuario.length; i++) {
-    
+
     if (i == 0) {
       iniciais.push(nomeUsuario[i]);
     }
@@ -249,7 +247,7 @@ function carregarIniciais() {
       iniciais.push(nomeUsuario[i + 1])
       break;
     }
-    
+
   }
   var avatar = document.getElementById("avatar_usuario");
   var segundoAvatar = document.getElementById("avatar_usuario_2");
@@ -257,6 +255,28 @@ function carregarIniciais() {
   if (segundoAvatar) segundoAvatar.textContent = iniciais.join('');
 }
 
+
+function voltar() {
+  window.history.back();
+}
+
+function ativarTorres() {
+  window.location.href = "/selecao_torre.html";
+}
+
+function ativarUsuarios() {
+  window.location.href = "./visualizacao_usuarios.html";
+}
+
+function ativarMineradora() {
+  window.location.href = "./cadastro_mineradora.html";
+}
+
+function ativarMenu(idAtivo) {
+  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
+    item.classList.toggle("ativo", item.id === idAtivo);
+  });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("cancelar_exclusao")?.addEventListener("click", () => {
@@ -284,39 +304,14 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "./login.html";
   });
 
-  const logo_anime = createTimeline({
-    defaults: {
-      ease: spring({
-      bounce: 0.3,
-      duration: 400
-      })
-    }
-  });
 
-  logo_anime.add(
-    '#yellow-icon', {
-    translateY: [-100, 0],
-    translateX: ['-50%', '-50%'],
-    opacity: [0, 1],
-    duration: 900,
-
-  })
-  .add(
-    '#letters', {
-    
-    translateY: [
-      { from: 0, to: 20, duration: 300, ease: 'outQuad' },
-      { to: 0, duration: 400, ease: 'outBounce' },
-    ],
-    
-    
-  }, '-=700');
 })
 
 
 async function buscarUsuarios() {
   var fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
-  var termo = busca.value
+  const inputBusca = document.getElementById("busca");
+  const termo = inputBusca ? inputBusca.value.trim() : "";
 
   if (!fkEmpresa) {
     console.log(
@@ -325,26 +320,25 @@ async function buscarUsuarios() {
     return;
   }
 
-  if(!termo || termo.trim().length === 0){
+  if (!termo) {
     carregarUsuariosDaEmpresa()
-  }else{
+  } else {
 
-  try {
-    var resposta = await fetch(`/usuarios/buscar?fkEmpresa=${fkEmpresa}&termo=${termo}`);
-    var usuarios = await resposta.json();
+    try {
+      var resposta = await fetch(`/usuarios/buscar?fkEmpresa=${fkEmpresa}&termo=${termo}`);
+      var usuarios = await resposta.json();
 
-    if (!resposta.ok) {
-      throw new Error(usuarios.mensagem || "Erro ao carregar usuários.");
+      if (!resposta.ok) {
+        throw new Error(usuarios.mensagem || "Erro ao carregar usuários.");
+      }
+
+      todosUsuarios = usuarios || [];
+      irParaPagina(1);
+    } catch (erro) {
+      console.error("Erro ao carregar funcionários:", erro);
     }
-
-    todosUsuarios = usuarios || [];
-    irParaPagina(1); 
-  } catch (erro) {
-    console.error("Erro ao carregar funcionários:", erro);
-  }
   }
 }
-
 
 
 carregarUsuariosDaEmpresa();
