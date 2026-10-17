@@ -302,6 +302,7 @@
 
                     if (resposta.ok) {
                         console.log("resposta está ok");
+                        alert("Telefone alterado com sucesso.");
                     } else {
                         throw "Houve um erro ao tentar realizar a alteração!";
                     }
@@ -338,7 +339,7 @@
 
                     if (resposta.ok) {
                         console.log("resposta está ok");
-                        mostrarMensagem("Troca validada", true);
+                        alert("Senha alterada com sucesso.");
                     } else {
                         mostrarMensagem("Senha inválida.", true);
                     }
@@ -395,8 +396,6 @@
                         cargo = novoCargo;
                         atualizarEstiloBotoesCargo(cargo);
                         document.getElementById("cargo").innerHTML = cargo;
-
-                        mostrarMensagem("Troca validada", true);
                     } else {
                         mostrarMensagem("Cargo inválida.", true);
                     }
@@ -599,6 +598,7 @@
                 .then(function (dados) {
                     mensagem.textContent = dados.mensagem;
                     mensagem.style.color = "#f5c400";
+                    alert("Acessos às torres alterados com sucesso.");
                 })
                 .catch(function (erro) {
                     console.error("Erro ao salvar acessos:", erro);
