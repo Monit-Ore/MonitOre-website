@@ -119,14 +119,25 @@
     </div>
   </main>
 
-  <dialog id="modal_confirmar_exclusao" class="modal_exclusao" aria-labelledby="titulo_modal_exclusao">
+  <dialog
+    id="modal_confirmar_exclusao"
+    class="modal_exclusao"
+    aria-labelledby="titulo_modal_exclusao"
+    aria-describedby="descricao_modal_exclusao"
+  >
     <div class="conteudo_modal_exclusao">
       <div class="icone_modal_exclusao" aria-hidden="true">
-        <img src="./imgs/excluir.svg" alt="Excluir" style="width: 50px;" />
+        <i class="fa-solid fa-trash-can"></i>
       </div>
 
       <h2 id="titulo_modal_exclusao">Exclusão de Usuário</h2>
-      <p>Tem certeza que deseja excluir este usuário?<br />Essa ação não pode ser desfeita.</p>
+      <p id="descricao_modal_exclusao">
+        Tem certeza que deseja excluir este usuário?
+      </p>
+      <div class="aviso_modal_exclusao">
+        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+        <span>Esta ação é permanente e não poderá ser desfeita.</span>
+      </div>
     </div>
 
     <div class="divisor_modal_exclusao" aria-hidden="true"></div>
