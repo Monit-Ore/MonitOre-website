@@ -289,6 +289,7 @@ body[data-permissao-pagina="usuarios"] {
   transition: background-color 0.2s;
   text-decoration: none;
   color: #ffffff;
+  font-size: 16px;
 }
 
 .item_menu:hover {
@@ -343,7 +344,7 @@ aside span{
 
 .rodape_navegacao {
   border-top: 1px solid rgba(255, 255, 255, 0.15);
-  padding-top: 10px;
+  padding: 10px 0;
 }
 
 .usuario_navegacao {

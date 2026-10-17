@@ -9,8 +9,8 @@
       vertical-align: middle;
     }
 
-.ativo,
-.desativado {
+.divisao-btn-cargo .ativo,
+.divisao-btn-cargo .desativado {
     width: 190px;
     max-width: 100%;
     min-height: 46px;
@@ -27,20 +27,20 @@
     transition: opacity 0.2s, background-color 0.2s;
 }
 
-.ativo {
+.divisao-btn-cargo .ativo {
     background-color: #ecbe10;
     color: #1e1e1e;
     border: 1px solid #ecbe10;
 }
 
-.desativado {
+.divisao-btn-cargo .desativado {
     background-color: #C5B1ED13;
     color: #C5B1ED;
     border: 1px solid #C5B1ED;
 }
 
-.ativo:hover,
-.desativado:hover {
+.divisao-btn-cargo .ativo:hover,
+.divisao-btn-cargo .desativado:hover {
     opacity: 0.85;
 }
 
@@ -168,8 +168,8 @@
 
 .botao_torre:focus-visible,
 .selecionar_todas:focus-visible,
-.ativo:focus-visible,
-.desativado:focus-visible {
+.divisao-btn-cargo .ativo:focus-visible,
+.divisao-btn-cargo .desativado:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 3px;
 }
