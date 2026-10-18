@@ -78,7 +78,7 @@
           <p>Status: <span style="color: green;">● ONLINE</span></p>
         </div>
         <p style="color: #888;"> Código: <span id="codigo_torre">TORRE-007</span></p>
-        <p style="color: #888;">PC Industrial: <span id="host_pc"> PC-TORRE_007</span>  | Última atualização: 14/04/2026 16:32</p>
+        <p style="color: #888;">PC Industrial: <span id="host_pc"> PC-TORRE_007</span>  | Última atualização: 15/04/2026 00:10</p>
       </div>
     </div>
 
@@ -92,14 +92,14 @@
         </div>
         <div class="corpo_card_metrica">
           <div class="lado_esquerdo">
-            <div class="valor_metrica">72%</div>
+            <div class="valor_metrica">65%</div>
             <span class="badge_status normal">● Normal</span>
           </div>
           <div class="divisor_vertical"></div>
           <div class="lado_direito">
             <div class="linha_detalhe"><span>Média</span> <span>65%</span></div>
-            <div class="linha_detalhe"><span>Pico</span> <span>94%</span></div>
-            <div class="linha_detalhe"><span>Limite</span> <span>80%</span></div>
+            <div class="linha_detalhe"><span>Pico</span> <span>81%</span></div>
+            <div class="linha_detalhe"><span>Limite</span> <span id="span_cpu">80%</span></div>
           </div>
         </div>
       </div>
@@ -112,14 +112,14 @@
         </div>
         <div class="corpo_card_metrica">
           <div class="lado_esquerdo">
-            <div class="valor_metrica">68%</div>
+            <div class="valor_metrica">88%</div>
             <span class="badge_status alerta">● Alerta</span>
           </div>
           <div class="divisor_vertical"></div>
           <div class="lado_direito">
             <div class="linha_detalhe"><span>Média</span> <span>61%</span></div>
-            <div class="linha_detalhe"><span>Pico</span> <span>92%</span></div>
-            <div class="linha_detalhe"><span>Limite</span> <span>60%</span></div>
+            <div class="linha_detalhe"><span>Pico</span> <span>88%</span></div>
+            <div class="linha_detalhe"><span>Limite</span> <span id="span_ram">60%</span></div>
           </div>
         </div>
       </div>
@@ -132,14 +132,14 @@
         </div>
         <div class="corpo_card_metrica">
           <div class="lado_esquerdo">
-            <div class="valor_metrica">54%</div>
+            <div class="valor_metrica">48%</div>
             <span class="badge_status normal">● Normal</span>
           </div>
           <div class="divisor_vertical"></div>
           <div class="lado_direito">
             <div class="linha_detalhe"><span>Média</span> <span>48%</span></div>
             <div class="linha_detalhe"><span>Pico</span> <span>88%</span></div>
-            <div class="linha_detalhe"><span>Limite</span> <span>75%</span></div>
+            <div class="linha_detalhe"><span>Limite</span> <span id="span_disco">75%</span></div>
           </div>
         </div>
       </div>
@@ -178,8 +178,8 @@
         </div>
         <div class="item_alerta_barra">
           <span>RAM</span>
-          <div class="barra"><div class="progresso" style="width: 30%;"></div></div>
-          <span>2</span>
+          <div class="barra"><div class="progresso" style="width: 15%;"></div></div>
+          <span>1</span>
         </div>
         <div class="item_alerta_barra">
           <span>Disco</span>
@@ -202,7 +202,6 @@
           <thead>
             <tr>
               <th>Data/Hora</th>
-              <th>Torre</th>
               <th>Mineradora</th>
               <th>Componente</th>
               <th>Valor</th>
@@ -212,30 +211,27 @@
           </thead>
           <tbody>
             <tr>
-              <td>14/04/2025 19:00</td>
-              <td>Torre 07</td>
+              <td>14/04/2026 24:00</td>
               <td>Vale</td>
-              <td>Disco</td>
+              <td>RAM</td>
               <td>88%</td>
-              <td>75%</td>
-              <td><span class="tag_alerta alerta"><span class="icone">⚠</span> ALERTA</span></td>
-            </tr>
-            <tr>
-              <td>14/04/2025 18:00</td>
-              <td>Torre 07</td>
-              <td>Vale</td>
-              <td>CPU</td>
-              <td>81%</td>
               <td>80%</td>
               <td><span class="tag_alerta alerta"><span class="icone">⚠</span> ALERTA</span></td>
             </tr>
             <tr>
-              <td>14/04/2025 12:00</td>
-              <td>Torre 07</td>
+              <td>14/04/2026 20:00</td>
               <td>Vale</td>
-              <td>RAM</td>
-              <td>62%</td>
-              <td>60%</td>
+              <td>Disco</td>
+              <td>88%</td>
+              <td>80%</td>
+              <td><span class="tag_alerta alerta"><span class="icone">⚠</span> ALERTA</span></td>
+            </tr>
+            <tr>
+              <td>14/04/2026 20:00</td>
+              <td>Vale</td>
+              <td>CPU</td>
+              <td>81%</td>
+              <td>80%</td>
               <td><span class="tag_alerta alerta"><span class="icone">⚠</span> ALERTA</span></td>
             </tr>
           </tbody>
@@ -259,7 +255,7 @@
         },
         ram: {
             label: 'RAM',
-            data: [45, 48, 50, 53, 56, 75, 58],
+            data: [45, 48, 50, 53, 58, 75, 88],
             borderColor: '#3498db',
             backgroundColor: '#3498db',
             alerta: 60,
@@ -274,6 +270,7 @@
             critico: 85
         }
     };
+
 
     // Configuração inicial do Gráfico com Chart.js
     const ctx = document.getElementById('graficoDesempenho').getContext('2d');
@@ -358,6 +355,7 @@
         }
     });
 
+    
     // Função que altera a visualização entre Todos e Individual (com faixas de Alerta e Crítico)
     function alterarVisualizacaoGrafico(opcao) {
         if (opcao === 'all') {
@@ -384,8 +382,8 @@
                     tension: 0.1
                 },
                 {
-                    label: 'Limite CPU (80%)',
-                    data: Array(labelsHorarios.length).fill(80),
+                    label: `Limite CPU (${configComponentes.cpu.alerta}%)`,
+                    data: Array(labelsHorarios.length).fill(configComponentes.cpu.alerta),
                     borderColor: '#f1c40f',
                     borderWidth: 1.5,
                     borderDash: [6, 6],
@@ -393,8 +391,8 @@
                     fill: false
                 },
                 {
-                    label: 'Limite RAM (60%)',
-                    data: Array(labelsHorarios.length).fill(60),
+                    label: `Limite RAM (${configComponentes.ram.alerta}%)`,
+                    data: Array(labelsHorarios.length).fill(configComponentes.ram.alerta),
                     borderColor: '#3498db',
                     borderWidth: 1.5,
                     borderDash: [6, 6],
@@ -402,8 +400,8 @@
                     fill: false
                 },
                 {
-                    label: 'Limite Disco (75%)',
-                    data: Array(labelsHorarios.length).fill(75),
+                    label: `Limite Disco (${configComponentes.disco.alerta}%)`,
+                    data: Array(labelsHorarios.length).fill(configComponentes.disco.alerta),
                     borderColor: '#2ecc71',
                     borderWidth: 1.5,
                     borderDash: [6, 6],
@@ -411,6 +409,10 @@
                     fill: false
                 }
             ];
+            
+    span_cpu.innerHTML=`${configComponentes.cpu.alerta}%`
+    span_ram.innerHTML=`${configComponentes.ram.alerta}%`
+    span_disco.innerHTML=`${configComponentes.disco.alerta}%`
         } else {
             const comp = configComponentes[opcao];
             if (!comp) return;
@@ -443,10 +445,12 @@
                     fill: false
                 }
             ];
-        }
+                
+          }
         graficoDesempenho.update();
     }
 
+    
     // Redirecionamento do perfil do usuário
     const usuarioLogadoEl = document.getElementById("usuario_logado");
     const nomeUsuarioEl = document.getElementById("nome_usuario");
