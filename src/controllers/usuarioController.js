@@ -382,8 +382,9 @@ function atualizarTelefone(req, res) {
   var telefone = req.body.telServer;
 
   if (!telefone) {
-    return res.status(400).send("Telefone inválido!");
-  }
+    return res.status(401).json({
+        mensagem: "Telefone inválido."
+  })}
 
   usuarioModel.atualizarTel(id, telefone)
     .then(
