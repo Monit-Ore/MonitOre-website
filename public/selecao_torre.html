@@ -11,10 +11,7 @@
   <link rel="stylesheet" href="./css/selecao_torre.css" />
   <link rel="icon" href="./imgs/favicon.svg" />
 
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
 <body class="container_responsivo" data-permissao-pagina="torres">
@@ -29,49 +26,30 @@
       <ul>
 
         <li>
-          <a href="./dashboard-gerente.html"
-            class="item_menu "
-            id="dashboard-gerente"
-            data-permissao="dashboard-gerente"
-            onclick="ativarDashboardGerente()">
-             <i class="fa-solid fa-chart-line icone_menu"></i>
+          <a href="./dashboard-gerente.html" class="item_menu " id="dashboard-gerente"
+            data-permissao="dashboard-gerente" onclick="ativarDashboardGerente()">
+            <i class="fa-solid fa-chart-line icone_menu"></i>
             <span>Dashboard Gerente</span>
           </a>
 
         </li>
 
         <li>
-          <a
-          
-            href="./selecao_torre.html"
-            class="item_menu ativo"
-            id="torres"
-            data-permissao="torres"
-          >
+          <a href="./selecao_torre.html" class="item_menu ativo" id="torres" data-permissao="torres">
             <i class="fa-solid fa-tower-broadcast icone_menu"></i>
             <span>Torres</span>
           </a>
         </li>
 
         <li>
-          <a
-            href="./visualizacao_usuarios.html"
-            class="item_menu"
-            id="usuarios"
-            data-permissao="usuarios"
-          >
+          <a href="./visualizacao_usuarios.html" class="item_menu" id="usuarios" data-permissao="usuarios">
             <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
           </a>
         </li>
 
         <li>
-          <a
-            href="./cadastro_mineradora.html"
-            class="item_menu"
-            id="menu_mineradora"
-            data-permissao="mineradoras"
-          >
+          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras">
             <i class="fa-solid fa-hammer icone_menu"></i>
             <span>Cadastro de Mineradora</span>
           </a>
@@ -96,11 +74,7 @@
         <i class="fa-solid fa-chevron-right icone_menu"></i>
       </div>
 
-      <button
-        class="botao_sair"
-        id="botao_sair"
-        type="button"
-      >
+      <button class="botao_sair" id="botao_sair" type="button">
         <i class="fa-solid fa-right-from-bracket icone_menu"></i>
         <span>Sair</span>
       </button>
@@ -110,18 +84,14 @@
 
   <main class="conteudo_layout">
 
-    <button
-      class="btn-notificacao"
-      type="button"
-      aria-label="Abrir menu"
-    >
+    <button class="btn-notificacao" type="button" aria-label="Abrir menu">
       <i class="fa-regular fa-bell icone-sino"></i>
       <i class="fa-solid fa-bars icone-menu"></i>
     </button>
-    
     <header>
       <h1>Seleção de Torre</h1>
       <span>Selecione a torre que deseja verificar os dados</span>
+
     </header>
 
     <div class="container">
@@ -129,12 +99,7 @@
       <div class="header-box">
         <span>Mineradoras Parceiras</span>
 
-        <a
-          href="./cadastro_torre.html"
-          class="btn-add"
-          id="btn-cadastrar-nova-torre"
-          data-permissao="gerenciar-torres"
-        >
+        <a href="./cadastro_torre.html" class="btn-add" id="btn-cadastrar-nova-torre" data-permissao="gerenciar-torres">
           <span>Nova Torre</span>
           <i class="fa-solid fa-plus"></i>
         </a>
@@ -160,8 +125,9 @@
       window.location.href = "/meu_perfil.html";
     });
 
-    
+
   </script>
 
 </body>
+
 </html>

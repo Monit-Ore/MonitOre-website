@@ -123,7 +123,7 @@ function criarCardTorre(torre) {
             ${podeEditar ? `<i class="fa-solid fa-pen-to-square btn-editar"></i>` : ""}
             <span class="torre-status ${statusClasse}">${torre.status}</span>
         </div>
-        <span class="torre-codigo">${torre.codigo}</span>
+        <span title="${torre.codigo}" class="torre-codigo">${torre.codigo}</span>
     </div>
   `;
 }
