@@ -62,6 +62,8 @@ async function carregarTorres() {
 
     console.log("Grupos de torres recebidos:", grupos);
     renderizarMineradoras(gruposOrdenados);
+    console.log("Grupo de torres ordenadas:", juntarTorres(gruposOrdenados));
+    criarPrioridade(juntarTorres(gruposOrdenados));
   } catch (erro) {
     console.error("Erro ao carregar torres:", erro);
   }
@@ -69,11 +71,21 @@ async function carregarTorres() {
 
 function ordenarTorres(lista) {
   const prioridade = {
-    Alerta: 1,
-    Regular: 2,
+    Crítico: 1,
+    Alerta: 2,
+    Regular: 3
   };
 
   return lista.sort((a, b) => prioridade[a.status] - prioridade[b.status]);
+}
+
+function juntarTorres(grupos) {
+  const todas = [];
+  grupos.forEach((grupo) => {
+    
+    todas.push(...grupo.torres);
+  });
+  return ordenarTorres(todas);
 }
 
 function renderizarMineradoras(grupos) {
@@ -115,6 +127,27 @@ function criarCardTorre(torre) {
     </div>
   `;
 }
+
+function criarPrioridade(torres) {
+  const container = document.getElementById("prioridade-group");
+  container.innerHTML = "";
+
+  const torresPrioridade = torres.filter(
+    (torre) => torre.status == "Crítico" || torre.status == "Alerta"
+  );
+
+  if (torresPrioridade.length === 0) return;
+
+  container.innerHTML = `
+    <div class="mineradora-group">
+      <span class="mineradora-nome">Prioridade de atendimento</span>
+      <div class="torres-scroll">
+        ${torresPrioridade.map(criarCardTorre).join("")}
+      </div>
+    </div>
+  `;
+}
+
 
 function ativarMenu(idAtivo) {
   document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {

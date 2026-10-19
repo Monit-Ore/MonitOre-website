@@ -344,8 +344,12 @@ header span {
   font-weight: bold;
 }
 
-.torre-status.alerta {
+.torre-status.crítico {
   color: var(--vermelho);
+}
+
+.torre-status.alerta {
+  color: var(--amarelo);
 }
 
 .torre-status.regular {

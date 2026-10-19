@@ -8,10 +8,12 @@ const SISTEMAS_OPERACIONAIS = [
   "Debian 12",
   "CentOS Stream 9",
 ];
-function mapearStatusExibicao(statusBanco) {
-  return statusBanco === "Alerta" ? "Alerta" : "Regular";
-}
 
+function mapearStatusExibicao(statusBanco, id) {
+  if (id % 3 == 0) {return "Crítico";}
+  if (id % 2 == 0) {return "Regular"}
+  return "Alerta";
+}
 
 async function selecaoTorre(req, res) {
   try {
@@ -40,7 +42,7 @@ async function selecaoTorre(req, res) {
       mapaMineradoras.get(nomeMineradora).push({
         id_torre: torre.id_torre,
         codigo: torre.codigo,
-        status: mapearStatusExibicao(torre.status_operacional),
+        status: mapearStatusExibicao(torre.status_operacional, torre.id_mineradora),
       });
     });
 
