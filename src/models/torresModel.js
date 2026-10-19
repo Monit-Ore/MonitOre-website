@@ -272,7 +272,8 @@ async function listarTorresPorUsuario(idUsuario, fkEmpresa) {
       t.nome,
       t.codigo,
       pc.status_operacional,
-      m.razao_social AS mineradora_nome
+      m.razao_social AS mineradora_nome,
+      m.id_empresa AS id_mineradora
     FROM permissionamento p
     INNER JOIN torre t
       ON t.id_torre = p.torre_id_torre

@@ -144,6 +144,12 @@
             <button type="button" class="btn-salvar" onclick="atualizarTelefone()">
               <span>Salvar telefone</span>
             </button>
+
+            <p
+            id="mensagem_telefone"
+            class="mensagem_cadastro"
+            aria-live="polite"
+            ></p>
           </div>
         </div>
       </section>
@@ -280,8 +286,9 @@
 
           if (resposta.ok) {
             console.log("resposta está ok");
-            alert("Telefone alterado com sucesso.");
+            mostrarMensagemTel("Telefone alterado com sucesso.", false);
           } else {
+            mostrarMensagemTel("Telefone inválido.", true);
             throw "Houve um erro ao tentar realizar a alteração!";
           }
         })
@@ -319,7 +326,7 @@
 
           if (resposta.ok) {
             console.log("resposta está ok");
-            alert("Senha alterada com sucesso.");
+            mostrarMensagem("Senha alterada com sucesso.", false);
           } else {
             mostrarMensagem("Senha inválida.", true);
           }

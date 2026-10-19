@@ -297,7 +297,19 @@ function mostrarMensagem(texto, erro) {
   var mensagem = document.getElementById("mensagem_cadastro");
 
   mensagem.textContent = texto;
+  
+  if (erro) {
+    mensagem.style.color = "#ff7777";
+  } else {
+    mensagem.style.color = "#7dff91";
+  }
+}
 
+function mostrarMensagemTel(texto, erro) {
+  var mensagem = document.getElementById("mensagem_telefone");
+
+  mensagem.textContent = texto;
+  
   if (erro) {
     mensagem.style.color = "#ff7777";
   } else {
