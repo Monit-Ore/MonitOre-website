@@ -237,6 +237,85 @@
           </tbody>
         </table>
       </div>
+      <!-- Número de Alertas por Dia (Tabela) -->
+    
+    </div>
+    <div class="container_tabela">
+      <div class="topo_tabela">
+        <h3>
+          <i class="fa-solid fa-calendar-days" style="color: var(--amarelo); margin-right: 6px;"></i>
+          Número de Alertas por Dia <span class="sub_texto" id="sub_texto_periodo">(últimos 7 dias)</span>
+        </h3>
+        <select id="filtroPeriodoAlertas" onchange="atualizarTabelaAlertasDiarios(this.value)">
+          <option value="7">Últimos 7 dias</option>
+          <option value="15">Últimos 15 dias</option>
+          <option value="30">Últimos 30 dias</option>
+        </select>
+      </div>
+      <div class="tabelaResponsividade">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Total de Alertas</th>
+              <th>CPU</th>
+              <th>RAM</th>
+              <th>Disco</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyAlertasDiarios">
+            <tr>
+              <td>15/04/2026</td>
+              <td><span class="total_alertas_destaque">3</span></td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>14/04/2026</td>
+              <td><span class="total_alertas_destaque">3</span></td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>13/04/2026</td>
+              <td><span class="total_alertas_zero">0</span></td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>12/04/2026</td>
+              <td><span class="total_alertas_destaque">5</span></td>
+              <td>2</td>
+              <td>2</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>11/04/2026</td>
+              <td><span class="total_alertas_zero">0</span></td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>10/04/2026</td>
+              <td><span class="total_alertas_destaque">2</span></td>
+              <td>1</td>
+              <td>1</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>09/04/2026</td>
+              <td><span class="total_alertas_zero">0</span></td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </main>
 
@@ -551,7 +630,43 @@ function atualizarInterfaceDashboard(torre) {
     }
 
 }
+function atualizarTabelaAlertasDiarios(dias) {
+      const subTexto = document.getElementById("sub_texto_periodo");
+      if (subTexto) {
+        subTexto.innerText = `(últimos ${dias} dias)`;
+      }
+
+      // Exemplo de atualização dinâmica dos dados (pode ser conectado à sua API)
+      const tbody = document.getElementById("tbodyAlertasDiarios");
+      if (!tbody) return;
+
+      let html = '';
+      const limite = parseInt(dias, 10);
+
+      for (let i = 0; i < limite; i++) {
+        const data = new Date(2026, 3, 15 - i); // Simulando a partir de 15/04/2026
+        const dataFormatada = data.toLocaleDateString('pt-BR');
+
+        const cpu = (i % 3 === 0) ? 1 : 0;
+        const ram = (i % 2 === 0) ? 1 : 0;
+        const disco = (i % 4 === 0) ? 1 : 0;
+        const total = cpu + ram + disco;
+
+        html += `
+          <tr>
+            <td>${dataFormatada}</td>
+            <td>${total > 0 ? `<span class="total_alertas_destaque">${total}</span>` : `<span class="total_alertas_zero">0</span>`}</td>
+            <td>${cpu}</td>
+            <td>${ram}</td>
+            <td>${disco}</td>
+          </tr>
+        `;
+      }
+
+      tbody.innerHTML = html;
+    }
   </script>
+
   <script src="./js/permissao.js"></script>
 </body>
 </html>

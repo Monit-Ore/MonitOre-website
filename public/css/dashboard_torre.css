@@ -399,3 +399,31 @@ th {
         gap: 10px;
     }
 }
+
+/* Filtro do topo da tabela de alertas diários */
+#filtroPeriodoAlertas {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: 1px solid #444;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+#filtroPeriodoAlertas:focus {
+    outline: none;
+    border-color: var(--amarelo);
+}
+
+/* Destaque para total de alertas nas linhas */
+.total_alertas_destaque {
+    color: var(--amarelo);
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.total_alertas_zero {
+    color: var(--cinza);
+    font-weight: normal;
+}
