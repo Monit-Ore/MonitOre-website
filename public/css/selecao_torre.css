@@ -305,6 +305,18 @@ header span {
   padding-bottom: 10px;
 }
 
+.torres-priority {
+  display: flex;
+  flex-direction: row;
+  background-color: #1f1f1f;
+  padding: 15px;
+  border-radius: 20px;
+  border: 2px solid var(--amarelo);
+  gap: 15px;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+}
+
 .torre-card {
   min-width: 120px;
   height: 110px;
@@ -401,6 +413,10 @@ header span {
 
   .btn-notificacao .icone-menu {
     display: inline-block !important;
+  }
+
+  .torres-priority {
+    justify-content: center;
   }
 }
 

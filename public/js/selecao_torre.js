@@ -97,7 +97,9 @@ function renderizarMineradoras(grupos) {
       '<p class="lista-vazia">Nenhuma torre cadastrada ainda.</p>';
     return;
   }
-
+  const tituloMin = document.getElementById("titulo-mineradora");
+  tituloMin.classList.add("header-box");
+  tituloMin.innerHTML = '<span>Mineradoras Parceiras</span>'
   grupos.forEach(({ mineradora, torres }) => {
     const grupoEl = document.createElement("div");
     grupoEl.classList.add("mineradora-group");
@@ -141,7 +143,7 @@ function criarPrioridade(torres) {
   container.innerHTML = `
     <div class="mineradora-group">
       <span class="mineradora-nome">Prioridade de atendimento</span>
-      <div class="torres-scroll">
+      <div class="torres-priority">
         ${torresPrioridade.map(criarCardTorre).join("")}
       </div>
     </div>
