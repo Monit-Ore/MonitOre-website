@@ -469,7 +469,7 @@ aside span{
   flex: 1;
 }
 
-.senhas input {
+.senhas .senha_container input {
   height: 50px;
 }
 

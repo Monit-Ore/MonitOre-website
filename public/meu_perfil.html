@@ -122,16 +122,15 @@
         </div>
       </section>
 
-      <section class="card_conteudo">
+      <section class="card_conteudo senhas">
         <div class="titulo_cards">
           <i class="fa-solid fa-phone" aria-hidden="true"></i>
           <h1><label for="telefone_ipt">Telefone</label></h1>
         </div>
 
-        <div class="container_formularios div_telefone">
+        <div class="container_formularios">
           <div class="formulario">
-            <label for="telefone_ipt">Novo número de telefone</label>
-
+            <label for="telefone_ipt">Número de telefone</label>
             <input
               type="tel"
               id="telefone_ipt"
@@ -140,21 +139,10 @@
               autocomplete="tel"
               maxlength="15"
             />
-
-            <button type="button" class="btn-salvar" onclick="atualizarTelefone()">
-              <span>Salvar telefone</span>
-            </button>
-
-            <p
-            id="mensagem_telefone"
-            class="mensagem_cadastro"
-            aria-live="polite"
-            ></p>
+            <p id="mensagem_telefone" class="mensagem_cadastro" aria-live="polite"></p>
           </div>
         </div>
-      </section>
 
-      <section class="card_conteudo senhas">
         <div class="titulo_cards">
           <i class="fa-solid fa-lock" aria-hidden="true"></i>
           <h1><label for="cur_senha_ipt">Alterar senha</label></h1>
@@ -171,7 +159,6 @@
                 placeholder="********"
                 autocomplete="current-password"
                 minlength="6"
-                required
               />
 
               <button
@@ -196,7 +183,6 @@
                   placeholder="********"
                   autocomplete="new-password"
                   minlength="6"
-                  required
                 />
 
                 <button
@@ -220,7 +206,6 @@
                   placeholder="********"
                   autocomplete="new-password"
                   minlength="6"
-                  required
                 />
 
                 <button
@@ -236,8 +221,8 @@
           </div>
         </div>
 
-        <button type="button" class="btn-salvar" onclick="atualizarSenha()">
-          <span>Alterar senha</span>
+        <button type="button" class="btn-salvar" id="salvar_perfil" onclick="salvarAlteracoesPerfil()">
+          <span>Salvar alterações</span>
         </button>
 
         <p
@@ -247,13 +232,6 @@
         ></p>
       </section>
 
-      <div class="botoes">
-        <button type="button" class="btn-cancelar" onclick="cancelar()">
-          ✕
-          <span>Cancelar</span>
-        </button>
-      </div>
-
     </main>
   </div>
 
@@ -262,76 +240,111 @@
   <script src="./js/cadastro.js"></script>
 
   <script>
-    document.getElementById("nome_user").innerHTML = sessionStorage.NOME_USUARIO;
-    document.getElementById("cargo").innerHTML = sessionStorage.CARGO_USUARIO;
-    document.getElementById("email").innerHTML = sessionStorage.EMAIL_USUARIO;
+    document.getElementById("nome_user").textContent = sessionStorage.NOME_USUARIO || "";
+    document.getElementById("cargo").textContent = sessionStorage.CARGO_USUARIO || "";
+    document.getElementById("email").textContent = sessionStorage.EMAIL_USUARIO || "";
 
-    var id = sessionStorage.ID_USUARIO;
+    const id = sessionStorage.ID_USUARIO;
+    const telefoneInput = document.getElementById("telefone_ipt");
+    const senhaAtualInput = document.getElementById("cur_senha_ipt");
+    const novaSenhaInput = document.getElementById("senha_ipt");
+    const confirmarSenhaInput = document.getElementById("confirm_senha_ipt");
+    const botaoSalvarPerfil = document.getElementById("salvar_perfil");
+    let telefoneOriginal = "";
 
-    function atualizarTelefone() {
-      let telefone = document.getElementById("telefone_ipt").value.trim();
+    async function carregarTelefonePerfil() {
+      try {
+        const resposta = await fetch(`/usuarios/buscarID/${encodeURIComponent(id)}`);
+        if (!resposta.ok) throw new Error("Não foi possível carregar o telefone.");
 
-      fetch("/usuarios/atualizar/telefone", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userServer: id,
-          telServer: telefone
-        }),
-      })
-        .then(function (resposta) {
-          console.log("resposta: ", resposta);
-
-          if (resposta.ok) {
-            console.log("resposta está ok");
-            mostrarMensagemTel("Telefone alterado com sucesso.", false);
-          } else {
-            mostrarMensagemTel("Telefone inválido.", true);
-            throw "Houve um erro ao tentar realizar a alteração!";
-          }
-        })
-        .catch(function (resposta) {
-          console.log(`#ERRO: ${resposta}`);
-        });
-
-      return false;
+        const usuarios = await resposta.json();
+        telefoneOriginal = usuarios[0]?.telefone || "";
+        telefoneInput.value = telefoneOriginal;
+      } catch (erro) {
+        console.error("Erro ao carregar o telefone do perfil:", erro);
+        mostrarMensagemTel("Não foi possível carregar o telefone cadastrado.", true);
+      }
     }
 
-    function atualizarSenha() {
-      let current_senha = document.getElementById("cur_senha_ipt").value;
-      let senha = document.getElementById("senha_ipt").value;
-      let confirmacao_senha = document.getElementById("confirm_senha_ipt").value;
+    function normalizarTelefone(telefone) {
+      return telefone.replace(/\D/g, "");
+    }
 
-      if (senha != confirmacao_senha) {
+    async function salvarAlteracoesPerfil() {
+      const telefone = telefoneInput.value.trim();
+      const senhaAtual = senhaAtualInput.value;
+      const novaSenha = novaSenhaInput.value;
+      const confirmarSenha = confirmarSenhaInput.value;
+      const solicitouTrocaSenha = Boolean(senhaAtual || novaSenha || confirmarSenha);
+      const alterouTelefone = normalizarTelefone(telefone) !== normalizarTelefone(telefoneOriginal);
+
+      if (!telefone) {
+        mostrarMensagemTel("Informe um número de telefone.", true);
+        return;
+      }
+
+      if (solicitouTrocaSenha && (!senhaAtual || !novaSenha || !confirmarSenha)) {
+        mostrarMensagem("Preencha a senha atual, a nova senha e a confirmação.", true);
+        return;
+      }
+
+      if (solicitouTrocaSenha && novaSenha !== confirmarSenha) {
         mostrarMensagem("As senhas não coincidem.", true);
         return;
       }
 
-      fetch("/usuarios/atualizar/senha", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userServer: id,
-          senhaAtualServer: current_senha,
-          senhaNovaServer: senha,
-          emailServer: sessionStorage.EMAIL_USUARIO
-        }),
-      })
-        .then(function (resposta) {
-          console.log("resposta: ", resposta);
+      if (!alterouTelefone && !solicitouTrocaSenha) {
+        mostrarMensagem("Nenhuma alteração foi feita.", true);
+        return;
+      }
 
-          if (resposta.ok) {
-            console.log("resposta está ok");
-            mostrarMensagem("Senha alterada com sucesso.", false);
-          } else {
-            mostrarMensagem("Senha inválida.", true);
+      botaoSalvarPerfil.disabled = true;
+      try {
+        // Salva a senha primeiro para não atualizar o telefone se a senha atual for inválida.
+        if (solicitouTrocaSenha) {
+          const respostaSenha = await fetch("/usuarios/atualizar/senha", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userServer: id,
+              senhaAtualServer: senhaAtual,
+              senhaNovaServer: novaSenha,
+              emailServer: sessionStorage.EMAIL_USUARIO
+            })
+          });
+
+          if (!respostaSenha.ok) {
+            throw new Error("Senha atual inválida ou não foi possível alterar a senha.");
           }
-        });
+        }
+
+        if (alterouTelefone) {
+          const respostaTelefone = await fetch("/usuarios/atualizar/telefone", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userServer: id, telServer: telefone })
+          });
+
+          if (!respostaTelefone.ok) {
+            throw new Error("Não foi possível atualizar o telefone.");
+          }
+
+          telefoneOriginal = telefone;
+        }
+
+        senhaAtualInput.value = "";
+        novaSenhaInput.value = "";
+        confirmarSenhaInput.value = "";
+        mostrarMensagem("Perfil atualizado com sucesso.", false);
+        alert("Perfil atualizado com sucesso.");
+      } catch (erro) {
+        mostrarMensagem(erro.message || "Não foi possível atualizar o perfil.", true);
+      } finally {
+        botaoSalvarPerfil.disabled = false;
+      }
     }
+
+    carregarTelefonePerfil();
   </script>
 
 </body>
