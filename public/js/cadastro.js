@@ -413,4 +413,10 @@ document.addEventListener("DOMContentLoaded", () => {
  
 });
 
+const botaoMenu = document.querySelector(".btn-notificacao");
+
+botaoMenu?.addEventListener("click", () =>
+  document.body.classList.toggle("menu-aberto"),
+);
+
 
