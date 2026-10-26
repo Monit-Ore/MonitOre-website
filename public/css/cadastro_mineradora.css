@@ -220,8 +220,7 @@ aside span{
   min-width: 0;
   min-height: 100vh;
 
-  background-color: #000000;
-
+  background-color: #1f1f1f; 
   padding: 1.5rem;
 }
 
@@ -833,5 +832,36 @@ display: none;
     width: 50%;
 
     font-size: 13px;
+  }
+
+  .btn-notificacao {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background-color: #1f1f1f;
+    border: 2px solid #8f8e8e;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-notificacao .icone-sino {
+    display: none !important;
+  }
+
+  .btn-notificacao .icone-menu {
+    display: inline-block !important;
+    color: #ecbe10;
+    font-size: 1.6rem;
+  }
+
+  .conteudo_layout {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .container_formularios {
+    flex-direction: column;
   }
 }

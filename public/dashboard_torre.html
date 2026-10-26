@@ -25,7 +25,8 @@
     <nav class="menu_navegacao">
       <ul>
         <li>
-          <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente" data-permissao="dashboard-gerente">
+          <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente"
+            data-permissao="dashboard-gerente">
             <i class="fa-solid fa-chart-line icone_menu"></i>
             <span>Dashboard Gerente</span>
           </a>
@@ -71,14 +72,14 @@
   <main class="conteudo_layout">
     <!-- Topo da Torre -->
     <div class="container_1_dash">
-      <img src="./imgs/institucional/LogoBanner.png" alt="Logo Torre">
       <div class="textos">
-        <h2><span id="nome_torre">TORRE 07</span>  | <span id="nome_mineradora">MINERADORA VALE</span></h2>
+        <h2><span id="nome_torre">TORRE 07</span> | <span id="nome_mineradora">MINERADORA VALE</span></h2>
         <div>
           <p>Status: <span style="color: green;">● ONLINE</span></p>
         </div>
         <p style="color: #888;"> Código: <span id="codigo_torre">TORRE-007</span></p>
-        <p style="color: #888;">PC Industrial: <span id="host_pc"> PC-TORRE_007</span>  | Última atualização: 15/04/2026 00:10</p>
+        <p style="color: #888;">PC Industrial: <span id="host_pc"> PC-TORRE_007</span> | Última atualização: 15/04/2026
+          00:10</p>
       </div>
     </div>
 
@@ -87,7 +88,7 @@
       <!-- Card CPU -->
       <div class="card_metrica">
         <div class="topo_card_metrica">
-           <img src="./imgs/institucional/Group.svg" alt="">
+          <img src="./imgs/institucional/Group.svg" alt="">
           <span>CPU</span>
         </div>
         <div class="corpo_card_metrica">
@@ -147,14 +148,14 @@
 
     <div class="container_meio">
       <div class="card_grafico">
-        
+
         <div id="div-header">
-          <h3>    
+          <h3>
             <img src="./imgs/institucional/Icon (1).svg" alt="">
             Desempenho dos Componentes <span class="sub_texto">(últimas 24 horas)</span>
           </h3>
-          
-          <select id="filtroGrafico" onchange="alterarVisualizacaoGrafico(this.value)" >
+
+          <select id="filtroGrafico" onchange="alterarVisualizacaoGrafico(this.value)">
             <option value="all">Todos os Componentes</option>
             <option value="cpu">CPU</option>
             <option value="ram">RAM</option>
@@ -169,9 +170,10 @@
 
       <div class="card_alertas_componente">
         <h3>
-            <img src="./imgs/institucional/Group.svg" alt="">
-            Alertas por Componente</h3>
-        <div class="item_alerta_barra">
+          <img src="./imgs/institucional/Group.svg" alt="">
+          Alertas por Componente
+        </h3>
+        <!--<div class="item_alerta_barra">
           <span>CPU</span>
           <div class="barra"><div class="progresso" style="width: 15%;"></div></div>
           <span>1</span>
@@ -186,6 +188,10 @@
           <div class="barra"><div class="progresso" style="width: 15%;"></div></div>
           <span>1</span>
         </div>
+        -->
+        <div class="card_componentes">
+          <canvas id="graficoComponentes"></canvas>
+        </div>
       </div>
     </div>
 
@@ -193,9 +199,10 @@
     <div class="container_tabela">
       <div class="topo_tabela">
         <h3>
-            <img src="./imgs/institucional/LogoBanner.svg" id="img_historico" alt="">
-            Histórico de Alertas <span class="sub_texto">(últimas 24h)</span></h3>
-        <button type="button" class="btn_ver_todos">Ver todos</button>
+          <img src="./imgs/institucional/LogoBanner.svg" id="img_historico" alt="">
+          Histórico de Alertas <span class="sub_texto">(últimas 24h)</span>
+        </h3>
+        <!--<button type="button" class="btn_ver_todos">Ver todos</button>-->
       </div>
       <div class="tabelaResponsividade">
         <table>
@@ -216,7 +223,7 @@
               <td>RAM</td>
               <td>88%</td>
               <td>80%</td>
-              <td><span class="tag_alerta alerta"><span class="icone">⚠</span> ALERTA</span></td>
+              <td><span class="tag_alerta alerta"><span class="icone">⚠</span> ATENÇÃO</span></td>
             </tr>
             <tr>
               <td>14/04/2026 20:00</td>
@@ -224,7 +231,7 @@
               <td>Disco</td>
               <td>88%</td>
               <td>80%</td>
-              <td><span class="tag_alerta alerta"><span class="icone">⚠</span> ALERTA</span></td>
+              <td><span class="tag_alerta alerta"><span class="icone">⚠</span> ATENÇÃO</span></td>
             </tr>
             <tr>
               <td>14/04/2026 20:00</td>
@@ -232,7 +239,7 @@
               <td>CPU</td>
               <td>81%</td>
               <td>80%</td>
-              <td><span class="tag_alerta alerta"><span class="icone">⚠</span> ALERTA</span></td>
+              <td><span class="tag_alerta alerta"><span class="icone">⚠</span> ATENÇÃO</span></td>
             </tr>
           </tbody>
         </table>
@@ -320,216 +327,275 @@
   </main>
 
   <script>
+    function criarComponentes() {
+      const ctx = document.getElementById('graficoComponentes').getContext('2d');
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['CPU', 'RAM', 'Disco'],
+          datasets: [{
+            label: 'Alertas',
+            data: [1, 1, 1],
+            backgroundColor: '#ffd741',
+            borderColor: '#ffd741',
+            borderRadius: 5,
+            barThickness: 10,
+            categoryPercentage: 0.65,
+            barPercentage: 0.7
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#fff',
+                stepSize: 1
+              }
+            },
+            y: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#fff',
+                font: {
+                  weight: 'bold'
+                }
+              }
+            }
+          }
+        }
+      });
+
+    }
+
+    criarComponentes();
+
     const labelsHorarios = ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'];
 
     // Estrutura de dados centralizada para facilitar a troca de visão e limiares
     const configComponentes = {
-        cpu: {
-            label: 'CPU',
-            data: [50, 52, 55, 58, 62, 81, 65],
-            borderColor: '#f1c40f',
-            backgroundColor: '#f1c40f',
-            alerta: 75,
-            critico: 90
-        },
-        ram: {
-            label: 'RAM',
-            data: [45, 48, 50, 53, 58, 75, 88],
-            borderColor: '#3498db',
-            backgroundColor: '#3498db',
-            alerta: 60,
-            critico: 75
-        },
-        disco: {
-            label: 'Disco',
-            data: [35, 38, 40, 42, 45, 88, 48],
-            borderColor: '#2ecc71',
-            backgroundColor: '#2ecc71',
-            alerta: 75,
-            critico: 85
-        }
+      cpu: {
+        label: 'CPU',
+        data: [50, 52, 55, 58, 62, 81, 65],
+        borderColor: '#f1c40f',
+        backgroundColor: '#f1c40f',
+        alerta: 75,
+        critico: 90
+      },
+      ram: {
+        label: 'RAM',
+        data: [45, 48, 50, 53, 58, 75, 88],
+        borderColor: '#3498db',
+        backgroundColor: '#3498db',
+        alerta: 60,
+        critico: 75
+      },
+      disco: {
+        label: 'Disco',
+        data: [35, 38, 40, 42, 45, 88, 48],
+        borderColor: '#2ecc71',
+        backgroundColor: '#2ecc71',
+        alerta: 75,
+        critico: 85
+      }
     };
 
+
+    console.log(configComponentes.cpu.alerta);
 
     // Configuração inicial do Gráfico com Chart.js
     const ctx = document.getElementById('graficoDesempenho').getContext('2d');
     const graficoDesempenho = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labelsHorarios,
-            datasets: [
-                {
-                    label: 'CPU',
-                    data: configComponentes.cpu.data,
-                    borderColor: configComponentes.cpu.borderColor,
-                    backgroundColor: configComponentes.cpu.backgroundColor,
-                    tension: 0.1
-                },
-                {
-                    label: 'RAM',
-                    data: configComponentes.ram.data,
-                    borderColor: configComponentes.ram.borderColor,
-                    backgroundColor: configComponentes.ram.backgroundColor,
-                    tension: 0.1
-                },
-                {
-                    label: 'Disco',
-                    data: configComponentes.disco.data,
-                    borderColor: configComponentes.disco.borderColor,
-                    backgroundColor: configComponentes.disco.backgroundColor,
-                    tension: 0.1
-                },
-                {
-                    label: 'Limite CPU (80%)',
-                    data: [80, 80, 80, 80, 80, 80, 80],
-                    borderColor: '#f1c40f',
-                    borderWidth: 1.5,
-                    borderDash: [6, 6],
-                    pointRadius: 0,
-                    fill: false
-                },
-                {
-                    label: 'Limite RAM (60%)',
-                    data: [60, 60, 60, 60, 60, 60, 60],
-                    borderColor: '#3498db',
-                    borderWidth: 1.5,
-                    borderDash: [6, 6],
-                    pointRadius: 0,
-                    fill: false
-                },
-                {
-                    label: 'Limite Disco (75%)',
-                    data: [75, 75, 75, 75, 75, 75, 75],
-                    borderColor: '#2ecc71',
-                    borderWidth: 1.5,
-                    borderDash: [6, 6],
-                    pointRadius: 0,
-                    fill: false
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    labels: {
-                        color: '#ffffff',
-                        boxWidth: 12
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    grid: { color: '#333333' },
-                    ticks: { color: '#aaaaaa' }
-                },
-                y: {
-                    min: 0,
-                    max: 100,
-                    grid: { color: '#333333' },
-                    ticks: { color: '#aaaaaa' }
-                }
+      type: 'line',
+      data: {
+        labels: labelsHorarios,
+        datasets: [
+          {
+            label: 'CPU',
+            data: configComponentes.cpu.data,
+            borderColor: configComponentes.cpu.borderColor,
+            backgroundColor: configComponentes.cpu.backgroundColor,
+            tension: 0.1
+          },
+          {
+            label: 'RAM',
+            data: configComponentes.ram.data,
+            borderColor: configComponentes.ram.borderColor,
+            backgroundColor: configComponentes.ram.backgroundColor,
+            tension: 0.1
+          },
+          {
+            label: 'Disco',
+            data: configComponentes.disco.data,
+            borderColor: configComponentes.disco.borderColor,
+            backgroundColor: configComponentes.disco.backgroundColor,
+            tension: 0.1
+          },
+          {
+            label: 'Limite CPU (75%)',
+            data: [75, 75, 75, 75, 75, 75, 75],
+            borderColor: '#f1c40f',
+            borderWidth: 1.5,
+            borderDash: [6, 6],
+            pointRadius: 0,
+            fill: false
+          },
+          {
+            label: 'Limite RAM (60%)',
+            data: [60, 60, 60, 60, 60, 60, 60],
+            borderColor: '#3498db',
+            borderWidth: 1.5,
+            borderDash: [6, 6],
+            pointRadius: 0,
+            fill: false
+          },
+          {
+            label: 'Limite Disco (75%)',
+            data: [75, 75, 75, 75, 75, 75, 75],
+            borderColor: '#2ecc71',
+            borderWidth: 1.5,
+            borderDash: [6, 6],
+            pointRadius: 0,
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#ffffff',
+              boxWidth: 12
             }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: '#333333' },
+            ticks: { color: '#aaaaaa' }
+          },
+          y: {
+            min: 0,
+            max: 100,
+            grid: { color: '#333333' },
+            ticks: { color: '#aaaaaa' }
+          }
         }
+      }
     });
 
-    
     // Função que altera a visualização entre Todos e Individual (com faixas de Alerta e Crítico)
     function alterarVisualizacaoGrafico(opcao) {
-        if (opcao === 'all') {
-            graficoDesempenho.data.datasets = [
-                {
-                    label: 'CPU',
-                    data: configComponentes.cpu.data,
-                    borderColor: configComponentes.cpu.borderColor,
-                    backgroundColor: configComponentes.cpu.backgroundColor,
-                    tension: 0.1
-                },
-                {
-                    label: 'RAM',
-                    data: configComponentes.ram.data,
-                    borderColor: configComponentes.ram.borderColor,
-                    backgroundColor: configComponentes.ram.backgroundColor,
-                    tension: 0.1
-                },
-                {
-                    label: 'Disco',
-                    data: configComponentes.disco.data,
-                    borderColor: configComponentes.disco.borderColor,
-                    backgroundColor: configComponentes.disco.borderColor,
-                    tension: 0.1
-                },
-                {
-                    label: `Limite CPU (${configComponentes.cpu.alerta}%)`,
-                    data: Array(labelsHorarios.length).fill(configComponentes.cpu.alerta),
-                    borderColor: '#f1c40f',
-                    borderWidth: 1.5,
-                    borderDash: [6, 6],
-                    pointRadius: 0,
-                    fill: false
-                },
-                {
-                    label: `Limite RAM (${configComponentes.ram.alerta}%)`,
-                    data: Array(labelsHorarios.length).fill(configComponentes.ram.alerta),
-                    borderColor: '#3498db',
-                    borderWidth: 1.5,
-                    borderDash: [6, 6],
-                    pointRadius: 0,
-                    fill: false
-                },
-                {
-                    label: `Limite Disco (${configComponentes.disco.alerta}%)`,
-                    data: Array(labelsHorarios.length).fill(configComponentes.disco.alerta),
-                    borderColor: '#2ecc71',
-                    borderWidth: 1.5,
-                    borderDash: [6, 6],
-                    pointRadius: 0,
-                    fill: false
-                }
-            ];
-            
-    span_cpu.innerHTML=`${configComponentes.cpu.alerta}%`
-    span_ram.innerHTML=`${configComponentes.ram.alerta}%`
-    span_disco.innerHTML=`${configComponentes.disco.alerta}%`
-        } else {
-            const comp = configComponentes[opcao];
-            if (!comp) return;
-
-            graficoDesempenho.data.datasets = [
-                {
-                    label: comp.label,
-                    data: comp.data,
-                    borderColor: comp.borderColor,
-                    backgroundColor: comp.backgroundColor,
-                    borderWidth: 3,
-                    tension: 0.1
-                },
-                {
-                    label: `Faixa de Alerta (${comp.alerta}%)`,
-                    data: Array(labelsHorarios.length).fill(comp.alerta),
-                    borderColor: '#f39c12', // Laranja para alerta
-                    borderWidth: 2,
-                    borderDash: [4, 4],
-                    pointRadius: 0,
-                    fill: false
-                },
-                {
-                    label: `Faixa Crítica (${comp.critico}%)`,
-                    data: Array(labelsHorarios.length).fill(comp.critico),
-                    borderColor: '#e74c3c', // Vermelho para crítico
-                    borderWidth: 2,
-                    borderDash: [2, 2],
-                    pointRadius: 0,
-                    fill: false
-                }
-            ];
-                
+      if (opcao === 'all') {
+        graficoDesempenho.data.datasets = [
+          {
+            label: 'CPU',
+            data: configComponentes.cpu.data,
+            borderColor: configComponentes.cpu.borderColor,
+            backgroundColor: configComponentes.cpu.backgroundColor,
+            tension: 0.1
+          },
+          {
+            label: 'RAM',
+            data: configComponentes.ram.data,
+            borderColor: configComponentes.ram.borderColor,
+            backgroundColor: configComponentes.ram.backgroundColor,
+            tension: 0.1
+          },
+          {
+            label: 'Disco',
+            data: configComponentes.disco.data,
+            borderColor: configComponentes.disco.borderColor,
+            backgroundColor: configComponentes.disco.borderColor,
+            tension: 0.1
+          },
+          {
+            label: `Limite CPU (${configComponentes.cpu.alerta}%)`,
+            data: Array(labelsHorarios.length).fill(configComponentes.cpu.alerta),
+            borderColor: '#f1c40f',
+            borderWidth: 1.5,
+            borderDash: [6, 6],
+            pointRadius: 0,
+            fill: false
+          },
+          {
+            label: `Limite RAM (${configComponentes.ram.alerta}%)`,
+            data: Array(labelsHorarios.length).fill(configComponentes.ram.alerta),
+            borderColor: '#3498db',
+            borderWidth: 1.5,
+            borderDash: [6, 6],
+            pointRadius: 0,
+            fill: false
+          },
+          {
+            label: `Limite Disco (${configComponentes.disco.alerta}%)`,
+            data: Array(labelsHorarios.length).fill(configComponentes.disco.alerta),
+            borderColor: '#2ecc71',
+            borderWidth: 1.5,
+            borderDash: [6, 6],
+            pointRadius: 0,
+            fill: false
           }
-        graficoDesempenho.update();
+        ];
+
+        span_cpu.innerHTML = `${configComponentes.cpu.alerta}%`
+        span_ram.innerHTML = `${configComponentes.ram.alerta}%`
+        span_disco.innerHTML = `${configComponentes.disco.alerta}%`
+      } else {
+        const comp = configComponentes[opcao];
+        if (!comp) return;
+
+        console.log(comp.alerta);
+
+
+        graficoDesempenho.data.datasets = [
+          {
+            label: comp.label,
+            data: comp.data,
+            borderColor: comp.borderColor,
+            backgroundColor: comp.backgroundColor,
+            borderWidth: 3,
+            tension: 0.1
+          },
+          {
+            label: `Faixa de Alerta (${comp.alerta}%)`,
+            data: Array(labelsHorarios.length).fill(comp.alerta),
+            borderColor: '#f39c12', // Laranja para alerta
+            borderWidth: 2,
+            borderDash: [4, 4],
+            pointRadius: 0,
+            fill: false
+          },
+          {
+            label: `Faixa Crítica (${comp.critico}%)`,
+            data: Array(labelsHorarios.length).fill(comp.critico),
+            borderColor: '#e74c3c', // Vermelho para crítico
+            borderWidth: 2,
+            borderDash: [2, 2],
+            pointRadius: 0,
+            fill: false
+          }
+        ];
+
+      }
+      graficoDesempenho.update();
     }
 
-    
+
     // Redirecionamento do perfil do usuário
     const usuarioLogadoEl = document.getElementById("usuario_logado");
     const nomeUsuarioEl = document.getElementById("nome_usuario");
@@ -561,73 +627,77 @@
 
 
     document.addEventListener("DOMContentLoaded", () => {
-  const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");
-  const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
+      const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");
+      const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
 
-  // Validação de segurança
-  if (!idTorre || !fkEmpresa) {
-    alert("Nenhuma torre selecionada ou sessão expirada.");
-    window.location.href = "./selecao_torre.html";
-    return;
-  }
+      // Validação de segurança
+      if (!idTorre || !fkEmpresa) {
+        alert("Nenhuma torre selecionada ou sessão expirada.");
+        window.location.href = "./selecao_torre.html";
+        return;
+      }
 
-  // Dispara a função para buscar os dados no backend
-  carregarDadosTorre(idTorre, fkEmpresa);
+      // Dispara a função para buscar os dados no backend
+      carregarDadosTorre(idTorre, fkEmpresa);
 
-  // Demais funções da página
-  carregarUsuarioMenu();
-  carregarIniciais();
-});
+      // Demais funções da página
+      carregarUsuarioMenu();
+      carregarIniciais();
+    });
 
-// Função que consome a rota do Controller/Model que você já possui
-async function carregarDadosTorre(idTorre, fkEmpresa) {
-  try {
-    // Utiliza a rota router.get("/:id", ...) mapeada no seu torres.js
-    const resposta = await fetch(`/torres/${idTorre}?fkEmpresa=${fkEmpresa}`);
+    // Função que consome a rota do Controller/Model que você já possui
+    async function carregarDadosTorre(idTorre, fkEmpresa) {
+      try {
+        // Utiliza a rota router.get("/:id", ...) mapeada no seu torres.js
+        const resposta = await fetch(`/torres/${idTorre}?fkEmpresa=${fkEmpresa}`);
 
-    if (!resposta.ok) {
-      throw new Error(`Erro ao buscar dados da torre: ${resposta.status}`);
-    }
-
-    const dadosTorre = await resposta.json();
-    console.log("Dados da torre carregados com sucesso:", dadosTorre);
-
-    // Preenche a interface com os dados retornados do banco
-    atualizarInterfaceDashboard(dadosTorre);
-
-  } catch (erro) {
-    console.error("Erro ao carregar dados do dashboard:", erro);
-  }
-}
-
-function atualizarInterfaceDashboard(torre) {
-    nome_torre.innerHTML=`${torre.nome}`
-    nome_mineradora.innerHTML=`${torre.razao_social}`
-    host_pc.innerHTML=`${torre.pc_industrial.hostname}`
-    codigo_torre.innerHTML=`${torre.codigo}`
-
-    if (torre.componentes && Array.isArray(torre.componentes)) {
-      torre.componentes.forEach(comp => {
-        let chave = '';
-        const nomeComp = (comp.nome_componente || '').toLowerCase();
-        
-        // Identifica se é CPU, RAM ou Disco pelo nome ou ID do componente
-        if (nomeComp.includes('cpu') || comp.fk_componente === 1) chave = 'cpu';
-        else if (nomeComp.includes('ram') || comp.fk_componente === 2) chave = 'ram';
-        else if (nomeComp.includes('disco') || nomeComp.includes('disk') || comp.fk_componente === 3) chave = 'disco';
-
-        if (chave && configComponentes[chave]) {
-          configComponentes[chave].alerta = Number(comp.atencao);
-          configComponentes[chave].critico = Number(comp.critico);
+        if (!resposta.ok) {
+          throw new Error(`Erro ao buscar dados da torre: ${resposta.status}`);
         }
-      });
+
+        const dadosTorre = await resposta.json();
+        console.log("Dados da torre carregados com sucesso:", dadosTorre);
+
+        // Preenche a interface com os dados retornados do banco
+        atualizarInterfaceDashboard(dadosTorre);
+
+      } catch (erro) {
+        console.error("Erro ao carregar dados do dashboard:", erro);
+      }
     }
 
-    // Atualiza o gráfico caso já esteja renderizado na tela com os novos limites do banco
-    const selectFiltro = document.getElementById("filtroGrafico");
-    if (selectFiltro) {
-      alterarVisualizacaoGrafico(selectFiltro.value);
-    }
+    function atualizarInterfaceDashboard(torre) {
+      nome_torre.innerHTML = `${torre.nome}`
+      nome_mineradora.innerHTML = `${torre.razao_social}`
+      host_pc.innerHTML = `${torre.pc_industrial.hostname}`
+      codigo_torre.innerHTML = `${torre.codigo}`
+
+      
+      if (torre.componentes && Array.isArray(torre.componentes)) {
+        torre.componentes.forEach(comp => {
+          let chave = '';
+          const nomeComp = (comp.nome_componente || '').toLowerCase();
+          
+          // Identifica se é CPU, RAM ou Disco pelo nome ou ID do componente
+          if (nomeComp.includes('cpu') || comp.fk_componente === 1) chave = 'cpu';
+          else if (nomeComp.includes('ram') || comp.fk_componente === 2) chave = 'ram';
+          else if (nomeComp.includes('disco') || nomeComp.includes('disk') || comp.fk_componente === 3) chave = 'disco';
+  
+          if (chave && configComponentes[chave]) {
+            configComponentes[chave].alerta = Number(comp.atencao);
+            console.log(comp.atencao);
+            
+            configComponentes[chave].critico = Number(comp.critico);
+          }
+        });
+        
+      }
+
+      // Atualiza o gráfico caso já esteja renderizado na tela com os novos limites do banco
+      const selectFiltro = document.getElementById("filtroGrafico");
+      if (selectFiltro) {
+        alterarVisualizacaoGrafico(selectFiltro.value);
+      }
 
 }
 function atualizarTabelaAlertasDiarios(dias) {
@@ -669,4 +739,5 @@ function atualizarTabelaAlertasDiarios(dias) {
 
   <script src="./js/permissao.js"></script>
 </body>
+
 </html>

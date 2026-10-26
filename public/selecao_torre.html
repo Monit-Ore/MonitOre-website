@@ -81,23 +81,26 @@
 
     </div>
   </aside>
-
+  
+  
   <main class="conteudo_layout">
-
-    <button class="btn-notificacao" type="button" aria-label="Abrir menu">
-      <i class="fa-regular fa-bell icone-sino"></i>
-      <i class="fa-solid fa-bars icone-menu"></i>
-    </button>
-    <header>
+    <header style="display: flex;">
+      <div style="display: flex; justify-content: space-between; width: 100%;">
+        <div>
       <h1>Seleção de Torre</h1>
       <span>Selecione a torre que deseja verificar os dados</span>
-
+          </div>
+      <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+        <i class="fa-regular fa-bell icone-sino"></i>
+        <i class="fa-solid fa-bars icone-menu"></i>
+      </button>
+    </div>
     </header>
-
+    
     <div class="container">
-
+      
       <div class="header-box">
-        <span>Mineradoras Parceiras</span>
+        <span>Lista de Torres</span>
 
         <a href="./cadastro_torre.html" class="btn-add" id="btn-cadastrar-nova-torre" data-permissao="gerenciar-torres">
           <span>Nova Torre</span>
@@ -106,7 +109,7 @@
       </div>
 
       <div id="prioridade-group"></div>
-
+      <div id="titulo-mineradora"></div>
       <div id="mineradora-group">
         <p class="lista-vazia">Carregando torres...</p>
       </div>
