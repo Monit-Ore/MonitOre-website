@@ -220,8 +220,7 @@ aside span{
   min-width: 0;
   min-height: 100vh;
 
-  background-color: #000000;
-
+  background-color: #1f1f1f; 
   padding: 1.5rem;
 }
 
