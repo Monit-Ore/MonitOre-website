@@ -300,6 +300,47 @@
         </div>
       </div>
     </section>
+
+   
+    <section class="dash_linha">
+      <!-- Gráfico de Linha: Histórico de Picos -->
+      <div class="card_painel card_picos_grafico">
+        <div class="painel_header">
+          <i class="fa-solid fa-chart-line icone_painel"></i>
+          <h3>Picos de Processos por Hora <small>(Uso máx. de CPU/RAM)</small></h3>
+        </div>
+        <div class="barras_grafico_container">
+          <canvas id="graficoPicosProcesso"></canvas>
+        </div>
+      </div>
+
+   
+      <div class="card_painel card_picos_tabela">
+        <div class="painel_header_com_botao">
+          <div class="painel_header">
+            <i class="fa-solid fa-fire icone_painel"></i>
+            <h3>Histórico de Picos Registrados</h3>
+          </div>
+        </div>
+        <div class="tabela_responsiva">
+          <table class="tabela_alertas">
+            <thead>
+              <tr>
+                <th>Horário</th>
+                <th>Processo</th>
+                <th>Torre</th>
+                <th>PID</th>
+                <th>Pico CPU</th>
+                <th>Pico RAM</th>
+              </tr>
+            </thead>
+            <tbody id="tabela_picos_corpo">
+              <!-- Preenchido via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
@@ -308,6 +349,8 @@
     document.getElementById("usuario_logado")?.addEventListener("click", () => {
       window.location = "/meu_perfil.html";
     });
+
+    
   </script>
 </body>
 
