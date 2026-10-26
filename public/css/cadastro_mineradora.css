@@ -239,10 +239,11 @@ aside span{
   gap: 16px;
   width: 100%;
   min-height: 100px;
-
+  justify-content: space-between;
+  padding-right: 10px;
   background-color: #1f1f1f;
 
-  position: relative;
+  /* position: relative; */
 }
 
 .fundo_padrao {
@@ -282,7 +283,7 @@ aside span{
 
 .botao_notificacao {
   position: absolute;
-  right: 20px;
+  /* right: 20px; */
 }
 
 .botao_notificacao .icone-sino {
@@ -642,10 +643,10 @@ display: none;
     border: 2px solid var(--cinza);
     border-radius: 5px;
     padding: 7px 9px;
-    position: fixed;
-    top: 3%;
-    right: 3%;
-    z-index: 9999;
+    /* position: fixed; */
+    /* top: 3%;
+    right: 3%; */
+    /* z-index: 9999; */
     cursor: pointer;
 }
 
@@ -715,7 +716,7 @@ display: none;
   padding: 7px 9px;
   /* justify-self: center; */
   
-  z-index: 9999;
+  /* z-index: 9999; */
   cursor: pointer;
 }
 
@@ -815,8 +816,8 @@ display: none;
   .botao_notificacao {
     width: 42px;
     height: 42px;
-
-    right: 15px;
+    
+    /* right: 15px; */
 
     font-size: 27px;
     padding: 0;

@@ -153,6 +153,11 @@ aside span{
   margin-left: auto;
 }
 
+.superior_tela{
+    display: flex;
+    align-items: center;
+}
+
 .botao_sair {
   display: flex;
   align-items: center;
