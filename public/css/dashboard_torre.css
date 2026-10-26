@@ -410,6 +410,20 @@ th {
         height: 300px !important;
     }
 
+    .card_componentes{
+        width: 100% !important;
+        position: relative !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        margin-top: 20px;
+    }
+
+    .card_componentes canvas{
+        width: auto !important;
+        height: 300px !important;
+    }
+
     .topo_tabela {
         flex-wrap: wrap;
         gap: 10px;
