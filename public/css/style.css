@@ -864,3 +864,321 @@ body {
         font-size: 2vw;
     }
 }
+
+/* Leitura confortável em celulares, mantendo os ajustes fora do mobile. */
+@media screen and (max-width: 768px) {
+    .container .subtitulo p,
+    .TopicoTexto p,
+    .esquerda_secaoSolucao p,
+    .cimaDireitaInformacoes p,
+    .cimaDireitaInformacoes ul,
+    .texto_esquerda_secaoImpactoNegocios p:nth-of-type(1),
+    .texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
+        font-size: clamp(14px, 3.8vw, 18px);
+        line-height: 1.4;
+    }
+
+    .TopicoTexto h1,
+    .Card_solucao h1,
+    .componentes_esquerda h1,
+    .cimaDireitaInformacoes h1,
+    .texto_esquerda_secaoImpactoNegocios h1 {
+        line-height: 1.2;
+    }
+
+    .Card_solucao h1 {
+        font-size: clamp(15px, 4vw, 18px);
+    }
+
+    .Card_solucao p {
+        font-size: clamp(14px, 3.6vw, 17px);
+        line-height: 1.35;
+    }
+
+    .box_CaixaMetricas h1 {
+        font-size: clamp(11px, 2.8vw, 14px);
+    }
+
+    .box_CaixaMetricas h1 p {
+        font-size: clamp(10px, 2.4vw, 12px);
+    }
+
+    .box_CaixaImg p,
+    .box_CaixaMetricas .descricao {
+        font-size: clamp(11px, 2.8vw, 14px);
+        line-height: 1.2;
+    }
+
+    .botaocelular button {
+        min-height: 36px;
+        font-size: clamp(12px, 3vw, 15px);
+    }
+
+    .banner {
+        height: auto;
+        min-height: 400px;
+        padding: 120px 0 32px;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .container {
+        position: relative;
+        inset: auto;
+        margin: 0;
+        width: 90%;
+        gap: 16px;
+    }
+
+    .container .titulo,
+    .container .subtitulo {
+        width: 100%;
+    }
+
+    .container .titulo h1 {
+        font-size: clamp(20px, 5.5vw, 28px);
+        line-height: 1.2;
+    }
+
+    .container .subtitulo p {
+        width: 100%;
+        font-size: clamp(15px, 4vw, 18px);
+        line-height: 1.45;
+    }
+
+    .secaoValores {
+        height: auto;
+        min-height: 0;
+        overflow: visible;
+        padding: 32px 5%;
+        gap: 24px;
+        justify-content: flex-start;
+    }
+
+    .secaoEsquerda,
+    .secaoDireita {
+        width: 100%;
+        height: auto;
+    }
+
+    .secaoEsquerda p {
+        font-size: clamp(17px, 4.5vw, 21px);
+        line-height: 1.35;
+    }
+
+    .secaoDireita {
+        gap: 20px;
+    }
+
+    .secaoDireita .topico {
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .topico img {
+        width: 22px;
+        flex: 0 0 22px;
+        margin-top: 3px;
+    }
+
+    .TopicoTexto {
+        width: auto;
+        flex: 1;
+        gap: 4px;
+    }
+
+    .TopicoTexto h1 {
+        font-size: clamp(16px, 4.2vw, 19px);
+    }
+
+    .TopicoTexto p {
+        font-size: clamp(14px, 3.8vw, 17px);
+        line-height: 1.4;
+    }
+
+    .secaoSolucao {
+        min-height: 0;
+        padding: 32px 5%;
+        gap: 24px;
+    }
+
+    .esquerda_secaoSolucao,
+    .direita_secaoSolucao {
+        width: 100%;
+    }
+
+    .esquerda_secaoSolucao h1 {
+        font-size: clamp(20px, 5.5vw, 28px);
+    }
+
+    .esquerda_secaoSolucao p {
+        width: 100%;
+        font-size: clamp(15px, 4vw, 18px);
+        line-height: 1.4;
+    }
+
+    .direita_secaoSolucao {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .Card_solucao {
+        width: 100%;
+        min-height: 0;
+        padding: 20px;
+        gap: 12px;
+    }
+
+    .img_card {
+        display: none;
+    }
+
+    .Card_solucao h1 {
+        font-size: clamp(17px, 4.5vw, 21px);
+        margin: 0;
+    }
+
+    .Card_solucao p {
+        font-size: clamp(14px, 3.8vw, 17px);
+    }
+
+    .Secao_componentes {
+        height: auto;
+        min-height: 0;
+        padding: 32px 5%;
+        gap: 24px;
+    }
+
+    .componentes_esquerda,
+    .componentes_direita {
+        width: 100%;
+        height: auto;
+    }
+
+    .componentes_esquerda h1 {
+        font-size: clamp(20px, 5.5vw, 28px);
+        line-height: 1.25;
+    }
+
+    .componentes_direita img {
+        height: clamp(40px, 12vw, 64px);
+        max-width: 20%;
+        object-fit: contain;
+    }
+
+    .secaoInformacoes {
+        position: relative;
+        height: auto;
+        min-height: 0;
+        padding: 32px 5%;
+        overflow: hidden;
+    }
+
+    .secaoInformacoes .esquerdaInformacoes,
+    .secaoInformacoes .inferiorDireitaInformacoes {
+        display: none;
+    }
+
+    .direitaInformacoes,
+    .cimaDireitaInformacoes {
+        height: auto;
+    }
+
+    .cimaDireitaInformacoes {
+        padding: 0;
+        gap: 14px;
+        align-items: flex-start;
+    }
+
+    .cimaDireitaInformacoes h1,
+    .cimaDireitaInformacoes p,
+    .cimaDireitaInformacoes ul {
+        width: 100%;
+    }
+
+    .cimaDireitaInformacoes h1 {
+        font-size: clamp(20px, 5.5vw, 28px);
+        padding: 0;
+    }
+
+    .cimaDireitaInformacoes p,
+    .cimaDireitaInformacoes ul {
+        font-size: clamp(14px, 3.8vw, 17px);
+    }
+
+    .secaoImpactoNegocios {
+        height: auto;
+        min-height: 0;
+        padding: 32px 5%;
+        gap: 24px;
+    }
+
+    .esquerda_secaoImpactoNegocios,
+    .direita_secaoImpactoNegocios {
+        width: 100%;
+        height: auto;
+    }
+
+    .texto_esquerda_secaoImpactoNegocios {
+        height: auto;
+        gap: 14px;
+        justify-content: flex-start;
+    }
+
+    .texto_esquerda_secaoImpactoNegocios h1 {
+        height: auto;
+        font-size: clamp(20px, 5.5vw, 28px);
+    }
+
+    .texto_esquerda_secaoImpactoNegocios p:nth-of-type(1),
+    .texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
+        font-size: clamp(14px, 3.8vw, 17px);
+    }
+
+    .CaixaMetricas {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        gap: 14px;
+        padding: 14px;
+    }
+
+    .box_CaixaMetricas {
+        width: 100%;
+        min-height: 170px;
+        gap: 10px;
+    }
+
+    .box_CaixaMetricas h1 {
+        font-size: 14px;
+    }
+
+    .box_CaixaMetricas h1 p {
+        font-size: 12px;
+    }
+
+    .box_CaixaImg,
+    .CirculoOEE {
+        width: 100px;
+        height: 90px;
+    }
+
+    .box_CaixaImg img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .CirculoOEE img {
+        position: static;
+        width: 70px;
+        height: 70px;
+    }
+
+    .box_CaixaImg p,
+    .CirculoOEE p,
+    .box_CaixaMetricas .descricao {
+        font-size: 14px;
+    }
+}
