@@ -21,7 +21,7 @@ body {
     display: flex;
     flex-direction: column;
     z-index: 2;
-    width: 70%;
+    width: 90%;
     gap: 10px;
 }
 
@@ -29,7 +29,7 @@ body {
     display: flex;
     align-items: center;
     gap: 2%;
-    padding-left: 3%;
+    padding-left: 0;
     width: 100%;
 }
 
@@ -57,7 +57,7 @@ body {
 }
 
 .container .subtitulo p {
-    padding-left: 20px;
+    padding-left: 0;
     width: 100%;
     margin: 0;
     height: 100%;
@@ -114,7 +114,7 @@ body {
     width: 100%;
     height: 30vw;
     gap: 5vw;
-    padding: 3vw 0 3vw 0;
+    padding: 3vw 10%;
     overflow: hidden;
 }
 
@@ -122,7 +122,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 55%;
+    width: 47%;
 }
 
 .secaoEsquerda div {
@@ -147,7 +147,7 @@ body {
 }
 
 .secaoDireita {
-    width: 60%;
+    width: 47%;
     display: flex;
     justify-content: center;
     gap: 3vw;
@@ -177,6 +177,8 @@ body {
 
     .secaoValores {
         padding-top: 20px;
+        padding-left: 0;
+        padding-right: 0;
         flex-direction: column;
         gap: 0;
         height: 70vw;
@@ -238,16 +240,16 @@ body {
     display: flex;
     width: 100%;
     height: 30vw;
-    padding: 3vw 0 3vw 0;
-    gap: 5vw;
+    padding: 3vw 10%;
+    gap: 3%;
 }
 
 .esquerda_secaoSolucao {
     justify-content: space-evenly;
     display: flex;
     flex-direction: column;
-    padding-right: 3vw;
-    width: 30%;
+    padding-right: 0;
+    width: 28%;
     height: 90%;
 }
 
@@ -255,14 +257,14 @@ body {
     display: block;
     width: 100%;
     padding-bottom: 10px;
-    padding-left: 3vw;
+    padding-left: 0;
     font-size: 3vw;
     border-bottom: 10px #FFD741 solid;
 }
 
 .esquerda_secaoSolucao p {
-    padding-left: 4vw;
-    padding-top: 2vw;
+    padding-left: 0;
+    padding-top: 1vw;
     font-size: 1.9vw;
     font-weight: bolder;
     height: 50%;
@@ -273,14 +275,14 @@ body {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 65%;
+    width: 69%;
 }
 
 .Card_solucao {
     border: 4px solid #FFD741;
-    width: 30%;
+    width: 31%;
     height: 90%;
-    padding: 20px;
+    padding: 1.5vw;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -296,18 +298,19 @@ body {
 }
 
 .Card_solucao h1 {
-    height: 20%;
-    font-size: 2.5vw;
+    height: auto;
+    font-size: 2.1vw;
+    line-height: 1.1;
     margin: 0;
-    margin-top: -40px;
 }
 
 .Card_solucao p {
-    font-size: 1.5vw;
+    font-size: 1.3vw;
+    line-height: 1.3;
     margin: 0;
-    height: 30%;
+    height: auto;
     overflow-wrap: break-word;
-    margin-top: 10px;
+    margin-top: 0;
 }
 
 @media screen and (max-width: 768px) {
@@ -409,15 +412,15 @@ body {
 }
 
 .Secao_componentes {
-    padding: 2vw 0 2vw 0;
+    padding: 2vw 10%;
     background-color: #000000;
     display: flex;
     height: 20vw;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .componentes_esquerda {
-    width: 40%;
+    width: 42%;
     display: flex;
     align-items: center;
 }
@@ -432,7 +435,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 50%;
+    width: 52%;
     height: 100%;
 }
 
@@ -476,11 +479,11 @@ body {
     justify-content: space-between;
     width: 100%;
     height: 50vw;
-    padding: 3vw 0 3vw 0;
+    padding: 3vw 10%;
 }
 
 .esquerdaInformacoes {
-    width: 40%;
+    width: 38%;
     height: 90%;
 }
 
@@ -490,7 +493,7 @@ body {
 }
 
 .direitaInformacoes {
-    width: 60%;
+    width: 58%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -587,18 +590,19 @@ body {
 }
 
 .secaoImpactoNegocios {
-    padding-top: 2vw;
+    padding: 2vw 10% 0;
     background-color: white;
     display: flex;
     height: 40vw;
     justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .esquerda_secaoImpactoNegocios {
-    padding-left: 4%;
+    padding-left: 0;
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 42%;
 }
 
 .texto_esquerda_secaoImpactoNegocios {
@@ -750,6 +754,8 @@ body {
 @media screen and (max-width: 768px) {
     .secaoImpactoNegocios {
         padding-top: 0;
+        padding-left: 0;
+        padding-right: 0;
         height: 85vw;
         flex-direction: column;
         align-items: center;
@@ -856,5 +862,323 @@ body {
         width: 50%;
         height: 8vw;
         font-size: 2vw;
+    }
+}
+
+/* Leitura confortável em celulares, mantendo os ajustes fora do mobile. */
+@media screen and (max-width: 768px) {
+    .container .subtitulo p,
+    .TopicoTexto p,
+    .esquerda_secaoSolucao p,
+    .cimaDireitaInformacoes p,
+    .cimaDireitaInformacoes ul,
+    .texto_esquerda_secaoImpactoNegocios p:nth-of-type(1),
+    .texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
+        font-size: clamp(14px, 3.8vw, 18px);
+        line-height: 1.4;
+    }
+
+    .TopicoTexto h1,
+    .Card_solucao h1,
+    .componentes_esquerda h1,
+    .cimaDireitaInformacoes h1,
+    .texto_esquerda_secaoImpactoNegocios h1 {
+        line-height: 1.2;
+    }
+
+    .Card_solucao h1 {
+        font-size: clamp(15px, 4vw, 18px);
+    }
+
+    .Card_solucao p {
+        font-size: clamp(14px, 3.6vw, 17px);
+        line-height: 1.35;
+    }
+
+    .box_CaixaMetricas h1 {
+        font-size: clamp(11px, 2.8vw, 14px);
+    }
+
+    .box_CaixaMetricas h1 p {
+        font-size: clamp(10px, 2.4vw, 12px);
+    }
+
+    .box_CaixaImg p,
+    .box_CaixaMetricas .descricao {
+        font-size: clamp(11px, 2.8vw, 14px);
+        line-height: 1.2;
+    }
+
+    .botaocelular button {
+        min-height: 36px;
+        font-size: clamp(12px, 3vw, 15px);
+    }
+
+    .banner {
+        height: auto;
+        min-height: 400px;
+        padding: 120px 0 32px;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .container {
+        position: relative;
+        inset: auto;
+        margin: 0;
+        width: 90%;
+        gap: 16px;
+    }
+
+    .container .titulo,
+    .container .subtitulo {
+        width: 100%;
+    }
+
+    .container .titulo h1 {
+        font-size: clamp(20px, 5.5vw, 28px);
+        line-height: 1.2;
+    }
+
+    .container .subtitulo p {
+        width: 100%;
+        font-size: clamp(15px, 4vw, 18px);
+        line-height: 1.45;
+    }
+
+    .secaoValores {
+        height: auto;
+        min-height: 0;
+        overflow: visible;
+        padding: 32px 5%;
+        gap: 24px;
+        justify-content: flex-start;
+    }
+
+    .secaoEsquerda,
+    .secaoDireita {
+        width: 100%;
+        height: auto;
+    }
+
+    .secaoEsquerda p {
+        font-size: clamp(17px, 4.5vw, 21px);
+        line-height: 1.35;
+    }
+
+    .secaoDireita {
+        gap: 20px;
+    }
+
+    .secaoDireita .topico {
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .topico img {
+        width: 22px;
+        flex: 0 0 22px;
+        margin-top: 3px;
+    }
+
+    .TopicoTexto {
+        width: auto;
+        flex: 1;
+        gap: 4px;
+    }
+
+    .TopicoTexto h1 {
+        font-size: clamp(16px, 4.2vw, 19px);
+    }
+
+    .TopicoTexto p {
+        font-size: clamp(14px, 3.8vw, 17px);
+        line-height: 1.4;
+    }
+
+    .secaoSolucao {
+        min-height: 0;
+        padding: 32px 5%;
+        gap: 24px;
+    }
+
+    .esquerda_secaoSolucao,
+    .direita_secaoSolucao {
+        width: 100%;
+    }
+
+    .esquerda_secaoSolucao h1 {
+        font-size: clamp(20px, 5.5vw, 28px);
+    }
+
+    .esquerda_secaoSolucao p {
+        width: 100%;
+        font-size: clamp(15px, 4vw, 18px);
+        line-height: 1.4;
+    }
+
+    .direita_secaoSolucao {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .Card_solucao {
+        width: 100%;
+        min-height: 0;
+        padding: 20px;
+        gap: 12px;
+    }
+
+    .img_card {
+        display: none;
+    }
+
+    .Card_solucao h1 {
+        font-size: clamp(17px, 4.5vw, 21px);
+        margin: 0;
+    }
+
+    .Card_solucao p {
+        font-size: clamp(14px, 3.8vw, 17px);
+    }
+
+    .Secao_componentes {
+        height: auto;
+        min-height: 0;
+        padding: 32px 5%;
+        gap: 24px;
+    }
+
+    .componentes_esquerda,
+    .componentes_direita {
+        width: 100%;
+        height: auto;
+    }
+
+    .componentes_esquerda h1 {
+        font-size: clamp(20px, 5.5vw, 28px);
+        line-height: 1.25;
+    }
+
+    .componentes_direita img {
+        height: clamp(40px, 12vw, 64px);
+        max-width: 20%;
+        object-fit: contain;
+    }
+
+    .secaoInformacoes {
+        position: relative;
+        height: auto;
+        min-height: 0;
+        padding: 32px 5%;
+        overflow: hidden;
+    }
+
+    .secaoInformacoes .esquerdaInformacoes,
+    .secaoInformacoes .inferiorDireitaInformacoes {
+        display: none;
+    }
+
+    .direitaInformacoes,
+    .cimaDireitaInformacoes {
+        height: auto;
+    }
+
+    .cimaDireitaInformacoes {
+        padding: 0;
+        gap: 14px;
+        align-items: flex-start;
+    }
+
+    .cimaDireitaInformacoes h1,
+    .cimaDireitaInformacoes p,
+    .cimaDireitaInformacoes ul {
+        width: 100%;
+    }
+
+    .cimaDireitaInformacoes h1 {
+        font-size: clamp(20px, 5.5vw, 28px);
+        padding: 0;
+    }
+
+    .cimaDireitaInformacoes p,
+    .cimaDireitaInformacoes ul {
+        font-size: clamp(14px, 3.8vw, 17px);
+    }
+
+    .secaoImpactoNegocios {
+        height: auto;
+        min-height: 0;
+        padding: 32px 5%;
+        gap: 24px;
+    }
+
+    .esquerda_secaoImpactoNegocios,
+    .direita_secaoImpactoNegocios {
+        width: 100%;
+        height: auto;
+    }
+
+    .texto_esquerda_secaoImpactoNegocios {
+        height: auto;
+        gap: 14px;
+        justify-content: flex-start;
+    }
+
+    .texto_esquerda_secaoImpactoNegocios h1 {
+        height: auto;
+        font-size: clamp(20px, 5.5vw, 28px);
+    }
+
+    .texto_esquerda_secaoImpactoNegocios p:nth-of-type(1),
+    .texto_esquerda_secaoImpactoNegocios p:nth-of-type(2) {
+        font-size: clamp(14px, 3.8vw, 17px);
+    }
+
+    .CaixaMetricas {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        gap: 14px;
+        padding: 14px;
+    }
+
+    .box_CaixaMetricas {
+        width: 100%;
+        min-height: 170px;
+        gap: 10px;
+    }
+
+    .box_CaixaMetricas h1 {
+        font-size: 14px;
+    }
+
+    .box_CaixaMetricas h1 p {
+        font-size: 12px;
+    }
+
+    .box_CaixaImg,
+    .CirculoOEE {
+        width: 100px;
+        height: 90px;
+    }
+
+    .box_CaixaImg img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .CirculoOEE img {
+        position: static;
+        width: 70px;
+        height: 70px;
+    }
+
+    .box_CaixaImg p,
+    .CirculoOEE p,
+    .box_CaixaMetricas .descricao {
+        font-size: 14px;
     }
 }

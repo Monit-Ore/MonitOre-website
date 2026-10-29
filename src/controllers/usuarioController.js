@@ -140,8 +140,8 @@ async function cadastrar(req, res) {
   var senha = req.body.senha;
   var dataNascimento = req.body.dataNascimento;
   var telefone = req.body.telefone;
-  var idCargo = req.body.idCargo;
-  var idMineradora = req.body.idMineradora;
+  var cargo = req.body.cargo;
+  var idEmpresa = req.session && req.session.FK_EMPRESA_USUARIO;
 
   if (!nome || !nome.trim()) {
     return res.status(400).json({
@@ -195,15 +195,16 @@ async function cadastrar(req, res) {
     });
   }
 
-  if (!idCargo || !Number.isInteger(Number(idCargo))) {
+  var cargosPermitidos = ["Administrador", "Operador"];
+  if (!cargosPermitidos.includes(cargo)) {
     return res.status(400).json({
       mensagem: "Selecione um cargo válido.",
     });
   }
 
-  if (idMineradora && !Number.isInteger(Number(idMineradora))) {
-    return res.status(400).json({
-      mensagem: "Selecione uma unidade válida.",
+  if (!Number.isInteger(Number(idEmpresa)) || Number(idEmpresa) <= 0) {
+    return res.status(401).json({
+      mensagem: "Sua sessão expirou. Faça login novamente.",
     });
   }
 
@@ -224,25 +225,6 @@ async function cadastrar(req, res) {
       });
     }
 
-    var cargosEncontrados = await usuarioModel.buscarCargoAtivoPorId(idCargo);
-
-    if (cargosEncontrados.length === 0) {
-      return res.status(400).json({
-        mensagem: "O cargo selecionado não existe ou está inativo.",
-      });
-    }
-
-    if (idMineradora) {
-      var mineradorasEncontradas =
-        await usuarioModel.buscarMineradoraPorId(idMineradora);
-
-      if (mineradorasEncontradas.length === 0) {
-        return res.status(400).json({
-          mensagem: "A unidade selecionada não existe.",
-        });
-      }
-    }
-
     var resultadoCadastro = await usuarioModel.cadastrar(
       nome.trim(),
       email,
@@ -250,8 +232,8 @@ async function cadastrar(req, res) {
       senha,
       dataNascimento || null,
       telefone ? telefone.trim() : null,
-      idCargo,
-      idMineradora || null,
+      cargo,
+      Number(idEmpresa),
     );
 
     return res.status(201).json({
