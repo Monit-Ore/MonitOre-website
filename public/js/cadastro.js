@@ -43,7 +43,7 @@ function carregarCargos() {
       cargos.forEach(function (cargo) {
         var opcao = document.createElement("option");
 
-        opcao.value = cargo.id_cargo;
+        opcao.value = cargo.cargo;
         opcao.textContent = cargo.nome;
 
         campoCargo.appendChild(opcao);

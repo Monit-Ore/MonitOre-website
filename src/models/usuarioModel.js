@@ -249,8 +249,8 @@ function deletarUsuario(idUsuario) {
 
 function listarCargos() {
   return [
-    { id_cargo: "Administrador", nome: "Administrador" },
-    { id_cargo: "Operador", nome: "Operador" },
+    { cargo: "Administrador", nome: "Administrador" },
+    { cargo: "Operador", nome: "Operador" },
   ];
 }
 
