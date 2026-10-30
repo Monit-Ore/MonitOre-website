@@ -1,7 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
+   const botaoMenu = document.querySelector(".btn-notificacao");
+
+botaoMenu?.addEventListener("click", () =>
+  document.body.classList.toggle("menu-aberto"),
+);
+
   carregarUsuarioMenu();
   carregarIniciais();
   configurarMascaraCnpj();
+
+  // Menu responsivo mobile
 
 
 
@@ -194,6 +202,11 @@ function ativarMenu(idAtivo) {
   });
 }
 
+// const botaoMenu = document.querySelector(".btn-notificacao");
+
+// botaoMenu?.addEventListener("click", () =>
+//   document.body.classList.toggle("menu-aberto"),
+// );
 const botaoMenu = document.querySelector(".btn-notificacao");
 
 botaoMenu?.addEventListener("click", () =>

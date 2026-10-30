@@ -67,7 +67,7 @@ body[data-permissao-pagina="usuarios"] {
   justify-self: end;
 }
 
-.conteudo_visualizacao_usuarios .titulo_pag {
+.conteudo_visualizacao_usuarios  .titulo_pag{  
   align-self: flex-start;
 }
 
@@ -251,6 +251,7 @@ body[data-permissao-pagina="usuarios"] {
 .titulo_pag {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
   margin-bottom: 1.5rem;
   color: #ffffff;
@@ -489,7 +490,7 @@ aside span {
 
   width: 100%;
   min-height: 100px;
-
+  justify-content: space-between;
   background-color: #1f1f1f;
 
   position: relative;

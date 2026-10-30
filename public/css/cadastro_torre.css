@@ -38,8 +38,8 @@ body {
     border: 2px solid var(--cinza);
     border-radius: 5px;
     padding: 7px 9px;
-    position: fixed;
-    right: 3%;
+    /* position: fixed;
+    right: 3%; */
     z-index: 9999;
     cursor: pointer;
 }
@@ -78,7 +78,7 @@ body {
         border: none;
         border-radius: 0;
         padding: 0;
-        position: absolute;
+        /* position: absolute; */
     }
 
     .btn-notificacao .icone-sino {
@@ -612,6 +612,13 @@ header span{
  */
 
 @media screen and (max-width: 900px) {
+header{
+  margin-left: 5px;
+  gap:10px;
+  justify-content: space-between;
+  width: 95%;
+}
+
   .container_responsivo {
     display: block;
   }

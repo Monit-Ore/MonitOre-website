@@ -1,4 +1,178 @@
+:root{
+    --amarelo: #ffd741;
+}
 
+
+
+.navegacao {
+  grid-column: 1;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  background-image:
+    linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.85) 100%),
+    url("../imgs/side bar - monitore.png");
+  background-size: cover;
+  background-position: top left;
+  background-repeat: no-repeat;
+
+  color: #ffffff;
+}
+
+.logo_navegacao {
+  padding: 25px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo_navegacao img {
+  max-width: 100%;
+}
+
+.container_responsivo {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr;
+  min-height: 100vh;
+  background-color: #000000;
+}
+
+
+.menu_navegacao {
+  flex: 1; /* empurra o rodapé pra baixo */
+}
+.menu_navegacao ul {
+  list-style: none;
+}
+
+.item_menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 16px;
+}
+.item_menu:hover {
+  background-color: rgba(255,255,255,0.08);
+}
+.item_menu.ativo {
+  background-color: rgba(236, 190, 16, 0.15);
+  border-left: 3px solid #ecbe10;
+  color: #ecbe10;
+}
+
+.icone_menu {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+aside span{
+  margin-bottom: 1%;
+}
+
+.notificacao_alerta {
+  margin-left: auto;
+  background-color: #ecbe10;
+  color: #1e1e1e;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.rodape_navegacao {
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding: 10px 0;
+}
+
+.usuario_navegacao {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  cursor: pointer;
+}
+.avatar_usuario {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #ecbe10;
+  color: #1e1e1e;
+  font-weight: bold;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.perfil_icon {
+  width: 80px;
+  height: 80px;
+  font-size: 32px;
+}
+
+.info_usuario {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.nome_usuario {
+  font-weight: bold;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cargo_usuario {
+  font-size: 12px;
+  color: #b7b7b7;
+}
+
+
+.icone_seta {
+  margin-left: auto;
+}
+
+.superior_tela{
+    display: flex;
+    align-items: center;
+}
+
+.botao_sair {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+}
+.botao_sair:hover {
+  background-color: rgba(255,255,255,0.08);
+}
 /* =========================================================
    BOTÕES DE CARGO
 ========================================================= */
@@ -233,9 +407,80 @@
     overflow-wrap: anywhere;
 }
 
+
+.btn-notificacao {
+  display: none;
+  background-color: #1f1f1f;
+  border: 2px solid var(--cinza);
+  border-radius: 5px;
+  padding: 7px 9px;
+  justify-self: end;
+  top: 3%;
+  right: 3%;
+  z-index: 9999;
+  cursor: pointer;
+}
+
+.btn-notificacao .icone-sino {
+  color: var(--amarelo);
+  font-size: 1.5rem;
+}
+
+.btn-notificacao .icone-menu {
+  color: var(--amarelo);
+  font-size: 2rem;
+  display: none;
+  justify-self: end;
+}
+
+
 /* =========================================================
    RESPONSIVIDADE
 ========================================================= */
+
+@media (max-width:900px) {
+  .container_responsivo {
+    display: block;
+  }
+
+  .btn-notificacao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .btn-notificacao .icone-sino {
+    display: none !important;
+  }
+
+  .btn-notificacao .icone-menu {
+    display: inline-block !important;
+  }
+
+  .navegacao {
+    display: none;
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 10000;
+    width: min(320px, 85vw);
+  }
+
+
+  body.menu-aberto .navegacao {
+    display: flex;
+  }
+
+
+  
+
+  
+}
+
 
 @media (max-width: 768px) {
     .divisao-btn-cargo {
@@ -298,3 +543,4 @@
         width: 100%;
     }
 }
+

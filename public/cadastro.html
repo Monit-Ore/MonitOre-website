@@ -79,25 +79,33 @@
     </aside>
 
     <!-- Conteúdo principal -->
-    <div class="conteudo_layout">
-      <header class="superior_tela">
-        <button
-          class="botao_voltar"
-          type="button"
-          onclick="voltar()"
-          aria-label="Voltar"
-        >
-          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-        </button>
-
-        <div class="titulo_superior">
-          <h1>Cadastro de Funcionário</h1>
-
-          <h2>Preencha os dados do novo funcionário</h2>
-        </div>
-      </header>
-
+    <!-- <div class="conteudo_layout"> -->
+      
       <main class="conteudo">
+        <header class="superior_tela" style="width: 100%; align-items: center;">
+          <div style="display: flex; justify-content: flex-start; gap: 20px; margin: 10px;">
+          <button
+            class="botao_voltar"
+            type="button"
+            onclick="voltar()"
+            aria-label="Voltar"
+          >
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          </button>
+  
+          <div class="titulo_superior">
+            <h1>Cadastro de Funcionário</h1>
+  
+            <h2>Preencha os dados do novo funcionário</h2>
+          </div>
+          </div>
+          <div>
+              <button class="btn-notificacao" type="button" aria-label="Abrir menu" >
+          <i class="fa-regular fa-bell icone-sino"></i>
+          <i class="fa-solid fa-bars icone-menu"></i>
+        </button>
+        </div>
+        </header>
         <section class="card_conteudo">
           <div class="titulo_formulario">
             <h1>Dados do Usuário</h1>
@@ -214,7 +222,7 @@
           </button>
         </div>
       </main>
-    </div>
+    <!-- </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
     <script src="./js/cadastro.js"></script>

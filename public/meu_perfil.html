@@ -91,26 +91,34 @@
     </div>
   </aside>
 
-  <div class="conteudo_layout">
-    <header class="superior_tela">
-      <button
-        class="botao_voltar"
-        type="button"
-        onclick="voltar()"
-        aria-label="Voltar"
-      >
-        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-      </button>
-      <div class="titulo_superior">
-        <h1>Meu Perfil</h1>
-        <h2>Gerencie suas informações pessoais e de segurança.</h2>
-      </div>
-    </header>
-
+  <!-- <div class="conteudo_layout"> -->
+    
     <main class="conteudo perfil_input">
+      <header class="superior_telaa" style="width: 100%;">
+        <div style="display: flex; gap: 10px;">
+        <button
+          class="botao_voltar"
+          type="button"
+          onclick="voltar()"
+          aria-label="Voltar"
+        >
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        </button>
+        <div class="titulo_superior">
+          <h1>Meu Perfil</h1>
+          <h2>Gerencie suas informações pessoais e de segurança.</h2>
+        </div>
+        </div>
+        <div>
+              <button class="btn-notificacao" type="button" aria-label="Abrir menu" >
+          <i class="fa-regular fa-bell icone-sino"></i>
+          <i class="fa-solid fa-bars icone-menu"></i>
+        </button>
+        </div>
+      </header>
 
       <section class="card_conteudo">
-        <div class="superior_tela fundo_padrao">
+        <div class="superior_tela fundo_padrao" style="display: flex;">
           <div class="avatar_usuario perfil_icon" id="avatar_usuario_2">
             <i class="fa-sharp fa-regular fa-user" aria-hidden="true"></i>
           </div>
@@ -242,7 +250,7 @@
       </section>
 
     </main>
-  </div>
+  <!-- </div> -->
 
   <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
   <script src="./js/permissao.js"></script>
