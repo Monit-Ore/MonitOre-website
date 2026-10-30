@@ -3,8 +3,7 @@
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  // carregarCargos();
-  // carregarMineradoras();
+  carregarCargos();
 
   configurarMascaras();
   carregarUsuarioMenu();
@@ -26,6 +25,7 @@ function carregarCargos() {
     return;
   }
   var campoCargo = document.getElementById("cargo_ipt");
+  if (!campoCargo) return;
 
   fetch("/usuarios/cargos")
     .then(function (resposta) {
@@ -36,44 +36,17 @@ function carregarCargos() {
       return resposta.json();
     })
     .then(function (cargos) {
+      if (!Array.isArray(cargos) || cargos.length === 0) {
+        throw new Error("Nenhum cargo disponível para cadastro.");
+      }
+
       cargos.forEach(function (cargo) {
         var opcao = document.createElement("option");
 
-        opcao.value = cargo.id_cargo;
-        opcao.textContent = cargo.nome + " - " + cargo.empresa;
+        opcao.value = cargo.cargo;
+        opcao.textContent = cargo.nome;
 
         campoCargo.appendChild(opcao);
-      });
-    })
-    .catch(function (erro) {
-      mostrarMensagem(erro.message, true);
-    });
-}
-
-// CARREGAMENTO DAS MINERADORAS/UNIDADES
-
-function carregarMineradoras() {
-  if (window.location.pathname.includes('meu_perfil.html')) {
-    return;
-  }
-  var campoUnidade = document.getElementById("unidade_local_ipt");
-
-  fetch("/usuarios/mineradoras")
-    .then(function (resposta) {
-      if (!resposta.ok) {
-        throw new Error("Não foi possível carregar as unidades.");
-      }
-
-      return resposta.json();
-    })
-    .then(function (mineradoras) {
-      mineradoras.forEach(function (mineradora) {
-        var opcao = document.createElement("option");
-
-        opcao.value = mineradora.id_mineradora;
-        opcao.textContent = mineradora.razao_social;
-
-        campoUnidade.appendChild(opcao);
       });
     })
     .catch(function (erro) {
@@ -90,15 +63,13 @@ function salvar() {
 
   var dataNascimento = document.getElementById("data_nasc_input").value;
 
-  var idMineradora = document.getElementById("unidade_local_ipt").value;
-
   var cpf = document.getElementById("cpf_ipt").value.replace(/\D/g, "");
 
   var senha = document.getElementById("senha_ipt").value;
 
   var telefone = document.getElementById("telefone_ipt").value.trim();
 
-  var idCargo = document.getElementById("cargo_ipt").value;
+  var cargo = document.getElementById("cargo_ipt").value;
 
 
 
@@ -122,7 +93,7 @@ function salvar() {
     return;
   }
 
-  if (!idCargo) {
+  if (!cargo) {
     mostrarMensagem("Selecione um cargo.", true);
     return;
   }
@@ -137,9 +108,7 @@ function salvar() {
 
     telefone: telefone || null,
 
-    idCargo: Number(idCargo),
-
-    idMineradora: idMineradora ? Number(idMineradora) : null,
+    cargo: cargo,
 
   };
 
@@ -268,6 +237,7 @@ function carregarUsuarioMenu() {
 
 function carregarIniciais() {
   const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) return;
   const iniciais = [];
 
   for (let i = 0; i < nomeUsuario.length; i++) {
@@ -327,7 +297,6 @@ function limparFormulario() {
   document.getElementById("data_nasc_input").value = "";
   document.getElementById("telefone_ipt").value = "";
   document.getElementById("cargo_ipt").value = "";
-  document.getElementById("unidade_local_ipt").value = "";
 }
 
 // BOTÕES DE NAVEGAÇÃO

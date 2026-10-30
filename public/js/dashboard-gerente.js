@@ -32,6 +32,7 @@ function carregarIniciais() {
 }
 
 const dadosIniciais = {
+  
   kpis: {
     monitoradas: 12,
     online: "10 / 12",
@@ -44,10 +45,23 @@ const dadosIniciais = {
     alerta: 2,
     offline: 0,
   },
+
+  historicoPicos: {
+    horas: ["08:00", "10:00", "12:00", "14:00", "16:00", "18:00"],
+    picosCpu: [48, 62, 94, 73, 89, 55],
+    registros: [
+      { hora: "14:32:10", processo: "java (extrator)", torre: "Torre 07", pid: "4192", cpu: "94%", ram: "6.2 GB" },
+      { hora: "16:15:02", processo: "mysqld", torre: "Torre 03", pid: "1024", cpu: "89%", ram: "4.8 GB" },
+      { hora: "13:58:44", processo: "ffmpeg_stream", torre: "Torre 01", pid: "8831", cpu: "85%", ram: "3.1 GB" },
+      { hora: "12:04:19", processo: "python_analyzer", torre: "Torre 12", pid: "6720", cpu: "78%", ram: "2.4 GB" },
+      { hora: "10:22:30", processo: "docker_engine", torre: "Torre 09", pid: "2201", cpu: "62%", ram: "5.0 GB" }
+    ]
+  },
   mineradoras: {
     labels: ["Vale", "CSN", "Samarco", "Anglo American"],
     dados: [2, 1, 1, 1],
   },
+
   torres: {
     labels: [
       "Torre 07 (Vale)",
@@ -65,6 +79,8 @@ const dadosIniciais = {
     { data: "14/04/2025 10:03", torre: "Torre 01", mineradora: "Anglo American", componente: "Disco", valor: "87%", limite: "90%", status: "NORMAL" },
     { data: "14/04/2025 09:45", torre: "Torre 09", mineradora: "Vale", componente: "CPU", valor: "82%", limite: "85%", status: "NORMAL" },
   ]
+
+  
 };
 
 // 1. GRAFICO ROSCA
@@ -225,12 +241,112 @@ document.addEventListener("DOMContentLoaded", () => {
   criarGraficoTorres(dadosIniciais.torres);
   renderizarTabelaAlertas(dadosIniciais.alertasRecentes);
 
+  
+  criarGraficoPicosProcesso(dadosIniciais.historicoPicos);
+  renderizarTabelaPicos(dadosIniciais.historicoPicos.registros);
+
   // Logout
   document.getElementById("botao_sair")?.addEventListener("click", () => {
     sessionStorage.clear();
     window.location.href = "./login.html";
+
+    const botaoMenu = document.querySelector(".btn-notificacao");
+
+botaoMenu?.addEventListener("click", () =>
+  document.body.classList.toggle("menu-aberto"),
+);
   });
 
   
   carregarDadosDashboard();
+});
+
+// 6. GRÁFICO DE PICOS DE PROCESSO
+function criarGraficoPicosProcesso(picos) {
+  const elementoCanvas = document.getElementById("graficoPicosProcesso");
+  if (!elementoCanvas) return;
+
+  const ctx = elementoCanvas.getContext("2d");
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: picos.horas,
+      datasets: [
+        {
+          label: "Pico de CPU (%)",
+          data: picos.picosCpu,
+          borderColor: "#ffd741",
+          backgroundColor: "rgba(255, 215, 65, 0.15)",
+          borderWidth: 2,
+          pointBackgroundColor: "#ffd741",
+          pointRadius: 4,
+          tension: 0.35,
+          fill: true,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (context) => ` Pico: ${context.raw}% CPU`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: "#262626" },
+          ticks: { color: "#8f8e8e" },
+        },
+        y: {
+          min: 0,
+          max: 100,
+          grid: { color: "#262626" },
+          ticks: {
+            color: "#8f8e8e",
+            callback: (val) => val + "%"
+          },
+        },
+      },
+    },
+  });
+}
+
+// 7. PREENCHER TABELA DE HISTÓRICO DE PICOS
+function renderizarTabelaPicos(registros) {
+  const corpo = document.getElementById("tabela_picos_corpo");
+  if (!corpo) return;
+
+  corpo.innerHTML = registros
+    .map((item) => {
+      const valorCpu = parseInt(item.cpu, 10);
+      const tagClasse = valorCpu >= 85 ? "alto" : "medio";
+
+      return `
+      <tr>
+        <td>${item.hora}</td>
+        <td><strong>${item.processo}</strong></td>
+        <td>${item.torre}</td>
+        <td style="color: #888;">${item.pid}</td>
+        <td><span class="tag_pico ${tagClasse}">${item.cpu}</span></td>
+        <td>${item.ram}</td>
+      </tr>
+    `;
+    })
+    .join("");
+}
+
+
+//BOTAO SAIR    
+document.addEventListener("DOMContentLoaded", () => {
+ 
+  const botaoMenu = document.querySelector(".btn-notificacao");
+
+  botaoMenu?.addEventListener("click", () =>
+    document.body.classList.toggle("menu-aberto")
+  );
+
 });
