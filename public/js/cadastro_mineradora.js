@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-   const botaoMenu = document.querySelector(".btn-notificacao");
+//    const botaoMenu = document.querySelector(".btn-notificacao");
 
-botaoMenu?.addEventListener("click", () =>
-  document.body.classList.toggle("menu-aberto"),
-);
+// botaoMenu?.addEventListener("click", () =>
+//   document.body.classList.toggle("menu-aberto"),
+// );
 
   carregarUsuarioMenu();
   carregarIniciais();
@@ -22,7 +22,7 @@ botaoMenu?.addEventListener("click", () =>
     });
   }
 
-  const botaoMenu = document.querySelector(".btn-notificacao");
+  const botaoMenu = document.querySelector("btn-notificacao");
 
 botaoMenu?.addEventListener("click", () =>
   document.body.classList.toggle("menu-aberto"),
