@@ -1,7 +1,3 @@
-
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
   carregarCargos();
 
@@ -17,11 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-
 // CARREGAMENTO DOS CARGOS
 
 function carregarCargos() {
-  if (window.location.pathname.includes('meu_perfil.html')) {
+  if (window.location.pathname.includes("meu_perfil.html")) {
     return;
   }
   var campoCargo = document.getElementById("cargo_ipt");
@@ -58,7 +53,10 @@ function carregarCargos() {
 
 function salvar() {
   if (!acessosTorresCarregados) {
-    mostrarMensagem("Aguarde o carregamento das torres antes de cadastrar o usuário.", true);
+    mostrarMensagem(
+      "Aguarde o carregamento das torres antes de cadastrar o usuário.",
+      true,
+    );
     return;
   }
 
@@ -75,8 +73,6 @@ function salvar() {
   var telefone = document.getElementById("telefone_ipt").value.trim();
 
   var cargo = document.getElementById("cargo_ipt").value;
-
-
 
   if (nome.length < 3) {
     mostrarMensagem("Informe o nome completo do funcionário.", true);
@@ -115,14 +111,12 @@ function salvar() {
 
     cargo: cargo,
     torres: obterTorresSelecionadas(),
-
   };
 
   enviarCadastro(dadosCadastro);
 }
 
 // ENVIO PARA O BACKEND
-
 
 function enviarCadastro(dadosCadastro) {
   var botaoSalvar = document.querySelector(".btn-salvar");
@@ -159,12 +153,16 @@ function enviarCadastro(dadosCadastro) {
 
       var mensagemAcesso = document.getElementById("mensagem_acesso");
       if (mensagemAcesso) {
-        mensagemAcesso.textContent = "Acessos às torres salvos junto com o usuário.";
+        mensagemAcesso.textContent =
+          "Acessos às torres salvos junto com o usuário.";
         mensagemAcesso.style.color = "#f5c400";
+
+        setTimeout(function () {
+          window.location.href = "./visualizacao_usuarios.html";
+        }, 1500);
       }
 
       limparFormulario();
-
     })
     .catch(function (erro) {
       mostrarMensagem(erro.message, true);
@@ -186,7 +184,6 @@ function mostrar_senha(num) {
   } else {
     var campoSenha = document.getElementById("senha_ipt");
   }
-  
 
   if (campoSenha.type === "password") {
     campoSenha.type = "text";
@@ -253,7 +250,6 @@ function carregarIniciais() {
   const iniciais = [];
 
   for (let i = 0; i < nomeUsuario.length; i++) {
-    
     if (i == 0) {
       iniciais.push(nomeUsuario[i]);
     }
@@ -261,16 +257,15 @@ function carregarIniciais() {
     let boolInicial = false;
 
     if (nomeUsuario[i] == " ") {
-      iniciais.push(nomeUsuario[i + 1])
+      iniciais.push(nomeUsuario[i + 1]);
       boolInicial = true;
       break;
     }
-    
   }
-  avatar_usuario.textContent = iniciais.join('');
-  
-  var segundoAvatar = document.getElementById("avatar_usuario_2"); 
-  if (segundoAvatar) segundoAvatar.textContent = iniciais.join('');
+  avatar_usuario.textContent = iniciais.join("");
+
+  var segundoAvatar = document.getElementById("avatar_usuario_2");
+  if (segundoAvatar) segundoAvatar.textContent = iniciais.join("");
 }
 
 // MENSAGEM
@@ -279,7 +274,7 @@ function mostrarMensagem(texto, erro) {
   var mensagem = document.getElementById("mensagem_cadastro");
 
   mensagem.textContent = texto;
-  
+
   if (erro) {
     mensagem.style.color = "#ff7777";
   } else {
@@ -291,7 +286,7 @@ function mostrarMensagemTel(texto, erro) {
   var mensagem = document.getElementById("mensagem_telefone");
 
   mensagem.textContent = texto;
-  
+
   if (erro) {
     mensagem.style.color = "#ff7777";
   } else {
@@ -390,8 +385,6 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.clear();
     window.location.href = "./login.html";
   });
-
- 
 });
 
 const botaoMenu = document.querySelector(".btn-notificacao");
@@ -399,5 +392,3 @@ const botaoMenu = document.querySelector(".btn-notificacao");
 botaoMenu?.addEventListener("click", () =>
   document.body.classList.toggle("menu-aberto"),
 );
-
-
