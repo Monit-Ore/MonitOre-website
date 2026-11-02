@@ -141,6 +141,7 @@ async function cadastrar(req, res) {
   var dataNascimento = req.body.dataNascimento;
   var telefone = req.body.telefone;
   var cargo = req.body.cargo;
+  var torres = req.body.torres;
   var idEmpresa = req.session && req.session.FK_EMPRESA_USUARIO;
 
   if (!nome || !nome.trim()) {
@@ -208,7 +209,15 @@ async function cadastrar(req, res) {
     });
   }
 
+  if (torres !== undefined && !Array.isArray(torres)) {
+    return res.status(400).json({ mensagem: "Informe uma lista válida de torres." });
+  }
+
   try {
+    if (Array.isArray(torres)) {
+      await usuarioModel.validarTorresFabricante(torres, Number(idEmpresa));
+    }
+
     var usuariosComEmail = await usuarioModel.buscarPorEmail(email);
 
     if (usuariosComEmail.length > 0) {
@@ -235,6 +244,14 @@ async function cadastrar(req, res) {
       cargo,
       Number(idEmpresa),
     );
+
+    if (Array.isArray(torres)) {
+      await usuarioModel.salvarAcessosTorres(
+        resultadoCadastro.insertId,
+        torres,
+        Number(idEmpresa),
+      );
+    }
 
     return res.status(201).json({
       mensagem: "Funcionário cadastrado com sucesso.",

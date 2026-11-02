@@ -9,6 +9,7 @@
     <title>Cadastro de Funcionário</title>
 
     <link rel="stylesheet" href="./css/tela_cadastro.css" />
+    <link rel="stylesheet" href="./css/acesso_torres.css" />
 
     <link rel="icon" href="./imgs/favicon.svg" />
     <link
@@ -42,10 +43,10 @@
             <span>Torres</span>
           </a>
           <a
-            href="#"
+            href="./visualizacao_usuarios.html"
             class="item_menu ativo"
             id="usuarios"
-            onclick="ativarUsuarios()"
+            data-permissao="usuarios"
           >
             <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
@@ -200,6 +201,20 @@
           <!-- Status -->
         </section>
 
+        <section class="card_conteudo acesso_torres">
+          <div class="titulo_cards">
+            <i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i>
+            <h1>Acesso às torres</h1>
+          </div>
+          <label class="descricao_acesso">
+            Defina quais torres de cada mineradora este usuário poderá visualizar.
+          </label>
+          <div id="lista_mineradoras" class="lista_mineradoras">
+            <label>Carregando mineradoras e torres...</label>
+          </div>
+          <p id="mensagem_acesso" class="mensagem_cadastro" aria-live="polite"></p>
+        </section>
+
         <!-- Mensagem de sucesso ou erro -->
         <p
           id="mensagem_cadastro"
@@ -225,6 +240,7 @@
     <!-- </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
+    <script src="./js/acesso_torres.js"></script>
     <script src="./js/cadastro.js"></script>
     
     <script>
