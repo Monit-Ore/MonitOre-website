@@ -57,6 +57,11 @@ function carregarCargos() {
 // CADASTRO
 
 function salvar() {
+  if (!acessosTorresCarregados) {
+    mostrarMensagem("Aguarde o carregamento das torres antes de cadastrar o usuário.", true);
+    return;
+  }
+
   var nome = document.getElementById("nome_ipt").value.trim();
 
   var email = document.getElementById("email_ipt").value.trim();
@@ -109,6 +114,7 @@ function salvar() {
     telefone: telefone || null,
 
     cargo: cargo,
+    torres: obterTorresSelecionadas(),
 
   };
 
@@ -150,6 +156,12 @@ function enviarCadastro(dadosCadastro) {
       }
 
       mostrarMensagem(resultado.conteudo.mensagem, false);
+
+      var mensagemAcesso = document.getElementById("mensagem_acesso");
+      if (mensagemAcesso) {
+        mensagemAcesso.textContent = "Acessos às torres salvos junto com o usuário.";
+        mensagemAcesso.style.color = "#f5c400";
+      }
 
       limparFormulario();
 

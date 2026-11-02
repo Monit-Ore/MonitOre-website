@@ -416,6 +416,35 @@ function buscarAcessosTorres(idUsuario, idFabricante) {
     return database.executar(instrucaoSql);
 }
 
+async function validarTorresFabricante(torres, idFabricante) {
+    if (!Array.isArray(torres)) {
+        throw new Error("A lista de torres é inválida.");
+    }
+
+    var fabricante = Number(idFabricante);
+    var idsTorres = [];
+    torres.forEach(function (idTorre) {
+        var numero = Number(idTorre);
+        if (!Number.isInteger(numero) || numero <= 0) {
+            throw new Error("ID de torre inválido.");
+        }
+        if (!idsTorres.includes(numero)) idsTorres.push(numero);
+    });
+
+    if (idsTorres.length === 0) return;
+
+    var torresValidas = await database.executar(`
+        SELECT id_torre
+        FROM torre
+        WHERE fk_fabricante = ${fabricante}
+          AND id_torre IN (${idsTorres.join(",")});
+    `);
+
+    if (torresValidas.length !== idsTorres.length) {
+        throw new Error("Uma ou mais torres não pertencem ao fabricante conectado.");
+    }
+}
+
 
 async function salvarAcessosTorres(idUsuario, torres, idFabricante) {
     var id = Number(idUsuario);
@@ -524,5 +553,6 @@ module.exports = {
   atualizarCargo,
   listarTorresPorMineradora,
   buscarAcessosTorres,
+  validarTorresFabricante,
   salvarAcessosTorres
 };

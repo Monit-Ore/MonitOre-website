@@ -1,0 +1,166 @@
+.acesso_torres {
+  box-sizing: border-box;
+}
+
+.acesso_torres .descricao_acesso {
+  display: block;
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 8px 0 15px;
+}
+
+.lista_mineradoras {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.lista_mineradoras > p,
+.lista_mineradoras > label {
+  color: #aaa;
+  font-size: 13px;
+}
+
+.item_mineradora {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #292929;
+  border: 1px solid #3b3b3b;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.cabecalho_mineradora {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.nome_mineradora {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+
+.icone_mineradora {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #ecbe10;
+  color: #1e1e1e;
+}
+
+.torres_mineradora {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.botao_torre {
+  min-height: 36px;
+  max-width: 100%;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  background-color: #C5B1ED13;
+  color: #C5B1ED;
+  border: 1px solid #C5B1ED;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.botao_torre.selecionada {
+  background-color: #ecbe1013;
+  color: #ecbe10;
+  border: 1px solid #ecbe10;
+}
+
+.botao_torre.selecionada::before {
+  content: "✓ ";
+}
+
+.botao_torre:hover,
+.selecionar_todas:hover {
+  opacity: 0.85;
+}
+
+.botao_torre:focus-visible,
+.selecionar_todas:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.selecionar_todas {
+  min-height: 36px;
+  padding: 8px;
+  background-color: transparent;
+  color: #ecbe10;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#mensagem_acesso {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 768px) {
+  .cabecalho_mineradora {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .torres_mineradora {
+    justify-content: flex-start;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .item_mineradora {
+    padding: 10px;
+  }
+
+  .nome_mineradora {
+    font-size: 13px;
+  }
+
+  .torres_mineradora {
+    gap: 6px;
+  }
+
+  .botao_torre {
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+
+  .selecionar_todas {
+    padding: 7px 4px;
+  }
+}
