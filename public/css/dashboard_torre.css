@@ -24,7 +24,7 @@ body {
   cursor: pointer;
 }
 
-.btn-notificacao .icone-sino {
+/* .btn-notificacao .icone-sino {
   color: var(--branco);
   font-size: 1.5rem;
 }
@@ -33,7 +33,7 @@ body {
   color: var(--amarelo);
   font-size: 2rem;
   display: none;
-}
+} */
 
 :root {
   --branco: #ffffff;
