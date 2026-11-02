@@ -634,6 +634,10 @@
     document.addEventListener("DOMContentLoaded", () => {
       const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");
       const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
+      document.getElementById("botao_sair")?.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "./login.html";
+  });
 
       // Validação de segurança
       if (!idTorre || !fkEmpresa) {
