@@ -51,13 +51,13 @@ async function inicializarCadastro() {
   document.getElementById("form-cadastro-torre").addEventListener("submit", (evento) => salvarOuAtualizarTorre(evento));
 
   // SE TIVER ID NO SESSIONSTORAGE -> MODO EDIÇÃO (GET para preencher)
-  if (idTorre) {
-    document.querySelector(".titulo-cabecalho h1").textContent = "Alteração da Torre";
-    document.querySelector(".titulo-cabecalho span").textContent = "Atualize as informações da torre selecionada.";
-    document.querySelector(".btn-salvar span").textContent = "Salvar Alterações";
+  // if (idTorre) {
+  //   document.querySelector(".titulo-cabecalho h1").textContent = "Alteração da Torre";
+  //   document.querySelector(".titulo-cabecalho span").textContent = "Atualize as informações da torre selecionada.";
+  //   document.querySelector(".btn-salvar span").textContent = "Salvar Alterações";
     
-    await carregarDadosTorre(idTorre);
-  }
+  // }
+  await carregarDadosTorre(idTorre);
 }
 
 // FUNÇÃO GET: Busca os dados da torre e preenche os campos automaticamente
@@ -263,14 +263,14 @@ async function salvarOuAtualizarTorre(evento) {
   };
 
   // Define dinamicamente o método HTTP e a rota com base na existência do ID
-  const metodo = idTorre ? "PUT" : "POST";
-  const rota = idTorre 
-    ? `/torres/atualizar-torres/${idTorre}?fkEmpresa=${sessionStorage.getItem("FK_EMPRESA_USUARIO")}`
-    : `/torres/cadastrar-torres?fkEmpresa=${sessionStorage.getItem("FK_EMPRESA_USUARIO")}`;
+  // const metodo = idTorre ? "PUT" : "POST";
+  // const rota = idTorre 
+  //   ? `/torres/atualizar-torres/${idTorre}?fkEmpresa=${sessionStorage.getItem("FK_EMPRESA_USUARIO")}`
+  //   : `/torres/cadastrar-torres?fkEmpresa=${sessionStorage.getItem("FK_EMPRESA_USUARIO")}`;
 
   try {
-    const resposta = await fetch(rota, {
-      method: metodo,
+    const resposta = await fetch(`/torres/atualizar-torres/${idTorre}?fkEmpresa=${sessionStorage.getItem("FK_EMPRESA_USUARIO")}`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(corpo),
     });
@@ -285,7 +285,7 @@ async function salvarOuAtualizarTorre(evento) {
     // Limpa o ID da sessão após o sucesso para resetar o comportamento da tela
     sessionStorage.removeItem("idTorreEmEdicao");
 
-    alert(idTorre ? "Torre atualizada com sucesso!" : "Torre cadastrada com sucesso!");
+    alert( "Torre atualizada com sucesso!");
     window.location.href = "./selecao_torre.html";
   } catch (erro) {
     console.error("Erro ao salvar torre:", erro);
