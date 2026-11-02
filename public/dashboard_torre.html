@@ -71,6 +71,10 @@
 
   <main class="conteudo_layout">
     <!-- Topo da Torre -->
+     <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+      <i class="fa-regular fa-bell icone-sino"></i>
+      <i class="fa-solid fa-bars icone-menu"></i>
+    </button>
     <div class="container_1_dash">
       <div class="textos">
         <h2><span id="nome_torre">TORRE 07</span> | <span id="nome_mineradora">MINERADORA VALE</span></h2>
@@ -634,6 +638,12 @@
     document.addEventListener("DOMContentLoaded", () => {
       const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");
       const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
+
+      const botaoMenu = document.querySelector(".btn-notificacao");
+
+  botaoMenu?.addEventListener("click", () => document.body.classList.toggle("menu-aberto"));
+
+
       document.getElementById("botao_sair")?.addEventListener("click", () => {
     sessionStorage.clear();
     window.location.href = "./login.html";
