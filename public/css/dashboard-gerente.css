@@ -211,11 +211,15 @@ aside span {
   color: gold;
 }
 
-.header_dashboard h1 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #ffffff;
-  line-height: 1.2;
+.header_dashboard {
+  display: flex;
+  border: 1px solid #333333; /* Borda cinzenta padrão dos cards */
+  width: 100%;
+  border-radius: 5px;
+  background-color: #1c1c1c;
+  align-items: center;
+  padding: 15px 20px;
+  margin-bottom: 0;
 }
 
 .header_dashboard p {
@@ -289,6 +293,12 @@ aside span {
   display: flex;
   gap: 20px;
   width: 100%;
+}
+
+.dash_linha .card_painel:has(#graficoTorres) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza o conteúdo verticalmente dentro do card */
 }
 
 .card_painel {
@@ -429,10 +439,17 @@ aside span {
 /* ------barra */
 .barras_grafico_container {
   position: relative;
-  height: 220px;
+  height: 240px;
   width: 100%;
+  display: flex;
+  align-items: center;      /* Centraliza as barras verticalmente */
+  justify-content: center;
 }
 
+.barras_grafico_container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
 /* tabela alertasss */
 
 .tabela_responsiva {
@@ -545,6 +562,35 @@ aside span {
   background-color: rgba(255, 215, 65, 0.15);
   border: 1px solid var(--amarelo);
 }
+
+/* cores dos usos */
+span.tag_uso {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+span.tag_uso.verde {
+  color: var(--verde);
+  background-color: rgba(61, 220, 87, 0.1);
+  border: 1px solid var(--verde);
+}
+
+span.tag_uso.amarelo {
+  color: var(--amarelo);
+  background-color: rgba(255, 215, 65, 0.1);
+  border: 1px solid var(--amarelo);
+}
+
+span.tag_uso.vermelho {
+  color: var(--vermelho);
+  background-color: rgba(255, 77, 77, 0.1);
+  border: 1px solid var(--vermelho);
+}
+
 
 @media screen and (max-width: 900px) {
   .container_responsivo {

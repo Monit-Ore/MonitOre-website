@@ -1,38 +1,7 @@
-// É SO TROCAR OS DADOS AQUI PRA DASHBOARD COM DADOS REAIS DO BACK
-
-function carregarUsuarioMenu() {
-  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
-  if (!nomeUsuario) {
-    return;
-  }
-  nome_usuario.textContent = nomeUsuario;
-
-  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
-  if (!cargoUsuario) {
-    return;
-  }
-  cargo_usuario.textContent = cargoUsuario;
-}
-
-function carregarIniciais() {
-  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
-  const iniciais = [];
-
-  for (let i = 0; i < nomeUsuario.length; i++) {
-    if (i == 0) {
-      iniciais.push(nomeUsuario[i]);
-    }
-
-    if (nomeUsuario[i] == " ") {
-      iniciais.push(nomeUsuario[i + 1]);
-      break;
-    }
-  }
-  avatar_usuario.textContent = iniciais.join('');
-}
-
+// ==========================================
+// DADOS INICIAIS (MOCK)
+// ==========================================
 const dadosIniciais = {
-  
   kpis: {
     monitoradas: 12,
     online: "10 / 12",
@@ -41,11 +10,10 @@ const dadosIniciais = {
     alertasTotal: 7,
   },
   statusIpc: {
-    online: 10,
-    alerta: 2,
-    offline: 0,
+    online: 7,
+    alerta: 3,
+    offline: 2,
   },
-
   historicoPicos: {
     horas: ["08:00", "10:00", "12:00", "14:00", "16:00", "18:00"],
     picosCpu: [48, 62, 94, 73, 89, 55],
@@ -61,7 +29,6 @@ const dadosIniciais = {
     labels: ["Vale", "CSN", "Samarco", "Anglo American"],
     dados: [2, 1, 1, 1],
   },
-
   torres: {
     labels: [
       "Torre 07 (Vale)",
@@ -73,20 +40,110 @@ const dadosIniciais = {
     dados: [10, 7, 5, 2, 1],
   },
   alertasRecentes: [
-    { data: "14/04/2025 14:32", torre: "Torre 07", mineradora: "Vale", componente: "CPU", valor: "94%", limite: "90%", status: "ALERTA" },
-    { data: "14/04/2025 12:50", torre: "Torre 03", mineradora: "CSN", componente: "RAM", valor: "92%", limite: "90%", status: "ALERTA" },
-    { data: "14/04/2025 12:17", torre: "Torre 12", mineradora: "Samarco", componente: "CPU", valor: "81%", limite: "90%", status: "NORMAL" },
-    { data: "14/04/2025 10:03", torre: "Torre 01", mineradora: "Anglo American", componente: "Disco", valor: "87%", limite: "90%", status: "NORMAL" },
-    { data: "14/04/2025 09:45", torre: "Torre 09", mineradora: "Vale", componente: "CPU", valor: "82%", limite: "85%", status: "NORMAL" },
+    { 
+      data: "14/04/2026 14:32", 
+      torre: "Torre 07", 
+      mineradora: "Vale", 
+      usoCpu: "94%", 
+      usoRam: "88%", 
+      usoDisco: "76%", 
+      status: "CRÍTICO" 
+    },
+    { 
+      data: "14/04/2026 12:50", 
+      torre: "Torre 03", 
+      mineradora: "CSN", 
+      usoCpu: "75%", 
+      usoRam: "92%", 
+      usoDisco: "65%", 
+      status: "CRÍTICO" 
+    },
+    { 
+      data: "14/04/2026 12:17", 
+      torre: "Torre 12", 
+      mineradora: "Samarco", 
+      usoCpu: "81%", 
+      usoRam: "68%", 
+      usoDisco: "50%", 
+      status: "ALERTA" 
+    },
+    { 
+      data: "14/04/2026 10:03", 
+      torre: "Torre 01", 
+      mineradora: "Anglo American", 
+      usoCpu: "62%", 
+      usoRam: "71%", 
+      usoDisco: "87%", 
+      status: "ALERTA" 
+    },
+    { 
+      data: "14/04/2026 09:45", 
+      torre: "Torre 09", 
+      mineradora: "Vale", 
+      usoCpu: "82%", 
+      usoRam: "59%", 
+      usoDisco: "44%", 
+      status: "ALERTA" 
+    },
   ]
-
-  
 };
 
-// 1. GRAFICO ROSCA
+// ==========================================
+// FUNÇÕES DE UTILIZADOR E MENU
+// ==========================================
+function carregarUsuarioMenu() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) return;
+  const elNome = document.getElementById("nome_usuario");
+  if (elNome) elNome.textContent = nomeUsuario;
+
+  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+  if (!cargoUsuario) return;
+  const elCargo = document.getElementById("cargo_usuario");
+  if (elCargo) elCargo.textContent = cargoUsuario;
+}
+
+function carregarIniciais() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) return;
+  const iniciais = [];
+
+  for (let i = 0; i < nomeUsuario.length; i++) {
+    if (i == 0) iniciais.push(nomeUsuario[i]);
+    if (nomeUsuario[i] == " ") {
+      iniciais.push(nomeUsuario[i + 1]);
+      break;
+    }
+  }
+  const elAvatar = document.getElementById("avatar_usuario");
+  if (elAvatar) elAvatar.textContent = iniciais.join('').toUpperCase();
+}
+
+// ==========================================
+// FORMATAÇÃO DE CORES (Regra < 70 verde, < 80 amarelo, >= 90 vermelho)
+// ==========================================
+function formatarUsoComCor(valorStr) {
+  const valor = parseInt(valorStr, 10);
+  if (isNaN(valor)) return valorStr;
+
+  let classe = "verde";
+  if (valor >= 90) {
+    classe = "vermelho";
+  } else if (valor >= 70) {
+    classe = "amarelo";
+  }
+
+  return `<span class="tag_uso ${classe}">${valorStr}</span>`;
+}
+
+// ==========================================
+// CRIAÇÃO DOS GRÁFICOS (Chart.js)
+// ==========================================
 function criarGraficoStatus(status) {
-  const ctx = document.getElementById("graficoStatus").getContext("2d");
-  new Chart(ctx, {
+  const el = document.getElementById("graficoStatus");
+  if (!el) return;
+
+  new Chart(el.getContext("2d"), {
     type: "doughnut",
     data: {
       labels: ["Online", "Em alerta", "Offline"],
@@ -111,10 +168,11 @@ function criarGraficoStatus(status) {
   });
 }
 
-// 2. BARRAS HORIZONTAIS: ALERTA por mineradora
 function criarGraficoMineradoras(mineradoras) {
-  const ctx = document.getElementById("graficoMineradoras").getContext("2d");
-  new Chart(ctx, {
+  const el = document.getElementById("graficoMineradoras");
+  if (!el) return;
+
+  new Chart(el.getContext("2d"), {
     type: "bar",
     data: {
       labels: mineradoras.labels,
@@ -149,10 +207,11 @@ function criarGraficoMineradoras(mineradoras) {
   });
 }
 
-// 3. BARRAS HORIZONTAIS: ALERTA por torre
 function criarGraficoTorres(torres) {
-  const ctx = document.getElementById("graficoTorres").getContext("2d");
-  new Chart(ctx, {
+  const el = document.getElementById("graficoTorres");
+  if (!el) return;
+
+  new Chart(el.getContext("2d"), {
     type: "bar",
     data: {
       labels: torres.labels,
@@ -187,81 +246,6 @@ function criarGraficoTorres(torres) {
   });
 }
 
-// 4. PREENCHER TABELA DE ALERTAS
-function renderizarTabelaAlertas(alertas) {
-  const corpo = document.getElementById("tabela_alertas_corpo");
-  corpo.innerHTML = alertas
-    .map((item) => {
-      const isAlerta = item.status === "ALERTA";
-      const badgeClasse = isAlerta ? "alerta" : "normal";
-      const icone = isAlerta ? "⚠" : "✓";
-
-      return `
-      <tr>
-        <td>${item.data}</td>
-        <td>${item.torre}</td>
-        <td>${item.mineradora}</td>
-        <td>${item.componente}</td>
-        <td>${item.valor}</td>
-        <td>${item.limite}</td>
-        <td>
-          <span class="tag_status ${badgeClasse}">
-            <span>${icone}</span> ${item.status}
-          </span>
-        </td>
-      </tr>
-    `;
-    })
-    .join("");
-}
-
-// 5. QUANDO FOR CRIAR AS ROTAS NO BACKEND, PODEMOS USAR ESSA FUNÇÃO PARA CARREGAR OS DADOS REAIS
-async function carregarDadosDashboard() {
-  const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
-  if (!fkEmpresa) return;
-
-  try {
-    const res = await fetch(`/dashboard/visao-executiva?fkEmpresa=${fkEmpresa}`);
-    if (res.ok) {
-      const dados = await res.json();
-      // ATUALIZAR OS GRÁFICOS E TABEL
-      console.log("Dados do backend carregados:", dados);
-    }
-  } catch (err) {
-    console.warn("Rota do backend ainda não configurada, usando dados do Figma:", err);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  carregarUsuarioMenu();
-  carregarIniciais();
-  criarGraficoStatus(dadosIniciais.statusIpc);
-  criarGraficoMineradoras(dadosIniciais.mineradoras);
-  criarGraficoTorres(dadosIniciais.torres);
-  renderizarTabelaAlertas(dadosIniciais.alertasRecentes);
-
-  
-  criarGraficoPicosProcesso(dadosIniciais.historicoPicos);
-  renderizarTabelaPicos(dadosIniciais.historicoPicos.registros);
-
-  // Logout
-  document.getElementById("botao_sair")?.addEventListener("click", () => {
-    sessionStorage.clear();
-    window.location.href = "./login.html";
-
-    const botaoMenu = document.querySelector(".btn-notificacao");
-
-botaoMenu?.addEventListener("click", () =>
-  document.body.classList.toggle("menu-aberto"),
-);
-  });
-
-  
-  carregarDadosDashboard();
-});
-
-// 6. GRÁFICO DE PICOS DE PROCESSO
 function criarGraficoPicosProcesso(picos) {
   const elementoCanvas = document.getElementById("graficoPicosProcesso");
   if (!elementoCanvas) return;
@@ -315,7 +299,47 @@ function criarGraficoPicosProcesso(picos) {
   });
 }
 
-// 7. PREENCHER TABELA DE HISTÓRICO DE PICOS
+// ==========================================
+// RENDERIZAÇÃO DAS TABELAS (Alinhadas com o HTML)
+// ==========================================
+function renderizarTabelaAlertas(alertas) {
+  const corpo = document.getElementById("tabela_alertas_corpo");
+  if (!corpo) return;
+
+  corpo.innerHTML = alertas
+    .map((item) => {
+      let badgeClasse = "normal";
+      let icone = "✓";
+
+      const statusUpper = item.status.toUpperCase();
+
+      if (statusUpper === "CRÍTICO" || statusUpper === "CRITICO") {
+        badgeClasse = "critico";
+        icone = "⚠";
+      } else if (statusUpper === "ALERTA") {
+        badgeClasse = "alerta";
+        icone = "⚠";
+      }
+
+      return `
+      <tr>
+        <td>${item.data}</td>
+        <td>${item.torre}</td>
+        <td>${item.mineradora}</td>
+        <td>${formatarUsoComCor(item.usoCpu)}</td>
+        <td>${formatarUsoComCor(item.usoRam)}</td>
+        <td>${formatarUsoComCor(item.usoDisco)}</td>
+        <td>
+          <span class="tag_status ${badgeClasse}">
+            <span>${icone}</span> ${item.status}
+          </span>
+        </td>
+      </tr>
+    `;
+    })
+    .join("");
+}
+
 function renderizarTabelaPicos(registros) {
   const corpo = document.getElementById("tabela_picos_corpo");
   if (!corpo) return;
@@ -339,14 +363,54 @@ function renderizarTabelaPicos(registros) {
     .join("");
 }
 
+// ==========================================
+// CHAMADAS AO BACKEND (MOCK)
+// ==========================================
+async function carregarDadosDashboard() {
+  const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
+  if (!fkEmpresa) return;
 
-//BOTAO SAIR    
+  try {
+    const res = await fetch(`/dashboard/visao-executiva?fkEmpresa=${fkEmpresa}`);
+    if (res.ok) {
+      const dados = await res.json();
+      console.log("Dados do backend carregados:", dados);
+    }
+  } catch (err) {
+    console.warn("Rota do backend ainda não configurada, usando dados simulados:", err);
+  }
+}
+
+// ==========================================
+// INICIALIZAÇÃO ÚNICA DA PÁGINA
+// ==========================================
 document.addEventListener("DOMContentLoaded", () => {
- 
+  carregarUsuarioMenu();
+  carregarIniciais();
+
+  // Gráficos
+  criarGraficoStatus(dadosIniciais.statusIpc);
+  criarGraficoMineradoras(dadosIniciais.mineradoras);
+  criarGraficoTorres(dadosInSessions = dadosIniciais.torres); // correção segura
+  if (typeof criarGraficoPicosProcesso === "function") {
+    criarGraficoPicosProcesso(dadosIniciais.historicoPicos);
+  }
+
+  // Tabelas
+  renderizarTabelaAlertas(dadosIniciais.alertasRecentes);
+  renderizarTabelaPicos(dadosIniciais.historicoPicos.registros);
+
+  // Botão Menu Responsivo (Hambúrguer)
   const botaoMenu = document.querySelector(".btn-notificacao");
+  botaoMenu?.addEventListener("click", () => {
+    document.body.classList.toggle("menu-aberto");
+  });
 
-  botaoMenu?.addEventListener("click", () =>
-    document.body.classList.toggle("menu-aberto")
-  );
+  // Botão Sair
+  document.getElementById("botao_sair")?.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "./login.html";
+  });
 
+  carregarDadosDashboard();
 });

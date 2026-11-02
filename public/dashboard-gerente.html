@@ -135,14 +135,14 @@
     <section class="kpis_grid">
 
       <!-- KPI 1: Média ativos -->
-      <div class="kpi_card borda_amarela">
+      <!-- <div class="kpi_card borda_amarela">
         <div class="kpi_topo">
           <i class="fa-solid fa-microchip icone_kpi amarelo"></i>
           <span>MÉDIA PROCESSOS ATIVOS</span>
         </div>
         <div class="kpi_valor" id="kpi_media_processos">148</div>
         <span class="kpi_sub">Média por Torre em execução</span>
-      </div>
+      </div> -->
 
       <!-- KPI 2: processo mais consumidao -->
       <!-- <div class="kpi_card borda_amarela">
@@ -181,7 +181,7 @@
           <span>MAIOR USO DE CPU</span>
         </div>
         <div class="kpi_valor" id="kpi_torre_cpu" style="font-size: 1.4rem; padding-top: 4px;">Torre 07</div>
-        <span class="kpi_sub" id="kpi_sub_torre_cpu">94% de consumo</span>
+        <span class="kpi_sub" id="kpi_sub_torre_cpu">94% de consumo - 14/04/2026; 14:32</span>
       </div>
 
       <!-- KPI: Torre com maior uso de RAM -->
@@ -191,7 +191,7 @@
           <span>MAIOR USO DE RAM</span>
         </div>
         <div class="kpi_valor" id="kpi_torre_ram" style="font-size: 1.4rem; padding-top: 4px;">Torre 03</div>
-        <span class="kpi_sub" id="kpi_sub_torre_ram">71% de consumo</span>
+        <span class="kpi_sub" id="kpi_sub_torre_ram">71% de consumo - 14/04/2026; 16:22</span>
       </div>
 
       <!-- KPI: Torre com maior uso de Disco -->
@@ -201,7 +201,7 @@
           <span>MAIOR USO DE DISCO</span>
         </div>
         <div class="kpi_valor" id="kpi_torre_disco" style="font-size: 1.4rem; padding-top: 4px;">Torre 01</div>
-        <span class="kpi_sub" id="kpi_sub_torre_disco">87% de ocupação</span>
+        <span class="kpi_sub" id="kpi_sub_torre_disco">87% de ocupação - 13/04/2026; 12:07</span>
       </div>
 
       <!-- KPI 5: Alertas 24h -->
@@ -234,17 +234,17 @@
             <div class="legenda_item">
               <span class="ponto verde"></span>
               <span class="legenda_nome">Normal</span>
-              <span class="legenda_num" id="pct_online">10 (83,3%)</span>
+              <span class="legenda_num" id="pct_online">10 (83,33%)</span>
             </div>
             <div class="legenda_item">
               <span class="ponto amarelo"></span>
               <span class="legenda_nome">Em Atenção</span>
-              <span class="legenda_num" id="pct_alerta">2 (16,7%)</span>
+              <span class="legenda_num" id="pct_alerta">2 (16,67%)</span>
             </div>
             <div class="legenda_item">
               <span class="ponto vermelho"></span>
               <span class="legenda_nome">Critico</span>
-              <span class="legenda_num" id="pct_offline">0 (0,0%)</span>
+              <span class="legenda_num" id="pct_offline">2 (16,67%)</span>
             </div>
           </div>
         </div>
@@ -261,7 +261,8 @@
     </section>
 
     <!--  2: ALETYAA por torre + tabela  -->
-    <section class="dash_linha">
+   <section class="dash_linha">
+   
       <div class="card_painel">
         <div class="painel_header">
           <i class="fa-solid fa-tower-broadcast icone_painel"></i>
@@ -272,11 +273,12 @@
         </div>
       </div>
 
-      <div class="card_painel">
+
+    <div class="card_painel">
         <div class="painel_header_com_botao">
           <div class="painel_header">
             <i class="fa-solid fa-bell icone_painel"></i>
-            <h3>Histórico de Alertas<small>(últimas 24h)</small></h3>
+            <h3>Histórico de Alertas <small>(últimas 24h)</small></h3>
           </div>
           <a href="#" class="btn_ver_todos">Ver todos</a>
         </div>
@@ -288,9 +290,9 @@
                 <th>Data/Hora</th>
                 <th>Torre</th>
                 <th>Mineradora</th>
-                <th>Componente</th>
-                <th>Valor</th>
-                <th>Limite</th>
+                <th>Uso CPU</th>
+                <th>Uso RAM</th>
+                <th>Uso DISCO</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -304,7 +306,7 @@
    
     <section class="dash_linha">
       <!--  Histórico de Picos -->
-      <div class="card_painel card_picos_grafico">
+      <!-- <div class="card_painel card_picos_grafico">
         <div class="painel_header">
           <i class="fa-solid fa-chart-line icone_painel"></i>
           <h3>Picos de Processos por Hora <small>(Uso máx. de CPU/RAM)</small></h3>
@@ -312,10 +314,10 @@
         <div class="barras_grafico_container">
           <canvas id="graficoPicosProcesso"></canvas>
         </div>
-      </div>
+      </div> -->
 
    
-      <div class="card_painel card_picos_tabela">
+      <!-- <div class="card_painel card_picos_tabela">
         <div class="painel_header_com_botao">
           <div class="painel_header">
             <i class="fa-solid fa-fire icone_painel"></i>
@@ -335,11 +337,11 @@
               </tr>
             </thead>
             <tbody id="tabela_picos_corpo">
-             <!-- acho q aq ta indo o js -->
+          
             </tbody>
           </table>
         </div>
-      </div>
+      </div> -->
     </section>
   </main>
 
