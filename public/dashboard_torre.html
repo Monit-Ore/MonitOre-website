@@ -391,13 +391,17 @@
 
     criarComponentes();
 
-    const labelsHorarios = ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'];
+    const labelsHorarios = [
+      '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', 
+      '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', 
+      '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', 
+      '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
+    ];
 
-    // Estrutura de dados centralizada para facilitar a troca de visão e limiares
     const configComponentes = {
       cpu: {
         label: 'CPU',
-        data: [50, 52, 55, 58, 62, 81, 65],
+        data: [48, 49, 50, 52, 52, 53, 54, 55, 56, 57, 57, 58, 59, 60, 61, 62, 65, 70, 75, 81, 72, 69, 67, 65],
         borderColor: '#f1c40f',
         backgroundColor: '#f1c40f',
         alerta: 75,
@@ -405,7 +409,7 @@
       },
       ram: {
         label: 'RAM',
-        data: [45, 48, 50, 53, 58, 75, 88],
+        data: [44, 45, 46, 48, 48, 49, 49, 50, 51, 52, 52, 53, 54, 55, 56, 58, 62, 67, 71, 75, 78, 79,79 , 88],
         borderColor: '#3498db',
         backgroundColor: '#3498db',
         alerta: 60,
@@ -413,7 +417,7 @@
       },
       disco: {
         label: 'Disco',
-        data: [35, 38, 40, 42, 45, 88, 48],
+        data: [34, 35, 36, 38, 38, 39, 39, 40, 40, 41, 41, 42, 43, 43, 44, 45, 55, 68, 78, 88, 70, 60, 53, 48],
         borderColor: '#2ecc71',
         backgroundColor: '#2ecc71',
         alerta: 75,
