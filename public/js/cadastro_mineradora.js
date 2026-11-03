@@ -1,15 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
+//    const botaoMenu = document.querySelector(".btn-notificacao");
+
+// botaoMenu?.addEventListener("click", () =>
+//   document.body.classList.toggle("menu-aberto"),
+// );
+
   carregarUsuarioMenu();
   carregarIniciais();
   configurarMascaraCnpj();
 
   // Menu responsivo mobile
-  const botaoMenu = document.querySelector(".btn_notificacao");
-  if (botaoMenu) {
-    botaoMenu.addEventListener("click", function () {
-      document.body.classList.toggle("menu-aberto");
-    });
-  }
+
+
 
   // Logout
   const botaoSair = document.getElementById("botao_sair");
@@ -19,6 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "./login.html";
     });
   }
+
+  const botaoMenu = document.querySelector("btn-notificacao");
+
+botaoMenu?.addEventListener("click", () =>
+  document.body.classList.toggle("menu-aberto"),
+
+);
 });
 
 // APLICAÇÃO DE MÁSCARA AUTOMÁTICA NO CNPJ (00.000.000/0000-00)
@@ -192,3 +201,14 @@ function ativarMenu(idAtivo) {
     item.classList.toggle("ativo", item.id === idAtivo);
   });
 }
+
+// const botaoMenu = document.querySelector(".btn-notificacao");
+
+// botaoMenu?.addEventListener("click", () =>
+//   document.body.classList.toggle("menu-aberto"),
+// );
+const botaoMenu = document.querySelector(".btn-notificacao");
+
+botaoMenu?.addEventListener("click", () =>
+  document.body.classList.toggle("menu-aberto"),
+);

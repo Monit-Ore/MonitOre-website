@@ -1,10 +1,5 @@
-
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
-  // carregarCargos();
-  // carregarMineradoras();
+  carregarCargos();
 
   configurarMascaras();
   carregarUsuarioMenu();
@@ -18,14 +13,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-
 // CARREGAMENTO DOS CARGOS
 
 function carregarCargos() {
-  if (window.location.pathname.includes('meu_perfil.html')) {
+  if (window.location.pathname.includes("meu_perfil.html")) {
     return;
   }
   var campoCargo = document.getElementById("cargo_ipt");
+  if (!campoCargo) return;
 
   fetch("/usuarios/cargos")
     .then(function (resposta) {
@@ -36,44 +31,17 @@ function carregarCargos() {
       return resposta.json();
     })
     .then(function (cargos) {
+      if (!Array.isArray(cargos) || cargos.length === 0) {
+        throw new Error("Nenhum cargo disponível para cadastro.");
+      }
+
       cargos.forEach(function (cargo) {
         var opcao = document.createElement("option");
 
-        opcao.value = cargo.id_cargo;
-        opcao.textContent = cargo.nome + " - " + cargo.empresa;
+        opcao.value = cargo.cargo;
+        opcao.textContent = cargo.nome;
 
         campoCargo.appendChild(opcao);
-      });
-    })
-    .catch(function (erro) {
-      mostrarMensagem(erro.message, true);
-    });
-}
-
-// CARREGAMENTO DAS MINERADORAS/UNIDADES
-
-function carregarMineradoras() {
-  if (window.location.pathname.includes('meu_perfil.html')) {
-    return;
-  }
-  var campoUnidade = document.getElementById("unidade_local_ipt");
-
-  fetch("/usuarios/mineradoras")
-    .then(function (resposta) {
-      if (!resposta.ok) {
-        throw new Error("Não foi possível carregar as unidades.");
-      }
-
-      return resposta.json();
-    })
-    .then(function (mineradoras) {
-      mineradoras.forEach(function (mineradora) {
-        var opcao = document.createElement("option");
-
-        opcao.value = mineradora.id_mineradora;
-        opcao.textContent = mineradora.razao_social;
-
-        campoUnidade.appendChild(opcao);
       });
     })
     .catch(function (erro) {
@@ -84,13 +52,19 @@ function carregarMineradoras() {
 // CADASTRO
 
 function salvar() {
+  if (!acessosTorresCarregados) {
+    mostrarMensagem(
+      "Aguarde o carregamento das torres antes de cadastrar o usuário.",
+      true,
+    );
+    return;
+  }
+
   var nome = document.getElementById("nome_ipt").value.trim();
 
   var email = document.getElementById("email_ipt").value.trim();
 
   var dataNascimento = document.getElementById("data_nasc_input").value;
-
-  var idMineradora = document.getElementById("unidade_local_ipt").value;
 
   var cpf = document.getElementById("cpf_ipt").value.replace(/\D/g, "");
 
@@ -98,9 +72,7 @@ function salvar() {
 
   var telefone = document.getElementById("telefone_ipt").value.trim();
 
-  var idCargo = document.getElementById("cargo_ipt").value;
-
-
+  var cargo = document.getElementById("cargo_ipt").value;
 
   if (nome.length < 3) {
     mostrarMensagem("Informe o nome completo do funcionário.", true);
@@ -122,7 +94,7 @@ function salvar() {
     return;
   }
 
-  if (!idCargo) {
+  if (!cargo) {
     mostrarMensagem("Selecione um cargo.", true);
     return;
   }
@@ -137,17 +109,14 @@ function salvar() {
 
     telefone: telefone || null,
 
-    idCargo: Number(idCargo),
-
-    idMineradora: idMineradora ? Number(idMineradora) : null,
-
+    cargo: cargo,
+    torres: obterTorresSelecionadas(),
   };
 
   enviarCadastro(dadosCadastro);
 }
 
 // ENVIO PARA O BACKEND
-
 
 function enviarCadastro(dadosCadastro) {
   var botaoSalvar = document.querySelector(".btn-salvar");
@@ -182,8 +151,18 @@ function enviarCadastro(dadosCadastro) {
 
       mostrarMensagem(resultado.conteudo.mensagem, false);
 
-      limparFormulario();
+      var mensagemAcesso = document.getElementById("mensagem_acesso");
+      if (mensagemAcesso) {
+        mensagemAcesso.textContent =
+          "Acessos às torres salvos junto com o usuário.";
+        mensagemAcesso.style.color = "#f5c400";
 
+        setTimeout(function () {
+          window.location.href = "./visualizacao_usuarios.html";
+        }, 1500);
+      }
+
+      limparFormulario();
     })
     .catch(function (erro) {
       mostrarMensagem(erro.message, true);
@@ -205,7 +184,6 @@ function mostrar_senha(num) {
   } else {
     var campoSenha = document.getElementById("senha_ipt");
   }
-  
 
   if (campoSenha.type === "password") {
     campoSenha.type = "text";
@@ -268,10 +246,10 @@ function carregarUsuarioMenu() {
 
 function carregarIniciais() {
   const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) return;
   const iniciais = [];
 
   for (let i = 0; i < nomeUsuario.length; i++) {
-    
     if (i == 0) {
       iniciais.push(nomeUsuario[i]);
     }
@@ -279,22 +257,33 @@ function carregarIniciais() {
     let boolInicial = false;
 
     if (nomeUsuario[i] == " ") {
-      iniciais.push(nomeUsuario[i + 1])
+      iniciais.push(nomeUsuario[i + 1]);
       boolInicial = true;
       break;
     }
-    
   }
-  avatar_usuario.textContent = iniciais.join('');
-  
-  var segundoAvatar = document.getElementById("avatar_usuario_2"); 
-  if (segundoAvatar) segundoAvatar.textContent = iniciais.join('');
+  avatar_usuario.textContent = iniciais.join("");
+
+  var segundoAvatar = document.getElementById("avatar_usuario_2");
+  if (segundoAvatar) segundoAvatar.textContent = iniciais.join("");
 }
 
 // MENSAGEM
 
 function mostrarMensagem(texto, erro) {
   var mensagem = document.getElementById("mensagem_cadastro");
+
+  mensagem.textContent = texto;
+
+  if (erro) {
+    mensagem.style.color = "#ff7777";
+  } else {
+    mensagem.style.color = "#7dff91";
+  }
+}
+
+function mostrarMensagemTel(texto, erro) {
+  var mensagem = document.getElementById("mensagem_telefone");
 
   mensagem.textContent = texto;
 
@@ -315,7 +304,6 @@ function limparFormulario() {
   document.getElementById("data_nasc_input").value = "";
   document.getElementById("telefone_ipt").value = "";
   document.getElementById("cargo_ipt").value = "";
-  document.getElementById("unidade_local_ipt").value = "";
 }
 
 // BOTÕES DE NAVEGAÇÃO
@@ -397,8 +385,10 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.clear();
     window.location.href = "./login.html";
   });
-
- 
 });
 
+const botaoMenu = document.querySelector(".btn-notificacao");
 
+botaoMenu?.addEventListener("click", () =>
+  document.body.classList.toggle("menu-aberto"),
+);

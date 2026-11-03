@@ -5,20 +5,52 @@ body {
 }
 
 .conteudo_layout {
-    padding: 20px;
+    padding: 20px !important;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
+.btn-notificacao {
+  display: none;
+  background-color: #1f1f1f;
+  border: 2px solid var(--cinza);
+  border-radius: 5px;
+  padding: 7px 9px;
+  position: fixed;
+  top: 1%;
+  right: 3%;
+  z-index: 9999;
+  cursor: pointer;
+}
 
+/* .btn-notificacao .icone-sino {
+  color: var(--branco);
+  font-size: 1.5rem;
+}
+
+.btn-notificacao .icone-menu {
+  color: var(--amarelo);
+  font-size: 2rem;
+  display: none;
+} */
+
+:root {
+  --branco: #ffffff;
+  --amarelo: #ffd741;
+  --amarelo-hover: #ecbe10;
+  --preto: #000000;
+  --verde: #3ddc57;
+  --vermelho: #ff4d4d;
+  --cinza: #8f8e8e;
+  --cinza-sub: #b7b7b7;
+  --fundo-card: #2b2b2b;
+}
 
 .container_1_dash {
     display: flex;
-    border: 2px solid gold;
     width: 100%;
     border-radius: 5px;
-    background-color: #1c1c1c;
     align-items: center;
 }
 
@@ -76,8 +108,6 @@ body {
     margin: 2px 0;
 }
 
-
-
 .container_meio {
     display: flex;
     gap: 20px;
@@ -100,13 +130,33 @@ body {
     background-color: #1c1c1c;
     border: 1px solid #333;
     border-radius: 5px;
-    padding: 30px;
+    padding: 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-
+    flex-wrap: wrap;
+    flex: 1;
     gap: 12px;
+}
+
+.card_alertas_componente > .card_componentes{
+    min-width: 0;
+    padding: 0;
+    box-sizing: border-box;
+    margin: auto;
+}
+
+#graficoComponentes{
+    height: 100% !important;
+    width: 100% !important;
+    display: block;
+}
+
+.card_componentes{
+    width: 350px;
+    padding: 20px;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .item_alerta_barra {
@@ -169,11 +219,17 @@ th {
 }
 
 .tag_alerta {
-    border: 1px solid gold;
-    color: gold;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid;
+    color: var(--amarelo);
+    border-color: var(--amarelo);
+    background-color: rgba(255, 215, 65, 0.08);
 }
 
 .btn_ver_todos {
@@ -305,6 +361,37 @@ th {
 }
 
 @media screen and (max-width: 768px) {
+  .btn-notificacao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    position: absolute;
+  }
+
+  .btn-notificacao .icone-sino {
+    display: none !important;
+  }
+
+  .btn-notificacao .icone-menu {
+    display: inline-block !important;
+  }
+
+
+
+
+    .conteudo_layout {
+        padding: 5px !important;
+    }
+
+    .tag_alerta .icone{
+        display: none;
+    }
+
     .container_metricas {
         flex-wrap: wrap;
         gap: 15px;
@@ -370,8 +457,59 @@ th {
         height: 300px !important;
     }
 
-    .topo_tabela{
+    .card_componentes{
+        width: 100% !important;
+        position: relative !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        margin-top: 20px;
+    }
+
+    .card_componentes canvas{
+        width: auto !important;
+        height: 300px !important;
+    }
+
+    .topo_tabela {
         flex-wrap: wrap;
         gap: 10px;
+    }
+}
+
+/* Filtro do topo da tabela de alertas diários */
+#filtroPeriodoAlertas {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: 1px solid #444;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+#filtroPeriodoAlertas:focus {
+    outline: none;
+    border-color: var(--amarelo);
+}
+
+/* Destaque para total de alertas nas linhas */
+.total_alertas_destaque {
+    color: var(--amarelo);
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.total_alertas_zero {
+    color: var(--cinza);
+    font-weight: normal;
+
+    .card_componentes{
+        width: 100% !important;
+        position: relative !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        margin-top: 20px;
     }
 }

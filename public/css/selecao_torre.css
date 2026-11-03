@@ -203,7 +203,7 @@ header span {
   border: 2px solid var(--cinza);
   border-radius: 5px;
   padding: 7px 9px;
-  position: fixed;
+  justify-self: end;
   top: 3%;
   right: 3%;
   z-index: 9999;
@@ -219,6 +219,7 @@ header span {
   color: var(--amarelo);
   font-size: 2rem;
   display: none;
+  justify-self: end;
 }
 
 .header-box {
@@ -282,6 +283,16 @@ header span {
   gap: 5px;
 }
 
+.torre-div span{
+  display: inline-block;
+  max-inline-size: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+  cursor: pointer;
+}
+
 .torres-scroll {
   display: flex;
   flex-direction: row;
@@ -291,6 +302,18 @@ header span {
   border: 2px solid var(--amarelo);
   gap: 15px;
   overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.torres-priority {
+  display: flex;
+  flex-direction: row;
+  background-color: #1f1f1f;
+  padding: 15px;
+  border-radius: 20px;
+  border: 2px solid var(--amarelo);
+  gap: 15px;
+  flex-wrap: wrap;
   padding-bottom: 10px;
 }
 
@@ -333,8 +356,12 @@ header span {
   font-weight: bold;
 }
 
-.torre-status.alerta {
+.torre-status.crítico {
   color: var(--vermelho);
+}
+
+.torre-status.alerta {
+  color: var(--amarelo);
 }
 
 .torre-status.regular {
@@ -378,7 +405,6 @@ header span {
     background: transparent;
     border: none;
     padding: 0;
-    position: absolute;
   }
 
   .btn-notificacao .icone-sino {
@@ -387,6 +413,10 @@ header span {
 
   .btn-notificacao .icone-menu {
     display: inline-block !important;
+  }
+
+  .torres-priority {
+    justify-content: center;
   }
 }
 

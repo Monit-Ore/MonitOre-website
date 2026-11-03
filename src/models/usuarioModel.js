@@ -110,20 +110,19 @@ function cadastrar(
   senha,
   dataNascimento,
   telefone,
-  idCargo,
-  idMineradora,
+  cargo,
+  idEmpresa,
 ) {
   var nomeSeguro = mysql.escape(nome);
   var emailSeguro = mysql.escape(email);
   var cpfSeguro = mysql.escape(cpf);
   var senhaSegura = mysql.escape(senha);
   var telefoneSeguro = mysql.escape(telefone || null);
+  var cargoSeguro = mysql.escape(cargo);
 
   var dataNascimentoSegura = dataNascimento
     ? mysql.escape(dataNascimento)
     : "NULL";
-
-  var mineradoraSegura = idMineradora ? Number(idMineradora) : "NULL";
 
   var instrucaoSql = `
         INSERT INTO usuario (
@@ -133,10 +132,9 @@ function cadastrar(
             senha,
             data_nascimento,
             telefone,
-            primeiro_acesso,
             ultimo_acesso,
-            fk_cargo,
-            fk_mineradora
+            fk_empresa,
+            cargo
         )
         VALUES (
             ${nomeSeguro},
@@ -145,10 +143,9 @@ function cadastrar(
             ${senhaSegura},
             ${dataNascimentoSegura},
             ${telefoneSeguro},
-            TRUE,
             NULL,
-            ${Number(idCargo)},
-            ${mineradoraSegura}
+            ${Number(idEmpresa)},
+            ${cargoSeguro}
         );
     `;
 
@@ -251,27 +248,10 @@ function deletarUsuario(idUsuario) {
 // LISTAR CARGOS
 
 function listarCargos() {
-  var instrucaoSql = `
-        SELECT
-            c.id_cargo,
-            c.nome,
-            e.razao_social AS empresa
-
-        FROM cargo AS c
-
-        INNER JOIN empresa AS e
-            ON c.fk_empresa = e.id_empresa
-
-        WHERE c.status_atividade = 'Ativo'
-          AND e.status_atividade = 'Ativo'
-
-        ORDER BY c.nome;
-    `;
-
-  console.log("Executando SQL:");
-  console.log(instrucaoSql);
-
-  return database.executar(instrucaoSql);
+  return [
+    { cargo: "Administrador", nome: "Administrador" },
+    { cargo: "Operador", nome: "Operador" },
+  ];
 }
 
 // LISTAR MINERADORAS
@@ -436,6 +416,35 @@ function buscarAcessosTorres(idUsuario, idFabricante) {
     return database.executar(instrucaoSql);
 }
 
+async function validarTorresFabricante(torres, idFabricante) {
+    if (!Array.isArray(torres)) {
+        throw new Error("A lista de torres é inválida.");
+    }
+
+    var fabricante = Number(idFabricante);
+    var idsTorres = [];
+    torres.forEach(function (idTorre) {
+        var numero = Number(idTorre);
+        if (!Number.isInteger(numero) || numero <= 0) {
+            throw new Error("ID de torre inválido.");
+        }
+        if (!idsTorres.includes(numero)) idsTorres.push(numero);
+    });
+
+    if (idsTorres.length === 0) return;
+
+    var torresValidas = await database.executar(`
+        SELECT id_torre
+        FROM torre
+        WHERE fk_fabricante = ${fabricante}
+          AND id_torre IN (${idsTorres.join(",")});
+    `);
+
+    if (torresValidas.length !== idsTorres.length) {
+        throw new Error("Uma ou mais torres não pertencem ao fabricante conectado.");
+    }
+}
+
 
 async function salvarAcessosTorres(idUsuario, torres, idFabricante) {
     var id = Number(idUsuario);
@@ -544,5 +553,6 @@ module.exports = {
   atualizarCargo,
   listarTorresPorMineradora,
   buscarAcessosTorres,
+  validarTorresFabricante,
   salvarAcessosTorres
 };

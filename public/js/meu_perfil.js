@@ -1,3 +1,5 @@
+
+
 function ativarMenu(idAtivo) {
   document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
     item.classList.toggle("ativo", item.id === idAtivo);
@@ -61,17 +63,21 @@ function carregarUsuarioMenu() {
 //   avatar_usuario.textContent = iniciais.join('');
 // }
 
+
 document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarioMenu();
   carregarIniciais();
-  const botaoMenu = document.querySelector(".btn-notificacao");
+  const botaoMenu = document.querySelector("btn-notificacao");
 
-  botaoMenu?.addEventListener("click", () =>
-    document.body.classList.toggle("menu-aberto"),
-  );
+botaoMenu?.addEventListener("click", () =>
+  document.body.classList.toggle("menu-aberto"),
+);
 
   document.getElementById("botao_sair")?.addEventListener("click", () => {
     sessionStorage.clear();
     window.location.href = "./login.html";
   });
 });
+
+
+
