@@ -7,12 +7,12 @@ const dadosIniciais = {
     online: "10 / 12",
     alerta: 2,
     offline: 0,
-    alertasTotal: 7,
+    alertasTotal: 25,
   },
   statusIpc: {
     online: 7,
     alerta: 3,
-    offline: 2,
+    offline:2,
   },
   historicoPicos: {
     horas: ["08:00", "10:00", "12:00", "14:00", "16:00", "18:00"],
@@ -37,7 +37,7 @@ const dadosIniciais = {
       "Torre 01 (Anglo American)",
       "Torre 09 (Vale)",
     ],
-    dados: [10, 7, 5, 2, 1],
+    dados: [3, 1, 1, 1, 1],
   },
   alertasRecentes: [
     { 
@@ -196,7 +196,7 @@ function criarGraficoMineradoras(mineradoras) {
         x: {
           grid: { color: "#262626" },
           ticks: { color: "#8f8e8e", stepSize: 1 },
-          max: 2.5,
+          max: 3,
         },
         y: {
           grid: { display: false },
@@ -235,7 +235,7 @@ function criarGraficoTorres(torres) {
         x: {
           grid: { color: "#262626" },
           ticks: { color: "#8f8e8e" },
-          max: 12,
+          max: 3,
         },
         y: {
           grid: { display: false },
