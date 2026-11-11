@@ -1,0 +1,139 @@
+{
+  "metadados": {
+    "nome_relatorio": "Visão geral do suporte",
+    "fonte": "JIRA",
+    "extraido_em": "2026-11-11T12:00:00-03:00",
+    "periodo_consultado": "Últimos 30 dias",
+    "dados_demonstrativos": true
+  },
+  "indicadores": {
+    "chamados_abertos": 128,
+    "chamados_criticos": 8,
+    "sla_em_risco": 14,
+    "sla_vencido": 6,
+    "tempo_medio_resolucao_segundos": 22680,
+    "variacao_tempo_resolucao_percentual": -2
+  },
+  "distribuicao_por_status": [
+    { "status": "A fazer", "quantidade": 26 },
+    { "status": "Em andamento", "quantidade": 48 },
+    { "status": "Cancelado/Fechado", "quantidade": 36 },
+    { "status": "Resolvido/Concluído", "quantidade": 18 }
+  ],
+  "serie_temporal": [
+    { "data": "2026-10-11", "chamados_recebidos": 35, "chamados_resolvidos": 18 },
+    { "data": "2026-10-14", "chamados_recebidos": 25, "chamados_resolvidos": 18 },
+    { "data": "2026-10-17", "chamados_recebidos": 37, "chamados_resolvidos": 18 },
+    { "data": "2026-10-20", "chamados_recebidos": 24, "chamados_resolvidos": 18 },
+    { "data": "2026-10-23", "chamados_recebidos": 38, "chamados_resolvidos": 18 },
+    { "data": "2026-10-26", "chamados_recebidos": 25, "chamados_resolvidos": 18 },
+    { "data": "2026-10-29", "chamados_recebidos": 38, "chamados_resolvidos": 18 },
+    { "data": "2026-11-01", "chamados_recebidos": 22, "chamados_resolvidos": 18 },
+    { "data": "2026-11-04", "chamados_recebidos": 26, "chamados_resolvidos": 18 },
+    { "data": "2026-11-07", "chamados_recebidos": 14, "chamados_resolvidos": 18 }
+  ],
+  "capacidade_da_equipe": [
+    { "responsavel": "Ana Costa", "chamados_ativos": 21, "chamados_prioridade_alta_ou_critica": 14, "chamados_demais_prioridades": 7 },
+    { "responsavel": "Bruno Lima", "chamados_ativos": 22, "chamados_prioridade_alta_ou_critica": 13, "chamados_demais_prioridades": 9 },
+    { "responsavel": "Camila Souza", "chamados_ativos": 26, "chamados_prioridade_alta_ou_critica": 0, "chamados_demais_prioridades": 26 },
+    { "responsavel": "Diego Santos", "chamados_ativos": 20, "chamados_prioridade_alta_ou_critica": 0, "chamados_demais_prioridades": 20 },
+    { "responsavel": "Eduardo Alves", "chamados_ativos": 18, "chamados_prioridade_alta_ou_critica": 0, "chamados_demais_prioridades": 18 },
+    { "responsavel": "Sem responsável", "chamados_ativos": 21, "chamados_prioridade_alta_ou_critica": 3, "chamados_demais_prioridades": 18 }
+  ],
+  "tempo_de_resolucao": {
+    "unidade": "dias",
+    "faixas": [
+      { "faixa": "0-2 dias", "prioridade_alta_ou_critica": 3, "demais_prioridades": 8, "total": 11 },
+      { "faixa": "3-7 dias", "prioridade_alta_ou_critica": 6, "demais_prioridades": 16, "total": 22 },
+      { "faixa": "8-14 dias", "prioridade_alta_ou_critica": 10, "demais_prioridades": 22, "total": 32 },
+      { "faixa": "15+ dias", "prioridade_alta_ou_critica": 20, "demais_prioridades": 43, "total": 63 }
+    ]
+  },
+  "chamados_que_precisam_de_atencao": [
+    {
+      "chave": "OPS-1482",
+      "resumo": "Indisponibilidade no acesso à plataforma",
+      "projeto": "Operações",
+      "tipo": "Incidente",
+      "prioridade": "Crítica",
+      "status": "Em triagem",
+      "responsavel": "Ana Costa",
+      "sem_responsavel": false,
+      "prazo_sla_em": -16200,
+      "sla_vencido": true,
+      "tempo_desde_ultima_atualizacao_horas": 8,
+      "endereco": null
+    },
+    {
+      "chave": "SUP-1481",
+      "resumo": "Falha na sincronização de dados do cliente",
+      "projeto": "Suporte",
+      "tipo": "Incidente",
+      "prioridade": "Crítica",
+      "status": "Em triagem",
+      "responsavel": null,
+      "sem_responsavel": true,
+      "prazo_sla_em": -13800,
+      "sla_vencido": true,
+      "tempo_desde_ultima_atualizacao_horas": 12,
+      "endereco": null
+    },
+    {
+      "chave": "SUP-1480",
+      "resumo": "Erro ao processar pagamentos via API",
+      "projeto": "Suporte",
+      "tipo": "Solicitação",
+      "prioridade": "Crítica",
+      "status": "Em triagem",
+      "responsavel": "Ana Costa",
+      "sem_responsavel": false,
+      "prazo_sla_em": -11400,
+      "sla_vencido": true,
+      "tempo_desde_ultima_atualizacao_horas": 16,
+      "endereco": null
+    },
+    {
+      "chave": "SUP-1479",
+      "resumo": "Integração com ERP interrompida",
+      "projeto": "Suporte",
+      "tipo": "Solicitação",
+      "prioridade": "Crítica",
+      "status": "Em triagem",
+      "responsavel": "Ana Costa",
+      "sem_responsavel": false,
+      "prazo_sla_em": -9000,
+      "sla_vencido": true,
+      "tempo_desde_ultima_atualizacao_horas": 20,
+      "endereco": null
+    },
+    {
+      "chave": "SUP-1478",
+      "resumo": "Usuários sem acesso ao painel de gestão",
+      "projeto": "Suporte",
+      "tipo": "Dúvida",
+      "prioridade": "Crítica",
+      "status": "Em triagem",
+      "responsavel": "Ana Costa",
+      "sem_responsavel": false,
+      "prazo_sla_em": -6600,
+      "sla_vencido": true,
+      "tempo_desde_ultima_atualizacao_horas": 24,
+      "endereco": null
+    },
+    {
+      "chave": "OPS-1477",
+      "resumo": "Relatório financeiro apresenta dados divergentes",
+      "projeto": "Operações",
+      "tipo": "Incidente",
+      "prioridade": "Crítica",
+      "status": "Em triagem",
+      "responsavel": "Ana Costa",
+      "sem_responsavel": false,
+      "prazo_sla_em": -4200,
+      "sla_vencido": true,
+      "tempo_desde_ultima_atualizacao_horas": 28,
+      "endereco": null
+    }
+  ]
+}
+
