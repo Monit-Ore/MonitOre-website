@@ -89,7 +89,7 @@
     </div>
     <section class="secao_dashboard">
       <div class="titulo_secao"><h2>Visão da fila</h2><span>Distribuição e evolução no período</span></div>
-      <div class="linha_graficos">
+      <div class="linha_graficos linha_fila">
         <article class="card_painel painel_status">
           <div class="painel_titulo"><i class="fa-solid fa-border-all"></i><div><h3>Chamados por status</h3><p>Distribuição dos chamados ativos</p></div></div>
           <div class="grafico_status"><canvas id="grafico_status" aria-label="Chamados por status"></canvas></div>
@@ -104,16 +104,9 @@
     </section>
     <section class="secao_dashboard">
       <div class="titulo_secao"><h2>Capacidade da equipe</h2><span>Contexto para distribuir melhor o trabalho</span></div>
-      <div class="linha_graficos">
+      <div class="linha_graficos linha_equipe">
         <article class="card_painel painel_capacidade">
-          <div class="painel_titulo"><i class="fa-solid fa-users"></i><div class="painel_titulo_texto"><h3>Chamados ativos por responsável</h3><p>Prioridades altas e críticas aparecem em amarelo</p></div></div>
-          <div class="controles_grafico">
-            <label for="filtro_usuario_grafico">Responsável</label>
-            <select class="filtro_responsavel" id="filtro_usuario_grafico">
-              <option value="todos">Todos os responsáveis</option>
-            </select>
-            <button class="filtro_grafico" id="botao_so_criticos" type="button" aria-pressed="false">Só alta e crítica</button>
-          </div>
+          <div class="painel_titulo"><i class="fa-solid fa-users"></i><div class="painel_titulo_texto"><h3>Chamados ativos por responsável</h3><p>Prioridades altas e críticas aparecem em amarelo</p></div><button class="filtro_grafico" id="botao_so_criticos" type="button" aria-pressed="false">Só alta e crítica</button></div>
           <div class="grafico_barras"><canvas id="grafico_capacidade" aria-label="Chamados por responsável"></canvas></div>
           <div class="legenda_graficos"><span><i class="ponto_amarelo"></i>Alta e crítica</span><span><i class="ponto_cinza"></i>Demais prioridades</span></div>
         </article>
@@ -133,7 +126,7 @@
           <button data-filtro="criticos" type="button">Críticos <span id="filtro_criticos">0</span></button>
           <button data-filtro="sem-responsavel" type="button">Sem responsável <span id="filtro_sem_responsavel">0</span></button>
         </div>
-        <label class="campo_busca seletor_tabela">
+        <label class="seletor_tabela">
           <span>Responsável</span>
           <select id="filtro_responsavel" class="filtro_responsavel">
             <option value="todos">Todos</option>

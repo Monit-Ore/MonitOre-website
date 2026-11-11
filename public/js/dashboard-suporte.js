@@ -3,7 +3,6 @@ let dadosDosChamados = [];
 let filtroSelecionado = "todos";
 let responsavelSelecionado = "todos";
 let graficoCapacidade = null;
-let dadosEquipeCapacidade = [];
 
 // Busca os dados demonstrativos que vieram da ETL.
 async function carregarDashboardSuporte() {
@@ -124,7 +123,6 @@ function criarGraficoTendencia(serie) {
 }
 
 function criarGraficoCapacidade(equipe) {
-  dadosEquipeCapacidade = equipe;
   graficoCapacidade = new Chart(document.getElementById("grafico_capacidade"), {
     type: "bar",
     data: {
@@ -140,12 +138,19 @@ function criarGraficoCapacidade(equipe) {
       plugins: { legend: { display: false } },
       scales: {
         x: { stacked: true, beginAtZero: true, grid: { color: "#303030" } },
-        y: { stacked: true, grid: { display: false }, ticks: { color: "#ddd", font: { size: 10 } } }
+        y: {
+          stacked: true,
+          grid: { display: false },
+          ticks: {
+            color: (context) =>
+              equipe[context.index]?.responsavel === "Sem responsável" ? "#ffd000" : "#ddd",
+            font: { size: 10 }
+          }
+        }
       }
     }
   });
 
-  atualizarGraficoCapacidade();
 }
 
 function criarGraficoFaixas(faixas) {
@@ -186,38 +191,23 @@ function prepararFiltros(equipe) {
     responsavelSelecionado = evento.target.value;
     mostrarChamados();
   });
-  document.getElementById("filtro_usuario_grafico").addEventListener("change", atualizarGraficoCapacidade);
   document.getElementById("botao_so_criticos").addEventListener("click", alternarPrioridadesCriticas);
 }
 
 function preencherFiltroResponsaveis(equipe) {
-  const filtros = [
-    document.getElementById("filtro_responsavel"),
-    document.getElementById("filtro_usuario_grafico")
-  ];
+  const filtro = document.getElementById("filtro_responsavel");
+  const responsaveis = equipe.map((pessoa) => pessoa.responsavel);
 
-  filtros.forEach((filtro) => {
-    equipe.forEach((pessoa) => {
-      const opcao = document.createElement("option");
-      opcao.value = pessoa.responsavel;
-      opcao.textContent = pessoa.responsavel;
-      filtro.appendChild(opcao);
-    });
+  dadosDosChamados.forEach((chamado) => {
+    responsaveis.push(chamado.responsavel || "Sem responsável");
   });
-}
 
-function atualizarGraficoCapacidade() {
-  if (!graficoCapacidade) return;
-
-  const selecionado = document.getElementById("filtro_usuario_grafico").value;
-  const equipeFiltrada = selecionado === "todos"
-    ? dadosEquipeCapacidade
-    : dadosEquipeCapacidade.filter((pessoa) => pessoa.responsavel === selecionado);
-
-  graficoCapacidade.data.labels = equipeFiltrada.map((pessoa) => pessoa.responsavel);
-  graficoCapacidade.data.datasets[0].data = equipeFiltrada.map((pessoa) => pessoa.chamados_prioridade_alta_ou_critica);
-  graficoCapacidade.data.datasets[1].data = equipeFiltrada.map((pessoa) => pessoa.chamados_demais_prioridades);
-  graficoCapacidade.update();
+  [...new Set(responsaveis)].forEach((responsavel) => {
+    const opcao = document.createElement("option");
+    opcao.value = responsavel;
+    opcao.textContent = responsavel;
+    filtro.appendChild(opcao);
+  });
 }
 
 function alternarPrioridadesCriticas() {
@@ -266,7 +256,7 @@ function atualizarContagemFiltros() {
     dadosDosChamados.filter((item) => normalizar(item.prioridade) === "critica").length;
   document.getElementById("filtro_sem_responsavel").textContent =
     dadosDosChamados.filter((item) => item.sem_responsavel).length;
-  document.getElementById("total_chamados").textContent = dadosDosChamados.length + " chamados no JSON";
+  document.getElementById("total_chamados").textContent = dadosDosChamados.length + " chamados com atenção necessária";
 }
 
 function desenharTabela(chamados) {
