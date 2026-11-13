@@ -249,6 +249,10 @@ aside span {
 }
 
 /* borda + estilo kpi */
+.kpi_card.borda_branca {
+  border-top: 3px solid var(--branco);
+}
+
 .kpi_card.borda_amarela {
   border-top: 3px solid var(--amarelo);
 }

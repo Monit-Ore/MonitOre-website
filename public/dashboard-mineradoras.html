@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Monit Ore | Dashboard Mineradoras</title>
+
+  <link rel="stylesheet" href="./css/dashboard-gerente.css" />
+  <link rel="stylesheet" href="./css/dashboard-mineradoras.css" />
+  <link rel="icon" href="./imgs/favicon.svg" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="container_responsivo" data-permissao-pagina="dashboard-mineradoras">
+
+  <!-- BARRA LATERAL -->
+  <aside class="navegacao">
+    <div class="logo_navegacao">
+      <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+    </div>
+
+    <nav class="menu_navegacao">
+      <ul>
+        <li>
+          <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente" data-permissao="dashboard-gerente">
+            <i class="fa-solid fa-chart-line icone_menu"></i>
+            <span>Dashboard Gerente</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="./selecao_torre.html" class="item_menu" id="torres" data-permissao="torres">
+            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
+            <span>Torres</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="./visualizacao_usuarios.html" class="item_menu" id="usuarios" data-permissao="usuarios">
+            <i class="fa-solid fa-users icone_menu"></i>
+            <span>Usuários</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras">
+            <i class="fa-solid fa-hammer icone_menu"></i>
+            <span>Cadastro de Mineradora</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="./dashboard-mineradoras.html" class="item_menu ativo" id="dashboard-mineradoras" data-permissao="dashboard-mineradoras">
+            <i class="fa-solid fa-industry icone_menu"></i>
+            <span>Dashboard Mineradoras</span>
+          </a>
+        </li>
+
+
+      </ul>
+    </nav>
+    
+
+    <div class="rodape_navegacao">
+      <div class="usuario_navegacao" id="usuario_logado">
+        <div class="avatar_usuario" id="avatar_usuario">US</div>
+
+        <div class="info_usuario">
+          <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+          <span class="cargo_usuario" id="cargo_usuario"></span>
+        </div>
+
+        <i class="fa-solid fa-chevron-right icone_menu"></i>
+      </div>
+
+      <button class="botao_sair" id="botao_sair" type="button">
+        <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+        <span>Sair</span>
+      </button>
+    </div>
+  </aside>
+
+
+  <main class="conteudo_layout">
+    <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+      <i class="fa-regular fa-bell icone-sino"></i>
+      <i class="fa-solid fa-bars icone-menu"></i>
+    </button>
+
+    <header class="header_dashboard">
+      <div class="titulo_com_icone">
+        <i class="fa-solid fa-industry icone_titulo_amarelo"></i>
+        <div>
+          <h1>Dashboard Mineradoras</h1>
+          <p>Visão geral da operação, mineradora por mineradora</p>
+          <p>Última atualização: <span id="dataAtt">01/01/1970 00:00</span> </p>
+        </div>
+      </div>
+
+      <div class="filtros_dashboard">
+        <select id="filtro_periodo" aria-label="Período">
+          <option value="7">Últimos 7 dias</option>
+          <option value="15">Últimos 15 dias</option>
+        </select>
+
+        <select id="filtro_modo" aria-label="Modo de contagem dos alertas">
+          <option value="total">Total de alertas</option>
+          <option value="por_torre">Alertas por torre</option>
+        </select>
+      </div>
+    </header>
+
+    <section class="kpis_grid">
+
+      <div class="kpi_card borda_branca">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-industry icone_kpi amarelo"></i>
+          <span>MINERADORAS MONITORADAS</span>
+        </div>
+        <div class="kpi_valor" id="kpi_total_mineradoras">17</div>
+        <span class="kpi_sub" id="kpi_sub_total_torres">62 torres conectadas</span>
+      </div>
+
+      <div class="kpi_card borda_vermelha">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-triangle-exclamation icone_kpi vermelho"></i>
+          <span>MINERADORAS COM TORRE CRÍTICA</span>
+        </div>
+        <div class="kpi_valor" id="kpi_mineradoras_criticas">2 / 17</div>
+        <span class="kpi_sub" id="kpi_sub_mineradoras_criticas">Alfa e Beta</span>
+      </div>
+
+      <div class="kpi_card borda_amarela">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-bell icone_kpi amarelo"></i>
+          <span>ALERTAS HOJE VS ONTEM</span>
+        </div>
+        <div class="kpi_valor kpi_valor_com_variacao">
+          <span id="kpi_alertas_hoje">118</span>
+          <span class="variacao_alertas alta" id="kpi_variacao_alertas">▲ 10%</span>
+        </div>
+        <span class="kpi_sub" id="kpi_sub_alertas_ontem">Ontem: 107 alertas</span>
+      </div>
+
+      <div class="kpi_card borda_amarela">
+        <div class="kpi_topo">
+          <i class="fa-solid fa-tower-broadcast icone_kpi amarelo"></i>
+          <span>TORRES EM ATENÇÃO OU CRÍTICO</span>
+        </div>
+        <div class="kpi_valor" id="kpi_torres_problema">13 / 62</div>
+        <span class="kpi_sub" id="kpi_sub_torres_problema">11 em atenção · 2 críticas</span>
+      </div>
+
+    </section>
+
+
+    <section class="card_painel painel_saude">
+      <div class="painel_header_com_botao">
+        <div class="painel_header">
+          <i class="fa-solid fa-heart-pulse icone_painel"></i>
+          <h3>Saúde por mineradora <small>(ordenadas por gravidade; o estado é o da pior torre)</small></h3>
+        </div>
+        <a href="#" class="btn_ver_todos" id="btn_ver_todas_mineradoras">Ver todas</a>
+      </div>
+
+  
+      <div class="grid_mineradoras" id="grid_mineradoras">
+
+        
+          <article class="card_mineradora" data-estado="critico" data-id-mineradora="1">
+            <div class="mineradora_topo">
+              <h4 class="mineradora_nome">Mineradora Alfa</h4>
+              <span class="tag_status critico mineradora_estado">Crítico</span>
+            </div>
+
+            <div class="mineradora_torres">
+              <span class="rotulo_discreto"><span class="mineradora_total_torres">8</span> torres</span>
+              <div class="barra_torres">
+                <span class="segmento_normal" style="width: 62.5%"></span>
+                <span class="segmento_atencao" style="width: 25.0%"></span>
+                <span class="segmento_critico" style="width: 12.5%"></span>
+              </div>
+              <div class="legenda_torres">
+                <span class="legenda_torre_item"><span class="ponto verde"></span><span class="qtd_normais">5</span> normais</span>
+                <span class="legenda_torre_item"><span class="ponto amarelo"></span><span class="qtd_atencao">2</span> em atenção</span>
+                <span class="legenda_torre_item"><span class="ponto vermelho"></span><span class="qtd_criticas">1</span> críticas</span>
+              </div>
+            </div>
+
+            <div class="mineradora_metricas">
+              <div class="metrica_bloco">
+                <span class="rotulo_discreto">Alertas hoje</span>
+                <div class="metrica_linha">
+                  <strong class="mineradora_alertas_hoje">46</strong>
+                  <span class="variacao_alertas alta mineradora_variacao">▲ 35%</span>
+                </div>
+                <span class="rotulo_discreto">ontem: <span class="mineradora_alertas_ontem">34</span></span>
+              </div>
+              <div class="metrica_bloco metrica_direita">
+                <span class="rotulo_discreto">Componente que mais alerta</span>
+                <strong class="mineradora_componente">RAM</strong>
+                <span class="rotulo_discreto mineradora_componente_detalhe">24 de 46 alertas</span>
+              </div>
+            </div>
+
+            <p class="mineradora_acao acao_destaque">→ Torre 01: analisar o processo que mais consome memória e acionar a TI</p>
+          </article>
+
+          <article class="card_mineradora" data-estado="atencao" data-id-mineradora="3">
+            <div class="mineradora_topo">
+              <h4 class="mineradora_nome">Mineradora Gama</h4>
+              <span class="tag_status alerta mineradora_estado">Em atenção</span>
+            </div>
+
+            <div class="mineradora_torres">
+              <span class="rotulo_discreto"><span class="mineradora_total_torres">5</span> torres</span>
+              <div class="barra_torres">
+                <span class="segmento_normal" style="width: 60.0%"></span>
+                <span class="segmento_atencao" style="width: 40.0%"></span>
+                <span class="segmento_critico" style="width: 0.0%"></span>
+              </div>
+              <div class="legenda_torres">
+                <span class="legenda_torre_item"><span class="ponto verde"></span><span class="qtd_normais">3</span> normais</span>
+                <span class="legenda_torre_item"><span class="ponto amarelo"></span><span class="qtd_atencao">2</span> em atenção</span>
+                <span class="legenda_torre_item"><span class="ponto vermelho"></span><span class="qtd_criticas">0</span> críticas</span>
+              </div>
+            </div>
+
+            <div class="mineradora_metricas">
+              <div class="metrica_bloco">
+                <span class="rotulo_discreto">Alertas hoje</span>
+                <div class="metrica_linha">
+                  <strong class="mineradora_alertas_hoje">12</strong>
+                  <span class="variacao_alertas baixa mineradora_variacao">▼ 25%</span>
+                </div>
+                <span class="rotulo_discreto">ontem: <span class="mineradora_alertas_ontem">16</span></span>
+              </div>
+              <div class="metrica_bloco metrica_direita">
+                <span class="rotulo_discreto">Componente que mais alerta</span>
+                <strong class="mineradora_componente">Disco</strong>
+                <span class="rotulo_discreto mineradora_componente_detalhe">6 de 12 alertas</span>
+              </div>
+            </div>
+
+            <p class="mineradora_acao ">→ Acompanhar o uso de disco das torres em atenção</p>
+          </article>
+
+          <article class="card_mineradora" data-estado="normal" data-id-mineradora="6">
+            <div class="mineradora_topo">
+              <h4 class="mineradora_nome">Mineradora Zeta</h4>
+              <span class="tag_status normal mineradora_estado">Normal</span>
+            </div>
+
+            <div class="mineradora_torres">
+              <span class="rotulo_discreto"><span class="mineradora_total_torres">6</span> torres</span>
+              <div class="barra_torres">
+                <span class="segmento_normal" style="width: 100.0%"></span>
+                <span class="segmento_atencao" style="width: 0.0%"></span>
+                <span class="segmento_critico" style="width: 0.0%"></span>
+              </div>
+              <div class="legenda_torres">
+                <span class="legenda_torre_item"><span class="ponto verde"></span><span class="qtd_normais">6</span> normais</span>
+                <span class="legenda_torre_item"><span class="ponto amarelo"></span><span class="qtd_atencao">0</span> em atenção</span>
+                <span class="legenda_torre_item"><span class="ponto vermelho"></span><span class="qtd_criticas">0</span> críticas</span>
+              </div>
+            </div>
+
+            <div class="mineradora_metricas">
+              <div class="metrica_bloco">
+                <span class="rotulo_discreto">Alertas hoje</span>
+                <div class="metrica_linha">
+                  <strong class="mineradora_alertas_hoje">3</strong>
+                  <span class="variacao_alertas baixa mineradora_variacao">▼ 25%</span>
+                </div>
+                <span class="rotulo_discreto">ontem: <span class="mineradora_alertas_ontem">4</span></span>
+              </div>
+              <div class="metrica_bloco metrica_direita">
+                <span class="rotulo_discreto">Componente que mais alerta</span>
+                <strong class="mineradora_componente">RAM</strong>
+                <span class="rotulo_discreto mineradora_componente_detalhe">2 de 3 alertas</span>
+              </div>
+            </div>
+
+            <p class="mineradora_acao ">Nenhuma ação necessária</p>
+          </article>
+
+      </div>
+
+      <template id="template_card_mineradora">
+          <article class="card_mineradora" data-estado="normal" data-id-mineradora="0">
+            <div class="mineradora_topo">
+              <h4 class="mineradora_nome">—</h4>
+              <span class="tag_status normal mineradora_estado">Normal</span>
+            </div>
+
+            <div class="mineradora_torres">
+              <span class="rotulo_discreto"><span class="mineradora_total_torres">0</span> torres</span>
+              <div class="barra_torres">
+                <span class="segmento_normal" style="width: 0%"></span>
+                <span class="segmento_atencao" style="width: 0%"></span>
+                <span class="segmento_critico" style="width: 0%"></span>
+              </div>
+              <div class="legenda_torres">
+                <span class="legenda_torre_item"><span class="ponto verde"></span><span class="qtd_normais">0</span> normais</span>
+                <span class="legenda_torre_item"><span class="ponto amarelo"></span><span class="qtd_atencao">0</span> em atenção</span>
+                <span class="legenda_torre_item"><span class="ponto vermelho"></span><span class="qtd_criticas">0</span> críticas</span>
+              </div>
+            </div>
+
+            <div class="mineradora_metricas">
+              <div class="metrica_bloco">
+                <span class="rotulo_discreto">Alertas hoje</span>
+                <div class="metrica_linha">
+                  <strong class="mineradora_alertas_hoje">0</strong>
+                  <span class="variacao_alertas baixa mineradora_variacao">—</span>
+                </div>
+                <span class="rotulo_discreto">ontem: <span class="mineradora_alertas_ontem">0</span></span>
+              </div>
+              <div class="metrica_bloco metrica_direita">
+                <span class="rotulo_discreto">Componente que mais alerta</span>
+                <strong class="mineradora_componente">—</strong>
+                <span class="rotulo_discreto mineradora_componente_detalhe">—</span>
+              </div>
+            </div>
+
+            <p class="mineradora_acao ">—</p>
+          </article>
+      </template>
+    </section>
+
+  
+    <section class="dash_linha">
+
+      <div class="card_painel card_linha">
+        <div class="painel_header">
+          <i class="fa-solid fa-chart-line icone_painel"></i>
+          <h3>Alertas por mineradora <small id="periodo_grafico_alertas">(últimos 7 dias · top 5 + mediana)</small></h3>
+        </div>
+        <div class="barras_grafico_container">
+          <canvas id="graficoAlertasMineradoras"></canvas>
+        </div>
+      </div>
+
+      <div class="card_painel card_donut">
+        <div class="painel_header">
+          <i class="fa-solid fa-chart-pie icone_painel"></i>
+          <h3>Status das Mineradoras</h3>
+        </div>
+        <div class="donut_container">
+          <div class="donut_wrapper">
+            <canvas id="graficoStatusMineradoras"></canvas>
+            <div class="donut_centro">
+              <strong id="donut_total_mineradoras">17</strong>
+              <span>Total</span>
+            </div>
+          </div>
+          <div class="donut_legendas">
+            <div class="legenda_item">
+              <span class="ponto verde"></span>
+              <span class="legenda_nome">Regular</span>
+              <span class="legenda_num" id="pct_mineradoras_normal">10 (58,8%)</span>
+            </div>
+            <div class="legenda_item">
+              <span class="ponto amarelo"></span>
+              <span class="legenda_nome">Em Atenção</span>
+              <span class="legenda_num" id="pct_mineradoras_atencao">5 (29,4%)</span>
+            </div>
+            <div class="legenda_item">
+              <span class="ponto vermelho"></span>
+              <span class="legenda_nome">Crítico</span>
+              <span class="legenda_num" id="pct_mineradoras_critico">2 (11,8%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="./js/permissao.js"></script>
+  <script src="./js/dashboard-mineradoras.js"></script>
+  
+  <script>
+    document.getElementById("usuario_logado")?.addEventListener("click", () => {
+      window.location = "/meu_perfil.html";
+    });
+  </script>
+</body>
+
+</html>
