@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MonitOre | Panorama Operacional</title>
+  <link rel="stylesheet" href="./css/dashboard_capacidade_tendencias.css" />
+  <link rel="icon" href="./imgs/favicon.svg" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="./js/dashboard_capacidade_dados.js" defer></script>
+  <script src="./js/dashboard_capacidade_tendencias.js" defer></script>
+</head>
+<body class="container_responsivo">
+
+  <aside class="navegacao" id="navegacao">
+
+    <div class="logo_navegacao">
+      <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+    </div>
+
+    <nav class="menu_navegacao">
+      <ul>
+        <li>
+          <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente" data-permissao="dashboard-gerente">
+            <i class="fa-solid fa-chart-line icone_menu"></i>
+            <span>Dashboard Gerente</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="./selecao_torre.html" class="item_menu ativo" id="torres" data-permissao="torres">
+            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
+            <span>Torres</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="./visualizacao_usuarios.html" class="item_menu" id="usuarios" data-permissao="usuarios">
+            <i class="fa-solid fa-users icone_menu"></i>
+            <span>Usuários</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras">
+            <i class="fa-solid fa-hammer icone_menu"></i>
+            <span>Cadastro de Mineradora</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="rodape_navegacao">
+
+      <div class="usuario_navegacao" id="usuario_logado">
+        <div class="avatar_usuario" id="avatar_usuario">US</div>
+
+        <div class="info_usuario">
+          <span class="nome_usuario" id="nome_usuario">Visitante</span>
+          <span class="cargo_usuario" id="cargo_usuario"></span>
+        </div>
+
+        <i class="fa-solid fa-chevron-right icone_menu"></i>
+      </div>
+
+      <button class="botao_sair" id="botao_sair" type="button">
+        <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+        <span>Sair</span>
+      </button>
+
+    </div>
+
+  </aside>
+
+  <main class="conteudo_layout">
+    <header class="header_dashboard">
+      <button class="botao_menu" type="button" aria-controls="navegacao" aria-expanded="false">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        <span>Menu</span>
+      </button>
+      <div class="titulo_com_icone">
+        <div>
+          <h1>Panorama Operacional</h1>
+          <p>Análise de capacidade e tendências das torres</p>
+        </div>
+      </div>
+      <div class="contexto_dashboard">
+        <dl class="datas_dashboard">
+          <div><dt>Última atualização da amostra</dt><dd><time datetime="2026-11-09T08:00:00-03:00">9 nov. 2026, 08h</time></dd></div>
+          <div><dt>Período analisado</dt><dd>12 out. a 8 nov. 2026</dd></div>
+        </dl>
+      </div>
+    </header>
+
+    <section class="secao_kpis" aria-labelledby="titulo-kpis">
+      <div class="cabecalho_kpis">
+        <h2 id="titulo-kpis">Indicadores de capacidade</h2>
+        <p>Período do cabeçalho comparado às 4 semanas anteriores</p>
+      </div>
+      <div class="kpis_grid">
+        <article class="kpi_card" id="kpi-aumento">
+          <div class="kpi_cabecalho">
+            <h3 class="kpi_topo">
+              <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i>
+              Torres com aumento preocupante de consumo
+            </h3>
+          </div>
+          <div class="kpi_leitura">
+            <p class="kpi_valor"></p>
+            <div class="kpi_comparacao"><span class="kpi_variacao"></span><small class="kpi_variacao_percentual" hidden></small></div>
+          </div>
+          <p class="kpi_percentual_atual"></p>
+          <progress class="kpi_barra" max="100" value="0" aria-label="Proporção de torres com aumento preocupante"></progress>
+        </article>
+
+        <article class="kpi_card" id="kpi-atencao">
+          <div class="kpi_cabecalho">
+            <h3 class="kpi_topo">
+              <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+              Torres com previsão de atenção para até 15 dias
+            </h3>
+          </div>
+          <div class="kpi_leitura">
+            <p class="kpi_valor"></p>
+            <div class="kpi_comparacao"><span class="kpi_variacao"></span><small class="kpi_variacao_percentual" hidden></small></div>
+          </div>
+          <p class="kpi_percentual_atual"></p>
+          <progress class="kpi_barra" max="100" value="0" aria-label="Proporção de torres com atenção prevista"></progress>
+        </article>
+
+        <article class="kpi_card kpi_critico" id="kpi-critico">
+          <div class="kpi_cabecalho">
+            <h3 class="kpi_topo">
+              <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+              Torres com previsão de nível crítico para até 15 dias
+            </h3>
+          </div>
+          <div class="kpi_leitura">
+            <p class="kpi_valor"></p>
+            <div class="kpi_comparacao"><span class="kpi_variacao"></span><small class="kpi_variacao_percentual" hidden></small></div>
+          </div>
+          <p class="kpi_percentual_atual"></p>
+          <progress class="kpi_barra" max="100" value="0" aria-label="Proporção de torres com crítico previsto"></progress>
+        </article>
+
+        <article class="kpi_card kpi_cobertura" id="kpi-cobertura">
+          <div class="kpi_cabecalho">
+            <h3 class="kpi_topo">
+              <i class="fa-solid fa-database" aria-hidden="true"></i>
+              Torres com dados suficientes para análise
+            </h3>
+          </div>
+          <div class="kpi_leitura">
+            <p class="kpi_valor"></p>
+            <div class="kpi_comparacao"><span class="kpi_variacao"></span><small class="kpi_variacao_percentual" hidden></small></div>
+          </div>
+          <p class="kpi_percentual_atual"></p>
+          <progress class="kpi_barra" max="100" value="0" aria-label="Cobertura de dados para análise"></progress>
+        </article>
+      </div>
+    </section>
+
+
+    <div class="visao_operacional">
+      <section class="card_painel" aria-labelledby="titulo-panorama-torres">
+        <div class="painel_header">
+          <i class="fa-solid fa-tower-broadcast icone_painel" aria-hidden="true"></i>
+          <div>
+            <h2 id="titulo-panorama-torres">Panorama das torres</h2>
+          </div>
+        </div>
+        <div class="grupos_torres" id="mapa-torres"></div>
+        <ul class="legenda_torres" aria-label="Legenda do panorama">
+          <li class="normal">Normal</li>
+          <li class="alerta">Em atenção</li>
+          <li class="critico">Crítico</li>
+          <li><i class="fa-regular fa-clock" aria-hidden="true"></i> Previsão em até 15 dias</li>
+          <li><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> Consumo crescente</li>
+        </ul>
+        <p id="estado-navegacao-torre" class="nota_historico" role="status" hidden></p>
+      </section>
+
+      <section class="card_painel" aria-labelledby="titulo-prioridades">
+        <div class="cabecalho_prioridades">
+          <div class="painel_header">
+            <i class="fa-solid fa-bullseye icone_painel" aria-hidden="true"></i>
+            <div>
+              <h2 id="titulo-prioridades">Análise de Riscos e Prioridades</h2>
+              <small>Componentes que exigem acompanhamento atual ou preventivo nos próximos 15 dias.</small>
+            </div>
+          </div>
+          <label class="filtro_select" for="filtro-situacao">
+            <span>Situação</span>
+            <select id="filtro-situacao" aria-controls="tabela-prioridades">
+              <option value="todas">Todas as prioridades</option>
+              <option value="critico">Crítico agora</option>
+              <option value="atencao">Atenção agora</option>
+              <option value="critico_previsto">Crítico previsto</option>
+              <option value="atencao_prevista">Atenção prevista</option>
+            </select>
+          </label>
+        </div>
+        <div class="tabela_responsiva" id="regiao-prioridades" tabindex="0" role="region" aria-labelledby="titulo-prioridades">
+          <table class="tabela_custom tabela_prioridades" id="tabela-prioridades">
+            <thead>
+              <tr>
+                <th scope="col">Torre / Recurso</th>
+                <th scope="col">Alta ou queda do consumo (%)</th>
+                <th scope="col">Limites</th>
+                <th scope="col">Situação atual</th>
+                <th scope="col">Previsão em até 15 dias</th>
+              </tr>
+            </thead>
+            <tbody id="lista-prioridades"></tbody>
+          </table>
+        </div>
+        <p id="estado-navegacao-prioridades" class="nota_historico" role="status" hidden></p>
+      </section>
+    </div>
+
+    <section class="card_painel" aria-labelledby="titulo-pressao">
+      <div class="painel_header">
+        <i class="fa-solid fa-chart-column icone_painel" aria-hidden="true"></i>
+        <div>
+          <h2 id="titulo-pressao">Torres sob pressão de consumo</h2>
+          <small>Quantidade de torres com consumo semanal sustentado próximo ou acima do limite de atenção configurado.</small>
+        </div>
+      </div>
+      <figure class="figura_pressao">
+        <div class="grafico_pressao">
+          <div class="eixo_pressao" id="eixo-pressao" aria-hidden="true"></div>
+          <ol class="semanas_pressao" id="semanas-pressao" aria-label="Torres sob pressão por semana"></ol>
+        </div>
+        <figcaption id="resumo-pressao"></figcaption>
+      </figure>
+      <details class="mudancas_pressao">
+        <summary>Comparação da pressão entre a semana 1 e a última semana</summary>
+        <dl id="mudancas-pressao"></dl>
+      </details>
+    </section>
+
+  </main>
+</body>
+</html>
