@@ -4,6 +4,7 @@
     "fonte": "JIRA",
     "extraido_em": "2026-11-11T12:00:00-03:00",
     "periodo_consultado": "Últimos 30 dias",
+    "periodo_comparacao": "30 dias anteriores",
     "dados_demonstrativos": true
   },
   "indicadores": {
@@ -11,8 +12,12 @@
     "chamados_criticos": 8,
     "sla_em_risco": 14,
     "sla_vencido": 6,
-    "tempo_medio_resolucao_segundos": 22680,
-    "variacao_tempo_resolucao_percentual": -2
+    "cumprimento_sla": {
+      "resolvidos_no_prazo": 92,
+      "total_elegiveis": 100,
+      "percentual_anterior": 88,
+      "meta_percentual": 95
+    }
   },
   "distribuicao_por_status": [
     { "status": "A fazer", "quantidade": 26 },
@@ -32,13 +37,44 @@
     { "data": "2026-11-04", "chamados_recebidos": 26, "chamados_resolvidos": 18 },
     { "data": "2026-11-07", "chamados_recebidos": 14, "chamados_resolvidos": 18 }
   ],
+  "tendencia_sla": [
+    { "data": "2026-10-11", "resolvidos_no_prazo": 27, "total_elegiveis": 31, "percentual": 87 },
+    { "data": "2026-10-14", "resolvidos_no_prazo": 28, "total_elegiveis": 32, "percentual": 88 },
+    { "data": "2026-10-17", "resolvidos_no_prazo": 30, "total_elegiveis": 34, "percentual": 88 },
+    { "data": "2026-10-20", "resolvidos_no_prazo": 29, "total_elegiveis": 33, "percentual": 88 },
+    { "data": "2026-10-23", "resolvidos_no_prazo": 32, "total_elegiveis": 36, "percentual": 89 },
+    { "data": "2026-10-26", "resolvidos_no_prazo": 31, "total_elegiveis": 35, "percentual": 89 },
+    { "data": "2026-10-29", "resolvidos_no_prazo": 33, "total_elegiveis": 37, "percentual": 89 },
+    { "data": "2026-11-01", "resolvidos_no_prazo": 35, "total_elegiveis": 39, "percentual": 90 },
+    { "data": "2026-11-04", "resolvidos_no_prazo": 39, "total_elegiveis": 43, "percentual": 91 },
+    { "data": "2026-11-07", "resolvidos_no_prazo": 92, "total_elegiveis": 100, "percentual": 92 }
+  ],
+  "quebras_sla": {
+    "prioridade": [
+      { "categoria": "Crítica", "resolvidos_no_prazo": 6, "total_elegiveis": 8 },
+      { "categoria": "Alta", "resolvidos_no_prazo": 26, "total_elegiveis": 30 },
+      { "categoria": "Média", "resolvidos_no_prazo": 36, "total_elegiveis": 38 },
+      { "categoria": "Baixa", "resolvidos_no_prazo": 24, "total_elegiveis": 24 }
+    ],
+    "equipe": [
+      { "categoria": "Suporte N1", "resolvidos_no_prazo": 38, "total_elegiveis": 42 },
+      { "categoria": "Suporte N2", "resolvidos_no_prazo": 30, "total_elegiveis": 32 },
+      { "categoria": "Operações", "resolvidos_no_prazo": 20, "total_elegiveis": 22 },
+      { "categoria": "Não atribuído", "resolvidos_no_prazo": 4, "total_elegiveis": 4 }
+    ],
+    "tipo": [
+      { "categoria": "Incidente", "resolvidos_no_prazo": 45, "total_elegiveis": 50 },
+      { "categoria": "Solicitação", "resolvidos_no_prazo": 30, "total_elegiveis": 33 },
+      { "categoria": "Dúvida", "resolvidos_no_prazo": 17, "total_elegiveis": 17 }
+    ]
+  },
   "capacidade_da_equipe": [
-    { "responsavel": "Ana Costa", "chamados_ativos": 21, "chamados_prioridade_alta_ou_critica": 14, "chamados_demais_prioridades": 7 },
-    { "responsavel": "Bruno Lima", "chamados_ativos": 22, "chamados_prioridade_alta_ou_critica": 13, "chamados_demais_prioridades": 9 },
-    { "responsavel": "Camila Souza", "chamados_ativos": 26, "chamados_prioridade_alta_ou_critica": 0, "chamados_demais_prioridades": 26 },
-    { "responsavel": "Diego Santos", "chamados_ativos": 20, "chamados_prioridade_alta_ou_critica": 0, "chamados_demais_prioridades": 20 },
-    { "responsavel": "Eduardo Alves", "chamados_ativos": 18, "chamados_prioridade_alta_ou_critica": 0, "chamados_demais_prioridades": 18 },
-    { "responsavel": "Sem responsável", "chamados_ativos": 21, "chamados_prioridade_alta_ou_critica": 3, "chamados_demais_prioridades": 18 }
+    { "responsavel": "Ana Costa", "chamados_ativos": 21, "chamados_prioridade_alta_ou_critica": 14, "chamados_prioridade_critica": 4, "chamados_prioridade_alta": 10, "chamados_demais_prioridades": 7 },
+    { "responsavel": "Bruno Lima", "chamados_ativos": 22, "chamados_prioridade_alta_ou_critica": 13, "chamados_prioridade_critica": 3, "chamados_prioridade_alta": 10, "chamados_demais_prioridades": 9 },
+    { "responsavel": "Camila Souza", "chamados_ativos": 26, "chamados_prioridade_alta_ou_critica": 0, "chamados_prioridade_critica": 0, "chamados_prioridade_alta": 0, "chamados_demais_prioridades": 26 },
+    { "responsavel": "Diego Santos", "chamados_ativos": 20, "chamados_prioridade_alta_ou_critica": 0, "chamados_prioridade_critica": 0, "chamados_prioridade_alta": 0, "chamados_demais_prioridades": 20 },
+    { "responsavel": "Eduardo Alves", "chamados_ativos": 18, "chamados_prioridade_alta_ou_critica": 0, "chamados_prioridade_critica": 0, "chamados_prioridade_alta": 0, "chamados_demais_prioridades": 18 },
+    { "responsavel": "Sem responsável", "chamados_ativos": 21, "chamados_prioridade_alta_ou_critica": 3, "chamados_prioridade_critica": 1, "chamados_prioridade_alta": 2, "chamados_demais_prioridades": 18 }
   ],
   "tempo_de_resolucao": {
     "unidade": "dias",

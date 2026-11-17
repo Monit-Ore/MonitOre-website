@@ -66,7 +66,7 @@
         <strong id="chamados_abertos">—</strong><p>Chamados na fila</p>
       </article>
       <article class="kpi_card">
-        <div class="kpi_titulo vermelho"><i class="fa-solid fa-triangle-exclamation"></i> Chamados críticos</div>
+        <div class="kpi_titulo "><i class="fa-solid fa-triangle-exclamation"></i> Chamados críticos</div>
         <strong class="vermelho" id="chamados_criticos">—</strong><p>Prioridade máxima</p>
       </article>
       <article class="kpi_card">
@@ -78,14 +78,17 @@
         <strong class="vermelho" id="sla_vencido">—</strong><p>Ação imediata</p>
       </article>
       <article class="kpi_card">
-        <div class="kpi_titulo"><i class="fa-solid fa-chart-column"></i> Tempo médio de resolução</div>
-        <strong id="tempo_medio">—</strong><p class="variacao" id="variacao_tempo"></p>
+        <div class="kpi_titulo"><i class="fa-solid fa-shield-halved"></i> Cumprimento do SLA</div>
+        <strong id="cumprimento_sla">—</strong>
+        <p id="volume_sla">—</p>
+        <p id="meta_sla">—</p>
+        <p class="variacao" id="variacao_sla">—</p>
       </article>
     </section>
     <div class="aviso_sla" id="aviso_sla">
       <i class="fa-solid fa-triangle-exclamation"></i>
       <span id="texto_aviso_sla">Carregando chamados que precisam de atenção...</span>
-      <a href="#chamados_atencao">Ver chamados <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#chamados_atencao" id="link_aviso_sla">Ver chamados <i class="fa-solid fa-arrow-right"></i></a>
     </div>
     <section class="secao_dashboard">
       <div class="titulo_secao"><h2>Visão da fila</h2><span>Distribuição e evolução no período</span></div>
@@ -102,13 +105,43 @@
         </article>
       </div>
     </section>
+    <section class="secao_dashboard" id="sla">
+      <div class="titulo_secao"><h2>Cumprimento do SLA</h2><span id="periodo_sla">—</span></div>
+      <div class="linha_graficos linha_sla">
+        <article class="card_painel painel_tendencia_sla">
+          <div class="painel_titulo">
+            <i class="fa-solid fa-chart-line"></i>
+            <div><h3>Tendência do cumprimento</h3><p>Chamados resolvidos no prazo; abertos ficam de fora do cálculo</p></div>
+            <span class="etiqueta_periodo" id="periodo_tendencia_sla">—</span>
+          </div>
+          <div class="grafico_linha"><canvas id="grafico_sla" aria-label="Tendência do cumprimento do SLA"></canvas></div>
+          <div class="rodape_painel">
+            <span id="media_sla">—</span>
+            <button class="botao_acao" id="botao_ver_fora_prazo" type="button">Ver chamados fora do prazo <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </article>
+        <article class="card_painel painel_quebras_sla">
+          <div class="painel_titulo">
+            <i class="fa-solid fa-list-check"></i>
+            <div><h3>Onde o SLA está falhando</h3><p id="meta_quebra_sla">—</p></div>
+            <div class="controles_sla" role="group" aria-label="Quebra do cumprimento do SLA">
+              <button class="filtro_quebra ativo" data-quebra="prioridade" type="button" aria-pressed="true">Prioridade</button>
+              <button class="filtro_quebra" data-quebra="equipe" type="button" aria-pressed="false">Equipe</button>
+              <button class="filtro_quebra" data-quebra="tipo" type="button" aria-pressed="false">Tipo</button>
+            </div>
+          </div>
+          <div class="lista_quebras" id="lista_quebras_sla"></div>
+          <div class="rodape_painel"><span>Chamados usados no cálculo</span><strong id="total_quebra_sla">—</strong></div>
+        </article>
+      </div>
+    </section>
     <section class="secao_dashboard">
       <div class="titulo_secao"><h2>Capacidade da equipe</h2><span>Contexto para distribuir melhor o trabalho</span></div>
       <div class="linha_graficos linha_equipe">
         <article class="card_painel painel_capacidade">
-          <div class="painel_titulo"><i class="fa-solid fa-users"></i><div class="painel_titulo_texto"><h3>Chamados ativos por responsável</h3><p>Prioridades altas e críticas aparecem em amarelo</p></div><button class="filtro_grafico" id="botao_so_criticos" type="button" aria-pressed="false">Só alta e crítica</button></div>
+          <div class="painel_titulo"><i class="fa-solid fa-users"></i><div class="painel_titulo_texto"><h3>Chamados ativos por responsável</h3><p>Críticos em vermelho e altos em amarelo</p></div><button class="filtro_grafico" id="botao_so_criticos" type="button" aria-pressed="false">Só alta e crítica</button></div>
           <div class="grafico_barras"><canvas id="grafico_capacidade" aria-label="Chamados por responsável"></canvas></div>
-          <div class="legenda_graficos"><span><i class="ponto_amarelo"></i>Alta e crítica</span><span><i class="ponto_cinza"></i>Demais prioridades</span></div>
+          <div class="legenda_graficos"><span><i class="ponto_vermelho"></i>Crítica</span><span><i class="ponto_amarelo"></i>Alta</span><span><i class="ponto_cinza"></i>Demais prioridades</span></div>
         </article>
         <article class="card_painel painel_faixas">
           <div class="painel_titulo"><i class="fa-regular fa-clock"></i><div><h3>Idade para resolução</h3><p>Tempo desde a abertura do chamado</p></div></div>

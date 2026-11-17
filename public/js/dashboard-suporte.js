@@ -3,6 +3,10 @@ let dadosDosChamados = [];
 let filtroSelecionado = "todos";
 let responsavelSelecionado = "todos";
 let graficoCapacidade = null;
+let equipeDoGraficoCapacidade = [];
+let dadosQuebrasSla = {};
+let quebraSlaSelecionada = "prioridade";
+let metaSla = 95;
 
 // Busca os dados demonstrativos que vieram da ETL.
 async function carregarDashboardSuporte() {
@@ -16,6 +20,7 @@ async function carregarDashboardSuporte() {
     dadosDosChamados = dados.chamados_que_precisam_de_atencao || [];
 
     mostrarIndicadores(dados);
+    prepararQuebrasSla(dados.quebras_sla);
     criarGraficos(dados);
     prepararFiltros(dados.capacidade_da_equipe);
     mostrarChamados();
@@ -28,28 +33,102 @@ async function carregarDashboardSuporte() {
 
 function mostrarIndicadores(dados) {
   const indicadores = dados.indicadores;
+  const sla = indicadores.cumprimento_sla;
   const dataAtualizacao = new Date(dados.metadados.extraido_em);
   const horaAtualizacao = dataAtualizacao.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  const percentualSla = calcularPercentual(sla.resolvidos_no_prazo, sla.total_elegiveis);
+  const variacaoSla = percentualSla - sla.percentual_anterior;
+  const elementoVariacao = document.getElementById("variacao_sla");
+
+  metaSla = sla.meta_percentual;
 
   document.getElementById("data_atualizacao").textContent = "Atualizado às " + horaAtualizacao;
   document.getElementById("chamados_abertos").textContent = indicadores.chamados_abertos;
   document.getElementById("chamados_criticos").textContent = String(indicadores.chamados_criticos).padStart(2, "0");
   document.getElementById("sla_em_risco").textContent = String(indicadores.sla_em_risco).padStart(2, "0");
   document.getElementById("sla_vencido").textContent = String(indicadores.sla_vencido).padStart(2, "0");
-  document.getElementById("tempo_medio").textContent = formatarTempo(indicadores.tempo_medio_resolucao_segundos);
 
-  const variacao = indicadores.variacao_tempo_resolucao_percentual;
-  document.getElementById("variacao_tempo").textContent = variacao + "% em relação ao período anterior";
+  document.getElementById("cumprimento_sla").textContent = percentualSla + "%";
+  document.getElementById("volume_sla").textContent =
+    sla.resolvidos_no_prazo + " de " + sla.total_elegiveis + " chamados";
+  document.getElementById("meta_sla").textContent =
+    "Meta " + sla.meta_percentual + "% · " + dados.metadados.periodo_consultado;
+  elementoVariacao.textContent = formatarVariacaoSla(variacaoSla, dados.metadados.periodo_comparacao);
+  elementoVariacao.className = "variacao " + obterClasseVariacaoSla(variacaoSla);
+
+  document.getElementById("periodo_sla").textContent =
+    dados.metadados.periodo_consultado + " · comparação com " + dados.metadados.periodo_comparacao;
+  document.getElementById("periodo_tendencia_sla").textContent = dados.metadados.periodo_consultado;
+  document.getElementById("meta_quebra_sla").textContent =
+    "Meta " + sla.meta_percentual + "% · abaixo da meta aparece em atenção";
+
   document.getElementById("texto_aviso_sla").textContent =
     (indicadores.sla_vencido + indicadores.sla_em_risco) +
-    " chamados precisam de atenção. " + indicadores.sla_vencido + " vencidos e " +
-    indicadores.sla_em_risco + " com vencimento nas próximas 4 horas.";
+    " chamados abertos precisam de atenção. " + indicadores.sla_vencido + " vencidos e " +
+    indicadores.sla_em_risco + " em risco não entram no cálculo de cumprimento do SLA.";
 }
 
-function formatarTempo(segundos) {
-  const horas = Math.floor(segundos / 3600);
-  const minutos = Math.floor((segundos % 3600) / 60);
-  return horas + "h " + String(minutos).padStart(2, "0") + "min";
+function calcularPercentual(parte, total) {
+  if (!total) return 0;
+  return Math.round((parte / total) * 100);
+}
+
+function formatarVariacaoSla(variacao, periodoComparacao) {
+  if (variacao > 0) return "↑ " + variacao + " p.p. vs. " + periodoComparacao;
+  if (variacao < 0) return "↓ " + Math.abs(variacao) + " p.p. vs. " + periodoComparacao;
+  return "Estável vs. " + periodoComparacao;
+}
+
+function obterClasseVariacaoSla(variacao) {
+  if (variacao > 0) return "positiva";
+  if (variacao < 0) return "negativa";
+  return "neutra";
+}
+
+function obterClasseDesempenhoSla(percentual, meta) {
+  if (percentual >= meta) return "sla-bom";
+  if (meta - percentual <= 10) return "sla-atencao";
+  return "sla-critico";
+}
+
+function prepararQuebrasSla(quebras) {
+  dadosQuebrasSla = quebras || {};
+
+  document.querySelectorAll(".filtro_quebra").forEach((botao) => {
+    botao.addEventListener("click", () => {
+      quebraSlaSelecionada = botao.dataset.quebra;
+      document.querySelectorAll(".filtro_quebra").forEach((item) => {
+        item.classList.remove("ativo");
+        item.setAttribute("aria-pressed", "false");
+      });
+      botao.classList.add("ativo");
+      botao.setAttribute("aria-pressed", "true");
+      desenharQuebrasSla();
+    });
+  });
+
+  desenharQuebrasSla();
+}
+
+function desenharQuebrasSla() {
+  const itens = dadosQuebrasSla[quebraSlaSelecionada] || [];
+  const lista = document.getElementById("lista_quebras_sla");
+
+  lista.innerHTML = itens.map((item) => {
+    const percentual = calcularPercentual(item.resolvidos_no_prazo, item.total_elegiveis);
+    const classeDesempenho = obterClasseDesempenhoSla(percentual, metaSla);
+
+    return '<div class="quebra_item">' +
+      '<div class="quebra_cabecalho"><span>' + escaparHtml(item.categoria) + '</span>' +
+      '<strong class="' + classeDesempenho + '">' + percentual + '%</strong></div>' +
+      '<div class="quebra_barra"><span class="' + classeDesempenho + '" style="width:' + percentual + '%"></span></div>' +
+      '<div class="quebra_volume">' + item.resolvidos_no_prazo + " de " + item.total_elegiveis +
+      " chamados · meta " + metaSla + "%</div></div>";
+  }).join("");
+
+  document.getElementById("total_quebra_sla").textContent =
+    itens.reduce((soma, item) => soma + item.resolvidos_no_prazo, 0) + " de " +
+    itens.reduce((soma, item) => soma + item.total_elegiveis, 0);
 }
 
 function criarGraficos(dados) {
@@ -59,6 +138,7 @@ function criarGraficos(dados) {
   Chart.defaults.font.family = "Barlow, Segoe UI, sans-serif";
   criarGraficoStatus(dados.distribuicao_por_status);
   criarGraficoTendencia(dados.serie_temporal);
+  criarGraficoSla(dados.tendencia_sla, dados.indicadores.cumprimento_sla.meta_percentual);
   criarGraficoCapacidade(dados.capacidade_da_equipe);
   criarGraficoFaixas(dados.tempo_de_resolucao.faixas);
 }
@@ -122,13 +202,77 @@ function criarGraficoTendencia(serie) {
   });
 }
 
+function criarGraficoSla(tendencia, meta) {
+  const pontos = tendencia.map((item) =>
+    new Date(item.data + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })
+  );
+  const percentuais = tendencia.map((item) => item.percentual);
+  const media = Math.round(percentuais.reduce((soma, valor) => soma + valor, 0) / percentuais.length);
+
+  document.getElementById("media_sla").textContent = "Média do período: " + media + "%";
+
+  new Chart(document.getElementById("grafico_sla"), {
+    type: "line",
+    data: {
+      labels: pontos,
+      datasets: [
+        {
+          label: "Cumprimento",
+          data: percentuais,
+          borderColor: "#ffd000",
+          backgroundColor: "rgba(255, 208, 0, 0.12)",
+          fill: true,
+          tension: 0.25,
+          pointRadius: 3
+        },
+        {
+          label: "Meta " + meta + "%",
+          data: tendencia.map(() => meta),
+          borderColor: "#ff5555",
+          borderDash: [5, 5],
+          pointRadius: 0,
+          tension: 0
+        }
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: { position: "bottom", labels: { boxWidth: 12, usePointStyle: true, pointStyle: "line" } },
+        tooltip: {
+          callbacks: {
+            label: (contexto) => {
+              if (contexto.datasetIndex === 1) return "Meta: " + contexto.parsed.y + "%";
+              const ponto = tendencia[contexto.dataIndex];
+              return "Cumprimento: " + contexto.parsed.y + "% · " +
+                ponto.resolvidos_no_prazo + " de " + ponto.total_elegiveis + " chamados";
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: "#303030" } },
+        y: {
+          min: 0,
+          max: 100,
+          grid: { color: "#303030" },
+          ticks: { callback: (valor) => valor + "%" }
+        }
+      }
+    }
+  });
+}
+
 function criarGraficoCapacidade(equipe) {
+  equipeDoGraficoCapacidade = equipe;
   graficoCapacidade = new Chart(document.getElementById("grafico_capacidade"), {
     type: "bar",
     data: {
       labels: equipe.map((item) => item.responsavel),
       datasets: [
-        { label: "Alta e crítica", data: equipe.map((item) => item.chamados_prioridade_alta_ou_critica), backgroundColor: "#ffd000", borderRadius: 3 },
+        { label: "Crítica", data: equipe.map((item) => item.chamados_prioridade_critica), backgroundColor: "#ff5555", borderRadius: 3 },
+        { label: "Alta", data: equipe.map((item) => item.chamados_prioridade_alta), backgroundColor: "#ffd000", borderRadius: 3 },
         { label: "Demais prioridades", data: equipe.map((item) => item.chamados_demais_prioridades), backgroundColor: "#555d66", borderRadius: 3 }
       ]
     },
@@ -177,13 +321,8 @@ function criarGraficoFaixas(faixas) {
 function prepararFiltros(equipe) {
   preencherFiltroResponsaveis(equipe);
 
-  document.querySelectorAll("[data-filtro]").forEach((botao) => {
-    botao.addEventListener("click", () => {
-      filtroSelecionado = botao.dataset.filtro;
-      document.querySelectorAll("[data-filtro]").forEach((item) => item.classList.remove("filtro_ativo"));
-      botao.classList.add("filtro_ativo");
-      mostrarChamados();
-    });
+  document.querySelectorAll(".filtros_tabela [data-filtro]").forEach((botao) => {
+    botao.addEventListener("click", () => aplicarFiltroTabela(botao.dataset.filtro));
   });
 
   document.getElementById("busca_chamado").addEventListener("input", mostrarChamados);
@@ -192,6 +331,25 @@ function prepararFiltros(equipe) {
     mostrarChamados();
   });
   document.getElementById("botao_so_criticos").addEventListener("click", alternarPrioridadesCriticas);
+  document.getElementById("botao_ver_fora_prazo").addEventListener("click", () => aplicarFiltroTabela("vencidos", true));
+  document.getElementById("link_aviso_sla").addEventListener("click", (evento) => {
+    evento.preventDefault();
+    aplicarFiltroTabela("vencidos", true);
+  });
+}
+
+function aplicarFiltroTabela(filtro, rolarParaTabela = false) {
+  filtroSelecionado = filtro;
+  document.querySelectorAll(".filtros_tabela [data-filtro]").forEach((item) => item.classList.remove("filtro_ativo"));
+
+  const botaoFiltro = document.querySelector('.filtros_tabela [data-filtro="' + filtro + '"]');
+  if (botaoFiltro) botaoFiltro.classList.add("filtro_ativo");
+
+  mostrarChamados();
+
+  if (rolarParaTabela) {
+    document.getElementById("chamados_atencao").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 }
 
 function preencherFiltroResponsaveis(equipe) {
@@ -216,7 +374,17 @@ function alternarPrioridadesCriticas() {
 
   botao.setAttribute("aria-pressed", mostrarSoAltaECritica);
   botao.classList.toggle("ativo", mostrarSoAltaECritica);
-  graficoCapacidade.data.datasets[1].hidden = mostrarSoAltaECritica;
+
+  const equipeVisivel = mostrarSoAltaECritica
+    ? equipeDoGraficoCapacidade.filter((item) =>
+        item.chamados_prioridade_critica + item.chamados_prioridade_alta > 0
+      )
+    : equipeDoGraficoCapacidade;
+
+  graficoCapacidade.data.labels = equipeVisivel.map((item) => item.responsavel);
+  graficoCapacidade.data.datasets[0].data = equipeVisivel.map((item) => item.chamados_prioridade_critica);
+  graficoCapacidade.data.datasets[1].data = equipeVisivel.map((item) => item.chamados_prioridade_alta);
+  graficoCapacidade.data.datasets[2].hidden = mostrarSoAltaECritica;
   graficoCapacidade.update();
 }
 
