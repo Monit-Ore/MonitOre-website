@@ -221,14 +221,31 @@ header span{
    COLUNAS DO FORMULÁRIO
  */
 
-.container_formularios {
-  display: flex;
-  align-items: flex-start;
+.container_formularios.componentes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-end;
 
-  width: 100%;
+    width: 100%;
+    min-width: 0;
 
-  gap: 30px;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    gap: 20px;
 }
+
+.container_formularios.componentes .formulario {
+    flex: 0 0 110px;
+    min-width: 110px;
+}
+
+.container_formularios.componentes .btn-add {
+    flex: 0 0 74px;
+    min-width: 74px;
+}
+
 
 .formulario {
   display: flex;
@@ -495,7 +512,7 @@ header span{
 
 .metrica-item {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(90px, 1fr) 70px;
+  grid-template-columns: minmax(0, 1.6fr) minmax(90px, 1fr) minmax(90px, 1fr) minmax(90px, 1fr) 70px;
     align-items: center;
   column-gap: 26px;
     padding: 18px 0;
@@ -633,20 +650,23 @@ header{
     padding: 15px;
   }
 
-  .container_formularios {
+.container_formularios {
     flex-direction: column;
-  }
+    overflow-x: auto;
+}
 
-  .container_formularios.componentes {
-    flex-direction: row;
-  }
+.container_formularios.componentes {
+    flex-wrap: nowrap;
+    min-width: 0;
+    overflow-x: auto;
+}
 
   .btn-add{
     margin-top: 2%;
   }
 
   .metrica-item {
-      grid-template-columns: minmax(0, 1.6fr) minmax(80px, 1fr) 44px;
+      grid-template-columns: minmax(0, 1.6fr) minmax(80px, 1fr) minmax(80px, 1fr) minmax(80px, 1fr) 44px;
       column-gap: 16px;
         padding: 14px 0;
   }
@@ -762,4 +782,29 @@ header{
   .metrica-item .metrica-valor {
         flex: 1;
   }
+}
+
+/* 
+  Apenas "Métricas do Componente": mantém as colunas na mesma largura
+  e cria rolagem horizontal quando a resolução não comporta o conteúdo.
+*/
+.conteudo_layout .container_formularios.componentes {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 10px;
+}
+
+.conteudo_layout .container_formularios.componentes > .formulario {
+  flex: 0 0 calc((100% - 154px) / 4);
+  width: auto;
+  min-width: 180px;
+}
+
+.conteudo_layout .container_formularios.componentes > .btn-add {
+  flex: 0 0 74px;
+  margin-top: 0;
 }

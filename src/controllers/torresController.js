@@ -129,6 +129,26 @@ async function cadastrarTorre(req, res) {
       });
     }
 
+    const componentesValidos = componentes.every((componente) =>
+      componente &&
+      Number.isInteger(Number(componente.fk_componente)) &&
+      Number(componente.fk_componente) > 0 &&
+      Number.isFinite(Number(componente.alerta_critico)) &&
+      Number(componente.alerta_critico) > 0 &&
+      Number(componente.alerta_critico) <= 100 &&
+      Number.isFinite(Number(componente.alerta_atencao)) &&
+      Number(componente.alerta_atencao) > 0 &&
+      Number(componente.alerta_atencao) <= 100 &&
+      Number.isInteger(Number(componente.limite_alerta_diario)) &&
+      Number(componente.limite_alerta_diario) > 0
+    );
+
+    if (!componentesValidos) {
+      return res.status(400).json({
+        mensagem: "Informe limites de alerta válidos para todos os componentes.",
+      });
+    }
+
     const codigoJaExiste = await torresModel.verificarCodigoExistente(
       fkEmpresa,
       codigo,
@@ -252,7 +272,9 @@ async function atualizarTorre(req, res) {
       Number(componente.alerta_critico) <= 100 &&
       Number.isFinite(Number(componente.alerta_atencao)) &&
       Number(componente.alerta_atencao) > 0 &&
-      Number(componente.alerta_atencao) <= 100
+      Number(componente.alerta_atencao) <= 100 &&
+      Number.isInteger(Number(componente.limite_alerta_diario)) &&
+      Number(componente.limite_alerta_diario) > 0
     );
 
     if (!componentesValidos) {

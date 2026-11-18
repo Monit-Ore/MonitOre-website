@@ -109,11 +109,13 @@ var instrucaoEndereco = `INSERT INTO endereco
         (componente) =>
           `(${mysql.escape(idpc_industrial)}, ${mysql.escape(
             componente.fk_componente,
-          )}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(componente.alerta_atencao)})`,
+          )}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(
+            componente.alerta_atencao,
+          )}, ${mysql.escape(componente.limite_alerta_diario)})`,
       )
       .join(", ");
     var instrucaoComponentes = `INSERT INTO limite_alerta
-        (fk_pc_industrial, fk_componente, critico, atencao)
+        (fk_pc_industrial, fk_componente, critico, atencao, limite_alerta_diario)
        VALUES ${valores}`;
 
     await database.executar(instrucaoComponentes);
@@ -156,7 +158,8 @@ async function buscarTorrePorId(id, fkEmpresa) {
   var instrucaoComponentes = `SELECT 
     la.fk_componente, 
     la.critico,
-    la.atencao
+    la.atencao,
+    la.limite_alerta_diario
     FROM limite_alerta la
     INNER JOIN PC_Industrial pc ON pc.id_pc_industrial = la.fk_pc_industrial
     WHERE pc.fk_torre = ${mysql.escape(id)};`;
@@ -248,7 +251,7 @@ async function atualizarTorre(
     var valores = componentes
       .map(
         (componente) =>
-          `(${mysql.escape(idPcIndustrial)}, ${mysql.escape(componente.fk_componente)}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(componente.alerta_atencao)})`
+          `(${mysql.escape(idPcIndustrial)}, ${mysql.escape(componente.fk_componente)}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(componente.alerta_atencao)}, ${mysql.escape(componente.limite_alerta_diario)})`
       )
       .join(", ");
     
@@ -256,7 +259,8 @@ async function atualizarTorre(
       fk_pc_industrial,
       fk_componente,
       critico,
-      atencao
+      atencao,
+      limite_alerta_diario
     ) VALUES ${valores}`;
     await database.executar(instrucaoComponentes);
   }
