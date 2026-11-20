@@ -172,10 +172,6 @@ function carregarIniciais() {
 }
 
 // NAVEGAÇÃO E MENU
-function voltar() {
-  window.history.back();
-}
-
 function ativarTorres() {
   window.location.href = "/selecao_torre.html";
 }
@@ -194,12 +190,6 @@ function ativarAlertas() {
 
 function ativarManual() {
   window.location.href = "/manual.html";
-}
-
-function ativarMenu(idAtivo) {
-  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
-    item.classList.toggle("ativo", item.id === idAtivo);
-  });
 }
 
 // const botaoMenu = document.querySelector(".btn-notificacao");
