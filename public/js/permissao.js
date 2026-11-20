@@ -6,7 +6,8 @@ const permissoes = {
         "torres",
         "mineradoras",
         "gerenciar-torres",
-        "visualizacao_torre"
+        "visualizacao_torre",
+        "dashboard-mineradoras"
     ],
 
     operador: [

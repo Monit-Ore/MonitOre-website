@@ -362,7 +362,7 @@ async function listarCargos(req, res) {
   }
 }
 
-async function listarMineradoras(req, res) {
+async function listarMineradoras(res) {
   try {
     var resultado = await usuarioModel.listarMineradoras();
 

@@ -19,8 +19,9 @@
       <img src="./imgs/LogoHeader.svg" alt="Monitore" />
     </div>
 
-    <nav class="menu_navegacao">
+   <nav class="menu_navegacao">
       <ul>
+
         <li>
           <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente" data-permissao="dashboard-gerente">
             <i class="fa-solid fa-chart-line icone_menu"></i>
@@ -32,9 +33,8 @@
           <a
             href="/selecao_torre.html"
             class="item_menu"
-            id="torres"
+            id="menu_torres"
             data-permissao="torres"
-            onclick="ativarTorres()"
           >
             <i class="fa-solid fa-tower-broadcast icone_menu"></i>
             <span>Torres</span>
@@ -43,11 +43,10 @@
 
         <li>
           <a
-            href="/visualizacao_usuarios.html"
+            href="./visualizacao_usuarios.html"
             class="item_menu"
-            id="usuarios"
+            id="menu_usuarios"
             data-permissao="usuarios"
-            onclick="ativarUsuarios()"
           >
             <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
@@ -65,6 +64,19 @@
             <span>Cadastro de Mineradora</span>
           </a>
         </li>
+
+        <li>
+          <a
+            href="./dashboard-mineradoras.html"
+            class="item_menu"
+            id="dashboard-mineradoras"
+            data-permissao="dashboard-mineradoras"
+          >
+            <i class="fa-solid fa-hammer icone_menu"></i>
+            <span>Dashboard Mineradoras</span>
+          </a>
+        </li>
+
       </ul>
     </nav>
 

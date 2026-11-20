@@ -1,0 +1,210 @@
+/* ---------- topo e filtros ---------- */
+.header_dashboard {
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.filtros_dashboard {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.filtros_dashboard select {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: 1px solid #444444;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.filtros_dashboard select:hover,
+.filtros_dashboard select:focus {
+  border-color: var(--amarelo);
+  outline: none;
+}
+
+/* ---------- kpi com variação ---------- */
+.kpi_valor_com_variacao {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.variacao_alertas {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.variacao_alertas.alta {
+  color: var(--vermelho);
+}
+
+.variacao_alertas.baixa {
+  color: var(--verde);
+}
+
+/* ---------- saúde por mineradora ---------- */
+.painel_saude {
+  flex: none;
+}
+
+.grid_mineradoras {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 15px;
+}
+
+.card_mineradora {
+  background-color: #161616;
+  border: 1px solid #333333;
+  border-left: 4px solid var(--cinza);
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card_mineradora[data-estado="critico"] {
+  border-left-color: var(--vermelho);
+}
+
+.card_mineradora[data-estado="atencao"] {
+  border-left-color: var(--amarelo);
+}
+
+.card_mineradora[data-estado="normal"] {
+  border-left-color: var(--verde);
+}
+
+.mineradora_topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mineradora_nome {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.rotulo_discreto {
+  font-size: 12px;
+  color: var(--cinza-sub);
+}
+
+/* barra de torres por estado */
+.mineradora_torres {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.barra_torres {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #333333;
+}
+
+.barra_torres .segmento_normal   { background-color: var(--verde); }
+.barra_torres .segmento_atencao  { background-color: var(--amarelo); }
+.barra_torres .segmento_critico  { background-color: var(--vermelho); }
+
+.legenda_torres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 12px;
+  color: var(--cinza-sub);
+}
+
+.legenda_torre_item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* métricas (alertas e componente) */
+.mineradora_metricas {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.metrica_bloco {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metrica_direita {
+  text-align: right;
+}
+
+.metrica_linha {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.metrica_bloco strong {
+  font-size: 1.6rem;
+  line-height: 1.1;
+  color: #ffffff;
+}
+
+.metrica_direita strong {
+  font-size: 1.3rem;
+}
+
+/* ação recomendada */
+.mineradora_acao {
+  border-top: 1px solid #333333;
+  padding-top: 10px;
+  font-size: 13px;
+  color: var(--cinza-sub);
+}
+
+.mineradora_acao.acao_destaque {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ---------- gráficos ---------- */
+.card_painel.card_linha {
+  flex: 2;
+  min-width: 0;
+}
+
+.card_painel.card_donut {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------- responsivo ---------- */
+@media screen and (max-width: 900px) {
+  .filtros_dashboard {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .filtros_dashboard select {
+    flex: 1;
+  }
+
+  .grid_mineradoras {
+    grid-template-columns: 1fr;
+  }
+}
