@@ -5,13 +5,20 @@
     "extraido_em": "2026-11-11T12:00:00-03:00",
     "periodo_consultado": "Últimos 30 dias",
     "periodo_comparacao": "30 dias anteriores",
-    "dados_demonstrativos": true
+    "dados_demonstrativos": true,
+    "observacao": "Os indicadores e gráficos usam agregados demonstrativos. A lista de atenção contém exemplos de chamados vencidos e em risco, não todos os chamados prioritários da fila."
   },
   "indicadores": {
     "chamados_abertos": 128,
+    "variacao_chamados_abertos": 12,
+    "chamados_parados_sete_dias": 9,
     "chamados_criticos": 8,
+    "chamados_criticos_sem_responsavel": 1,
+    "chamados_criticos_vencidos": 5,
     "sla_em_risco": 14,
+    "sla_vencem_proxima_hora": 4,
     "sla_vencido": 6,
+    "sla_vencido_mais_antigo_horas": 52,
     "cumprimento_sla": {
       "resolvidos_no_prazo": 92,
       "total_elegiveis": 100,
@@ -22,32 +29,32 @@
   "distribuicao_por_status": [
     { "status": "A fazer", "quantidade": 26 },
     { "status": "Em andamento", "quantidade": 48 },
-    { "status": "Cancelado/Fechado", "quantidade": 36 },
-    { "status": "Resolvido/Concluído", "quantidade": 18 }
+    { "status": "Bloqueado", "quantidade": 12 },
+    { "status": "Aguardando cliente", "quantidade": 42 }
   ],
   "serie_temporal": [
-    { "data": "2026-10-11", "chamados_recebidos": 35, "chamados_resolvidos": 18 },
-    { "data": "2026-10-14", "chamados_recebidos": 25, "chamados_resolvidos": 18 },
-    { "data": "2026-10-17", "chamados_recebidos": 37, "chamados_resolvidos": 18 },
-    { "data": "2026-10-20", "chamados_recebidos": 24, "chamados_resolvidos": 18 },
-    { "data": "2026-10-23", "chamados_recebidos": 38, "chamados_resolvidos": 18 },
-    { "data": "2026-10-26", "chamados_recebidos": 25, "chamados_resolvidos": 18 },
-    { "data": "2026-10-29", "chamados_recebidos": 38, "chamados_resolvidos": 18 },
-    { "data": "2026-11-01", "chamados_recebidos": 22, "chamados_resolvidos": 18 },
-    { "data": "2026-11-04", "chamados_recebidos": 26, "chamados_resolvidos": 18 },
-    { "data": "2026-11-07", "chamados_recebidos": 14, "chamados_resolvidos": 18 }
+    { "data": "2026-10-13", "chamados_recebidos": 20, "chamados_resolvidos": 19 },
+    { "data": "2026-10-16", "chamados_recebidos": 22, "chamados_resolvidos": 20 },
+    { "data": "2026-10-19", "chamados_recebidos": 18, "chamados_resolvidos": 20 },
+    { "data": "2026-10-22", "chamados_recebidos": 24, "chamados_resolvidos": 21 },
+    { "data": "2026-10-25", "chamados_recebidos": 19, "chamados_resolvidos": 19 },
+    { "data": "2026-10-28", "chamados_recebidos": 21, "chamados_resolvidos": 20 },
+    { "data": "2026-10-31", "chamados_recebidos": 23, "chamados_resolvidos": 21 },
+    { "data": "2026-11-03", "chamados_recebidos": 20, "chamados_resolvidos": 19 },
+    { "data": "2026-11-06", "chamados_recebidos": 18, "chamados_resolvidos": 18 },
+    { "data": "2026-11-09", "chamados_recebidos": 27, "chamados_resolvidos": 23 }
   ],
   "tendencia_sla": [
-    { "data": "2026-10-11", "resolvidos_no_prazo": 27, "total_elegiveis": 31, "percentual": 87 },
-    { "data": "2026-10-14", "resolvidos_no_prazo": 28, "total_elegiveis": 32, "percentual": 88 },
-    { "data": "2026-10-17", "resolvidos_no_prazo": 30, "total_elegiveis": 34, "percentual": 88 },
-    { "data": "2026-10-20", "resolvidos_no_prazo": 29, "total_elegiveis": 33, "percentual": 88 },
-    { "data": "2026-10-23", "resolvidos_no_prazo": 32, "total_elegiveis": 36, "percentual": 89 },
-    { "data": "2026-10-26", "resolvidos_no_prazo": 31, "total_elegiveis": 35, "percentual": 89 },
-    { "data": "2026-10-29", "resolvidos_no_prazo": 33, "total_elegiveis": 37, "percentual": 89 },
-    { "data": "2026-11-01", "resolvidos_no_prazo": 35, "total_elegiveis": 39, "percentual": 90 },
-    { "data": "2026-11-04", "resolvidos_no_prazo": 39, "total_elegiveis": 43, "percentual": 91 },
-    { "data": "2026-11-07", "resolvidos_no_prazo": 92, "total_elegiveis": 100, "percentual": 92 }
+    { "data": "2026-10-13", "resolvidos_no_prazo": 8, "total_elegiveis": 10, "percentual": 80 },
+    { "data": "2026-10-16", "resolvidos_no_prazo": 9, "total_elegiveis": 10, "percentual": 90 },
+    { "data": "2026-10-19", "resolvidos_no_prazo": 9, "total_elegiveis": 10, "percentual": 90 },
+    { "data": "2026-10-22", "resolvidos_no_prazo": 9, "total_elegiveis": 10, "percentual": 90 },
+    { "data": "2026-10-25", "resolvidos_no_prazo": 9, "total_elegiveis": 10, "percentual": 90 },
+    { "data": "2026-10-28", "resolvidos_no_prazo": 9, "total_elegiveis": 10, "percentual": 90 },
+    { "data": "2026-10-31", "resolvidos_no_prazo": 9, "total_elegiveis": 10, "percentual": 90 },
+    { "data": "2026-11-03", "resolvidos_no_prazo": 10, "total_elegiveis": 10, "percentual": 100 },
+    { "data": "2026-11-06", "resolvidos_no_prazo": 10, "total_elegiveis": 10, "percentual": 100 },
+    { "data": "2026-11-09", "resolvidos_no_prazo": 10, "total_elegiveis": 10, "percentual": 100 }
   ],
   "quebras_sla": {
     "prioridade": [
@@ -55,12 +62,6 @@
       { "categoria": "Alta", "resolvidos_no_prazo": 26, "total_elegiveis": 30 },
       { "categoria": "Média", "resolvidos_no_prazo": 36, "total_elegiveis": 38 },
       { "categoria": "Baixa", "resolvidos_no_prazo": 24, "total_elegiveis": 24 }
-    ],
-    "equipe": [
-      { "categoria": "Suporte N1", "resolvidos_no_prazo": 38, "total_elegiveis": 42 },
-      { "categoria": "Suporte N2", "resolvidos_no_prazo": 30, "total_elegiveis": 32 },
-      { "categoria": "Operações", "resolvidos_no_prazo": 20, "total_elegiveis": 22 },
-      { "categoria": "Não atribuído", "resolvidos_no_prazo": 4, "total_elegiveis": 4 }
     ],
     "tipo": [
       { "categoria": "Incidente", "resolvidos_no_prazo": 45, "total_elegiveis": 50 },
@@ -79,97 +80,32 @@
   "tempo_de_resolucao": {
     "unidade": "dias",
     "faixas": [
-      { "faixa": "0-2 dias", "prioridade_alta_ou_critica": 3, "demais_prioridades": 8, "total": 11 },
-      { "faixa": "3-7 dias", "prioridade_alta_ou_critica": 6, "demais_prioridades": 16, "total": 22 },
-      { "faixa": "8-14 dias", "prioridade_alta_ou_critica": 10, "demais_prioridades": 22, "total": 32 },
-      { "faixa": "15+ dias", "prioridade_alta_ou_critica": 20, "demais_prioridades": 43, "total": 63 }
+      { "faixa": "0-2 dias", "prioridade_alta_ou_critica": 6, "demais_prioridades": 16, "total": 22 },
+      { "faixa": "3-7 dias", "prioridade_alta_ou_critica": 10, "demais_prioridades": 34, "total": 44 },
+      { "faixa": "8-14 dias", "prioridade_alta_ou_critica": 18, "demais_prioridades": 38, "total": 56 },
+      { "faixa": "15+ dias", "prioridade_alta_ou_critica": 26, "demais_prioridades": 52, "total": 78 }
     ]
   },
   "chamados_que_precisam_de_atencao": [
-    {
-      "chave": "OPS-1482",
-      "resumo": "Indisponibilidade no acesso à plataforma",
-      "projeto": "Operações",
-      "tipo": "Incidente",
-      "prioridade": "Media",
-      "status": "Em andamento",
-      "responsavel": "Ana Costa",
-      "sem_responsavel": false,
-      "prazo_sla_em": -16200,
-      "sla_vencido": true,
-      "tempo_desde_ultima_atualizacao_horas": 8,
-      "endereco": null
-    },
-    {
-      "chave": "SUP-1481",
-      "resumo": "Falha na sincronização de dados do cliente",
-      "projeto": "Suporte",
-      "tipo": "Incidente",
-      "prioridade": "Crítica",
-      "status": "A fazer",
-      "responsavel": null,
-      "sem_responsavel": true,
-      "prazo_sla_em": -13800,
-      "sla_vencido": true,
-      "tempo_desde_ultima_atualizacao_horas": 12,
-      "endereco": null
-    },
-    {
-      "chave": "SUP-1480",
-      "resumo": "Erro ao processar pagamentos via API",
-      "projeto": "Suporte",
-      "tipo": "Solicitação",
-      "prioridade": "Crítica",
-      "status": "A fazer",
-      "responsavel": "Ana Costa",
-      "sem_responsavel": false,
-      "prazo_sla_em": -11400,
-      "sla_vencido": true,
-      "tempo_desde_ultima_atualizacao_horas": 16,
-      "endereco": null
-    },
-    {
-      "chave": "SUP-1479",
-      "resumo": "Integração com ERP interrompida",
-      "projeto": "Suporte",
-      "tipo": "Solicitação",
-      "prioridade": "Crítica",
-      "status": "A fazer",
-      "responsavel": "Ana Costa",
-      "sem_responsavel": false,
-      "prazo_sla_em": -9000,
-      "sla_vencido": true,
-      "tempo_desde_ultima_atualizacao_horas": 20,
-      "endereco": null
-    },
-    {
-      "chave": "SUP-1478",
-      "resumo": "Usuários sem acesso ao painel de gestão",
-      "projeto": "Suporte",
-      "tipo": "Dúvida",
-      "prioridade": "Crítica",
-      "status": "A fazer",
-      "responsavel": "Ana Costa",
-      "sem_responsavel": false,
-      "prazo_sla_em": -6600,
-      "sla_vencido": true,
-      "tempo_desde_ultima_atualizacao_horas": 24,
-      "endereco": null
-    },
-    {
-      "chave": "OPS-1477",
-      "resumo": "Relatório financeiro apresenta dados divergentes",
-      "projeto": "Operações",
-      "tipo": "Incidente",
-      "prioridade": "Crítica",
-      "status": "A fazer",
-      "responsavel": "Ana Costa",
-      "sem_responsavel": false,
-      "prazo_sla_em": -4200,
-      "sla_vencido": true,
-      "tempo_desde_ultima_atualizacao_horas": 28,
-      "endereco": null
-    }
+    { "chave": "OPS-1482", "resumo": "Indisponibilidade no acesso à plataforma", "projeto": "Operações", "tipo": "Incidente", "prioridade": "Média", "status": "Em andamento", "responsavel": "Ana Costa", "sem_responsavel": false, "prazo_sla_em": -187200, "sla_vencido": true, "tempo_desde_ultima_atualizacao_horas": 52, "endereco": null },
+    { "chave": "SUP-1481", "resumo": "Falha na sincronização de dados do cliente", "projeto": "Suporte", "tipo": "Incidente", "prioridade": "Crítica", "status": "A fazer", "responsavel": null, "sem_responsavel": true, "prazo_sla_em": -165600, "sla_vencido": true, "tempo_desde_ultima_atualizacao_horas": 46, "endereco": null },
+    { "chave": "SUP-1480", "resumo": "Erro ao processar pagamentos via API", "projeto": "Suporte", "tipo": "Solicitação", "prioridade": "Crítica", "status": "A fazer", "responsavel": "Ana Costa", "sem_responsavel": false, "prazo_sla_em": -129600, "sla_vencido": true, "tempo_desde_ultima_atualizacao_horas": 36, "endereco": null },
+    { "chave": "SUP-1479", "resumo": "Integração com ERP interrompida", "projeto": "Suporte", "tipo": "Solicitação", "prioridade": "Crítica", "status": "A fazer", "responsavel": "Ana Costa", "sem_responsavel": false, "prazo_sla_em": -100800, "sla_vencido": true, "tempo_desde_ultima_atualizacao_horas": 28, "endereco": null },
+    { "chave": "SUP-1478", "resumo": "Usuários sem acesso ao painel de gestão", "projeto": "Suporte", "tipo": "Dúvida", "prioridade": "Crítica", "status": "A fazer", "responsavel": "Ana Costa", "sem_responsavel": false, "prazo_sla_em": -72000, "sla_vencido": true, "tempo_desde_ultima_atualizacao_horas": 24, "endereco": null },
+    { "chave": "OPS-1477", "resumo": "Relatório financeiro apresenta dados divergentes", "projeto": "Operações", "tipo": "Incidente", "prioridade": "Crítica", "status": "A fazer", "responsavel": "Ana Costa", "sem_responsavel": false, "prazo_sla_em": -43200, "sla_vencido": true, "tempo_desde_ultima_atualizacao_horas": 18, "endereco": null },
+    { "chave": "SUP-1476", "resumo": "Falha de autenticação no portal", "projeto": "Suporte", "tipo": "Incidente", "prioridade": "Crítica", "status": "Em andamento", "responsavel": "Bruno Lima", "sem_responsavel": false, "prazo_sla_em": 1800, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 1, "endereco": null },
+    { "chave": "SUP-1475", "resumo": "Serviço intermitente para usuários externos", "projeto": "Suporte", "tipo": "Incidente", "prioridade": "Crítica", "status": "Em andamento", "responsavel": "Ana Costa", "sem_responsavel": false, "prazo_sla_em": 2400, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 1, "endereco": null },
+    { "chave": "OPS-1474", "resumo": "Instabilidade no processamento de tarefas", "projeto": "Operações", "tipo": "Incidente", "prioridade": "Alta", "status": "A fazer", "responsavel": "Bruno Lima", "sem_responsavel": false, "prazo_sla_em": 3000, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 2, "endereco": null },
+    { "chave": "SUP-1473", "resumo": "Erro ao atualizar cadastro de usuário", "projeto": "Suporte", "tipo": "Solicitação", "prioridade": "Média", "status": "Em andamento", "responsavel": "Camila Souza", "sem_responsavel": false, "prazo_sla_em": 3500, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 2, "endereco": null },
+    { "chave": "SUP-1472", "resumo": "Acesso ao relatório de operações", "projeto": "Suporte", "tipo": "Solicitação", "prioridade": "Crítica", "status": "Em andamento", "responsavel": "Bruno Lima", "sem_responsavel": false, "prazo_sla_em": 5400, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 2, "endereco": null },
+    { "chave": "OPS-1471", "resumo": "Lentidão na consulta de dados", "projeto": "Operações", "tipo": "Incidente", "prioridade": "Alta", "status": "Aguardando cliente", "responsavel": "Ana Costa", "sem_responsavel": false, "prazo_sla_em": 7200, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 3, "endereco": null },
+    { "chave": "SUP-1470", "resumo": "Configuração de acesso para novo colaborador", "projeto": "Suporte", "tipo": "Solicitação", "prioridade": "Média", "status": "Aguardando cliente", "responsavel": "Camila Souza", "sem_responsavel": false, "prazo_sla_em": 9000, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 4, "endereco": null },
+    { "chave": "OPS-1469", "resumo": "Falha na exportação de arquivo", "projeto": "Operações", "tipo": "Incidente", "prioridade": "Alta", "status": "Em andamento", "responsavel": "Bruno Lima", "sem_responsavel": false, "prazo_sla_em": 10800, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 3, "endereco": null },
+    { "chave": "SUP-1468", "resumo": "Solicitação de redefinição de senha", "projeto": "Suporte", "tipo": "Dúvida", "prioridade": "Baixa", "status": "Aguardando cliente", "responsavel": "Eduardo Alves", "sem_responsavel": false, "prazo_sla_em": 12600, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 5, "endereco": null },
+    { "chave": "SUP-1467", "resumo": "Permissão para acesso ao módulo financeiro", "projeto": "Suporte", "tipo": "Solicitação", "prioridade": "Média", "status": "Em andamento", "responsavel": "Camila Souza", "sem_responsavel": false, "prazo_sla_em": 13200, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 4, "endereco": null },
+    { "chave": "OPS-1466", "resumo": "Divergência na sincronização de inventário", "projeto": "Operações", "tipo": "Incidente", "prioridade": "Alta", "status": "Bloqueado", "responsavel": "Bruno Lima", "sem_responsavel": false, "prazo_sla_em": 13800, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 6, "endereco": null },
+    { "chave": "SUP-1465", "resumo": "Ajuste de grupo de acesso", "projeto": "Suporte", "tipo": "Solicitação", "prioridade": "Baixa", "status": "Aguardando cliente", "responsavel": "Eduardo Alves", "sem_responsavel": false, "prazo_sla_em": 14100, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 3, "endereco": null },
+    { "chave": "SUP-1464", "resumo": "Instalação de ferramenta autorizada", "projeto": "Suporte", "tipo": "Solicitação", "prioridade": "Média", "status": "Em andamento", "responsavel": "Camila Souza", "sem_responsavel": false, "prazo_sla_em": 14280, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 2, "endereco": null },
+    { "chave": "OPS-1463", "resumo": "Revisão de alerta operacional", "projeto": "Operações", "tipo": "Dúvida", "prioridade": "Baixa", "status": "Aguardando cliente", "responsavel": "Diego Santos", "sem_responsavel": false, "prazo_sla_em": 14340, "sla_vencido": false, "tempo_desde_ultima_atualizacao_horas": 1, "endereco": null }
   ]
 }
-

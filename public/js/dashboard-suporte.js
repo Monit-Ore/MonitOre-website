@@ -45,10 +45,36 @@ function mostrarIndicadores(dados) {
   document.getElementById("data_atualizacao").textContent = "Atualizado às " + horaAtualizacao;
   document.getElementById("chamados_abertos").textContent = indicadores.chamados_abertos;
   document.getElementById("chamados_criticos").textContent = String(indicadores.chamados_criticos).padStart(2, "0");
-  document.getElementById("sla_em_risco").textContent = String(indicadores.sla_em_risco).padStart(2, "0");
-  document.getElementById("sla_vencido").textContent = String(indicadores.sla_vencido).padStart(2, "0");
+  document.getElementById("sla_em_risco").textContent = String(indicadores.sla_em_risco).padStart(2, "0") + " chamados";
+  document.getElementById("sla_vencido").textContent = String(indicadores.sla_vencido).padStart(2, "0") + " cXhamados";
+
+  const variacaoAbertos = indicadores.variacao_chamados_abertos;
+  const elementoVariacaoAbertos = document.getElementById("variacao_abertos");
+  elementoVariacaoAbertos.textContent = formatarVariacaoQuantidade(variacaoAbertos, dados.metadados.periodo_comparacao);
+  elementoVariacaoAbertos.className = "kpi_detalhe variacao " + obterClasseVariacaoAbertos(variacaoAbertos);
+  document.getElementById("parados_sete_dias").textContent =
+    indicadores.chamados_parados_sete_dias + " parados há mais de 7 dias";
+  document.getElementById("criticos_sem_responsavel").textContent =
+    indicadores.chamados_criticos_sem_responsavel + " sem responsável";
+  document.getElementById("criticos_vencidos").textContent =
+    indicadores.chamados_criticos_vencidos + " vencidos";
+  document.getElementById("risco_proxima_hora").textContent =
+    indicadores.sla_vencem_proxima_hora + " vencem na próxima hora";
+  document.getElementById("detalhe_vencido").textContent =
+    "Mais antigo há " + formatarHorasAtraso(indicadores.sla_vencido_mais_antigo_horas);
 
   document.getElementById("cumprimento_sla").textContent = percentualSla + "%";
+  const diferencaMeta = sla.meta_percentual - percentualSla;
+  const distanciaMeta = document.getElementById("distancia_meta_sla");
+  distanciaMeta.textContent = diferencaMeta > 0
+    ? diferencaMeta + " p.p. abaixo da meta"
+    : diferencaMeta < 0
+      ? Math.abs(diferencaMeta) + " p.p. acima da meta"
+      : "Meta atingida";
+  distanciaMeta.className = "sla_distancia_meta " + obterClasseDesempenhoSla(percentualSla, sla.meta_percentual);
+  document.getElementById("progresso_meta_sla").style.width = Math.min(percentualSla, 100) + "%";
+  document.getElementById("progresso_meta_sla").className = obterClasseDesempenhoSla(percentualSla, sla.meta_percentual);
+  document.getElementById("marcador_meta_sla").style.left = Math.min(sla.meta_percentual, 100) + "%";
   document.getElementById("volume_sla").textContent =
     sla.resolvidos_no_prazo + " de " + sla.total_elegiveis + " chamados";
   document.getElementById("meta_sla").textContent =
@@ -56,12 +82,16 @@ function mostrarIndicadores(dados) {
   elementoVariacao.textContent = formatarVariacaoSla(variacaoSla, dados.metadados.periodo_comparacao);
   elementoVariacao.className = "variacao " + obterClasseVariacaoSla(variacaoSla);
 
+  const prioridadesSla = (dados.quebras_sla && dados.quebras_sla.prioridade) || [];
+  const piorPrioridadeSla = prioridadesSla
+    .map((item) => ({ ...item, percentual: calcularPercentual(item.resolvidos_no_prazo, item.total_elegiveis) }))
+    .sort((a, b) => a.percentual - b.percentual)[0];
   document.getElementById("periodo_sla").textContent =
     dados.metadados.periodo_consultado + " · comparação com " + dados.metadados.periodo_comparacao;
   document.getElementById("periodo_tendencia_sla").textContent = dados.metadados.periodo_consultado;
-  document.getElementById("meta_quebra_sla").textContent =
-    "Meta " + sla.meta_percentual + "% · abaixo da meta aparece em atenção";
-
+  document.getElementById("meta_quebra_sla").textContent = piorPrioridadeSla
+    ? "Meta " + sla.meta_percentual + "% · pior resultado: " + piorPrioridadeSla.categoria + " (" + piorPrioridadeSla.percentual + "%)"
+    : "Meta " + sla.meta_percentual + "% · abaixo da meta aparece em atenção";
   document.getElementById("texto_aviso_sla").textContent =
     (indicadores.sla_vencido + indicadores.sla_em_risco) +
     " chamados abertos precisam de atenção. " + indicadores.sla_vencido + " vencidos e " +
@@ -71,6 +101,26 @@ function mostrarIndicadores(dados) {
 function calcularPercentual(parte, total) {
   if (!total) return 0;
   return Math.round((parte / total) * 100);
+}
+
+function formatarVariacaoQuantidade(variacao, periodoComparacao) {
+  if (variacao > 0) return "↑ " + variacao + " vs. " + periodoComparacao;
+  if (variacao < 0) return "↓ " + Math.abs(variacao) + " vs. " + periodoComparacao;
+  return "Estável vs. " + periodoComparacao;
+}
+
+function obterClasseVariacaoAbertos(variacao) {
+  if (variacao > 0) return "negativa";
+  if (variacao < 0) return "positiva";
+  return "neutra";
+}
+
+function formatarHorasAtraso(horas) {
+  const dias = Math.floor(horas / 24);
+  const horasRestantes = horas % 24;
+  if (dias && horasRestantes) return dias + "d " + horasRestantes + "h";
+  if (dias) return dias + "d";
+  return horas + "h";
 }
 
 function formatarVariacaoSla(variacao, periodoComparacao) {
@@ -136,38 +186,9 @@ function criarGraficos(dados) {
 
   Chart.defaults.color = "#999999";
   Chart.defaults.font.family = "Barlow, Segoe UI, sans-serif";
-  criarGraficoStatus(dados.distribuicao_por_status);
   criarGraficoTendencia(dados.serie_temporal);
   criarGraficoSla(dados.tendencia_sla, dados.indicadores.cumprimento_sla.meta_percentual);
   criarGraficoCapacidade(dados.capacidade_da_equipe);
-  criarGraficoFaixas(dados.tempo_de_resolucao.faixas);
-}
-
-function criarGraficoStatus(status) {
-  const total = status.reduce((soma, item) => soma + item.quantidade, 0);
-  document.getElementById("total_status").textContent = total + " no total";
-
-  new Chart(document.getElementById("grafico_status"), {
-    type: "bar",
-    data: {
-      labels: status.map((item) => item.status),
-      datasets: [{
-        data: status.map((item) => item.quantidade),
-        backgroundColor: ["#ffd000", "#4199ed", "#555d66", "#2bbd72"],
-        borderRadius: 4,
-        barThickness: 13
-      }]
-    },
-    options: {
-      indexAxis: "y",
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { beginAtZero: true, grid: { color: "#303030" }, ticks: { stepSize: 12 } },
-        y: { grid: { display: false }, ticks: { color: "#ddd", font: { size: 10 } } }
-      }
-    }
-  });
 }
 
 function criarGraficoTendencia(serie) {
@@ -297,27 +318,6 @@ function criarGraficoCapacidade(equipe) {
 
 }
 
-function criarGraficoFaixas(faixas) {
-  new Chart(document.getElementById("grafico_faixas"), {
-    type: "bar",
-    data: {
-      labels: faixas.map((item) => item.faixa),
-      datasets: [
-        { label: "Alta e crítica", data: faixas.map((item) => item.prioridade_alta_ou_critica), backgroundColor: "#ffd000", borderRadius: 3 },
-        { label: "Demais prioridades", data: faixas.map((item) => item.demais_prioridades), backgroundColor: "#555d66", borderRadius: 3 }
-      ]
-    },
-    options: {
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { stacked: true, grid: { display: false } },
-        y: { stacked: true, beginAtZero: true, grid: { color: "#303030" } }
-      }
-    }
-  });
-}
-
 function prepararFiltros(equipe) {
   preencherFiltroResponsaveis(equipe);
 
@@ -394,6 +394,8 @@ function mostrarChamados() {
 
   if (filtroSelecionado === "vencidos") {
     chamadosFiltrados = chamadosFiltrados.filter((item) => item.sla_vencido);
+  } else if (filtroSelecionado === "em-risco") {
+    chamadosFiltrados = chamadosFiltrados.filter(estaEmRisco);
   } else if (filtroSelecionado === "criticos") {
     chamadosFiltrados = chamadosFiltrados.filter((item) => normalizar(item.prioridade) === "critica");
   } else if (filtroSelecionado === "sem-responsavel") {
@@ -420,11 +422,13 @@ function atualizarContagemFiltros() {
   document.getElementById("filtro_total").textContent = dadosDosChamados.length;
   document.getElementById("filtro_vencidos").textContent =
     dadosDosChamados.filter((item) => item.sla_vencido).length;
+  document.getElementById("filtro_em_risco").textContent =
+    dadosDosChamados.filter(estaEmRisco).length;
   document.getElementById("filtro_criticos").textContent =
     dadosDosChamados.filter((item) => normalizar(item.prioridade) === "critica").length;
   document.getElementById("filtro_sem_responsavel").textContent =
     dadosDosChamados.filter((item) => item.sem_responsavel).length;
-  document.getElementById("total_chamados").textContent = dadosDosChamados.length + " chamados com atenção necessária";
+  document.getElementById("total_chamados").textContent = dadosDosChamados.length + " na amostra";
 }
 
 function desenharTabela(chamados) {
@@ -440,7 +444,7 @@ function desenharTabela(chamados) {
       '<td><span class="tag_prioridade ' + classePrioridade + '">' + escaparHtml(item.prioridade) + "</span></td>" +
       '<td><span class="tag_status ' + classeStatus + '">' + escaparHtml(item.status) + "</span></td>" +
       '<td class="' + classeResponsavel + '">' + responsavel + "</td>" +
-      '<td><span class="tag_sla">' + formatarPrazoSla(item) + "</span></td>" +
+      '<td><span class="tag_sla ' + (item.sla_vencido ? "sla-vencido" : estaEmRisco(item) ? "sla-risco" : "") + '">' + formatarPrazoSla(item) + "</span></td>" +
       "<td>" + item.tempo_desde_ultima_atualizacao_horas + "h</td></tr>";
   });
 
@@ -483,12 +487,23 @@ function escaparHtml(texto) {
 }
 
 function formatarPrazoSla(chamado) {
-  if (!chamado.sla_vencido) return "No prazo";
+  if (!chamado.sla_vencido) {
+    if (!estaEmRisco(chamado)) return "No prazo";
+
+    const minutosRestantes = Math.ceil(chamado.prazo_sla_em / 60);
+    const horas = Math.floor(minutosRestantes / 60);
+    const minutos = minutosRestantes % 60;
+    return horas ? "Vence em " + horas + "h " + String(minutos).padStart(2, "0") + "min" : "Vence em " + minutos + "min";
+  }
 
   const segundosAtraso = Math.abs(chamado.prazo_sla_em);
   const horas = Math.floor(segundosAtraso / 3600);
   const minutos = Math.floor((segundosAtraso % 3600) / 60);
   return "Vencido há " + horas + "h " + String(minutos).padStart(2, "0") + "min";
+}
+
+function estaEmRisco(chamado) {
+  return !chamado.sla_vencido && chamado.prazo_sla_em > 0 && chamado.prazo_sla_em <= 4 * 60 * 60;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
