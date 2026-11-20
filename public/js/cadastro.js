@@ -230,20 +230,6 @@ function configurarMascaras() {
   });
 }
 
-function carregarUsuarioMenu() {
-  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
-  if (!nomeUsuario) {
-    return;
-  }
-  nome_usuario.textContent = nomeUsuario;
-
-  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
-  if (!cargoUsuario) {
-    return;
-  }
-  cargo_usuario.textContent = cargoUsuario;
-}
-
 function carregarIniciais() {
   const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
   if (!nomeUsuario) return;
@@ -309,10 +295,6 @@ function limparFormulario() {
 // BOTÕES DE NAVEGAÇÃO
 
 function cancelar() {
-  window.history.back();
-}
-
-function voltar() {
   window.history.back();
 }
 
