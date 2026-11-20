@@ -8,6 +8,7 @@
 
     <title>Cadastro de Funcionário</title>
 
+    <link rel="stylesheet" href="./css/global.css" />
     <link rel="stylesheet" href="./css/tela_cadastro.css" />
     <link rel="stylesheet" href="./css/acesso_torres.css" />
 
@@ -63,7 +64,7 @@
       <div class="rodape_navegacao">
     
 
-        <div class="usuario_navegacao" id="usuario_logado">
+        <div class="usuario_navegacao" id="usuario_logado" data-perfil-nav>
           <div class="avatar_usuario" id="avatar_usuario">US</div>
           <div class="info_usuario">
             <span class="nome_usuario" id="nome_usuario">Carregando...</span>
@@ -240,13 +241,9 @@
     <!-- </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
+    <script src="./js/global.js"></script>
     <script src="./js/acesso_torres.js"></script>
     <script src="./js/cadastro.js"></script>
     
-    <script>
-      usuario_logado.addEventListener("click", () => {
-        window.location = '/meu_perfil.html';
-      });
-    </script>
   </body>
 </html>

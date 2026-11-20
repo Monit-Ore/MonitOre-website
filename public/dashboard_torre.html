@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Monit Ore | Dashboard da Torre</title>
 
+  <link rel="stylesheet" href="./css/global.css" />
   <link rel="stylesheet" href="./css/tela_cadastro.css" />
   <link rel="stylesheet" href="./css/cadastro_torre.css" />
   <link rel="stylesheet" href="./css/dashboard_torre.css">
@@ -14,6 +15,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./js/global.js"></script>
 </head>
 
 <body class="container_responsivo" data-permissao-pagina="dashboard-torre">
@@ -609,63 +611,29 @@
     }
 
 
-    // Redirecionamento do perfil do usuário
-    const usuarioLogadoEl = document.getElementById("usuario_logado");
-    const nomeUsuarioEl = document.getElementById("nome_usuario");
-    const cargoUsuarioEl = document.getElementById("cargo_usuario");
-    const avatarUsuarioEl = document.getElementById("avatar_usuario");
-    const nomeUsuario = (sessionStorage.getItem("NOME_USUARIO") || "").trim();
-    const cargoUsuario = (sessionStorage.getItem("CARGO_USUARIO") || "").trim();
+    MonitOre.instalarChrome({
+      identity: {
+        exigirNome: false,
+        nomeFallback: 'Usuário',
+        iniciais: { estilo: 'duas-palavras', maiusculas: true, fallback: 'US' },
+      },
+      menu: true,
+      logout: true,
+      profileId: 'usuario_logado',
+      profileTeclado: true,
+      onReady: function () {
+        const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");
+        const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
 
-    if (nomeUsuarioEl) nomeUsuarioEl.textContent = nomeUsuario || "Usuário";
-    if (cargoUsuarioEl) cargoUsuarioEl.textContent = cargoUsuario;
-    if (avatarUsuarioEl) {
-      const iniciais = nomeUsuario.split(/\s+/).filter(Boolean).slice(0, 2).map((parte) => parte[0]);
-      avatarUsuarioEl.textContent = iniciais.join("").toUpperCase() || "US";
-    }
-
-    function abrirPerfilUsuario() {
-      window.location.href = "/meu_perfil.html";
-    }
-
-    if (usuarioLogadoEl) {
-      usuarioLogadoEl.addEventListener("click", abrirPerfilUsuario);
-      usuarioLogadoEl.addEventListener("keydown", (evento) => {
-        if (evento.key === "Enter" || evento.key === " ") {
-          evento.preventDefault();
-          abrirPerfilUsuario();
+        // Validação de segurança
+        if (!idTorre || !fkEmpresa) {
+          alert("Nenhuma torre selecionada ou sessão expirada.");
+          window.location.href = "./selecao_torre.html";
+          return;
         }
-      });
-    }
 
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");
-      const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
-
-      const botaoMenu = document.querySelector(".btn-notificacao");
-
-  botaoMenu?.addEventListener("click", () => document.body.classList.toggle("menu-aberto"));
-
-
-      document.getElementById("botao_sair")?.addEventListener("click", () => {
-    sessionStorage.clear();
-    window.location.href = "./login.html";
-  });
-
-      // Validação de segurança
-      if (!idTorre || !fkEmpresa) {
-        alert("Nenhuma torre selecionada ou sessão expirada.");
-        window.location.href = "./selecao_torre.html";
-        return;
-      }
-
-      // Dispara a função para buscar os dados no backend
-      carregarDadosTorre(idTorre, fkEmpresa);
-
-      // Demais funções da página
-      carregarUsuarioMenu();
-      carregarIniciais();
+        carregarDadosTorre(idTorre, fkEmpresa);
+      },
     });
 
     // Função que consome a rota do Controller/Model que você já possui

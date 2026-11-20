@@ -8,6 +8,7 @@
 
   <title>Monit Ore | Cadastro de Torre</title>
 
+  <link rel="stylesheet" href="./css/global.css" />
   <link rel="stylesheet" href="./css/tela_cadastro.css" />
   <link rel="stylesheet" href="./css/cadastro_torre.css" />
   <link rel="icon" href="./imgs/favicon.svg" />
@@ -156,7 +157,7 @@
               </label>
 
               <input
-                oninput="buscarCEP(cep_ipt.value)"
+                oninput="MonitOre.buscarCEP(cep_ipt.value)"
                 type="text"
                 id="cep_ipt"
                 placeholder="Ex.: 0225000"
@@ -320,14 +321,9 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/animejs@4/dist/bundles/anime.umd.min.js"></script>
+  <script src="./js/global.js"></script>
   <script src="./js/permissao.js"></script>
   <script src="./js/cadastro_torre.js"></script>
-
-  <script>
-    document.getElementById("usuario_logado").addEventListener("click", () => {
-      window.location.href = "/meu_perfil.html";
-    });
-  </script>
 
 </body>
 

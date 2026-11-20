@@ -1,38 +1,9 @@
 
 
-const COMPONENTES = [
-  { id: 1, nome: "CPU" },
-  { id: 2, nome: "RAM" },
-  { id: 3, nome: "Disco" },
-];
+const COMPONENTES = MonitOre.COMPONENTES;
 
 // Pega o ID salvo no sessionStorage (se existir, estamos editando)
 const idTorre = sessionStorage.getItem("idTorreEmEdicao");
-
-async function buscarCEP(cep) {
-  try {
-    if (!/^\d{8}$/.test(cep)) {
-      throw new Error("CEP inválido. Use apenas 8 dígitos numéricos.");
-    }
-    
-    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-    if (!response.ok) throw new Error(`Erro na requisição: ${response.status}`);
-
-    const data = await response.json();
-    if (data.erro) throw new Error("CEP não encontrado.");
-
-    document.getElementById('cidade_ipt').value = data.localidade;
-    document.getElementById('cidade_ipt').readOnly = true;
-    document.getElementById('uf_ipt').value = data.uf;
-    document.getElementById('uf_ipt').readOnly = true;
-    document.getElementById('bairro_ipt').value = data.bairro;
-    document.getElementById('bairro_ipt').readOnly = true;
-    document.getElementById('logradouro_ipt').value = data.logradouro;
-    document.getElementById('logradouro_ipt').readOnly = true;    
-  } catch (error) {
-    console.error("Erro:", error.message);
-  }
-}
 
 const metricasAdicionadas = [];
 
@@ -45,7 +16,7 @@ async function inicializarCadastro() {
   }
 
   await carregarOpcoes(idUsuario);
-  preencherSelectEstatico("componente_ipt", COMPONENTES, "componentes");
+  MonitOre.preencherSelectEstatico("componente_ipt", COMPONENTES, "Selecione uma opção");
 
   document.getElementById("btn-add-metrica").addEventListener("click", adicionarMetrica);
   document.getElementById("form-cadastro-torre").addEventListener("submit", (evento) => salvarOuAtualizarTorre(evento));
@@ -122,32 +93,17 @@ async function carregarOpcoes(idUsuario) {
     if (!resposta.ok) throw new Error(`Falha ao buscar opções: ${resposta.status}`);
 
     const { mineradoras } = await resposta.json();
-    preencherSelect("mineradora_ipt", mineradoras, "id_mineradora", "razao_social", "Selecione a mineradora");
+    MonitOre.preencherSelect(
+      "mineradora_ipt",
+      mineradoras,
+      "id_mineradora",
+      "razao_social",
+      "Selecione a mineradora",
+      { placeholderDesabilitado: true },
+    );
   } catch (erro) {
     console.error("Erro ao carregar opções de cadastro:", erro);
   }
-}
-
-function preencherSelect(idSelect, itens, chaveValor, chaveTexto, textoPadrao) {
-  const select = document.getElementById(idSelect);
-  select.innerHTML = `<option value="" disabled selected>${textoPadrao}</option>`;
-  itens.forEach((item) => {
-    const option = document.createElement("option");
-    option.value = item[chaveValor];
-    option.textContent = item[chaveTexto];
-    select.appendChild(option);
-  });
-}
-
-function preencherSelectEstatico(idSelect, itens, _naoUsado, textoPadrao = "Selecione uma opção") {
-  const select = document.getElementById(idSelect);
-  select.innerHTML = `<option value="" selected>${textoPadrao}</option>`;
-  itens.forEach((item) => {
-    const option = document.createElement("option");
-    option.value = item.id;
-    option.textContent = item.nome;
-    select.appendChild(option);
-  });
 }
 
 function adicionarMetrica() {
@@ -159,22 +115,16 @@ function adicionarMetrica() {
   const alertaCritico = Number(inputAlertaCritico.value);
   const alertaAtencao = Number(inputAlertaAtencao.value);
 
-  if (!fkComponente) {
-    alert("Selecione um componente.");
-    return;
-  }
-  if (!alertaCritico || alertaCritico <= 0 || alertaCritico > 100) {
-    alert("Informe uma porcentagem válida (1 a 100) para o Alerta Crítico.");
-    return;
-  }
-  if (!alertaAtencao || alertaAtencao <= 0 || alertaAtencao > 100) {
-    alert("Informe uma porcentagem válida (1 a 100) para o Alerta Atenção.");
-    return;
-  }
-
   const jaAdicionado = metricasAdicionadas.some((m) => m.fk_componente === fkComponente);
-  if (jaAdicionado) {
-    alert("Esse componente já foi adicionado.");
+  const erroMetrica = MonitOre.validarMetrica({
+    fkComponente,
+    alertaCritico,
+    alertaAtencao,
+    jaAdicionado,
+  });
+
+  if (erroMetrica) {
+    alert(erroMetrica);
     return;
   }
 
@@ -200,7 +150,7 @@ function renderizarMetricas() {
     const linha = document.createElement("div");
     linha.classList.add("metrica-item");
     linha.innerHTML = `
-      <span class="metrica-nome">${tituloMetrica(metrica.nome)}</span>
+      <span class="metrica-nome">${MonitOre.rotuloComponente(metrica.nome)}</span>
       <span class="metrica-valor">Crítico: ${metrica.alerta_critico}%</span>
       <span class="metrica-valor">Atenção: ${metrica.alerta_atencao}%</span>
       <button type="button" class="btn-remover-metrica" data-indice="${indice}">
@@ -217,15 +167,6 @@ function renderizarMetricas() {
       renderizarMetricas();
     });
   });
-}
-
-function tituloMetrica(nomeComponente) {
-  const rotulos = {
-    CPU: "Porcentagem CPU",
-    RAM: "Uso da Memória RAM",
-    Disco: "Disponibilidade do Disco",
-  };
-  return rotulos[nomeComponente] || nomeComponente;
 }
 
 // FUNÇÃO UNIFICADA: Decide se envia POST (Criar) ou PUT (Atualizar)
@@ -295,9 +236,7 @@ async function salvarOuAtualizarTorre(evento) {
 
 // Funções de menu e navegação
 function ativarMenu(idAtivo) {
-  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
-    item.classList.toggle("ativo", item.id === idAtivo);
-  });
+  MonitOre.ativarMenu(idAtivo);
 }
 
 function ativarTorres() { ativarMenu("torres"); }
@@ -306,48 +245,18 @@ function ativarCargos() { ativarMenu("cargos"); }
 function ativarAlertas() { ativarMenu("alertas"); }
 function ativarManual() { ativarMenu("manual"); }
 
-function carregarUsuarioMenu() {
-  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
-  if (!nomeUsuario) return;
-  nome_usuario.textContent = nomeUsuario;
-
-  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
-  if (!cargoUsuario) return;
-  cargo_usuario.textContent = cargoUsuario;
-}
-
-function carregarIniciais() {
-  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
-  if (!nomeUsuario) return;
-  const iniciais = [];
-
-  for (let i = 0; i < nomeUsuario.length; i++) {
-    if (i == 0) iniciais.push(nomeUsuario[i]);
-    if (nomeUsuario[i] == " ") {
-      iniciais.push(nomeUsuario[i + 1]);
-      break;
-    }
-  }
-  avatar_usuario.textContent = iniciais.join('');
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  carregarUsuarioMenu();
-  carregarIniciais();
-  const botaoMenu = document.querySelector(".btn-notificacao");
-
-  botaoMenu?.addEventListener("click", () => document.body.classList.toggle("menu-aberto"));
-
-  document.getElementById("botao_sair")?.addEventListener("click", () => {
-    sessionStorage.clear();
-    window.location.href = "./login.html";
-  });
-
-  // Se o usuário clicar em "Cancelar", limpa o storage para evitar loop de edição
-  const btnCancelar = document.querySelector(".btn-cancelar");
-  btnCancelar?.addEventListener("click", () => {
-    sessionStorage.removeItem("idTorreEmEdicao");
-  });
+MonitOre.instalarChrome({
+  identity: true,
+  menu: true,
+  logout: true,
+  profileId: 'usuario_logado',
+  onReady: function () {
+    // Se o usuário clicar em "Cancelar", limpa o storage para evitar loop de edição
+    const btnCancelar = document.querySelector(".btn-cancelar");
+    btnCancelar?.addEventListener("click", () => {
+      sessionStorage.removeItem("idTorreEmEdicao");
+    });
+  },
 });
 
 inicializarCadastro();
