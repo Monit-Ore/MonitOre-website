@@ -1,14 +1,33 @@
-MonitOre.instalarChrome({
-  identity: {
-    exigirNome: false,
-    iniciais: { estilo: 'primeiro-ultimo', maiusculas: true, fallback: 'US' },
-  },
-  menu: true,
-  logout: true,
-  profileId: 'usuario_logado',
-  onReady: function () {
-    configurarMascaraCnpj();
-  },
+document.addEventListener("DOMContentLoaded", function () {
+//    const botaoMenu = document.querySelector(".btn-notificacao");
+
+// botaoMenu?.addEventListener("click", () =>
+//   document.body.classList.toggle("menu-aberto"),
+// );
+
+  carregarUsuarioMenu();
+  carregarIniciais();
+  configurarMascaraCnpj();
+
+  // Menu responsivo mobile
+
+
+
+  // Logout
+  const botaoSair = document.getElementById("botao_sair");
+  if (botaoSair) {
+    botaoSair.addEventListener("click", function () {
+      sessionStorage.clear();
+      window.location.href = "./login.html";
+    });
+  }
+
+  const botaoMenu = document.querySelector("btn-notificacao");
+
+botaoMenu?.addEventListener("click", () =>
+  document.body.classList.toggle("menu-aberto"),
+
+);
 });
 
 // APLICAÇÃO DE MÁSCARA AUTOMÁTICA NO CNPJ (00.000.000/0000-00)
@@ -121,6 +140,37 @@ function limparFormulario() {
   if (cnpjIpt) cnpjIpt.value = "";
 }
 
+// INFORMAÇÕES DO USUÁRIO NA SIDEBAR
+function carregarUsuarioMenu() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+
+  const elemNome = document.getElementById("nome_usuario");
+  const elemCargo = document.getElementById("cargo_usuario");
+
+  if (elemNome && nomeUsuario) {
+    elemNome.textContent = nomeUsuario;
+  }
+  if (elemCargo && cargoUsuario) {
+    elemCargo.textContent = cargoUsuario;
+  }
+}
+
+function carregarIniciais() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "US";
+  const partes = nomeUsuario.trim().split(" ");
+  let iniciais = partes[0][0];
+
+  if (partes.length > 1) {
+    iniciais += partes[partes.length - 1][0];
+  }
+
+  const avatar = document.getElementById("avatar_usuario");
+  if (avatar) {
+    avatar.textContent = iniciais.toUpperCase();
+  }
+}
+
 // NAVEGAÇÃO E MENU
 function voltar() {
   window.history.back();
@@ -147,5 +197,18 @@ function ativarManual() {
 }
 
 function ativarMenu(idAtivo) {
-  MonitOre.ativarMenu(idAtivo);
+  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
+    item.classList.toggle("ativo", item.id === idAtivo);
+  });
 }
+
+// const botaoMenu = document.querySelector(".btn-notificacao");
+
+// botaoMenu?.addEventListener("click", () =>
+//   document.body.classList.toggle("menu-aberto"),
+// );
+const botaoMenu = document.querySelector(".btn-notificacao");
+
+botaoMenu?.addEventListener("click", () =>
+  document.body.classList.toggle("menu-aberto"),
+);

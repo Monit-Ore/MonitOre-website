@@ -89,6 +89,37 @@ const dadosIniciais = {
 };
 
 // ==========================================
+// FUNÇÕES DE UTILIZADOR E MENU
+// ==========================================
+function carregarUsuarioMenu() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) return;
+  const elNome = document.getElementById("nome_usuario");
+  if (elNome) elNome.textContent = nomeUsuario;
+
+  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+  if (!cargoUsuario) return;
+  const elCargo = document.getElementById("cargo_usuario");
+  if (elCargo) elCargo.textContent = cargoUsuario;
+}
+
+function carregarIniciais() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) return;
+  const iniciais = [];
+
+  for (let i = 0; i < nomeUsuario.length; i++) {
+    if (i == 0) iniciais.push(nomeUsuario[i]);
+    if (nomeUsuario[i] == " ") {
+      iniciais.push(nomeUsuario[i + 1]);
+      break;
+    }
+  }
+  const elAvatar = document.getElementById("avatar_usuario");
+  if (elAvatar) elAvatar.textContent = iniciais.join('').toUpperCase();
+}
+
+// ==========================================
 // FORMATAÇÃO DE CORES (Regra < 70 verde, < 80 amarelo, >= 90 vermelho)
 // ==========================================
 function formatarUsoComCor(valorStr) {
@@ -353,24 +384,33 @@ async function carregarDadosDashboard() {
 // ==========================================
 // INICIALIZAÇÃO ÚNICA DA PÁGINA
 // ==========================================
-MonitOre.instalarChrome({
-  identity: { iniciais: { maiusculas: true } },
-  menu: true,
-  logout: true,
-  profileId: 'usuario_logado',
-  onReady: function () {
-    // Gráficos
-    criarGraficoStatus(dadosIniciais.statusIpc);
-    criarGraficoMineradoras(dadosIniciais.mineradoras);
-    criarGraficoTorres(dadosInSessions = dadosIniciais.torres); // correção segura
-    if (typeof criarGraficoPicosProcesso === "function") {
-      criarGraficoPicosProcesso(dadosIniciais.historicoPicos);
-    }
+document.addEventListener("DOMContentLoaded", () => {
+  carregarUsuarioMenu();
+  carregarIniciais();
 
-    // Tabelas
-    renderizarTabelaAlertas(dadosIniciais.alertasRecentes);
-    renderizarTabelaPicos(dadosIniciais.historicoPicos.registros);
+  // Gráficos
+  criarGraficoStatus(dadosIniciais.statusIpc);
+  criarGraficoMineradoras(dadosIniciais.mineradoras);
+  criarGraficoTorres(dadosInSessions = dadosIniciais.torres); // correção segura
+  if (typeof criarGraficoPicosProcesso === "function") {
+    criarGraficoPicosProcesso(dadosIniciais.historicoPicos);
+  }
 
-    carregarDadosDashboard();
-  },
+  // Tabelas
+  renderizarTabelaAlertas(dadosIniciais.alertasRecentes);
+  renderizarTabelaPicos(dadosIniciais.historicoPicos.registros);
+
+  // Botão Menu Responsivo (Hambúrguer)
+  const botaoMenu = document.querySelector(".btn-notificacao");
+  botaoMenu?.addEventListener("click", () => {
+    document.body.classList.toggle("menu-aberto");
+  });
+
+  // Botão Sair
+  document.getElementById("botao_sair")?.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "./login.html";
+  });
+
+  carregarDadosDashboard();
 });

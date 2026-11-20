@@ -1,6 +1,50 @@
 
 
-const COMPONENTES = MonitOre.COMPONENTES;
+const COMPONENTES = [
+  { id: 1, nome: "CPU" },
+  { id: 2, nome: "RAM" },
+  { id: 3, nome: "Disco" },
+];
+
+async function buscarCEP(cep) {
+  try {
+    // Validação básica do CEP (apenas números, 8 dígitos)
+    if (!/^\d{8}$/.test(cep)) {
+      throw new Error("CEP inválido. Use apenas 8 dígitos numéricos.");
+    }
+    
+
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+    if (!response.ok) {
+      throw new Error(`Erro na requisição: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.erro) {
+      throw new Error("CEP não encontrado.");
+    }
+
+    console.log("Endereço encontrado:", data);
+
+    const campoCidade = document.getElementById('cidade_ipt');
+    const campoUF = document.getElementById('uf_ipt');
+    const campoBairro = document.getElementById('bairro_ipt');
+    const campoLogradouro = document.getElementById('logradouro_ipt');
+    campoCidade.value=data.localidade
+    campoCidade.readOnly=true
+    campoUF.value=data.uf
+    campoUF.readOnly=true
+    campoBairro.value=data.bairro
+    campoBairro.readOnly=true
+    campoLogradouro.value=data.logradouro
+    campoLogradouro.readOnly=true    
+  } catch (error) {
+    console.error("Erro:", error.message);
+  }
+}
+
 
 const metricasAdicionadas = [];
 
@@ -13,7 +57,7 @@ async function inicializarCadastro() {
   }
 
   await carregarOpcoes(idUsuario);
-  MonitOre.preencherSelectEstatico("componente_ipt", COMPONENTES, "Selecione uma opção");
+  preencherSelectEstatico("componente_ipt", COMPONENTES, "componentes");
 
   document
     .getElementById("btn-add-metrica")
@@ -40,17 +84,45 @@ async function carregarOpcoes(idUsuario) {
 
     const { mineradoras} = await resposta.json();
 
-    MonitOre.preencherSelect(
+    preencherSelect(
       "mineradora_ipt",
       mineradoras,
       "id_mineradora",
       "razao_social",
       "Selecione a mineradora",
-      { placeholderDesabilitado: true },
     );
   } catch (erro) {
     console.error("Erro ao carregar opções de cadastro:", erro);
   }
+}
+
+function preencherSelect(idSelect, itens, chaveValor, chaveTexto, textoPadrao) {
+  const select = document.getElementById(idSelect);
+  select.innerHTML = `<option value="" disabled selected>${textoPadrao}</option>`;
+
+  itens.forEach((item) => {
+    const option = document.createElement("option");
+    option.value = item[chaveValor];
+    option.textContent = item[chaveTexto];
+    select.appendChild(option);
+  });
+}
+
+function preencherSelectEstatico(
+  idSelect,
+  itens,
+  _naoUsado,
+  textoPadrao = "Selecione uma opção",
+) {
+  const select = document.getElementById(idSelect);
+  select.innerHTML = `<option value="" selected>${textoPadrao}</option>`;
+
+  itens.forEach((item) => {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = item.nome;
+    select.appendChild(option);
+  });
 }
 
 function adicionarMetrica() {
@@ -61,18 +133,26 @@ function adicionarMetrica() {
   const alertaCritico = Number(document.getElementById("alerta_critico_ipt").value);
   const alertaAtencao = Number(document.getElementById("alerta_atencao_ipt").value);
 
+  if (!fkComponente) {
+    alert("Selecione um componente.");
+    return;
+  }
+
+  if (!alertaCritico || alertaCritico <= 0 || alertaCritico > 100) {
+    alert("Informe uma porcentagem válida (1 a 100) para o Alerta Crítico.");
+    return;
+  }
+
+  if (!alertaAtencao || alertaAtencao <= 0 || alertaAtencao > 100) {
+    alert("Informe uma porcentagem válida (1 a 100) para o Alerta Atenção.");
+    return;
+  }
+
   const jaAdicionado = metricasAdicionadas.some(
     (m) => m.fk_componente === fkComponente,
   );
-  const erroMetrica = MonitOre.validarMetrica({
-    fkComponente,
-    alertaCritico,
-    alertaAtencao,
-    jaAdicionado,
-  });
-
-  if (erroMetrica) {
-    alert(erroMetrica);
+  if (jaAdicionado) {
+    alert("Esse componente já foi adicionado.");
     return;
   }
 
@@ -101,7 +181,7 @@ function renderizarMetricas() {
     linha.classList.add("metrica-item");
 
     linha.innerHTML = `
-      <span class="metrica-nome">${MonitOre.rotuloComponente(metrica.nome)}</span>
+      <span class="metrica-nome">${tituloMetrica(metrica.nome)}</span>
       <span class="metrica-valor">${metrica.alerta_critico}%</span>
       <span class="metrica-valor">${metrica.alerta_atencao}%</span>
       <button type="button" class="btn-remover-metrica" data-indice="${indice}">
@@ -118,6 +198,15 @@ function renderizarMetricas() {
       renderizarMetricas();
     });
   });
+}
+
+function tituloMetrica(nomeComponente) {
+  const rotulos = {
+    CPU: "Porcentagem CPU",
+    RAM: "Uso da Memória RAM",
+    Disco: "Disponibilidade do Disco",
+  };
+  return rotulos[nomeComponente] || nomeComponente;
 }
 
 async function salvarTorre(evento) {
@@ -179,7 +268,9 @@ async function salvarTorre(evento) {
 }
 
 function ativarMenu(idAtivo) {
-  MonitOre.ativarMenu(idAtivo);
+  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
+    item.classList.toggle("ativo", item.id === idAtivo);
+  });
 }
 
 function ativarTorres() {
@@ -206,11 +297,54 @@ function ativarPerfil() {
   ativarMenu("perfil");
 }
 
-MonitOre.instalarChrome({
-  identity: true,
-  menu: true,
-  logout: true,
-  profileId: 'usuario_logado',
+function carregarUsuarioMenu() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) {
+    return;
+  }
+  nome_usuario.textContent = nomeUsuario;
+
+  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+  if (!cargoUsuario) {
+    return;
+  }
+  cargo_usuario.textContent = cargoUsuario;
+}
+
+function carregarIniciais() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  const iniciais = [];
+
+  for (let i = 0; i < nomeUsuario.length; i++) {
+    
+    if (i == 0) {
+      iniciais.push(nomeUsuario[i]);
+    }
+
+    if (nomeUsuario[i] == " ") {
+      iniciais.push(nomeUsuario[i + 1])
+      break;
+    }
+    
+  }
+  avatar_usuario.textContent = iniciais.join('');
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  carregarUsuarioMenu();
+  carregarIniciais();
+  const botaoMenu = document.querySelector(".btn-notificacao");
+
+  botaoMenu?.addEventListener("click", () =>
+    document.body.classList.toggle("menu-aberto"),
+  );
+
+  document.getElementById("botao_sair")?.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "./login.html";
+  });
+
+ 
 });
 
 inicializarCadastro();

@@ -215,6 +215,47 @@ async function deletar(idUsuario) {
 
 
 
+function carregarUsuarioMenu() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) {
+    return;
+  }
+  nome_usuario.textContent = nomeUsuario;
+
+  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+  if (!cargoUsuario) {
+    return;
+  }
+  cargo_usuario.textContent = cargoUsuario;
+}
+
+function carregarIniciais() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) {
+    return;
+  }
+
+  const iniciais = [];
+
+  for (let i = 0; i < nomeUsuario.length; i++) {
+
+    if (i == 0) {
+      iniciais.push(nomeUsuario[i]);
+    }
+
+    if (nomeUsuario[i] == " ") {
+      iniciais.push(nomeUsuario[i + 1])
+      break;
+    }
+
+  }
+  var avatar = document.getElementById("avatar_usuario");
+  var segundoAvatar = document.getElementById("avatar_usuario_2");
+  if (avatar) avatar.textContent = iniciais.join('');
+  if (segundoAvatar) segundoAvatar.textContent = iniciais.join('');
+}
+
+
 function voltar() {
   window.history.back();
 }
@@ -232,29 +273,39 @@ function ativarMineradora() {
 }
 
 function ativarMenu(idAtivo) {
-  MonitOre.ativarMenu(idAtivo);
+  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
+    item.classList.toggle("ativo", item.id === idAtivo);
+  });
 }
 
-MonitOre.instalarChrome({
-  identity: {
-    segundoAvatarId: 'avatar_usuario_2',
-  },
-  menu: true,
-  logout: true,
-  profileId: 'usuario_logado',
-  onReady: function () {
-    document.getElementById("cancelar_exclusao")?.addEventListener("click", () => {
-      document.getElementById("modal_confirmar_exclusao").close();
-      usuarioParaDeletar = null;
-    });
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("cancelar_exclusao")?.addEventListener("click", () => {
+    document.getElementById("modal_confirmar_exclusao").close();
+    usuarioParaDeletar = null;
+  });
 
-    document.getElementById("confirmar_exclusao")?.addEventListener("click", () => {
-      if (usuarioParaDeletar !== null) {
-        deletar(usuarioParaDeletar);
-      }
-    });
-  },
-});
+  document.getElementById("confirmar_exclusao")?.addEventListener("click", () => {
+    if (usuarioParaDeletar !== null) {
+      deletar(usuarioParaDeletar);
+    }
+  });
+
+  carregarUsuarioMenu();
+  carregarIniciais();
+
+  const botaoMenu = document.querySelector(".btn-notificacao");
+
+  botaoMenu?.addEventListener("click", () =>
+    document.body.classList.toggle("menu-aberto"),
+  );
+
+  document.getElementById("botao_sair")?.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "./login.html";
+  });
+
+
+})
 
 
 async function buscarUsuarios() {

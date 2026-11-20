@@ -1,14 +1,16 @@
-MonitOre.instalarChrome({
-  identity: {
-    segundoAvatarId: 'avatar_usuario_2',
-  },
-  menu: true,
-  logout: true,
-  profileSelector: '[data-perfil-nav]',
-  onReady: function () {
-    carregarCargos();
-    configurarMascaras();
-  },
+document.addEventListener("DOMContentLoaded", function () {
+  carregarCargos();
+
+  configurarMascaras();
+  carregarUsuarioMenu();
+  carregarIniciais();
+  var botaoMenu = document.querySelector(".btn-notificacao");
+
+  if (botaoMenu) {
+    botaoMenu.addEventListener("click", function () {
+      document.body.classList.toggle("menu-aberto");
+    });
+  }
 });
 
 // CARREGAMENTO DOS CARGOS
@@ -228,6 +230,44 @@ function configurarMascaras() {
   });
 }
 
+function carregarUsuarioMenu() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) {
+    return;
+  }
+  nome_usuario.textContent = nomeUsuario;
+
+  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+  if (!cargoUsuario) {
+    return;
+  }
+  cargo_usuario.textContent = cargoUsuario;
+}
+
+function carregarIniciais() {
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  if (!nomeUsuario) return;
+  const iniciais = [];
+
+  for (let i = 0; i < nomeUsuario.length; i++) {
+    if (i == 0) {
+      iniciais.push(nomeUsuario[i]);
+    }
+
+    let boolInicial = false;
+
+    if (nomeUsuario[i] == " ") {
+      iniciais.push(nomeUsuario[i + 1]);
+      boolInicial = true;
+      break;
+    }
+  }
+  avatar_usuario.textContent = iniciais.join("");
+
+  var segundoAvatar = document.getElementById("avatar_usuario_2");
+  if (segundoAvatar) segundoAvatar.textContent = iniciais.join("");
+}
+
 // MENSAGEM
 
 function mostrarMensagem(texto, erro) {
@@ -283,25 +323,72 @@ function notificacao() {
 //menu
 
 function ativarTorres() {
-  MonitOre.ativarMenu("torres");
+  torres.classList.add("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.remove("ativo");
 }
 
 function ativarUsuarios() {
-  MonitOre.ativarMenu("usuarios");
+  torres.classList.remove("ativo");
+  usuarios.classList.add("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.remove("ativo");
 }
 
 function ativarCargos() {
-  MonitOre.ativarMenu("cargos");
+  torres.classList.remove("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.add("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.remove("ativo");
 }
 
 function ativarAlertas() {
-  MonitOre.ativarMenu("alertas");
+  torres.classList.remove("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.add("ativo");
+  manual.classList.remove("ativo");
 }
 
 function ativarManual() {
-  MonitOre.ativarMenu("manual");
+  torres.classList.remove("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.add("ativo");
 }
 
 function ativarPerfil() {
-  MonitOre.ativarMenu("perfil");
+  torres.classList.remove("ativo");
+  usuarios.classList.remove("ativo");
+  cargos.classList.remove("ativo");
+  alertas.classList.remove("ativo");
+  manual.classList.remove("ativo");
+  perfil.classList.add("ativo");
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  carregarUsuarioMenu();
+  carregarIniciais();
+
+  const botaoMenu = document.querySelector(".btn-notificacao");
+
+  botaoMenu?.addEventListener("click", () =>
+    document.body.classList.toggle("menu-aberto"),
+  );
+
+  document.getElementById("botao_sair")?.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "./login.html";
+  });
+});
+
+const botaoMenu = document.querySelector(".btn-notificacao");
+
+botaoMenu?.addEventListener("click", () =>
+  document.body.classList.toggle("menu-aberto"),
+);

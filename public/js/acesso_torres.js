@@ -25,26 +25,19 @@ function carregarAcessosTorres() {
 }
 
 function obterTorresSelecionadas() {
-  if (!acessosTorresCarregados || !Array.isArray(torresSelecionadas)) {
+  if (!acessosTorresCarregados) {
     throw new Error("Aguarde o carregamento das torres antes de cadastrar o usuário.");
   }
   return torresSelecionadas.slice();
 }
 
-function definirTorresDisponiveis(lista) {
-  torresDisponiveis = Array.isArray(lista) ? lista : [];
-}
-
-function definirTorresSelecionadas(lista) {
-  torresSelecionadas = Array.isArray(lista) ? lista.map(Number) : [];
-}
-
-function marcarAcessosCarregados() {
-  acessosTorresCarregados = true;
-}
-
 function escaparHTML(valor) {
-  return MonitOre.escaparHTML(valor);
+  return String(valor)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function renderizarMineradoras() {
@@ -107,11 +100,4 @@ function alternarTodasTorres(idMineradora) {
   renderizarMineradoras();
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  var lista = document.getElementById("lista_mineradoras");
-  var modoEdicao = lista && lista.getAttribute("data-acesso-mode") === "edicao";
-
-  if (lista && !modoEdicao) {
-    carregarAcessosTorres();
-  }
-});
+document.addEventListener("DOMContentLoaded", carregarAcessosTorres);
