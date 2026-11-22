@@ -4,184 +4,17 @@
 
 
 
-.navegacao {
-  grid-column: 1;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  overflow-y: auto;
-
-  display: flex;
-  flex-direction: column;
-
-  background-image:
-    linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.85) 100%),
-    url("../imgs/side bar - monitore.png");
-  background-size: cover;
-  background-position: top left;
-  background-repeat: no-repeat;
-
-  color: #ffffff;
-}
-
-.logo_navegacao {
-  padding: 25px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.logo_navegacao img {
-  max-width: 100%;
-}
-
-.container_responsivo {
-  display: grid;
-  grid-template-columns: 0.5fr 2fr;
-  min-height: 100vh;
-  background-color: #000000;
-}
 
 
-.menu_navegacao {
-  flex: 1; /* empurra o rodapé pra baixo */
-}
-.menu_navegacao ul {
-  list-style: none;
-}
-
-.item_menu {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 20px;
-  cursor: pointer;
-  position: relative;
-  transition: background-color 0.2s;
-  text-decoration: none;
-  color: #ffffff;
-  font-size: 16px;
-}
-.item_menu:hover {
-  background-color: rgba(255,255,255,0.08);
-}
-.item_menu.ativo {
-  background-color: rgba(236, 190, 16, 0.15);
-  border-left: 3px solid #ecbe10;
-  color: #ecbe10;
-}
-
-.icone_menu {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-
-aside span{
-  margin-bottom: 1%;
-}
-
-.notificacao_alerta {
-  margin-left: auto;
-  background-color: #ecbe10;
-  color: #1e1e1e;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 50%;
-  min-width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  display: none;
-}
-
-.rodape_navegacao {
-  border-top: 1px solid rgba(255,255,255,0.15);
-  padding: 10px 0;
-}
-
-.usuario_navegacao {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
-  cursor: pointer;
-}
-.avatar_usuario {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background-color: #ecbe10;
-  color: #1e1e1e;
-  font-weight: bold;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.perfil_icon {
-  width: 80px;
-  height: 80px;
-  font-size: 32px;
-}
-
-.info_usuario {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.nome_usuario {
-  font-weight: bold;
-  font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.cargo_usuario {
-  font-size: 12px;
-  color: #b7b7b7;
-}
-
-
-.icone_seta {
-  margin-left: auto;
-}
 
 .superior_tela{
     display: flex;
     align-items: center;
 }
 
-.botao_sair {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 14px 20px;
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
-  font-size: 14px;
-}
-.botao_sair:hover {
-  background-color: rgba(255,255,255,0.08);
-}
 /* =========================================================
    BOTÕES DE CARGO
 ========================================================= */
-
-.botao_senha svg {
-      width: 18px;
-      height: 18px;
-      vertical-align: middle;
-    }
 
 .divisao-btn-cargo .ativo,
 .divisao-btn-cargo .desativado {
@@ -230,114 +63,9 @@ aside span{
    ACESSO ÀS TORRES
 ========================================================= */
 
-.acesso_torres {
-    box-sizing: border-box;
-}
-
-.acesso_torres .descricao_acesso {
-    display: block;
-    color: #aaa;
-    font-size: 12px;
-    line-height: 1.6;
-    margin: 8px 0 15px;
-}
-
-.lista_mineradoras {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.lista_mineradoras > p,
-.lista_mineradoras > label {
-    color: #aaa;
-    font-size: 13px;
-}
-
-.item_mineradora {
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #292929;
-    border: 1px solid #3b3b3b;
-    border-radius: 10px;
-    padding: 14px;
-}
-
-.cabecalho_mineradora {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.nome_mineradora {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    overflow-wrap: anywhere;
-}
-
-.icone_mineradora {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background-color: #ecbe10;
-    color: #1e1e1e;
-}
-
-.torres_mineradora {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 8px;
-    max-width: 100%;
-}
-
 /* =========================================================
    BOTÕES DE TORRE
 ========================================================= */
-
-.botao_torre {
-    min-height: 36px;
-    max-width: 100%;
-    padding: 8px 12px;
-    box-sizing: border-box;
-    background-color: #C5B1ED13;
-    color: #C5B1ED;
-    border: 1px solid #C5B1ED;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    overflow-wrap: anywhere;
-    transition: opacity 0.2s, background-color 0.2s;
-}
-
-.botao_torre.selecionada {
-    background-color: #ecbe1013;
-    color: #ecbe10;
-    border: 1px solid #ecbe10;
-}
-
-.botao_torre.selecionada::before {
-    content: "✓ ";
-}
-
-.botao_torre:hover {
-    opacity: 0.85;
-}
 
 .botao_torre:focus-visible,
 .selecionar_todas:focus-visible,
@@ -350,23 +78,6 @@ aside span{
 /* =========================================================
    SELECIONAR TODAS AS TORRES
 ========================================================= */
-
-.selecionar_todas {
-    min-height: 36px;
-    padding: 8px;
-    background-color: transparent;
-    color: #ecbe10;
-    border: none;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: bold;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.selecionar_todas:hover {
-    opacity: 0.85;
-}
 
 /* =========================================================
    BOTÃO SALVAR ACESSOS
@@ -392,20 +103,18 @@ aside span{
     transition: opacity 0.2s;
 }
 
-.acesso_torres .btn-salvar:hover {
+.acesso_torres .btn-salvar:hover:enabled {
     opacity: 0.85;
+}
+
+.acesso_torres .btn-salvar:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
 }
 
 /* =========================================================
    MENSAGENS
 ========================================================= */
-
-#mensagem_acesso {
-    margin-top: 10px;
-    font-size: 13px;
-    line-height: 1.5;
-    overflow-wrap: anywhere;
-}
 
 
 .btn-notificacao {

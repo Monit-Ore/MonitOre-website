@@ -1,0 +1,335 @@
+.header_dashboard {
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.filtros_dashboard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.selo_atualizacao {
+  background-color: #1a1a1a;
+  border: 1px solid #333333;
+  border-radius: 6px;
+  padding: 11px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--verde);
+}
+
+.selo_atualizacao.desatualizado {
+  color: var(--amarelo);
+  border-color: var(--amarelo);
+}
+
+.filtros_dashboard select,
+.filtro_grafico select {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: 1px solid #444444;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.filtros_dashboard select:hover,
+.filtros_dashboard select:focus,
+.filtro_grafico select:hover,
+.filtro_grafico select:focus {
+  border-color: var(--amarelo);
+  outline: none;
+}
+
+.kpi_valor_com_variacao {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.variacao_alertas {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.variacao_alertas.alta {
+  color: var(--vermelho);
+}
+
+.variacao_alertas.baixa {
+  color: var(--verde);
+}
+
+.painel_saude {
+  flex: none;
+}
+
+.grid_mineradoras {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 15px;
+}
+
+.card_mineradora {
+  background-color: #161616;
+  border: 1px solid #333333;
+  border-left: 4px solid var(--cinza);
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-decoration: none;
+  color: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.card_mineradora[hidden] {
+  display: none;
+}
+
+.card_mineradora:hover {
+  background-color: #1f1f1f;
+  border-top-color: var(--amarelo);
+  border-right-color: var(--amarelo);
+  border-bottom-color: var(--amarelo);
+}
+
+.card_mineradora:focus-visible {
+  outline: 2px solid var(--amarelo);
+  outline-offset: 2px;
+}
+
+.card_mineradora[data-estado="critico"] {
+  border-left-color: var(--vermelho);
+}
+
+.card_mineradora[data-estado="atencao"] {
+  border-left-color: var(--amarelo);
+}
+
+.card_mineradora[data-estado="normal"] {
+  border-left-color: var(--verde);
+}
+
+.mineradora_topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mineradora_nome {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.rotulo_discreto {
+  font-size: 12px;
+  color: var(--cinza-sub);
+}
+
+.mineradora_detalhe {
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.mineradora_detalhe[hidden] {
+  display: none;
+}
+
+.card_mineradora[data-estado="critico"] .mineradora_detalhe {
+  background-color: rgba(255, 77, 77, 0.12);
+  border: 1px solid rgba(255, 77, 77, 0.4);
+}
+
+.card_mineradora[data-estado="atencao"] .mineradora_detalhe {
+  background-color: rgba(255, 215, 65, 0.1);
+  border: 1px solid rgba(255, 215, 65, 0.35);
+}
+
+.mineradora_torres {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.barra_torres {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #333333;
+}
+
+.barra_torres .segmento_normal { background-color: var(--verde); }
+.barra_torres .segmento_atencao { background-color: var(--amarelo); }
+.barra_torres .segmento_critico { background-color: var(--vermelho); }
+
+.legenda_torres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 12px;
+  color: var(--cinza-sub);
+}
+
+.legenda_torre_item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mineradora_metricas {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.metrica_bloco {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metrica_direita {
+  text-align: right;
+}
+
+.metrica_linha {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.metrica_bloco strong {
+  font-size: 1.6rem;
+  line-height: 1.1;
+  color: #ffffff;
+}
+
+.metrica_direita strong {
+  font-size: 1.3rem;
+}
+
+.mineradora_rodape {
+  border-top: 1px solid #333333;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mineradora_acao {
+  font-size: 13px;
+  color: var(--cinza-sub);
+}
+
+.mineradora_acao.acao_destaque {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.mineradora_link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--amarelo);
+  white-space: nowrap;
+}
+
+.card_painel.card_linha {
+  flex: 2;
+  min-width: 0;
+}
+
+.card_painel.card_donut {
+  flex: 1;
+  min-width: 0;
+}
+
+.filtro_grafico {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.dica_filtro {
+  font-size: 12px;
+  color: var(--cinza-sub);
+}
+
+.legenda_estado {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.legenda_estado_linha {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.legenda_estado_nomes {
+  margin-left: 18px;
+  font-size: 0.72rem;
+  color: var(--cinza-sub);
+}
+
+.legenda_estado:hover .legenda_nome {
+  text-decoration: underline;
+}
+
+.legenda_estado.ativo .legenda_nome {
+  color: var(--amarelo);
+  font-weight: 700;
+}
+
+.dica_filtro_cards {
+  margin-top: 6px;
+  font-size: 0.7rem;
+  color: var(--cinza-sub);
+}
+
+@media screen and (max-width: 900px) {
+  .header_dashboard { order: -2; }
+  .painel_saude { order: -1; }
+
+  .filtros_dashboard {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .filtros_dashboard select {
+    flex: 1;
+  }
+
+  .grid_mineradoras {
+    grid-template-columns: 1fr;
+  }
+
+  .dash_linha {
+    flex-direction: column;
+  }
+}
