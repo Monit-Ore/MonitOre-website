@@ -528,37 +528,9 @@ th {
   color-scheme: dark;
 }
 
-/* Legenda fora do canvas: fica no fluxo da página, acima do gráfico.
-   Não há sobreposição possível, mesmo quando ela quebra em várias linhas. */
-.legendas-alertas-limite {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-  /* Com o cabeçalho altura automática, não precisa mais do empurrão de 40px. */
-  margin: 8px 0 10px;
-}
-
-.item-legenda-alerta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--texto-secundario);
-  font-size: var(--fs-detalhe);
-  line-height: 1.2;
-}
-
-.item-legenda-alerta .linha-legenda {
-  display: inline-block;
-  flex: 0 0 18px;
-  width: 18px;
-  height: 0;
-  border-top: 2px solid currentColor;
-}
-
-.item-legenda-alerta.limite .linha-legenda {
-  border-top-style: dashed;
-}
-
+/* A legenda é a nativa do Chart.js (desenhada dentro do canvas). O container
+   só precisa ter altura definida para o Chart.js calcular o espaço da legenda
+   e o da área de plotagem sem sobrepor as linhas. */
 .canvas-alertas-limite {
   height: var(--altura-grafico-painel);
   position: relative;

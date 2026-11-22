@@ -226,10 +226,8 @@
           </div>
         </header>
 
-        <!-- Legenda em HTML, acima do canvas: ela ocupa espaço próprio e nunca cobre as linhas -->
-        <div class="legendas-alertas-limite" id="legendasAlertasLimite"
-          aria-label="Legendas do gráfico de alertas por componente"></div>
-
+        <!-- A legenda fica dentro do canvas (Chart.js) para ser clicável e
+             permitir ativar/desativar cada linha. -->
         <div class="canvas-alertas-limite">
           <canvas id="graficoAlertasLimite" aria-label="Quantidade de alertas por componente e limite aceitável"></canvas>
         </div>
@@ -476,7 +474,6 @@
       dataInicioAlertas: document.getElementById('dataInicioAlertas'),
       dataFimAlertas: document.getElementById('dataFimAlertas'),
       canvasAlertasLimite: document.getElementById('graficoAlertasLimite'),
-      legendasAlertasLimite: document.getElementById('legendasAlertasLimite'),
       kpiCpuAcima: document.getElementById('kpiCpuAcima'),
       kpiRamAcima: document.getElementById('kpiRamAcima'),
       kpiDiscoAcima: document.getElementById('kpiDiscoAcima'),
@@ -811,8 +808,24 @@
           maintainAspectRatio: false,
           interaction: { mode: 'index', intersect: false },
           plugins: {
-            // A legenda é renderizada em HTML acima do canvas (ver criarLegendasAlertasDiarios).
-            legend: { display: false },
+            /*
+             * Legenda nativa do Chart.js: é desenhada dentro do canvas e o próprio
+             * Chart.js reserva o espaço dela, então não cobre as linhas. O clique
+             * em cada item já vem pronto e mostra/oculta a série correspondente.
+             */
+            legend: {
+              display: true,
+              position: 'top',
+              align: 'start',
+              labels: {
+                color: CONFIG.paleta.texto,
+                font: CONFIG.fonteGrafico,
+                usePointStyle: true,
+                pointStyle: 'line',
+                boxWidth: 18,
+                padding: 12
+              }
+            },
             tooltip: { enabled: true }
           },
           scales: {
@@ -837,23 +850,6 @@
       });
     }
 
-    /*
-     * Monta a legenda em HTML a partir dos datasets do gráfico.
-     * Como ela fica antes do canvas no documento, cresce para baixo e nunca
-     * se sobrepõe às linhas — mesmo quando quebra em várias linhas no mobile.
-     */
-    function criarLegendasAlertasDiarios(datasets) {
-      if (!DOM.legendasAlertasLimite) return;
-
-      DOM.legendasAlertasLimite.innerHTML = datasets.map((dataset) => {
-        const ehLimite = dataset.label.startsWith('Limite aceitável');
-        const classe = ehLimite ? ' item-legenda-alerta limite' : ' item-legenda-alerta';
-        return `<span class="${classe.trim()}">
-          <span class="linha-legenda" style="color: ${dataset.borderColor}"></span>${dataset.label}
-        </span>`;
-      }).join('');
-    }
-
     // Aplica os três filtros do painel: componente, data início e data fim.
     function atualizarPainelAlertasDiarios() {
       if (!graficoAlertasLimite) return;
@@ -865,11 +861,16 @@
       const indices = obterIndicesPeriodo();
 
       graficoAlertasLimite.data.labels = indices.map((indice) => CONFIG.alertasDiarios.datas[indice]);
-      const datasets = criarDatasetsAlertasDiarios(indices, chavesVisiveis);
-      graficoAlertasLimite.data.datasets = datasets;
+
+      // Mantém o estado "linha escondida" quando o usuário troca só o período.
+      const anteriores = graficoAlertasLimite.data.datasets || [];
+      graficoAlertasLimite.data.datasets = criarDatasetsAlertasDiarios(indices, chavesVisiveis)
+        .map((dataset) => {
+          const anterior = anteriores.find((item) => item.label === dataset.label);
+          return anterior ? { ...dataset, hidden: anterior.hidden } : dataset;
+        });
       graficoAlertasLimite.update();
 
-      criarLegendasAlertasDiarios(datasets);
       atualizarKpisAlertas(indices, chavesVisiveis);
     }
 
