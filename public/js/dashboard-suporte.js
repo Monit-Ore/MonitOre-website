@@ -46,7 +46,7 @@ function mostrarIndicadores(dados) {
   document.getElementById("chamados_abertos").textContent = indicadores.chamados_abertos;
   document.getElementById("chamados_criticos").textContent = String(indicadores.chamados_criticos).padStart(2, "0");
   document.getElementById("sla_em_risco").textContent = String(indicadores.sla_em_risco).padStart(2, "0") + " chamados";
-  document.getElementById("sla_vencido").textContent = String(indicadores.sla_vencido).padStart(2, "0") + " cXhamados";
+  document.getElementById("sla_vencido").textContent = String(indicadores.sla_vencido).padStart(2, "0") + " chamados";
 
   const variacaoAbertos = indicadores.variacao_chamados_abertos;
   const elementoVariacaoAbertos = document.getElementById("variacao_abertos");
