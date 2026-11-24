@@ -63,7 +63,7 @@ async function criarTorre(
   endereco,
   componentes,
 ) {
-var instrucaoEndereco = `INSERT INTO endereco
+  var instrucaoEndereco = `INSERT INTO endereco
     (cep, logradouro, numero, complemento, bairro, cidade, estado)
   VALUES (
     ${mysql.escape(endereco.cep)},
@@ -168,7 +168,7 @@ async function buscarTorrePorId(id, fkEmpresa) {
     nome: torre.nome,
     codigo: torre.codigo,
     fk_mineradora: torre.fk_mineradora,
-    razao_social:torre.razao_social,
+    razao_social: torre.razao_social,
     endereco: {
       cep: torre.cep,
       logradouro: torre.logradouro,
@@ -251,7 +251,7 @@ async function atualizarTorre(
           `(${mysql.escape(idPcIndustrial)}, ${mysql.escape(componente.fk_componente)}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(componente.alerta_atencao)})`
       )
       .join(", ");
-    
+
     var instrucaoComponentes = `    INSERT INTO limite_alerta (
       fk_pc_industrial,
       fk_componente,
@@ -289,6 +289,21 @@ async function listarTorresPorUsuario(idUsuario, fkEmpresa) {
   return database.executar(instrucaoSql, [idUsuario, fkEmpresa]);
 }
 
+async function qtdTorresAtivas(idUsuario) {
+  var instrucaoSql = `
+    SELECT 
+      COUNT(DISTINCT CASE WHEN pc.status_operacional = "Ativo" THEN t.id_torre END) AS torres_online,
+      COUNT(DISTINCT t.id_torre) AS qtdTotalTorres
+    FROM torre t
+    JOIN empresa e ON t.fk_mineradora = e.id_empresa
+    JOIN permissionamento p ON p.torre_id_torre = t.id_torre
+    JOIN pc_industrial pc ON pc.fk_torre = t.id_torre
+    WHERE p.usuario_id_usuario = ${idUsuario};
+  `
+
+  return database.executar(instrucaoSql)
+}
+
 
 
 module.exports = {
@@ -296,7 +311,8 @@ module.exports = {
   verificarCodigoExistente,
   listarMineradoras,
   criarTorre,
-  buscarTorrePorId, 
+  buscarTorrePorId,
   atualizarTorre,
-  listarTorresPorUsuario  
+  listarTorresPorUsuario,
+  qtdTorresAtivas
 };

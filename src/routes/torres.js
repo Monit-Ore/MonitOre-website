@@ -22,4 +22,8 @@ router.put("/atualizar-torres/:id", function (req, res) {
   torresController.atualizarTorre(req, res);
 });
 
+router.get("/qtdTorresAtivas/:id", function (req,res){
+  torresController.mostrarQtdAtivas(req,res)
+})
+
 module.exports = router;

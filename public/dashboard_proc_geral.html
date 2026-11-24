@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./css/tela_cadastro.css" />
     <link rel="stylesheet" href="./css/cadastro_torre.css" />
     <link rel="stylesheet" href="./css/dash_processos_geral.css">
+    <script src="js/dashboard_proc_geral.js"></script>
     <link rel="icon" href="./imgs/favicon.svg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
@@ -96,7 +97,7 @@
         <div class="card-kpis">
             <div class="kpi">
                 <p>Torres monitoradas</p>
-                <p class="metrica"><span>0</span> / <span>0</span></p>
+                <p class="metrica"><span id="qtdAtiva">0</span> / <span id="qtdTorres">0</span></p>
                 <p><span>0</span> PCs industriais conectados</p>
             </div>
             <div class="kpi">
@@ -136,7 +137,7 @@
                         <span>Instâncias agrupadas por processo e torre · valores na ordem dos PCs indicados.</span>
                     </div>
                     <div class="qtd-ocorrencias">
-                        
+
                     </div>
                 </div>
                 <div class="container">
@@ -150,7 +151,7 @@
                             <th scope="col">Próximo passo</th>
                         </thead>
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                     <p>Nenhum dado capturado da mineradora</p>
@@ -161,5 +162,36 @@
 
     </main>
 </body>
+
+<script>
+    // Redirecionamento do perfil do usuário
+    const usuarioLogadoEl = document.getElementById("usuario_logado");
+    const nomeUsuarioEl = document.getElementById("nome_usuario");
+    const cargoUsuarioEl = document.getElementById("cargo_usuario");
+    const avatarUsuarioEl = document.getElementById("avatar_usuario");
+    const nomeUsuario = (sessionStorage.getItem("NOME_USUARIO") || "").trim();
+    const cargoUsuario = (sessionStorage.getItem("CARGO_USUARIO") || "").trim();
+
+    if (nomeUsuarioEl) nomeUsuarioEl.textContent = nomeUsuario || "Usuário";
+    if (cargoUsuarioEl) cargoUsuarioEl.textContent = cargoUsuario;
+    if (avatarUsuarioEl) {
+        const iniciais = nomeUsuario.split(/\s+/).filter(Boolean).slice(0, 2).map((parte) => parte[0]);
+        avatarUsuarioEl.textContent = iniciais.join("").toUpperCase() || "US";
+    }
+
+    function abrirPerfilUsuario() {
+        window.location.href = "/meu_perfil.html";
+    }
+
+    if (usuarioLogadoEl) {
+        usuarioLogadoEl.addEventListener("click", abrirPerfilUsuario);
+        usuarioLogadoEl.addEventListener("keydown", (evento) => {
+            if (evento.key === "Enter" || evento.key === " ") {
+                evento.preventDefault();
+                abrirPerfilUsuario();
+            }
+        });
+    }
+</script>
 
 </html>

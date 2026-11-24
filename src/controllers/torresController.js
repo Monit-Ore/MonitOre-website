@@ -181,6 +181,24 @@ async function buscarTorrePorId(req, res) {
   }
 }
 
+async function mostrarQtdAtivas(req,res) {
+  try { 
+    const { id } = req.params; 
+
+    if (!id) {
+      return res.status(400).json({ mensagem: "O ID do usuário é obrigatório." });
+    }
+
+    const resultado = await torresModel.qtdTorresAtivas(id);
+
+    return res.status(200).json(resultado[0]);
+    
+  }catch(erro){
+    console.error("Erro ao buscar torre por ID:", erro);
+    res.status(500).json({ mensagem: "Erro ao buscar torre." });
+  }
+}
+
 async function atualizarTorre(req, res) {
   try {
     const { id } = req.params;
@@ -289,5 +307,5 @@ module.exports = {
   cadastrarTorre,
   buscarTorrePorId,
   atualizarTorre,
-  
+  mostrarQtdAtivas
 };

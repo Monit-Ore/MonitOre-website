@@ -71,7 +71,7 @@
 
   <main class="conteudo_layout">
     <!-- Topo da Torre -->
-     <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+    <button class="btn-notificacao" type="button" aria-label="Abrir menu">
       <i class="fa-regular fa-bell icone-sino"></i>
       <i class="fa-solid fa-bars icone-menu"></i>
     </button>
@@ -254,7 +254,7 @@
         </table>
       </div>
       <!-- Número de Alertas por Dia (Tabela) -->
-    
+
     </div>
     <div class="container_tabela">
       <div class="topo_tabela">
@@ -392,9 +392,9 @@
     criarComponentes();
 
     const labelsHorarios = [
-      '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', 
-      '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', 
-      '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', 
+      '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
+      '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+      '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
       '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
     ];
 
@@ -409,7 +409,7 @@
       },
       ram: {
         label: 'RAM',
-        data: [44, 45, 46, 48, 48, 49, 49, 50, 51, 52, 52, 53, 54, 55, 56, 58, 62, 67, 71, 75, 78, 79,79 , 88],
+        data: [44, 45, 46, 48, 48, 49, 49, 50, 51, 52, 52, 53, 54, 55, 56, 58, 62, 67, 71, 75, 78, 79, 79, 88],
         borderColor: '#3498db',
         backgroundColor: '#3498db',
         alerta: 60,
@@ -645,13 +645,13 @@
 
       const botaoMenu = document.querySelector(".btn-notificacao");
 
-  botaoMenu?.addEventListener("click", () => document.body.classList.toggle("menu-aberto"));
+      botaoMenu?.addEventListener("click", () => document.body.classList.toggle("menu-aberto"));
 
 
       document.getElementById("botao_sair")?.addEventListener("click", () => {
-    sessionStorage.clear();
-    window.location.href = "./login.html";
-  });
+        sessionStorage.clear();
+        window.location.href = "./login.html";
+      });
 
       // Validação de segurança
       if (!idTorre || !fkEmpresa) {
@@ -695,25 +695,25 @@
       host_pc.innerHTML = `${torre.pc_industrial.hostname}`
       codigo_torre.innerHTML = `${torre.codigo}`
 
-      
+
       if (torre.componentes && Array.isArray(torre.componentes)) {
         torre.componentes.forEach(comp => {
           let chave = '';
           const nomeComp = (comp.nome_componente || '').toLowerCase();
-          
+
           // Identifica se é CPU, RAM ou Disco pelo nome ou ID do componente
           if (nomeComp.includes('cpu') || comp.fk_componente === 1) chave = 'cpu';
           else if (nomeComp.includes('ram') || comp.fk_componente === 2) chave = 'ram';
           else if (nomeComp.includes('disco') || nomeComp.includes('disk') || comp.fk_componente === 3) chave = 'disco';
-  
+
           if (chave && configComponentes[chave]) {
             configComponentes[chave].alerta = Number(comp.atencao);
             console.log(comp.atencao);
-            
+
             configComponentes[chave].critico = Number(comp.critico);
           }
         });
-        
+
       }
 
       // Atualiza o gráfico caso já esteja renderizado na tela com os novos limites do banco
@@ -722,8 +722,8 @@
         alterarVisualizacaoGrafico(selectFiltro.value);
       }
 
-}
-function atualizarTabelaAlertasDiarios(dias) {
+    }
+    function atualizarTabelaAlertasDiarios(dias) {
       const subTexto = document.getElementById("sub_texto_periodo");
       if (subTexto) {
         subTexto.innerText = `(últimos ${dias} dias)`;
