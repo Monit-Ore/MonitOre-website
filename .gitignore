@@ -146,3 +146,5 @@ vite.config.ts.timestamp-*
 .DS_Store
 public/.DS_Store
 public/imgs/.DS_Store
+
+MonitOre-python
