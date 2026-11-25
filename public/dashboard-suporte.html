@@ -90,7 +90,7 @@
       <article class="kpi_card">
         <div class="kpi_titulo amarelo"><i class="fa-regular fa-clock"></i> SLA em risco</div>
         <strong class="amarelo" id="sla_em_risco">—</strong>
-        <p class="kpi_detalhe"><span class="vermelho" id="risco_proxima_hora">—</span></p>
+        <p class="kpi_detalhe"><span class="vermelho" id="risco_proximas_24_horas">—</span></p>
       </article>
       <article class="kpi_card">
         <div class="kpi_titulo vermelho"><i class="fa-solid fa-triangle-exclamation"></i> SLA vencido</div>
@@ -148,7 +148,7 @@
       </div>
     </section>
     <section class="card_painel painel_tabela" id="chamados_atencao">
-      <div class="painel_titulo"><i class="fa-solid fa-triangle-exclamation"></i><div><h3>Chamados que precisam de atenção</h3><p>Amostra demonstrativa de chamados vencidos, em risco e críticos</p></div><span class="etiqueta_contagem" id="total_chamados">— chamados</span></div>
+      <div class="painel_titulo"><i class="fa-solid fa-triangle-exclamation"></i><div><h3>Chamados que precisam de atenção</h3><p id="descricao_chamados">Amostra demonstrativa de chamados vencidos, em risco e críticos</p></div><span class="etiqueta_contagem" id="total_chamados">— chamados</span></div>
       <div class="controles_tabela">
         <div class="filtros_tabela" role="group" aria-label="Filtrar chamados">
           <button class="filtro_ativo" data-filtro="todos" type="button">Todos <span id="filtro_total">0</span></button>
@@ -174,7 +174,7 @@
       <div class="rodape_tabela" id="rodape_tabela"></div>
     </section>
   </main>
-  <script src="./js/dashboard-suporte.js"></script>
+  <script type="module" src="./js/dashboard-suporte.js"></script>
   <!-- <script src="./js/permissao.js"></script> -->
 </body>
 </html>
