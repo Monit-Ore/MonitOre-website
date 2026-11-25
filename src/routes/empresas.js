@@ -6,4 +6,8 @@ router.post("/cadastrar", function (req, res) {
     empresaController.cadastrar(req, res);
 });
 
+router.get("/mineradoras/:id", function(req,res) {
+    empresaController.listarMineradoras(req,res)
+})
+
 module.exports = router;

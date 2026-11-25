@@ -78,12 +78,10 @@
             <h1>Processos dos PCs industriais</h1>
             <p>Identifique processos com alto consumo e priorize o que afeta a extração.</p>
             <div class="filtros">
-                <select class="filtro-select" aria-label="Selecionar Mineradora">
-                    <option value="Vale">Mineradora: Vale</option>
-                    <option value="CSN">Mineradora: CSN</option>
-                    <option value="MBR">Mineradora: MBR</option>
+                <select class="filtro-select" id="selecao_mineradora" aria-label="Selecionar Mineradora">
+                    <option value="-">Mineradora</option>
                 </select>
-                <button onclick="selecionarTorre()" class="filtro-button">Todas as torres</button>
+                <button id="abrirModal" class="filtro-button" type="button">Filtragem de Torre</button>
                 <select class="filtro-select" aria-label="Selecionar Período">
                     <option value="24">Últimas 24 horas</option>
                     <option value="7">Últimas 7 dias</option>
@@ -98,7 +96,7 @@
             <div class="kpi">
                 <p>Torres monitoradas</p>
                 <p class="metrica"><span id="qtdAtiva">-</span> / <span id="qtdTorres">-</span></p>
-                <p><span>0</span> PCs industriais conectados</p>
+                <p><span id="qtdTotalAtiva">0</span> PCs industriais conectados</p>
             </div>
             <div class="kpi">
                 <p>PCs que exigem atenção</p>
@@ -128,6 +126,34 @@
                 </div>
             </div>
         </div>
+
+        <dialog id="meuModal" class="modal_filtragem" aria-labelledby="titulo-modal-torres">
+            <div class="container_modal">
+                <div class="modal_cabecalho">
+                    <div>
+                        <h1 id="titulo-modal-torres">Filtrar torres</h1>
+                        <p class="modal_subtitulo" id="modal_subtitulo">Selecione as torres que deseja analisar</p>
+                    </div>
+                    <button type="button" class="modal_fechar" id="fecharModal" aria-label="Fechar filtro de torres">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="modal_controle">
+                    <input type="search" class="modal_busca" id="buscaTorre" placeholder="Buscar torre ou código..." aria-label="Buscar torre" />
+                    <span class="modal_contador" id="contadorTorres">0 torres</span>
+                </div>
+
+                <div id="listaTorresModal" class="lista_torres" aria-live="polite">
+                    <p class="estado_vazio">Carregando torres...</p>
+                </div>
+
+                <div class="modal_rodape">
+                    <button type="button" class="modal_limpar" id="limparSelecao">Limpar seleção</button>
+                    <button type="button" class="modal_aplicar" id="aplicarFiltro">Aplicar <span id="qtdSelecionadas">0</span> torre(s)</button>
+                </div>
+            </div>
+        </dialog>
 
     </main>
 </body>

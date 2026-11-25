@@ -289,7 +289,38 @@ async function listarTorresPorUsuario(idUsuario, fkEmpresa) {
   return database.executar(instrucaoSql, [idUsuario, fkEmpresa]);
 }
 
-async function qtdTorresAtivas(idUsuario) {
+async function listarTorresDisponiveis(idUsuario, mineradora) {
+  const filtroMineradora = mineradora && mineradora !== "-"
+    ? ` AND m.razao_social = ${mysql.escape(mineradora)}`
+    : "";
+
+  var instrucaoSql = `
+    SELECT
+      t.id_torre,
+      t.nome,
+      t.codigo,
+      pc.status_operacional,
+      m.razao_social AS mineradora_nome
+    FROM permissionamento p
+    INNER JOIN torre t
+      ON t.id_torre = p.torre_id_torre
+    INNER JOIN empresa m
+      ON m.id_empresa = t.fk_mineradora
+    LEFT JOIN PC_Industrial pc
+      ON pc.fk_torre = t.id_torre
+    WHERE p.usuario_id_usuario = ${Number(idUsuario)}
+      ${filtroMineradora}
+    ORDER BY m.razao_social ASC, t.codigo ASC;
+  `;
+
+  return database.executar(instrucaoSql);
+}
+
+async function qtdTorresAtivas(idUsuario, mineradora) {
+  const filtroMineradora = mineradora && mineradora !== "-"
+    ? ` AND e.razao_social = ${mysql.escape(mineradora)}`
+    : "";
+
   var instrucaoSql = `
     SELECT 
       COUNT(DISTINCT CASE WHEN pc.status_operacional = "Ativo" THEN t.id_torre END) AS torres_online,
@@ -298,7 +329,8 @@ async function qtdTorresAtivas(idUsuario) {
     JOIN empresa e ON t.fk_mineradora = e.id_empresa
     JOIN permissionamento p ON p.torre_id_torre = t.id_torre
     JOIN pc_industrial pc ON pc.fk_torre = t.id_torre
-    WHERE p.usuario_id_usuario = ${idUsuario};
+    WHERE p.usuario_id_usuario = ${idUsuario}
+      ${filtroMineradora};
   `
 
   return database.executar(instrucaoSql)
@@ -314,5 +346,6 @@ module.exports = {
   buscarTorrePorId,
   atualizarTorre,
   listarTorresPorUsuario,
+  listarTorresDisponiveis,
   qtdTorresAtivas
 };
