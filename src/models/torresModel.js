@@ -295,6 +295,18 @@ async function listarTorresPorUsuario(idUsuario, fkEmpresa) {
 
 
 
+async function buscarHostnamePorTorre(id, fkEmpresa) {
+  var instrucaoSql = `SELECT pc.hostname
+    FROM torre t
+    INNER JOIN PC_Industrial pc ON pc.fk_torre = t.id_torre
+    WHERE t.id_torre = ${mysql.escape(id)}
+      AND t.fk_fabricante = ${mysql.escape(fkEmpresa)};`;
+
+  var resultado = await database.executar(instrucaoSql);
+
+  return resultado.length > 0 ? resultado[0].hostname : null;
+}
+
 module.exports = {
   listarTorresComMineradora,
   verificarCodigoExistente,
@@ -302,5 +314,6 @@ module.exports = {
   criarTorre,
   buscarTorrePorId, 
   atualizarTorre,
-  listarTorresPorUsuario  
+  listarTorresPorUsuario,
+  buscarHostnamePorTorre
 };

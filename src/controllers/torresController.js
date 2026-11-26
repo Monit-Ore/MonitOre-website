@@ -1,4 +1,9 @@
 var torresModel = require("../models/torresModel");
+var goldService = require("../services/goldService");
+var fs = require("fs/promises");
+var path = require("path");
+
+var PASTA_DADOS = path.join(__dirname, "../../public/dados");
 
 const SISTEMAS_OPERACIONAIS = [
   "Windows Server 2019",
@@ -9,10 +14,110 @@ const SISTEMAS_OPERACIONAIS = [
   "CentOS Stream 9",
 ];
 
-function mapearStatusExibicao(statusBanco, id) {
-  if (id % 3 == 0) {return "Crítico";}
-  if (id % 2 == 0) {return "Regular"}
-  return "Alerta";
+function mapearStatusExibicao(statusBanco) {
+  var status = String(statusBanco || "").trim().toLowerCase();
+
+  if (status.includes("crit")) {
+    return "Crítico";
+  }
+
+  if (status.includes("alert") || status.includes("aten")) {
+    return "Alerta";
+  }
+
+  return "Regular";
+}
+
+function classificarStatusCaptura(tipoAlerta, statusPc) {
+  var tipo = String(tipoAlerta || "").trim().toLowerCase();
+  var status = String(statusPc || "").trim().toLowerCase();
+
+  if (tipo.includes("crit") || status.includes("crit")) {
+    return "Crítico";
+  }
+
+  if (tipo.includes("aten") || status.includes("alert")) {
+    return "Alerta";
+  }
+
+  return "Regular";
+}
+
+function timestampCaptura(registro) {
+  var data = String(registro?.DATA_ULTIMA_CAPTURA || "").trim();
+  var hora = String(registro?.HORA_ULTIMA_CAPTURA || "").trim();
+
+  if (!data || !hora) {
+    return 0;
+  }
+
+  var dataHora = `${data} ${hora}`;
+
+  var partes = dataHora.match(
+    /^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})(?::(\d{2}))?$/
+  );
+
+  if (!partes) {
+    return 0;
+  }
+
+  return Date.UTC(
+    Number(partes[3]),
+    Number(partes[2]) - 1,
+    Number(partes[1]),
+    Number(partes[4]),
+    Number(partes[5]),
+    Number(partes[6] || 0)
+  );
+}
+
+async function carregarStatusMaisRecenteDasTorres() {
+  var statusPorTorre = new Map();
+
+  try {
+    var arquivos = await fs.readdir(PASTA_DADOS);
+    var arquivosStatus = arquivos.filter((arquivo) =>
+      /_STATUS_PCS\.json$/i.test(arquivo)
+    );
+
+    for (var nomeArquivo of arquivosStatus) {
+      try {
+        var caminho = path.join(PASTA_DADOS, nomeArquivo);
+        var conteudo = await fs.readFile(caminho, "utf8");
+        var registros = JSON.parse(conteudo);
+
+        if (!Array.isArray(registros)) {
+          continue;
+        }
+
+        registros.forEach((registro) => {
+          var idTorre = Number(registro?.ID_TORRE);
+          if (!Number.isInteger(idTorre) || idTorre <= 0) {
+            return;
+          }
+
+          var atual = {
+            status: classificarStatusCaptura(
+              registro.TIPO_ALERTA,
+              registro.STATUS_PC
+            ),
+            timestamp: timestampCaptura(registro),
+          };
+
+          var anterior = statusPorTorre.get(idTorre);
+          if (!anterior || atual.timestamp >= anterior.timestamp) {
+            statusPorTorre.set(idTorre, atual);
+          }
+        });
+      } catch (erroArquivo) {
+        console.warn("AVISO: nao foi possivel ler status da torre:", nomeArquivo);
+      }
+    }
+  } catch (erro) {
+    console.warn("AVISO: pasta de dados nao encontrada para status dinamico.");
+  }
+
+  return statusPorTorre;
 }
 
 async function selecaoTorre(req, res) {
@@ -29,6 +134,7 @@ async function selecaoTorre(req, res) {
       idUsuario,
       fkEmpresa
     );
+    const statusMaisRecentes = await carregarStatusMaisRecenteDasTorres();
 
     const mapaMineradoras = new Map();
 
@@ -39,10 +145,14 @@ async function selecaoTorre(req, res) {
         mapaMineradoras.set(nomeMineradora, []);
       }
 
+      var statusDinamico = statusMaisRecentes.get(Number(torre.id_torre));
+
       mapaMineradoras.get(nomeMineradora).push({
         id_torre: torre.id_torre,
         codigo: torre.codigo,
-        status: mapearStatusExibicao(torre.status_operacional, torre.id_mineradora),
+        status: statusDinamico
+          ? statusDinamico.status
+          : mapearStatusExibicao(torre.status_operacional),
       });
     });
 
@@ -304,6 +414,40 @@ async function atualizarTorre(req, res) {
   }
 }
 
+async function buscarDadosDaTorre(req, res) {
+  try {
+    const { idTorre } = req.params;
+    const { fkEmpresa } = req.query;
+    const id = Number(idTorre);
+    const idEmpresa = Number(fkEmpresa);
+
+    if (!Number.isInteger(idEmpresa) || idEmpresa <= 0) {
+      return res.status(401).json({ mensagem: "Usuário não autenticado." });
+    }
+
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({ mensagem: "ID de torre inválido." });
+    }
+
+    const hostname = await torresModel.buscarHostnamePorTorre(id, idEmpresa);
+    if (!hostname) {
+      return res.status(404).json({ mensagem: "Torre não encontrada." });
+    }
+
+    const dados = await goldService.criarServicoGold().lerUltimo(hostname);
+    if (!dados) {
+      return res.status(404).json({ mensagem: "Sem dados para esta torre." });
+    }
+
+    return res.status(200).json(dados);
+  } catch (erro) {
+    console.error("Erro ao consultar dados da torre:", erro);
+    return res.status(500).json({
+      mensagem: "Erro ao consultar dados da torre.",
+    });
+  }
+}
+
 // Certifique-se de exportar as novas funções junto com as antigas:
 module.exports = {
   selecaoTorre,
@@ -311,5 +455,5 @@ module.exports = {
   cadastrarTorre,
   buscarTorrePorId,
   atualizarTorre,
-  
+  buscarDadosDaTorre
 };
