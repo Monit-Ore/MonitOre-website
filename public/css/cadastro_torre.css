@@ -497,3 +497,20 @@ header{
         flex: 1;
   }
 }
+
+/* alteracao_torre.html não carregava global.css no mobile. Com a conversão do
+   perfil em link, preserva no mobile a aparência do antigo <div>. */
+@media (max-width: 900px) {
+  .perfil-sem-global {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* global.css só é carregado no desktop nesta página; esconde os elementos
+     exclusivos do rail também no mobile. */
+  .icone_perfil_recolhido,
+  .logo-reduzida {
+    display: none;
+  }
+}

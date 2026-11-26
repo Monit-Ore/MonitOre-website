@@ -119,6 +119,16 @@
   border-left-color: var(--verde);
 }
 
+.card_mineradora[data-estado="desconhecido"] {
+  border-left-color: var(--branco);
+}
+
+.tag_status.desconhecido {
+  color: var(--branco);
+  border-color: var(--branco);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 .mineradora_topo {
   display: flex;
   align-items: center;
@@ -159,6 +169,11 @@
   border: 1px solid rgba(255, 215, 65, 0.35);
 }
 
+.card_mineradora[data-estado="desconhecido"] .mineradora_detalhe {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
 .mineradora_torres {
   display: flex;
   flex-direction: column;
@@ -173,6 +188,7 @@
   background-color: #333333;
 }
 
+.barra_torres .segmento_desconhecido { background-color: var(--branco); }
 .barra_torres .segmento_normal { background-color: var(--verde); }
 .barra_torres .segmento_atencao { background-color: var(--amarelo); }
 .barra_torres .segmento_critico { background-color: var(--vermelho); }
@@ -190,6 +206,8 @@
   align-items: center;
   gap: 5px;
 }
+
+.ponto.branco { background-color: var(--branco); }
 
 .mineradora_metricas {
   display: flex;

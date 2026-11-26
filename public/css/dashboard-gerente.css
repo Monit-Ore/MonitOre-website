@@ -468,10 +468,16 @@ span.tag_uso.vermelho {
     display: flex;
   }
 
+  .logo-reduzida {
+  display: none; 
+ }
+
   .conteudo_layout {
     width: 100%;
     padding: 10px !important;
   }
+
+  
 
   .kpis_grid,
   .dash_linha {
