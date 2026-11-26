@@ -85,6 +85,18 @@ main{
     font-weight: bold;
 }
 
+.metrica.nivel-critico, .nivel-critico {
+    color: #ff4d4d !important;
+}
+
+.metrica.nivel-atencao, .nivel-atencao {
+    color: #ffd741 !important;
+}
+
+.metrica.nivel-normal, .nivel-normal {
+    color: #3ddc57 !important;
+}
+
 .relatorio-button{
     margin-top: 10px;
     white-space: nowrap;
@@ -129,10 +141,116 @@ main{
 }
 
 .container{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.lista-ocorrencias{
+    flex-direction: column;
+    gap: 10px;
+    max-height: 360px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.lista-ocorrencias::-webkit-scrollbar {
+    width: 8px;
+}
+.lista-ocorrencias::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 8px;
+}
+
+.situacao{
+    background-color: #1f1f1f;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 74px;
+    border-radius: 8px;
+    border: 1px solid #3a3a3a;
+    padding: 10px 12px;
+}
+
+.informacao{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+}
+
+.num_podio {
+    min-width: 42px;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.num_podio.critico { color: #ff4d4d; }
+.num_podio.atencao { color: #ffd741; }
+
+.info_situacao{
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.info_situacao h3{
+    color: white;
+    font-size: 16px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.info_situacao h3 a {
+    color: #ffd741;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.info_situacao h3 a:hover { color: #fff; }
+
+.info_situacao .detalhe-ocorrencia{
+    color: #bdbdbd;
+    font-size: 13px;
+}
+
+.info_situacao .periodo-ocorrencia{
+    color: #8f8e8e;
+    font-size: 12px;
+}
+
+.estado_vazio_processos {
     color: #ecbe10;
     font-weight: bold;
-    margin-top: 20px;
-    justify-self: center;
+    margin: 14px auto;
+    text-align: center;
+    width: 100%;
+}
+
+.info_situacao span{
+    color: #808080;
+    font-size: 13px;
+}
+
+.informacao .num_podio{
+    align-self: center;
+    padding: 0 10px 0 0;
+    background-color: transparent;
+    font-weight: 800;
+    font-size: 28px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+a:hover{
+    color: #ffd641fb;
 }
 
 .header-processos{
