@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monit Ore | Dashboard Suporte</title>
+  <link rel="icon" href="./imgs/favicon.svg" />
+  <link rel="stylesheet" href="./css/global.css" />
+  <link rel="stylesheet" href="./css/dashboard-suporte.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="container_responsivo" data-permissao-pagina="dashboard-suporte">
+  <aside class="navegacao">
+    <a class="logo_navegacao" href="./dashboard-gerente.html" aria-label="Página inicial Monit Ore">
+      <img src="./imgs/LogoHeader.svg" alt="Monit Ore" />
+    </a>
+    <nav class="menu_navegacao" aria-label="Menu principal">
+      <p class="menu_titulo">CENTRAL DE SUPORTE</p>
+      <ul>
+        <li><a class="item_menu" href="./dashboard-gerente.html" data-permissao="dashboard-gerente">
+          <i class="fa-solid fa-chart-line icone_menu"></i><span>Dashboard Gerente</span>
+        </a></li>
+        <li><a class="item_menu ativo" href="./dashboard-suporte.html" data-permissao="dashboard-suporte" aria-current="page">
+          <i class="fa-solid fa-headset icone_menu"></i><span>Visão geral do suporte</span>
+        </a></li>
+        <li><a class="item_menu" href="./selecao_torre.html" data-permissao="torres">
+          <i class="fa-solid fa-tower-broadcast icone_menu"></i><span>Torres</span>
+        </a></li>
+        <li><a class="item_menu" href="./visualizacao_usuarios.html" data-permissao="usuarios">
+          <i class="fa-solid fa-users icone_menu"></i><span>Usuários</span>
+        </a></li>
+      </ul>
+    </nav>
+    <div class="rodape_navegacao">
+      <div class="usuario_navegacao">
+        <div class="avatar_usuario" id="avatar_usuario">US</div>
+        <div class="info_usuario">
+          <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+          <span class="cargo_usuario" id="cargo_usuario"></span>
+        </div>
+      </div>
+      <button class="botao_sair" id="botao_sair" type="button">
+        <i class="fa-solid fa-right-from-bracket icone_menu"></i><span>Sair</span>
+      </button>
+    </div>
+  </aside>
+  <main class="conteudo_layout">
+    <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+      <i class="fa-solid fa-bars icone-menu"></i>
+    </button>
+    <div class="caminho_pagina">Central de suporte <span>/</span> Visão geral</div>
+    <header class="banner_suporte">
+      <div class="banner_icone"><i class="fa-solid fa-chart-column"></i></div>
+      <div>
+        <p class="texto_menor">PAINEL DO LÍDER DE SUPORTE</p>
+        <h1>Visão geral do suporte</h1>
+        <p>A saúde da sua fila, em um só lugar. <span class="separador">|</span> Fonte: JIRA</p>
+      </div>
+      <div class="banner_atualizacao" id="data_atualizacao">Carregando...</div>
+    </header>
+    <p class="aviso_dados"><span></span> Dados de exemplo</p>
+    <section class="kpis_grid" aria-label="Indicadores de suporte">
+      <article class="kpi_card kpi_sla_destaque">
+        <div class="kpi_titulo"><i class="fa-solid fa-shield-halved"></i> Cumprimento do SLA</div>
+        <div class="kpi_sla_resumo">
+          <strong id="cumprimento_sla">—</strong>
+          <span class="sla_distancia_meta" id="distancia_meta_sla">—</span>
+        </div>
+        <div class="barra_meta_sla" role="img" aria-label="Cumprimento do SLA em relação à meta">
+          <span id="progresso_meta_sla"></span>
+          <i id="marcador_meta_sla" aria-hidden="true"></i>
+        </div>
+        <p id="volume_sla">—</p>
+        <p id="meta_sla">—</p>
+        <p class="variacao" id="variacao_sla">—</p>
+
+      </article>
+      <article class="kpi_card">
+        <div class="kpi_titulo"><i class="fa-solid fa-hourglass-half"></i> Chamados abertos</div>
+        <strong id="chamados_abertos">—</strong>
+        <p class="kpi_detalhe variacao" id="variacao_abertos">—</p>
+        <p class="kpi_detalhe" id="parados_sete_dias">—</p>
+      </article>
+      <article class="kpi_card">
+        <div class="kpi_titulo"><i class="fa-solid fa-triangle-exclamation"></i> Chamados críticos</div>
+        <strong class="vermelho" id="chamados_criticos">—</strong>
+        <p class="kpi_detalhe"><span class="amarelo" id="criticos_sem_responsavel">—</span> · <span class="vermelho" id="criticos_vencidos">—</span></p>
+      </article>
+      <article class="kpi_card">
+        <div class="kpi_titulo amarelo"><i class="fa-regular fa-clock"></i> SLA em risco</div>
+        <strong class="amarelo" id="sla_em_risco">—</strong>
+        <p class="kpi_detalhe"><span class="vermelho" id="risco_proximas_24_horas">—</span></p>
+      </article>
+      <article class="kpi_card">
+        <div class="kpi_titulo vermelho"><i class="fa-solid fa-triangle-exclamation"></i> SLA vencido</div>
+        <strong class="vermelho" id="sla_vencido">—</strong>
+        <p class="kpi_detalhe" id="detalhe_vencido">—</p>
+      </article>
+    </section>
+     <div class="aviso_sla" id="aviso_sla">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <span id="texto_aviso_sla">Carregando chamados que precisam de atenção...</span>
+      <a href="#chamados_atencao" id="link_aviso_sla">Ver chamados <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <section class="secao_dashboard" id="sla">
+      <div class="titulo_secao"><h2>Cumprimento do SLA</h2><span id="periodo_sla">—</span></div>
+      <div class="linha_graficos linha_sla">
+        <article class="card_painel painel_tendencia_sla">
+          <div class="painel_titulo">
+            <i class="fa-solid fa-chart-line"></i>
+            <div><h3>Tendência do cumprimento</h3><p>Chamados resolvidos no prazo; abertos ficam de fora do cálculo</p></div>
+            <span class="etiqueta_periodo" id="periodo_tendencia_sla">—</span>
+          </div>
+          <div class="grafico_linha"><canvas id="grafico_sla" aria-label="Tendência do cumprimento do SLA"></canvas></div>
+          <div class="rodape_painel">
+            <span id="media_sla">—</span>
+            <button class="botao_acao" id="botao_ver_fora_prazo" type="button">Ver chamados fora do prazo <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </article>
+        <article class="card_painel painel_quebras_sla">
+          <div class="painel_titulo">
+            <i class="fa-solid fa-list-check"></i>
+            <div><h3>Onde o SLA está falhando</h3><p id="meta_quebra_sla">—</p></div>
+            <div class="controles_sla" role="group" aria-label="Quebra do cumprimento do SLA">
+              <button class="filtro_quebra ativo" data-quebra="prioridade" type="button" aria-pressed="true">Prioridade</button>
+              <button class="filtro_quebra" data-quebra="tipo" type="button" aria-pressed="false">Tipo</button>
+            </div>
+          </div>
+          <div class="lista_quebras" id="lista_quebras_sla"></div>
+          <div class="rodape_painel"><span>Chamados usados no cálculo</span><strong id="total_quebra_sla">—</strong></div>
+        </article>
+      </div>
+    </section>
+    <section class="secao_dashboard">
+      <div class="titulo_secao"><h2>Visão da fila e capacidade da equipe</h2><span>Entradas, resoluções e chamados por responsável</span></div>
+      <div class="linha_graficos linha_fila">
+        <article class="card_painel painel_tendencia">
+          <div class="painel_titulo"><i class="fa-solid fa-chart-column"></i><div><h3>Entradas × resoluções</h3><p>Volume de chamados ao longo do tempo</p></div><span class="etiqueta_periodo">30 dias</span></div>
+          <div class="grafico_linha"><canvas id="grafico_tendencia" aria-label="Entradas e resoluções de chamados"></canvas></div>
+          <div class="rodape_painel"><span id="total_recebidos">— entradas</span><span id="total_resolvidos">— resoluções</span></div>
+        </article>
+        <article class="card_painel painel_capacidade">
+          <div class="painel_titulo"><i class="fa-solid fa-users"></i><div class="painel_titulo_texto"><h3>Chamados ativos por responsável</h3><p>Críticos em vermelho e altos em amarelo</p></div><button class="filtro_grafico" id="botao_so_criticos" type="button" aria-pressed="false">Só alta e crítica</button></div>
+          <div class="grafico_barras"><canvas id="grafico_capacidade" aria-label="Chamados por responsável"></canvas></div>
+          <div class="legenda_graficos"><span><i class="ponto_vermelho"></i>Crítica</span><span><i class="ponto_amarelo"></i>Alta</span><span><i class="ponto_cinza"></i>Demais prioridades</span></div>
+        </article>
+      </div>
+    </section>
+    <section class="card_painel painel_tabela" id="chamados_atencao">
+      <div class="painel_titulo"><i class="fa-solid fa-triangle-exclamation"></i><div><h3>Chamados que precisam de atenção</h3><p id="descricao_chamados">Amostra demonstrativa de chamados vencidos, em risco e críticos</p></div><span class="etiqueta_contagem" id="total_chamados">— chamados</span></div>
+      <div class="controles_tabela">
+        <div class="filtros_tabela" role="group" aria-label="Filtrar chamados">
+          <button class="filtro_ativo" data-filtro="todos" type="button">Todos <span id="filtro_total">0</span></button>
+          <button data-filtro="vencidos" type="button">SLA vencido <span id="filtro_vencidos">0</span></button>
+          <button data-filtro="em-risco" type="button">SLA em risco <span id="filtro_em_risco">0</span></button>
+          <button data-filtro="criticos" type="button">Críticos <span id="filtro_criticos">0</span></button>
+          <button data-filtro="sem-responsavel" type="button">Sem responsável <span id="filtro_sem_responsavel">0</span></button>
+        </div>
+        <label class="seletor_tabela">
+          <span>Responsável</span>
+          <select id="filtro_responsavel" class="filtro_responsavel">
+            <option value="todos">Todos</option>
+          </select>
+        </label>
+        <label class="campo_busca"><i class="fa-solid fa-magnifying-glass"></i><input id="busca_chamado" type="search" placeholder="Buscar chave ou resumo..." /></label>
+      </div>
+      <div class="tabela_responsiva">
+        <table>
+          <thead><tr><th>Chave</th><th>Resumo</th><th>Prioridade</th><th>Status</th><th>Responsável</th><th>Prazo de SLA</th><th>Sem atualização</th></tr></thead>
+          <tbody id="tabela_chamados"><tr><td colspan="7">Carregando dados...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="rodape_tabela" id="rodape_tabela"></div>
+    </section>
+  </main>
+  <script type="module" src="./js/dashboard-suporte.js"></script>
+  <!-- <script src="./js/permissao.js"></script> -->
+</body>
+</html>
