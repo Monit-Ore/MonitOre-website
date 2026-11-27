@@ -6,6 +6,17 @@ var {
 
 const LIMITE_CONCORRENCIA = 10;
 const REGEX_TIMESTAMP = /_(\d{8}-\d{6})(?:_[^/]+)?\.json$/i;
+const CAMADA_GOLD = "gold";
+
+function validarCamada(camada) {
+  var valor = String(camada ?? CAMADA_GOLD).trim().toLowerCase();
+
+  if (!["bronze", "silver", "gold"].includes(valor)) {
+    throw new Error("Camada inválida.");
+  }
+
+  return valor;
+}
 
 function validarHostname(hostname) {
   var valor = String(hostname ?? "").trim();
@@ -28,14 +39,14 @@ function partesDataUtc(data) {
   };
 }
 
-// Único lugar que monta chaves da gold.
-function prefixoPorDia(hostname, data) {
+// Único lugar que monta prefixos/chaves dentro do bucket.
+function prefixoPorDia(hostname, data, camada = CAMADA_GOLD) {
   var partes = partesDataUtc(data);
-  return `${validarHostname(hostname)}/${partes.ano}/${partes.mes}/${partes.dia}`;
+  return `${validarCamada(camada)}/${validarHostname(hostname)}/${partes.ano}/${partes.mes}/${partes.dia}`;
 }
 
 function chaveLatest(hostname) {
-  return `${validarHostname(hostname)}/latest.json`;
+  return `${validarCamada(CAMADA_GOLD)}/${validarHostname(hostname)}/latest.json`;
 }
 
 function timestampDoNome(chave) {
@@ -50,12 +61,12 @@ function timestampDoNome(chave) {
 }
 
 function criarServicoGold(opcoes = {}) {
-  var bucket = opcoes.bucket ?? process.env.S3_BUCKET_GOLD;
+  var bucket = opcoes.bucket ?? process.env.S3_BUCKET;
   var client = opcoes.client ?? new S3Client({ region: process.env.AWS_REGION });
 
   function conferirBucket() {
     if (!bucket) {
-      throw new Error("S3_BUCKET_GOLD não configurado.");
+      throw new Error("S3_BUCKET não configurado.");
     }
     return bucket;
   }
@@ -140,6 +151,43 @@ function criarServicoGold(opcoes = {}) {
     return chaves.map((item) => item.chave);
   }
 
+  async function listarDatasDisponiveis(hostname) {
+    const hostnameValido = validarHostname(hostname);
+    const prefixo = `${CAMADA_GOLD}/${hostnameValido}/`;
+    const datas = new Set();
+    let continuacao;
+
+    do {
+      const resposta = await client.send(
+        new ListObjectsV2Command({
+          Bucket: conferirBucket(),
+          Prefix: prefixo,
+          ContinuationToken: continuacao,
+        }),
+      );
+
+      for (const objeto of resposta.Contents ?? []) {
+        const partes = String(objeto.Key ?? "").split("/");
+        if (
+          partes.length >= 6 &&
+          timestampDoNome(objeto.Key) !== null &&
+          partes[0] === CAMADA_GOLD &&
+          partes[1] === hostnameValido &&
+          /^\d{4}$/.test(partes[2]) &&
+          /^(0[1-9]|1[0-2])$/.test(partes[3]) &&
+          /^(0[1-9]|[12]\d|3[01])$/.test(partes[4])
+        ) {
+          const data = `${partes[2]}-${partes[3]}-${partes[4]}`;
+          if (!Number.isNaN(Date.parse(`${data}T00:00:00Z`))) datas.add(data);
+        }
+      }
+
+      continuacao = resposta.NextContinuationToken;
+    } while (continuacao);
+
+    return [...datas].sort();
+  }
+
   async function lerPorIntervalo(hostname, inicio, fim) {
     var chaves = await listarChaves(hostname, inicio, fim);
     var resultados = new Array(chaves.length);
@@ -161,12 +209,46 @@ function criarServicoGold(opcoes = {}) {
     return resultados;
   }
 
+  // Uma única listagem; envia primeiro as capturas mais recentes.
+  // Não é cache: os registros vivem apenas durante esta requisição.
+  async function lerProgressivamente(hostname, inicio, fim, receberLote, cancelado = () => false) {
+    const chaves = (await listarChaves(hostname, inicio, fim)).reverse();
+    const registros = [];
+    const tamanhoPrimeiroLote = 8;
+    const tamanhoLote = 20;
+    if (!chaves.length && !cancelado()) await receberLote([], 0, 0);
+
+    for (let indice = 0; indice < chaves.length && !cancelado(); ) {
+      // O primeiro lote é menor para a tela receber dados históricos antes.
+      const tamanho = indice === 0 ? tamanhoPrimeiroLote : tamanhoLote;
+      const lote = chaves.slice(indice, indice + tamanho);
+      indice += tamanho;
+      for (let posicao = 0; posicao < lote.length && !cancelado(); posicao += LIMITE_CONCORRENCIA) {
+        const dados = await Promise.all(
+          lote.slice(posicao, posicao + LIMITE_CONCORRENCIA)
+            .map(async (chave) => JSON.parse(await lerObjeto(chave))),
+        );
+        registros.push(...dados);
+      }
+      if (!cancelado()) {
+        // A agregação existente espera ordem cronológica.
+        await receberLote(
+          [...registros].sort((a, b) => Date.parse(a.capturadoEm) - Date.parse(b.capturadoEm)),
+          registros.length,
+          chaves.length,
+        );
+      }
+    }
+  }
+
   return {
     prefixoPorDia,
     chaveLatest,
     lerUltimo,
     listarChaves,
+    listarDatasDisponiveis,
     lerPorIntervalo,
+    lerProgressivamente,
   };
 }
 

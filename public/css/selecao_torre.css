@@ -368,6 +368,21 @@ header span {
   color: var(--verde);
 }
 
+.torre-status.sem-dados {
+  color: var(--cinza);
+}
+
+.torre-status.carregando {
+  color: var(--cinza);
+  opacity: 0.75;
+  animation: pulsar-status 1.2s ease-in-out infinite;
+}
+
+@keyframes pulsar-status {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
 .torre-codigo {
   color: var(--branco);
   font-size: 1.1rem;

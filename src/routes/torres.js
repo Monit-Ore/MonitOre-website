@@ -14,8 +14,24 @@ router.post("/cadastrar-torres", function (req, res) {
   torresController.cadastrarTorre(req, res);
 });
 
+router.get("/:idTorre/dashboard", function (req, res) {
+  torresController.buscarDashboardDaTorre(req, res);
+});
+
+router.get("/:idTorre/datas-disponiveis", function (req, res) {
+  torresController.buscarDatasDisponiveis(req, res);
+});
+
+router.get("/:idTorre/status", function (req, res) {
+  torresController.buscarStatusDaTorre(req, res);
+});
+
 router.get("/:idTorre/dados", function (req, res) {
   torresController.buscarDadosDaTorre(req, res);
+});
+
+router.get("/:idTorre/alertas-dia", function (req, res) {
+  torresController.buscarAlertasDoDiaDaTorre(req, res);
 });
 
 router.get("/:id", function (req, res) {
