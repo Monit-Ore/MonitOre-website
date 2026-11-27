@@ -27,6 +27,7 @@ var empresaRouter = require("./src/routes/empresas");
 
 var equipeRouter = require("./src/routes/equipe");
 var suporteRouter = require("./src/routes/suporte");
+var dashboardRouter = require("./src/routes/dashboard");
 
 
 // Permite receber JSON.
@@ -69,6 +70,7 @@ app.use("/torres", torresRouter);
 app.use("/empresas", empresaRouter);
 
 app.use("/suporte", suporteRouter);
+app.use("/dashboard", dashboardRouter);
 
 
 app.listen(PORTA_APP, function () {
