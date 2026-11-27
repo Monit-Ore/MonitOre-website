@@ -4,6 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Monit Ore | Dashboard Suporte</title>
+  <script>
+    (function () {
+      if (!window.matchMedia || !window.matchMedia("(width > 900px)").matches) return;
+      var raiz = document.documentElement;
+      if (raiz.dataset.sidebar) return;
+      var estado = "expanded";
+      try {
+        var salvo = window.localStorage.getItem("monitore.sidebar");
+        if (salvo === "expanded" || salvo === "collapsed") estado = salvo;
+      } catch (erro) {
+        /* localStorage bloqueado: mantém o padrão expandido no desktop. */
+      }
+      raiz.dataset.sidebar = estado;
+    })();
+  </script>
   <link rel="icon" href="./imgs/favicon.svg" />
   <link rel="stylesheet" href="./css/global.css" />
   <link rel="stylesheet" href="./css/dashboard-suporte.css" />
@@ -12,9 +27,10 @@
   <script src="./js/sair.js"></script>
 </head>
 <body class="container_responsivo" data-permissao-pagina="dashboard-suporte">
-  <aside class="navegacao">
+  <aside class="navegacao" id="navegacao_lateral">
     <a class="logo_navegacao" href="./dashboard-suporte.html" aria-label="Página inicial Monit Ore">
       <img src="./imgs/LogoHeader.svg" alt="Monit Ore" />
+      <img class="logo-reduzida" src="./imgs/1000343109 4.png" alt="" />
     </a>
     <nav class="menu_navegacao" aria-label="Menu principal">
       <p class="menu_titulo">CENTRAL DE SUPORTE</p>
@@ -47,18 +63,27 @@
     </div>
   </aside>
   <main class="conteudo_layout">
-    <button class="btn-notificacao" type="button" aria-label="Abrir menu">
-      <i class="fa-solid fa-bars icone-menu"></i>
-    </button>
-    <div class="caminho_pagina">Central de suporte <span>/</span> Visão geral</div>
+    <div class="cabecalho_suporte">
+      <div class="caminho_pagina">Central de suporte <span>/</span> Visão geral</div>
+      <button class="btn-notificacao alternar-menu" type="button" data-menu-toggle aria-controls="navegacao_lateral" aria-expanded="false" aria-label="Alternar menu lateral">
+        <i class="fa-solid fa-bars icone-menu" aria-hidden="true"></i>
+      </button>
+    </div>
     <header class="banner_suporte">
       <div class="banner_icone"><i class="fa-solid fa-chart-column"></i></div>
-      <div>
+      <div class="banner_suporte_texto">
         <p class="texto_menor">PAINEL DO LÍDER DE SUPORTE</p>
         <h1>Visão geral do suporte</h1>
         <p>A saúde da sua fila, em um só lugar. <span class="separador">|</span> Fonte: JIRA</p>
       </div>
-      <div class="banner_atualizacao" id="data_atualizacao">Carregando...</div>
+      <div class="banner_suporte_meta">
+        <a class="status_jira_selo" href="https://jira-software.status.atlassian.com/" target="_blank" rel="noopener noreferrer" title="Consultar o status público do Jira Cloud">
+          <span class="status_jira_rotulo">Jira Cloud</span>
+          <span class="status_jira_indicador" id="status_jira_indicador" data-status="indisponivel" aria-live="polite" aria-atomic="true">Consultando…</span>
+          <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+        </a>
+        <div class="banner_atualizacao" id="data_atualizacao">Carregando...</div>
+      </div>
     </header>
     <p class="aviso_dados"><span></span> Dados de exemplo</p>
     <section class="kpis_grid" aria-label="Indicadores de suporte">
@@ -175,6 +200,7 @@
       <div class="rodape_tabela" id="rodape_tabela"></div>
     </section>
   </main>
+  <script src="./js/global.js"></script>
   <script type="module" src="./js/dashboard-suporte.js"></script>
   <script src="./js/permissao.js"></script>
 </body>
