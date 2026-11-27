@@ -422,13 +422,6 @@ function atualizarCabecalho(torre) {
     breadcrumbEl.textContent = torre.nome || `Torre ${torre.id}`;
   }
 
-  const statusTexto = document.getElementById("status_torre_texto");
-  const statusPonto = document.getElementById("status_torre_ponto");
-  if (statusTexto && statusPonto) {
-    statusTexto.textContent = torre.online ? "Online" : "Offline";
-    statusPonto.style.backgroundColor = torre.online ? "var(--verde)" : "var(--vermelho)";
-  }
-
   const metaEl = document.getElementById("meta_telemetria");
   if (metaEl) {
     const horaFormatada = formatarHoraSp(torre.ultimaTelemetria, true);
@@ -1194,6 +1187,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Botão atualizar manual
   document.getElementById("btn_atualizar")?.addEventListener("click", carregarDados);
+
+  // Abre a edição da torre atualmente selecionada para configurar seus limites.
+  document.getElementById("btn_config_limites")?.addEventListener("click", () => {
+    const seletorTorre = document.getElementById("seletor_torre");
+    const idTorre = seletorTorre?.value || estado.idTorre || sessionStorage.getItem("ID_TORRE_SELECIONADA");
+
+    if (!idTorre) {
+      alert("Selecione uma torre para configurar os limites.");
+      return;
+    }
+
+    sessionStorage.setItem("ID_TORRE_SELECIONADA", idTorre);
+    sessionStorage.setItem("idTorreEmEdicao", idTorre);
+    window.location.href = "./alteracao_torre.html";
+  });
 
   // Menu mobile
   document.getElementById("btn_menu_mobile")?.addEventListener("click", () => {
