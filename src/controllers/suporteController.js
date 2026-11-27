@@ -1,4 +1,5 @@
 var suporteModel = require("../models/suporteModel");
+const jiraStatusModel = require("../models/jiraStatusModel");
 
 function responderErro(res, status, mensagem) {
   return res.status(status).json({ mensagem: mensagem });
@@ -46,6 +47,16 @@ async function buscarCaptura(req, res) {
   }
 }
 
+async function buscarStatusJira(req, res) {
+  try {
+    return res.status(200).json(await jiraStatusModel.buscarStatusJira());
+  } catch (erro) {
+    console.error("Falha ao consultar status do Jira:", erro.message);
+    return responderErro(res, 502, "Não foi possível consultar o status do Jira.");
+  }
+}
+
 module.exports = {
   buscarCaptura,
+  buscarStatusJira,
 };
