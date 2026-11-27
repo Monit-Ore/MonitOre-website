@@ -11,6 +11,7 @@ require("dotenv").config({
 var express = require("express");
 var cors = require("cors");
 var path = require("path");
+var { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
 
@@ -37,6 +38,43 @@ app.use(
     extended: false,
   }),
 );
+
+var s3Client = new S3Client({
+  region: process.env.S3_REGION || process.env.AWS_REGION || "us-east-1",
+});
+var s3Bucket = process.env.MONITORE_BUCKET || process.env.S3_BUCKET;
+var s3GoldPrefix = (process.env.S3_PREFIX_GOLD || "gold").replace(/^\/+|\/+$/g, "");
+
+async function streamToString(stream) {
+  return await new Promise((resolve, reject) => {
+    const chunks = [];
+    stream.on("data", (chunk) => chunks.push(chunk));
+    stream.on("error", reject);
+    stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf-8")));
+  });
+}
+
+app.get("/gold/:arquivo", async function (req, res) {
+  const arquivo = path.basename(req.params.arquivo || "");
+  if (!arquivo || !arquivo.endsWith(".json")) {
+    return res.status(400).json({ erro: "Arquivo inválido" });
+  }
+
+  if (!s3Bucket) {
+    return res.status(500).json({ erro: "Bucket S3 não configurado (MONITORE_BUCKET/S3_BUCKET)" });
+  }
+
+  const chave = `${s3GoldPrefix}/${arquivo}`;
+  try {
+    const resposta = await s3Client.send(new GetObjectCommand({ Bucket: s3Bucket, Key: chave }));
+    const corpo = await streamToString(resposta.Body);
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    return res.status(200).send(corpo);
+  } catch (erro) {
+    console.error("Erro ao buscar gold no S3:", chave, erro?.name || erro);
+    return res.status(404).json({ erro: "Arquivo gold não encontrado no S3", arquivo, chave });
+  }
+});
 
 app.use(express.static(path.join(__dirname, "public")));
 
