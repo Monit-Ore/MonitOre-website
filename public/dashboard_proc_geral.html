@@ -82,11 +82,11 @@
                     <option value="-">Mineradora</option>
                 </select>
                 <button id="abrirModal" class="filtro-button" type="button">Filtragem de Torre</button>
-                <select class="filtro-select" aria-label="Selecionar Período">
+                <select class="filtro-select" id="selecao_periodo" aria-label="Selecionar Período">
                     <option value="24">Últimas 24 horas</option>
-                    <option value="7">Últimas 7 dias</option>
-                    <option value="15">Últimas 15 dias</option>
-                    <option value="30">Últimas 30 dias</option>
+                    <option value="168">Últimos 7 dias</option>
+                    <option value="360">Últimas 15 dias</option>
+                    <option value="720">Últimas 30 dias</option>
                 </select>
                 <button onclick="gerarRelatorio()" class="relatorio-button">Gerar Relatório</button>
             </div>

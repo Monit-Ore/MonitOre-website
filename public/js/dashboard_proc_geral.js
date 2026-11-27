@@ -1,5 +1,110 @@
 var id = sessionStorage.getItem("ID_USUARIO");
 
+var filtrosDashboard = {
+    mineradora: "",
+    torres: [],
+    periodoHoras: 24,
+};
+var dadosProcessosCache = null;
+
+function obterMineradoraSelecionada() {
+    const el = document.getElementById("selecao_mineradora");
+    const valor = el ? el.value : "";
+    return valor && valor !== "-" ? valor : "";
+}
+
+function obterPeriodoHoras() {
+    const el = document.getElementById("selecao_periodo");
+    const horas = Number(el ? el.value : 24);
+    return Number.isFinite(horas) && horas > 0 ? horas : 24;
+}
+
+function dentroDoPeriodo(dataHoraIso, horas) {
+    if (!dataHoraIso) return false;
+    const t = new Date(dataHoraIso).getTime();
+    if (Number.isNaN(t)) return false;
+    const agora = Date.now();
+    return t >= agora - horas * 60 * 60 * 1000 && t <= agora + 60 * 60 * 1000;
+}
+
+function filtrarProcessos(dados) {
+    if (!dados) return { resumo: {}, processos: [], processos_que_exigem_atencao: [], status_pcs: [] };
+    const mineradora = filtrosDashboard.mineradora;
+    const torres = new Set((filtrosDashboard.torres || []).map(String));
+    const horas = filtrosDashboard.periodoHoras;
+
+    const filtrarItem = (item) => {
+        if (mineradora && String(item.mineradora || item.MINERADORA || "") !== mineradora) return false;
+        const idTorre = item.id_torre ?? item.ID_TORRE;
+        if (torres.size > 0 && !torres.has(String(idTorre))) return false;
+        const dh = item.ultima_ocorrencia || item.DATA_HORA_ULTIMA_CAPTURA || item.data_hora || (item.ultima_captura_torre && item.ultima_captura_torre.data_hora);
+        if (!dentroDoPeriodo(dh, horas)) return false;
+        return true;
+    };
+
+    const processos = (dados.processos || []).filter(filtrarItem);
+    const atencao = (dados.processos_que_exigem_atencao || []).filter(filtrarItem);
+    const statusPcs = (dados.status_pcs || []).filter(filtrarItem);
+
+    function normNivel(n) {
+        return String(n || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    }
+    const peso = { atencao: 1, critico: 2 };
+    const porNome = new Map();
+    processos.forEach(p => {
+        const nome = String(p.processo || "").trim().toLowerCase();
+        if (!nome) return;
+        const n = peso[normNivel(p.nivel)] || 0;
+        if (n > (porNome.get(nome) || 0)) porNome.set(nome, n);
+    });
+    let criticos = 0, atenc = 0;
+    porNome.forEach(v => { if (v === 2) criticos++; else if (v === 1) atenc++; });
+    const totalMonitorados = porNome.size;
+    const normais = Math.max(totalMonitorados - criticos - atenc, 0);
+
+    const pcsCrit = statusPcs.filter(p => String(p.STATUS_PC) === "Crítico").length;
+    const pcsAtenc = statusPcs.filter(p => String(p.STATUS_PC) === "Atenção").length;
+
+    return {
+        resumo: {
+            processos_monitorados: totalMonitorados,
+            processos_com_alertas: criticos + atenc,
+            criticos,
+            atencao: atenc,
+            normais,
+        },
+        kpis: {
+            pcs_criticos: pcsCrit,
+            pcs_atencao: pcsAtenc,
+            pcs_que_exigem_atencao: pcsCrit + pcsAtenc,
+            total_pcs_monitorados: statusPcs.length,
+        },
+        processos,
+        processos_que_exigem_atencao: atencao,
+        status_pcs: statusPcs,
+    };
+}
+
+function aplicarFiltrosDashboard() {
+    filtrosDashboard.mineradora = obterMineradoraSelecionada();
+    filtrosDashboard.periodoHoras = obterPeriodoHoras();
+    try {
+        const salvas = JSON.parse(sessionStorage.getItem("ID_TORRES_SELECIONADAS") || "[]");
+        filtrosDashboard.torres = Array.isArray(salvas) ? salvas : [];
+    } catch { filtrosDashboard.torres = []; }
+
+    visualizarQtdTorreAtivas(filtrosDashboard.mineradora);
+
+    if (dadosProcessosCache) {
+        const filtrado = filtrarProcessos(dadosProcessosCache);
+        renderizarKpiProcessos(filtrado);
+        renderizarKpiPcsAtencao(filtrado);
+        renderizarProcessosAtencao(filtrado.processos_que_exigem_atencao);
+    } else {
+        carregarDadosProcessos();
+    }
+}
+
 function visualizarQtdTorreAtivas(mineradora){
     const filtroMineradora = mineradora && mineradora !== "-"
         ? `?mineradora=${encodeURIComponent(mineradora)}`
@@ -62,7 +167,6 @@ function renderizarProcessosAtencao(processos) {
 
     const ativos = (Array.isArray(processos) ? processos : [])
         .filter(p => p && (p.nivel === "Crítico" || p.nivel === "Atenção"));
-
     const totalOcorrencias = ativos.reduce((acc, p) => acc + (Number(p.ocorrencias) || 0), 0);
     const pcsAfetadosTotal = ativos.reduce((acc, p) => acc + (Number(p.pcs_afetados) || 0), 0);
     if (elQtdOc) elQtdOc.textContent = totalOcorrencias;
@@ -106,6 +210,53 @@ function renderizarProcessosAtencao(processos) {
 }
 
 async function visualizarProcessosEmAtencao() {
+    if (dadosProcessosCache) { renderizarProcessosAtencao(filtrarProcessos(dadosProcessosCache).processos_que_exigem_atencao); return; }
+    await carregarDadosProcessos();
+}
+
+function renderizarKpiProcessos(dados) {
+    const resumo = dados.resumo || {};
+    const totalMonitorados = Number(resumo.processos_monitorados) || 0;
+    const criticos = Number(resumo.criticos) || 0;
+    const atencao = Number(resumo.atencao) || 0;
+    const normais = Number(resumo.normais) || 0;
+
+    const elTotal = document.getElementById("qtdProcessosMonitorados");
+    const elCrit = document.getElementById("qtdProcessosCriticos");
+    const elAtenc = document.getElementById("qtdProcessosAtencao");
+    const elNorm = document.getElementById("qtdProcessosNormais");
+    if (elTotal) {
+        elTotal.textContent = totalMonitorados;
+        const nivelClasse = criticos > 0 ? "nivel-critico" : (atencao > 0 ? "nivel-atencao" : "nivel-normal");
+        elTotal.classList.remove("nivel-critico", "nivel-atencao", "nivel-normal");
+        elTotal.classList.add(nivelClasse);
+    }
+    if (elCrit) elCrit.textContent = criticos;
+    if (elAtenc) elAtenc.textContent = atencao;
+    if (elNorm) elNorm.textContent = normais;
+}
+
+function renderizarKpiPcsAtencao(dados) {
+    const kpis = dados.kpis || {};
+    const statusPcs = Array.isArray(dados.status_pcs) ? dados.status_pcs : [];
+    const criticos = Number(kpis.pcs_criticos ?? statusPcs.filter(p => p.STATUS_PC === "Crítico").length) || 0;
+    const atencao = Number(kpis.pcs_atencao ?? statusPcs.filter(p => p.STATUS_PC === "Atenção").length) || 0;
+    const total = Number(kpis.pcs_que_exigem_atencao ?? (criticos + atencao)) || 0;
+
+    const elTotal = document.getElementById("qtdPcsExigemAtencao");
+    const elCrit = document.getElementById("qtdPcsCriticosKpi");
+    const elAtenc = document.getElementById("qtdPcsAtencaoKpi");
+    if (elTotal) {
+        elTotal.textContent = total;
+        const nivelClasse = criticos > 0 ? "nivel-critico" : (atencao > 0 ? "nivel-atencao" : "nivel-normal");
+        elTotal.classList.remove("nivel-critico", "nivel-atencao", "nivel-normal");
+        elTotal.classList.add(nivelClasse);
+    }
+    if (elCrit) elCrit.textContent = criticos;
+    if (elAtenc) elAtenc.textContent = atencao;
+}
+
+async function carregarDadosProcessos() {
     try {
         const resposta = await fetch("/gold/processos_atencao.json", {
             method: "GET",
@@ -114,115 +265,19 @@ async function visualizarProcessosEmAtencao() {
         if (!resposta.ok) {
             throw new Error(`Não foi possível carregar processos_atencao.json (HTTP ${resposta.status})`);
         }
-        const dados = await resposta.json();
-        const lista = Array.isArray(dados.processos_que_exigem_atencao)
-            ? dados.processos_que_exigem_atencao
-            : [];
-        renderizarProcessosAtencao(lista);
+        dadosProcessosCache = await resposta.json();
+        aplicarFiltrosDashboard();
     } catch (erro) {
-        console.error("#ERRO ao carregar processos que exigem atenção:", erro);
+        console.error("#ERRO ao carregar dados de processos:", erro);
     }
 }
 
-async function visualizarProcessosMonitorados() {
-    try {
-        const resposta = await fetch("/gold/processos_atencao.json", {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        });
-        if (!resposta.ok) {
-            throw new Error(`Não foi possível carregar processos_atencao.json (HTTP ${resposta.status})`);
-        }
-
-        const dados = await resposta.json();
-        const resumo = dados.resumo || {};
-        const processos = Array.isArray(dados.processos) ? dados.processos : [];
-
-        const totalMonitorados = Number(resumo.processos_monitorados) || 0;
-
-        function normalizarNivel(nivel) {
-            return String(nivel || "")
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .trim();
-        }
-
-        const pesoPorNivel = { atencao: 1, critico: 2 };
-        const nivelPorProcesso = new Map();
-
-        processos.forEach(function (item) {
-            const nomeProcesso = String(item.processo || "").trim().toLowerCase();
-            if (!nomeProcesso) return;
-            const peso = pesoPorNivel[normalizarNivel(item.nivel)] || 0;
-            const pesoAtual = nivelPorProcesso.get(nomeProcesso) || 0;
-            if (peso > pesoAtual) nivelPorProcesso.set(nomeProcesso, peso);
-        });
-
-        let criticos = 0;
-        let atencao = 0;
-        nivelPorProcesso.forEach(function (peso) {
-            if (peso === 2) criticos++;
-            else if (peso === 1) atencao++;
-        });
-
-        if (nivelPorProcesso.size === 0) {
-            atencao = Number(resumo.processos_com_alertas) || 0;
-        }
-
-        const normais = Math.max(totalMonitorados - criticos - atencao, 0);
-
-        const elTotal = document.getElementById("qtdProcessosMonitorados");
-        const elCrit = document.getElementById("qtdProcessosCriticos");
-        const elAtenc = document.getElementById("qtdProcessosAtencao");
-        const elNorm = document.getElementById("qtdProcessosNormais");
-        if (elTotal) {
-            elTotal.textContent = totalMonitorados;
-            const nivelClasse = criticos > 0 ? "nivel-critico" : (atencao > 0 ? "nivel-atencao" : "nivel-normal");
-            elTotal.classList.remove("nivel-critico", "nivel-atencao", "nivel-normal");
-            elTotal.classList.add(nivelClasse);
-        }
-        if (elCrit) elCrit.textContent = criticos;
-        if (elAtenc) elAtenc.textContent = atencao;
-        if (elNorm) elNorm.textContent = normais;
-    } catch (erro) {
-        console.error("#ERRO ao carregar KPI de processos:", erro);
-    }
-}
+async function visualizarProcessosMonitorados() { await carregarDadosProcessos(); }
 
 // KPI: PCs que exigem atenção (JSON gold gerado pelo tratamento_processos.py)
 async function visualizarPcsQueExigemAtencao() {
-    try {
-        const resposta = await fetch("/gold/processos_atencao.json", {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        });
-        if (!resposta.ok) {
-            throw new Error(`Não foi possível carregar processos_atencao.json (HTTP ${resposta.status})`);
-        }
-
-        const dados = await resposta.json();
-        const kpis = dados.kpis || {};
-        const statusPcs = Array.isArray(dados.status_pcs) ? dados.status_pcs : [];
-
-        const criticos = Number(kpis.pcs_criticos ?? statusPcs.filter(p => p.STATUS_PC === "Crítico").length) || 0;
-        const atencao = Number(kpis.pcs_atencao ?? statusPcs.filter(p => p.STATUS_PC === "Atenção").length) || 0;
-        const total = Number(kpis.pcs_que_exigem_atencao ?? (criticos + atencao)) || 0;
-
-        const elTotal = document.getElementById("qtdPcsExigemAtencao");
-        const elCrit = document.getElementById("qtdPcsCriticosKpi");
-        const elAtenc = document.getElementById("qtdPcsAtencaoKpi");
-        if (elTotal) {
-            elTotal.textContent = total;
-            const nivelClasse = criticos > 0 ? "nivel-critico" : (atencao > 0 ? "nivel-atencao" : "nivel-normal");
-            elTotal.classList.remove("nivel-critico", "nivel-atencao", "nivel-normal");
-            elTotal.classList.add(nivelClasse);
-        }
-        if (elCrit) elCrit.textContent = criticos;
-        if (elAtenc) elAtenc.textContent = atencao;
-    } catch (erro) {
-        console.error("#ERRO ao carregar KPI de PCs que exigem atenção:", erro);
-    }
+    if (dadosProcessosCache) { renderizarKpiPcsAtencao(filtrarProcessos(dadosProcessosCache)); return; }
+    await carregarDadosProcessos();
 }
 
 function visualizarMineradorasDoUsuario(){
@@ -262,16 +317,16 @@ function visualizarMineradorasDoUsuario(){
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    visualizarQtdTorreAtivas();
     visualizarMineradorasDoUsuario();
-    visualizarProcessosMonitorados();
-    visualizarPcsQueExigemAtencao();
-    visualizarProcessosEmAtencao();
+    aplicarFiltrosDashboard();
+    carregarDadosProcessos();
 
     const modal = document.getElementById("meuModal");
     const btnAbrir = document.getElementById("abrirModal");
     const btnFechar = document.getElementById("fecharModal");
     const seletorMineradora = document.getElementById("selecao_mineradora");
+    const seletorPeriodo = document.getElementById("selecao_periodo");
+    seletorPeriodo?.addEventListener("change", aplicarFiltrosDashboard);
 
     if (!modal) return;
 
@@ -476,9 +531,16 @@ document.addEventListener("DOMContentLoaded", function () {
         window.dispatchEvent(new CustomEvent("torresFiltradas", {
             detail: Array.from(selecionadas)
         }));
+        aplicarFiltrosDashboard();
         fecharModal();
     });
-    seletorMineradora?.addEventListener("change", carregarTorresDisponiveis);
+    seletorMineradora?.addEventListener("change", function () {
+        selecionadas.clear();
+        salvarSelecao();
+        atualizarIndicadores();
+        carregarTorresDisponiveis();
+        aplicarFiltrosDashboard();
+    });
 
     atualizarIndicadores();
 });

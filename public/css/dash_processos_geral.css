@@ -182,14 +182,23 @@ main{
 }
 
 .num_podio {
-    min-width: 42px;
+    display: flex;
+    min-width: 32px;
     font-size: 28px;
     font-weight: 800;
     line-height: 1;
+    background-color: transparent;
 }
 
-.num_podio.critico { color: #ff4d4d; }
-.num_podio.atencao { color: #ffd741; }
+.num_podio.critico { 
+    color: #ff4d4d; 
+    background-color: #ff4d4d;
+
+}
+
+.num_podio.atencao { 
+    color: #ffd741; 
+}
 
 .info_situacao{
     align-self: center;
