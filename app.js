@@ -42,7 +42,7 @@ app.use(
 var s3Client = new S3Client({
   region: process.env.S3_REGION || process.env.AWS_REGION || "us-east-1",
 });
-var s3Bucket = process.env.MONITORE_BUCKET || process.env.S3_BUCKET;
+var s3Bucket = process.env.MONITORE_BUCKET || process.env.AWS_REGION;
 var s3GoldPrefix = (process.env.S3_PREFIX_GOLD || "gold").replace(/^\/+|\/+$/g, "");
 
 async function streamToString(stream) {

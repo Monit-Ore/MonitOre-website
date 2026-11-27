@@ -35,7 +35,6 @@ main{
     background-color: #333333;
     padding: 8px 12px;
     color: #ffffff;
-    font-family: inherit;
     font-size: 0.95rem;
     font-weight: bold;
     text-align: left;
@@ -626,6 +625,16 @@ dialog::backdrop {
     }
     .qtd-ocorrencias {
         width: fit-content;
+    }
+
+    .filtro-select, .filtro-button, .relatorio-button{
+        width: 100%;
+    }
+    .cabecalho{
+        min-width: 98%;
+    }
+    .div-ocorrencias{
+        margin-top: 4px;
     }
 }
 
