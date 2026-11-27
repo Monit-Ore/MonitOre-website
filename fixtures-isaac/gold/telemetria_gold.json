@@ -1,0 +1,37 @@
+{
+  "origem": "EC2-WORKER-TESTE",
+  "timestamp": "2026-11-24T15:18:15.735Z",
+  "hardware": [
+    {
+      "rodada": 1,
+      "hostname": "PC-TESTE-GOLD",
+      "dataHora": "2026-11-24T10:00:00.000Z",
+      "cpuTotalPct": 55,
+      "ramTotalPct": 60,
+      "ramTotalMb": 8192,
+      "discoTotalPct": 40,
+      "qtdProcessos": 110
+    },
+    {
+      "rodada": 2,
+      "hostname": "PC-TESTE-GOLD",
+      "dataHora": "2026-11-24T10:10:00.000Z",
+      "cpuTotalPct": 65,
+      "ramTotalPct": 62,
+      "ramTotalMb": 8192,
+      "discoTotalPct": 40,
+      "qtdProcessos": 115
+    }
+  ],
+  "processos": [
+    {
+      "rodada": 1,
+      "hostname": "PC-TESTE-GOLD",
+      "dataHora": "2026-11-24T10:00:00.000Z",
+      "pid": 999,
+      "processo": "pipeline-ouro",
+      "procCpuGlobalPct": 20,
+      "procRamMb": 1024
+    }
+  ]
+}
