@@ -150,7 +150,8 @@ function salvarDadosUsuario(usuario) {
 function redirecionarUsuario() {
   aguardar();
   setTimeout(function () {
-      window.location.href = "./selecao_torre.html";
+      window.location.href = sessionStorage.getItem("CARGO_USUARIO") === "Suporte"
+        ? "./dashboard-suporte.html" : "./selecao_torre.html";
   }, 2000);
 }
 

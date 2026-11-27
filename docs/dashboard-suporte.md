@@ -102,3 +102,17 @@ npm start
 ```
 
 Com `.env.dev` preenchido, conferir `curl http://localhost:<APP_PORT>/suporte/buscar`. No navegador: KPIs, três gráficos, filtros de chamados, quebras de SLA, botões de atenção e dois recarregamentos seguidos sem duplicar gráficos ou eventos.
+
+## Acesso por cargo
+
+O cargo `Suporte` acessa exclusivamente o dashboard de suporte. O login encaminha esse usuário para `dashboard-suporte.html`; Administrador e Operador seguem para a seleção de torres e não acessam o suporte.
+
+O middleware `src/middleware/autorizacao.js` roda após a sessão e antes dos arquivos públicos. Nas páginas e APIs internas, consulta o cargo atual no MySQL usando o ID da sessão. Páginas sem sessão redirecionam ao login; APIs retornam 401 sem sessão e 403 sem permissão. Alterações no sessionStorage não concedem acesso. As regras anteriores dos demais cargos permanecem nas outras áreas.
+
+- `GET /usuarios/sessao`: retorna o cargo atual e o ID do usuário autenticado para sincronizar a navegação.
+- `POST /usuarios/sair`: destrói a sessão e limpa o cookie. Os botões Sair usam esse endpoint.
+- `GET /suporte/buscar`: exige sessão com cargo Suporte.
+
+Administradores podem atribuir Suporte no cadastro e na edição de usuários da mesma empresa. O cadastro desse cargo não exige torres. Trocar o cargo preserva vínculos antigos, mas eles não autorizam acesso nem podem ser editados enquanto o cargo for Suporte. O SQL de criação inclui o novo cargo; nenhum ALTER é executado automaticamente.
+
+Execute `npm test` para verificar os acessos HTTP, alterações de cargo, cadastro e saída com dados simulados, sem carregar .env ou acessar MySQL/S3 reais.

@@ -196,7 +196,7 @@ async function cadastrar(req, res) {
     });
   }
 
-  var cargosPermitidos = ["Administrador", "Operador"];
+  var cargosPermitidos = ["Administrador", "Operador", "Suporte"];
   if (!cargosPermitidos.includes(cargo)) {
     return res.status(400).json({
       mensagem: "Selecione um cargo válido.",
@@ -208,6 +208,8 @@ async function cadastrar(req, res) {
       mensagem: "Sua sessão expirou. Faça login novamente.",
     });
   }
+
+  if (cargo === "Suporte") torres = [];
 
   if (torres !== undefined && !Array.isArray(torres)) {
     return res.status(400).json({ mensagem: "Informe uma lista válida de torres." });
@@ -494,6 +496,16 @@ async function atualizarCargo(req,res){
   var cargo = req.body.senhaNovaServer;
 
   try {
+    if (!["Administrador", "Operador", "Suporte"].includes(cargo)) {
+      return res.status(400).json({ mensagem: "Selecione um cargo válido." });
+    }
+    if (!Number.isInteger(Number(idUsuario)) || Number(idUsuario) <= 0) {
+      return res.status(400).json({ mensagem: "Usuário inválido." });
+    }
+    var usuarios = await usuarioModel.buscarSessaoPorId(Number(idUsuario));
+    if (!usuarios.length || Number(usuarios[0].fk_empresa) !== Number(req.session.FK_EMPRESA_USUARIO)) {
+      return res.status(403).json({ mensagem: "Usuário não pertence à sua empresa." });
+    }
     var resultado = await usuarioModel.atualizarCargo(idUsuario, cargo);
 
     return res.status(200).json(resultado);
@@ -592,6 +604,13 @@ async function salvarAcessosTorres(req, res) {
     }
 
     try {
+        var usuarios = await usuarioModel.buscarSessaoPorId(idUsuario);
+        if (!usuarios.length || Number(usuarios[0].fk_empresa) !== idFabricante) {
+            return res.status(403).json({ mensagem: "Usuário não pertence à sua empresa." });
+        }
+        if (usuarios[0].cargo === "Suporte") {
+            return res.status(403).json({ mensagem: "Usuários de suporte não possuem acesso às torres." });
+        }
         var resultado = await usuarioModel.salvarAcessosTorres(
             idUsuario,
             torres,

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script src="./js/global.js"></script>
     <script src="./js/meu_perfil.js"></script>
+  <script src="./js/sair.js"></script>
 </head>
 
 <body class="container_responsivo" data-permissao-pagina="usuarios">
@@ -132,6 +133,9 @@
 
                     <button type="button" class="desativado" onclick="mudarCargo(this)" value="Operador">
                         Operador
+                    </button>
+                    <button type="button" class="desativado" onclick="mudarCargo(this)" value="Suporte">
+                        Suporte
                     </button>
                 </div>
             </section>
@@ -262,9 +266,7 @@
         var id = sessionStorage.ID_EDITAR_USUARIO;
         console.log(id);
 
-        window.onload = function () {
-            buscarDadosUsuario();
-        };
+
 
         function buscarDadosUsuario() {
             fetch(`/usuarios/buscarID/${id}`, {
@@ -362,26 +364,10 @@
         }
 
         function atualizarEstiloBotoesCargo(cargoAtual) {
-            var btnAdmin = document.querySelector(
-                'button[value="Administrador"]'
-            );
-
-            var btnOperador = document.querySelector(
-                'button[value="Operador"]'
-            );
-
-            if (!btnAdmin || !btnOperador) {
-                return;
-            }
-
-            btnAdmin.className = "desativado";
-            btnOperador.className = "desativado";
-
-            if (cargoAtual === "Administrador") {
-                btnAdmin.className = "ativo";
-            } else if (cargoAtual === "Operador") {
-                btnOperador.className = "ativo";
-            }
+            document.querySelectorAll(".divisao-btn-cargo button").forEach(function (botao) {
+                botao.className = botao.value === cargoAtual ? "ativo" : "desativado";
+            });
+            document.querySelector(".acesso_torres").style.display = cargoAtual === "Suporte" ? "none" : "";
         }
 
         function mudarCargo(botao_mudar) {
