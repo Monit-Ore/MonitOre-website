@@ -5,10 +5,14 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "test": "node --test tests/*.test.js",
     "dev": "nodemon --exec node app.js"
   },
   "author": "Feito pelos desenvolvedores @ São Paulo Tech School / Bandtec Digital School",
   "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1178.0",
     "animejs": "^4.5.0",

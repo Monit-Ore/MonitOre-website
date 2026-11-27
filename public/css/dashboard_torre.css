@@ -513,3 +513,26 @@ th {
         margin-top: 20px;
     }
 }
+
+/* Desktop: a lateral recolhida/OpenState não deve empurrar o card para fora
+   do main. Mantém o canvas responsivo sem alterar as regras mobile acima. */
+@media (width > 900px) {
+    .conteudo_layout .card_alertas_componente {
+        min-width: 0;
+        max-width: 100%;
+        flex-wrap: nowrap;
+    }
+
+    .conteudo_layout .card_alertas_componente > .card_componentes {
+        flex: 1 1 100%;
+        width: 100% !important;
+        min-width: 0;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .conteudo_layout .card_alertas_componente > .card_componentes canvas {
+        width: 100% !important;
+        max-width: 100%;
+    }
+}

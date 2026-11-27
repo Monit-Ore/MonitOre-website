@@ -6,18 +6,35 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Monit Ore | Dashboard da Torre</title>
-
+  <script>
+      (function () {
+        if (!window.matchMedia || !window.matchMedia("(width > 900px)").matches) return;
+        var raiz = document.documentElement;
+        if (raiz.dataset.sidebar) return;
+        var estado = "expanded";
+        try {
+          var salvo = window.localStorage.getItem("monitore.sidebar");
+          if (salvo === "expanded" || salvo === "collapsed") estado = salvo;
+        } catch (erro) {
+          /* localStorage bloqueado: mantém o padrão expandido no desktop. */
+        }
+        raiz.dataset.sidebar = estado;
+      })();
+    </script>
+  <link rel="stylesheet" href="./css/global.css">
   <link rel="stylesheet" href="./css/tela_cadastro.css" />
   <link rel="stylesheet" href="./css/cadastro_torre.css" />
   <link rel="stylesheet" href="./css/dashboard_torre.css">
   <link rel="icon" href="./imgs/favicon.svg" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+  <script src="./js/global.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./js/sair.js"></script>
 </head>
 
 <body class="container_responsivo" data-permissao-pagina="dashboard-torre">
-  <aside class="navegacao">
+  <aside class="navegacao" id="navegacao_lateral">
     <div class="logo_navegacao">
       <img src="./imgs/LogoHeader.svg" alt="Monitore" />
     </div>
@@ -26,25 +43,25 @@
       <ul>
         <li>
           <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente"
-            data-permissao="dashboard-gerente">
+            data-permissao="dashboard-gerente" aria-label="Dashboard Gerente">
             <i class="fa-solid fa-chart-line icone_menu"></i>
             <span>Dashboard Gerente</span>
           </a>
         </li>
         <li>
-          <a href="/selecao_torre.html" class="item_menu ativo" id="torres" data-permissao="torres">
+          <a href="/selecao_torre.html" class="item_menu ativo" id="torres" data-permissao="torres" aria-label="Torres">
             <i class="fa-solid fa-tower-broadcast icone_menu"></i>
             <span>Torres</span>
           </a>
         </li>
         <li>
-          <a href="/cadastro.html" class="item_menu" id="usuarios" data-permissao="usuarios">
+          <a href="/cadastro.html" class="item_menu" id="usuarios" data-permissao="usuarios" aria-label="Usuários">
             <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
           </a>
         </li>
         <li>
-          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras">
+          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras" aria-label="Cadastro de Mineradora">
             <i class="fa-solid fa-hammer icone_menu"></i>
             <span>Cadastro de Mineradora</span>
           </a>
@@ -53,16 +70,16 @@
     </nav>
 
     <div class="rodape_navegacao">
-      <div class="usuario_navegacao" id="usuario_logado" role="link" tabindex="0" aria-label="Abrir meu perfil">
-        <div class="avatar_usuario" id="avatar_usuario">US</div>
+      <a class="usuario_navegacao" id="usuario_logado" aria-label="Abrir meu perfil" href="/meu_perfil.html">
+        <div class="avatar_usuario" id="avatar_usuario">US</div><span class="icone_perfil_recolhido" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
         <div class="info_usuario">
           <span class="nome_usuario" id="nome_usuario">Carregando...</span>
           <span class="cargo_usuario" id="cargo_usuario"></span>
         </div>
         <i class="fa-solid fa-chevron-right icone_menu"></i>
-      </div>
+      </a>
 
-      <button class="botao_sair" id="botao_sair" type="button">
+      <button class="botao_sair" id="botao_sair" type="button" aria-label="Sair">
         <i class="fa-solid fa-right-from-bracket icone_menu"></i>
         <span>Sair</span>
       </button>
@@ -71,7 +88,7 @@
 
   <main class="conteudo_layout">
     <!-- Topo da Torre -->
-     <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+     <button class="btn-notificacao alternar-menu" type="button" data-menu-toggle aria-controls="navegacao_lateral" aria-expanded="false" aria-label="Alternar menu lateral">
       <i class="fa-regular fa-bell icone-sino"></i>
       <i class="fa-solid fa-bars icone-menu"></i>
     </button>
@@ -254,7 +271,7 @@
         </table>
       </div>
       <!-- Número de Alertas por Dia (Tabela) -->
-    
+
     </div>
     <div class="container_tabela">
       <div class="topo_tabela">
@@ -392,9 +409,9 @@
     criarComponentes();
 
     const labelsHorarios = [
-      '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', 
-      '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', 
-      '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', 
+      '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
+      '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+      '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
       '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
     ];
 
@@ -409,7 +426,7 @@
       },
       ram: {
         label: 'RAM',
-        data: [44, 45, 46, 48, 48, 49, 49, 50, 51, 52, 52, 53, 54, 55, 56, 58, 62, 67, 71, 75, 78, 79,79 , 88],
+        data: [44, 45, 46, 48, 48, 49, 49, 50, 51, 52, 52, 53, 54, 55, 56, 58, 62, 67, 71, 75, 78, 79, 79, 88],
         borderColor: '#3498db',
         backgroundColor: '#3498db',
         alerta: 60,
@@ -609,8 +626,6 @@
     }
 
 
-    // Redirecionamento do perfil do usuário
-    const usuarioLogadoEl = document.getElementById("usuario_logado");
     const nomeUsuarioEl = document.getElementById("nome_usuario");
     const cargoUsuarioEl = document.getElementById("cargo_usuario");
     const avatarUsuarioEl = document.getElementById("avatar_usuario");
@@ -624,34 +639,19 @@
       avatarUsuarioEl.textContent = iniciais.join("").toUpperCase() || "US";
     }
 
-    function abrirPerfilUsuario() {
-      window.location.href = "/meu_perfil.html";
-    }
-
-    if (usuarioLogadoEl) {
-      usuarioLogadoEl.addEventListener("click", abrirPerfilUsuario);
-      usuarioLogadoEl.addEventListener("keydown", (evento) => {
-        if (evento.key === "Enter" || evento.key === " ") {
-          evento.preventDefault();
-          abrirPerfilUsuario();
-        }
-      });
-    }
-
-
     document.addEventListener("DOMContentLoaded", () => {
       const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");
       const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
 
       const botaoMenu = document.querySelector(".btn-notificacao");
 
-  botaoMenu?.addEventListener("click", () => document.body.classList.toggle("menu-aberto"));
+      botaoMenu?.addEventListener("click", () => document.body.classList.toggle("menu-aberto"));
 
 
       document.getElementById("botao_sair")?.addEventListener("click", () => {
-    sessionStorage.clear();
-    window.location.href = "./login.html";
-  });
+        sessionStorage.clear();
+        window.location.href = "./login.html";
+      });
 
       // Validação de segurança
       if (!idTorre || !fkEmpresa) {
@@ -695,25 +695,25 @@
       host_pc.innerHTML = `${torre.pc_industrial.hostname}`
       codigo_torre.innerHTML = `${torre.codigo}`
 
-      
+
       if (torre.componentes && Array.isArray(torre.componentes)) {
         torre.componentes.forEach(comp => {
           let chave = '';
           const nomeComp = (comp.nome_componente || '').toLowerCase();
-          
+
           // Identifica se é CPU, RAM ou Disco pelo nome ou ID do componente
           if (nomeComp.includes('cpu') || comp.fk_componente === 1) chave = 'cpu';
           else if (nomeComp.includes('ram') || comp.fk_componente === 2) chave = 'ram';
           else if (nomeComp.includes('disco') || nomeComp.includes('disk') || comp.fk_componente === 3) chave = 'disco';
-  
+
           if (chave && configComponentes[chave]) {
             configComponentes[chave].alerta = Number(comp.atencao);
             console.log(comp.atencao);
-            
+
             configComponentes[chave].critico = Number(comp.critico);
           }
         });
-        
+
       }
 
       // Atualiza o gráfico caso já esteja renderizado na tela com os novos limites do banco
@@ -722,8 +722,8 @@
         alterarVisualizacaoGrafico(selectFiltro.value);
       }
 
-}
-function atualizarTabelaAlertasDiarios(dias) {
+    }
+    function atualizarTabelaAlertasDiarios(dias) {
       const subTexto = document.getElementById("sub_texto_periodo");
       if (subTexto) {
         subTexto.innerText = `(últimos ${dias} dias)`;
