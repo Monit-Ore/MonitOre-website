@@ -88,7 +88,7 @@
                     <option value="360">Últimas 15 dias</option>
                     <option value="720">Últimas 30 dias</option>
                 </select>
-                <button onclick="gerarRelatorio()" class="relatorio-button">Gerar Relatório</button>
+                <button id="abrirModalRelatorio" class="relatorio-button" type="button">Gerar Relatório</button>
             </div>
         </header>
 
@@ -155,6 +155,36 @@
                 <div class="modal_rodape">
                     <button type="button" class="modal_limpar" id="limparSelecao">Limpar seleção</button>
                     <button type="button" class="modal_aplicar" id="aplicarFiltro">Aplicar <span id="qtdSelecionadas">0</span> torre(s)</button>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog id="modalRelatorio" class="modal_filtragem" aria-labelledby="titulo-modal-relatorio">
+            <div class="container_modal modal_relatorio">
+                <div class="modal_cabecalho">
+                    <div>
+                        <h1 id="titulo-modal-relatorio">Gerar relatório</h1>
+                        <p class="modal_subtitulo">Selecione o período para geração do relatório.</p>
+                    </div>
+                    <button type="button" class="modal_fechar" id="fecharModalRelatorio" aria-label="Fechar modal de relatório">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="modal_relatorio_corpo">
+                    <label class="campo_relatorio" for="relatorioDataInicio">
+                        <span>Data início</span>
+                        <input type="date" id="relatorioDataInicio" class="input_relatorio">
+                    </label>
+                    <label class="campo_relatorio" for="relatorioDataFim">
+                        <span>Data fim</span>
+                        <input type="date" id="relatorioDataFim" class="input_relatorio">
+                    </label>
+                </div>
+
+                <div class="modal_rodape">
+                    <button type="button" class="modal_limpar" id="cancelarRelatorio">Cancelar</button>
+                    <button type="button" class="modal_aplicar" id="confirmarRelatorio">Gerar</button>
                 </div>
             </div>
         </dialog>

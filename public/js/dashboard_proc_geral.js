@@ -370,6 +370,21 @@ function visualizarMineradorasDoUsuario(){
 
 document.addEventListener("DOMContentLoaded", function () {
     visualizarMineradorasDoUsuario();
+
+    const modalRelatorio = document.getElementById("modalRelatorio");
+    const abrirModalRelatorio = document.getElementById("abrirModalRelatorio");
+    const fecharModalRelatorio = document.getElementById("fecharModalRelatorio");
+    const cancelarRelatorio = document.getElementById("cancelarRelatorio");
+
+    function abrirRelatorio() { if (modalRelatorio) modalRelatorio.showModal(); }
+    function fecharRelatorio() { if (modalRelatorio && modalRelatorio.open) modalRelatorio.close(); }
+
+    abrirModalRelatorio?.addEventListener("click", abrirRelatorio);
+    fecharModalRelatorio?.addEventListener("click", fecharRelatorio);
+    cancelarRelatorio?.addEventListener("click", fecharRelatorio);
+    modalRelatorio?.addEventListener("click", function (evento) {
+        if (evento.target === modalRelatorio) fecharRelatorio();
+    });
     aplicarFiltrosDashboard();
     carregarDadosProcessos();
 

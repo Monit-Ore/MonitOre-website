@@ -680,3 +680,44 @@ dialog::backdrop {
     }
 }
 
+
+.modal_relatorio {
+    max-width: 560px;
+}
+
+.modal_relatorio_corpo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.campo_relatorio {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #cfcfcf;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.input_relatorio {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #80808050;
+    border-radius: 8px;
+    font: inherit;
+    color-scheme: dark;
+}
+
+.input_relatorio:focus {
+    outline: none;
+    border-color: #ffd741;
+}
+
+@media (max-width: 600px) {
+    .modal_relatorio_corpo {
+        grid-template-columns: 1fr;
+    }
+}
