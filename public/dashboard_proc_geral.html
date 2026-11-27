@@ -10,7 +10,24 @@
     <link rel="stylesheet" href="./css/tela_cadastro.css" />
     <link rel="stylesheet" href="./css/cadastro_torre.css" />
     <link rel="stylesheet" href="./css/dash_processos_geral.css">
-    <link rel="stylesheet" href="./css/global.css"> 
+    <link rel="stylesheet" href="./css/global.css">
+
+    <!-- Define o estado do menu antes da renderização para evitar "flash" no desktop. -->
+    <script>
+        (function () {
+            if (!window.matchMedia || !window.matchMedia("(width > 900px)").matches) return;
+            var raiz = document.documentElement;
+            if (raiz.dataset.sidebar) return;
+            var estado = "expanded";
+            try {
+                var salvo = window.localStorage.getItem("monitore.sidebar");
+                if (salvo === "expanded" || salvo === "collapsed") estado = salvo;
+            } catch (erro) { /* localStorage bloqueado: mantém o padrão expandido. */ }
+            raiz.dataset.sidebar = estado;
+        })();
+    </script>
+    <script src="./js/global.js"></script>
+
     <script src="js/services-dashboard-proc-geral/api.js"></script>
     <script src="js/services-dashboard-proc-geral/dashboardProcessosService.js"></script>
     <script src="js/dashboard_proc_geral.js"></script>
@@ -116,7 +133,8 @@
         <header class="cabecalho">
             <div class="titulo_menu">
                 <h1>Processos dos PCs industriais</h1>
-                <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+                <button class="btn-notificacao alternar-menu" type="button" data-menu-toggle
+                    aria-controls="navegacao_lateral" aria-expanded="false" aria-label="Alternar menu lateral">
                     <i class="fa-regular fa-bell icone-sino"></i>
                     <i class="fa-solid fa-bars icone-menu"></i>
                 </button>
