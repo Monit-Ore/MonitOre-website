@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/cadastro_torre.css" />
     <link rel="stylesheet" href="./css/dash_processos_geral.css">
     <script src="js/dashboard_proc_geral.js"></script>
+    <script src="./js/alteracao_torre.js"></script>
     <link rel="icon" href="./imgs/favicon.svg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
@@ -75,7 +76,13 @@
 
     <main>
         <header class="cabecalho">
-            <h1>Processos dos PCs industriais</h1>
+            <div class="titulo_menu">
+                <h1>Processos dos PCs industriais</h1>
+                <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+                    <i class="fa-regular fa-bell icone-sino"></i>
+                    <i class="fa-solid fa-bars icone-menu"></i>
+                </button>
+            </div>
             <p>Identifique processos com alto consumo e priorize o que afeta a extração.</p>
             <div class="filtros">
                 <select class="filtro-select" id="selecao_mineradora" aria-label="Selecionar Mineradora">
@@ -122,7 +129,8 @@
                         <span>Prioridades por consumo de recursos e impacto na operação</span>
                     </div>
                     <div class="qtd-ocorrencias">
-                        <span id="qtdOcorrenciasAtencao">0</span> ocorrências • <span id="qtdPcsOcorrenciasAtencao">0</span> PCs
+                        <span id="qtdOcorrenciasAtencao">0</span> ocorrências • <span
+                            id="qtdPcsOcorrenciasAtencao">0</span> PCs
                     </div>
                 </div>
                 <div class="container lista-ocorrencias" id="lista_processos_atencao">
@@ -144,7 +152,8 @@
                 </div>
 
                 <div class="modal_controle">
-                    <input type="search" class="modal_busca" id="buscaTorre" placeholder="Buscar torre ou código..." aria-label="Buscar torre" />
+                    <input type="search" class="modal_busca" id="buscaTorre" placeholder="Buscar torre ou código..."
+                        aria-label="Buscar torre" />
                     <span class="modal_contador" id="contadorTorres">0 torres</span>
                 </div>
 
@@ -154,7 +163,8 @@
 
                 <div class="modal_rodape">
                     <button type="button" class="modal_limpar" id="limparSelecao">Limpar seleção</button>
-                    <button type="button" class="modal_aplicar" id="aplicarFiltro">Aplicar <span id="qtdSelecionadas">0</span> torre(s)</button>
+                    <button type="button" class="modal_aplicar" id="aplicarFiltro">Aplicar <span
+                            id="qtdSelecionadas">0</span> torre(s)</button>
                 </div>
             </div>
         </dialog>
@@ -166,7 +176,8 @@
                         <h1 id="titulo-modal-relatorio">Gerar relatório</h1>
                         <p class="modal_subtitulo">Selecione o período para geração do relatório.</p>
                     </div>
-                    <button type="button" class="modal_fechar" id="fecharModalRelatorio" aria-label="Fechar modal de relatório">
+                    <button type="button" class="modal_fechar" id="fecharModalRelatorio"
+                        aria-label="Fechar modal de relatório">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
