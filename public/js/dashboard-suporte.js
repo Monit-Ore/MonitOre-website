@@ -10,6 +10,7 @@ import {
 } from "./suporte/suporte-indicadores.js";
 import { destruirGraficos, criarGraficos } from "./suporte/suporte-graficos.js";
 import { prepararFiltros, mostrarChamados } from "./suporte/suporte-tabela.js";
+import { iniciarStatusJira } from "./suporte/suporte-status-jira.js";
 
 function prepararEstadoCarregamento() {
   destruirGraficos();
@@ -68,9 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "./login.html";
   });
 
-  document.querySelector(".btn-notificacao").addEventListener("click", () => {
-    document.body.classList.toggle("menu-aberto");
-  });
-
   carregarDashboardSuporte();
+  iniciarStatusJira();
 });

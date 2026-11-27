@@ -103,6 +103,28 @@ npm start
 
 Com `.env.dev` preenchido, conferir `curl http://localhost:<APP_PORT>/suporte/buscar`. No navegador: KPIs, três gráficos, filtros de chamados, quebras de SLA, botões de atenção e dois recarregamentos seguidos sem duplicar gráficos ou eventos.
 
+## Disponibilidade do Jira Cloud
+
+O selo compacto no banner "Visão geral do suporte" consulta `GET /suporte/status-jira`, protegido pelo mesmo cargo Suporte.
+O Node consulta a API pública `https://jira-software.status.atlassian.com/api/v2/summary.json`
+com timeout de cinco segundos e cache em memória de cinco minutos por processo. Consultas
+simultâneas compartilham a mesma requisição. Não são necessárias novas credenciais.
+
+O model `src/models/jiraStatusModel.js` devolve `{ indicador, incidentes, consultadoEm }`;
+cada incidente contém `nome` e `status`. O horário representa a última consulta bem-sucedida,
+não o momento em que o navegador leu o cache. Falhas após a expiração devolvem 502 e
+`mensagem`, sem apresentar o cache vencido como atual.
+
+O módulo `public/js/suporte/suporte-status-jira.js` carrega o selo separadamente dos chamados
+e consulta novamente a cada cinco minutos. O selo mostra apenas "Jira Cloud" e o estado,
+com link para a página oficial; o horário de consulta fica na dica ao passar o mouse sobre o estado.
+Se falhar, remove o horário anterior e mostra "Status indisponível".
+Os estados são operacional, instabilidade, indisponibilidade
+parcial, indisponibilidade crítica e manutenção.
+
+Esse é o status público geral do Jira Cloud: não verifica a instância da empresa, os IPCs
+ou a atualização dos arquivos no S3. Os testes em `npm test` simulam as respostas externas.
+
 ## Acesso por cargo
 
 O cargo `Suporte` acessa exclusivamente o dashboard de suporte. O login encaminha esse usuário para `dashboard-suporte.html`; Administrador e Operador seguem para a seleção de torres e não acessam o suporte.
