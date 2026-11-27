@@ -28,6 +28,8 @@ var empresaRouter = require("./src/routes/empresas");
 var equipeRouter = require("./src/routes/equipe");
 var goldRouter = require("./src/routes/gold");
 var dashboardProcessosRouter = require("./src/routes/dashboardProcessos");
+var suporteRouter = require("./src/routes/suporte");
+var dashboardRouter = require("./src/routes/dashboard");
 
 
 // Permite receber JSON.
@@ -63,6 +65,9 @@ app.use(
     })
 );
 
+app.use(require("./src/middleware/autorizacao").protegerAcesso);
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use("/", indexRouter);
 app.use("/equipe", equipeRouter);
 
@@ -73,8 +78,11 @@ app.use("/torres", torresRouter);
 app.use("/empresas", empresaRouter);
 app.use("/dashboard-processos", dashboardProcessosRouter);
 
+app.use("/suporte", suporteRouter);
+app.use("/dashboard", dashboardRouter);
 
-app.listen(PORTA_APP, function () {
+
+if (require.main === module) app.listen(PORTA_APP, function () {
   console.log(`
     ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######
     ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##        ##
@@ -98,3 +106,5 @@ app.listen(PORTA_APP, function () {
     Para alterar o ambiente, modifique as primeiras linhas do app.js.
     `);
 });
+
+module.exports = app;

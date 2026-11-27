@@ -6,18 +6,35 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Monit Ore | Dashboard da Torre</title>
-
+  <script>
+      (function () {
+        if (!window.matchMedia || !window.matchMedia("(width > 900px)").matches) return;
+        var raiz = document.documentElement;
+        if (raiz.dataset.sidebar) return;
+        var estado = "expanded";
+        try {
+          var salvo = window.localStorage.getItem("monitore.sidebar");
+          if (salvo === "expanded" || salvo === "collapsed") estado = salvo;
+        } catch (erro) {
+          /* localStorage bloqueado: mantém o padrão expandido no desktop. */
+        }
+        raiz.dataset.sidebar = estado;
+      })();
+    </script>
+  <link rel="stylesheet" href="./css/global.css">
   <link rel="stylesheet" href="./css/tela_cadastro.css" />
   <link rel="stylesheet" href="./css/cadastro_torre.css" />
   <link rel="stylesheet" href="./css/dashboard_torre.css">
   <link rel="icon" href="./imgs/favicon.svg" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+  <script src="./js/global.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./js/sair.js"></script>
 </head>
 
 <body class="container_responsivo" data-permissao-pagina="dashboard-torre">
-  <aside class="navegacao">
+  <aside class="navegacao" id="navegacao_lateral">
     <div class="logo_navegacao">
       <img src="./imgs/LogoHeader.svg" alt="Monitore" />
     </div>
@@ -26,25 +43,25 @@
       <ul>
         <li>
           <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente"
-            data-permissao="dashboard-gerente">
+            data-permissao="dashboard-gerente" aria-label="Dashboard Gerente">
             <i class="fa-solid fa-chart-line icone_menu"></i>
             <span>Dashboard Gerente</span>
           </a>
         </li>
         <li>
-          <a href="/selecao_torre.html" class="item_menu ativo" id="torres" data-permissao="torres">
+          <a href="/selecao_torre.html" class="item_menu ativo" id="torres" data-permissao="torres" aria-label="Torres">
             <i class="fa-solid fa-tower-broadcast icone_menu"></i>
             <span>Torres</span>
           </a>
         </li>
         <li>
-          <a href="/cadastro.html" class="item_menu" id="usuarios" data-permissao="usuarios">
+          <a href="/cadastro.html" class="item_menu" id="usuarios" data-permissao="usuarios" aria-label="Usuários">
             <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
           </a>
         </li>
         <li>
-          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras">
+          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras" aria-label="Cadastro de Mineradora">
             <i class="fa-solid fa-hammer icone_menu"></i>
             <span>Cadastro de Mineradora</span>
           </a>
@@ -53,16 +70,16 @@
     </nav>
 
     <div class="rodape_navegacao">
-      <div class="usuario_navegacao" id="usuario_logado" role="link" tabindex="0" aria-label="Abrir meu perfil">
-        <div class="avatar_usuario" id="avatar_usuario">US</div>
+      <a class="usuario_navegacao" id="usuario_logado" aria-label="Abrir meu perfil" href="/meu_perfil.html">
+        <div class="avatar_usuario" id="avatar_usuario">US</div><span class="icone_perfil_recolhido" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
         <div class="info_usuario">
           <span class="nome_usuario" id="nome_usuario">Carregando...</span>
           <span class="cargo_usuario" id="cargo_usuario"></span>
         </div>
         <i class="fa-solid fa-chevron-right icone_menu"></i>
-      </div>
+      </a>
 
-      <button class="botao_sair" id="botao_sair" type="button">
+      <button class="botao_sair" id="botao_sair" type="button" aria-label="Sair">
         <i class="fa-solid fa-right-from-bracket icone_menu"></i>
         <span>Sair</span>
       </button>
@@ -71,7 +88,7 @@
 
   <main class="conteudo_layout">
     <!-- Topo da Torre -->
-    <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+     <button class="btn-notificacao alternar-menu" type="button" data-menu-toggle aria-controls="navegacao_lateral" aria-expanded="false" aria-label="Alternar menu lateral">
       <i class="fa-regular fa-bell icone-sino"></i>
       <i class="fa-solid fa-bars icone-menu"></i>
     </button>
@@ -609,8 +626,6 @@
     }
 
 
-    // Redirecionamento do perfil do usuário
-    const usuarioLogadoEl = document.getElementById("usuario_logado");
     const nomeUsuarioEl = document.getElementById("nome_usuario");
     const cargoUsuarioEl = document.getElementById("cargo_usuario");
     const avatarUsuarioEl = document.getElementById("avatar_usuario");
@@ -623,21 +638,6 @@
       const iniciais = nomeUsuario.split(/\s+/).filter(Boolean).slice(0, 2).map((parte) => parte[0]);
       avatarUsuarioEl.textContent = iniciais.join("").toUpperCase() || "US";
     }
-
-    function abrirPerfilUsuario() {
-      window.location.href = "/meu_perfil.html";
-    }
-
-    if (usuarioLogadoEl) {
-      usuarioLogadoEl.addEventListener("click", abrirPerfilUsuario);
-      usuarioLogadoEl.addEventListener("keydown", (evento) => {
-        if (evento.key === "Enter" || evento.key === " ") {
-          evento.preventDefault();
-          abrirPerfilUsuario();
-        }
-      });
-    }
-
 
     document.addEventListener("DOMContentLoaded", () => {
       const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");

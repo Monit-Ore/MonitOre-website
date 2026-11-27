@@ -83,6 +83,7 @@ out
 dist
 .output
 
+
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
@@ -151,3 +152,5 @@ MonitOre-python
 
 gold
 documentos
+# Contexto local do projeto
+/CONTEXTO-MONITORE-EXPORTAR.md
