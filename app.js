@@ -24,6 +24,7 @@ var indexRouter = require("./src/routes/index");
 var usuariosRouter = require("./src/routes/usuarios");
 var torresRouter = require("./src/routes/torres");
 var empresaRouter = require("./src/routes/empresas");
+var dashboardCapacidadeRouter = require("./src/routes/dashboardCapacidade");
 
 var equipeRouter = require("./src/routes/equipe");
 var goldRouter = require("./src/routes/gold");
@@ -76,6 +77,7 @@ app.use("/usuarios", usuariosRouter);
 app.use("/torres", torresRouter);
 
 app.use("/empresas", empresaRouter);
+app.use("/dashboard", dashboardCapacidadeRouter);
 app.use("/dashboard-processos", dashboardProcessosRouter);
 
 app.use("/suporte", suporteRouter);
