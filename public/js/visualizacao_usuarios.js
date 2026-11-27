@@ -31,6 +31,7 @@ async function carregarUsuariosDaEmpresa() {
 
 function montarLinhaUsuario(usuario) {
   var cargoClass =
+    usuario.cargo === "Suporte" ? "tag_suporte" :
     usuario.cargo === "Administrador" ? "tag_admin" : "tag_analista";
 
   return `

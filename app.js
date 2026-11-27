@@ -40,7 +40,7 @@ app.use(
   }),
 );
 
-app.use(express.static(path.join(__dirname, "public")));
+
 
 // Permite requisições do frontend.
 app.use(cors());
@@ -60,6 +60,9 @@ app.use(
     })
 );
 
+app.use(require("./src/middleware/autorizacao").protegerAcesso);
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use("/", indexRouter);
 app.use("/equipe", equipeRouter);
 
@@ -73,7 +76,7 @@ app.use("/suporte", suporteRouter);
 app.use("/dashboard", dashboardRouter);
 
 
-app.listen(PORTA_APP, function () {
+if (require.main === module) app.listen(PORTA_APP, function () {
   console.log(`
     ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######
     ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##        ##
@@ -97,3 +100,5 @@ app.listen(PORTA_APP, function () {
     Para alterar o ambiente, modifique as primeiras linhas do app.js.
     `);
 });
+
+module.exports = app;

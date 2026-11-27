@@ -183,6 +183,11 @@ body[data-permissao-pagina="usuarios"] {
   color: #b48cf2;
 }
 
+.tag_suporte {
+  background-color: #22d3ee30;
+  color: #22d3ee;
+}
+
 .rodape {
   display: flex;
   justify-content: space-between;

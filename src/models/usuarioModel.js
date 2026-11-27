@@ -251,6 +251,7 @@ function listarCargos() {
   return [
     { cargo: "Administrador", nome: "Administrador" },
     { cargo: "Operador", nome: "Operador" },
+    { cargo: "Suporte", nome: "Suporte" },
   ];
 }
 
@@ -304,7 +305,7 @@ function atualizarSenha(idUsuario, senha) {
 function atualizarCargo(idUsuario, cargo){
   var instrucaoSql = `
     UPDATE usuario
-    SET cargo = "${cargo}"
+    SET cargo = ${mysql.escape(cargo)}
     WHERE id_usuario = ${Number(idUsuario)};
   `
 
@@ -534,7 +535,12 @@ async function salvarAcessosTorres(idUsuario, torres, idFabricante) {
 
 
 
+async function buscarSessaoPorId(id) {
+  return database.executar(`SELECT id_usuario, cargo, fk_empresa FROM usuario WHERE id_usuario = ${mysql.escape(id)}`);
+}
+
 module.exports = {
+  buscarSessaoPorId,
   buscarPorEmail,
   buscarPorCpf,
   buscarCargoAtivoPorId,

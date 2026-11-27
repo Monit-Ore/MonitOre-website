@@ -83,6 +83,7 @@ out
 dist
 .output
 
+
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
@@ -146,3 +147,6 @@ vite.config.ts.timestamp-*
 .DS_Store
 public/.DS_Store
 public/imgs/.DS_Store
+
+# Contexto local do projeto
+/CONTEXTO-MONITORE-EXPORTAR.md
