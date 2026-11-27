@@ -34,17 +34,47 @@ function filtrarProcessos(dados) {
     const horas = filtrosDashboard.periodoHoras;
 
     const filtrarItem = (item) => {
-        if (mineradora && String(item.mineradora || item.MINERADORA || "") !== mineradora) return false;
+        const mineradoraItem = item.mineradora || item.MINERADORA;
+        const idsMineradoras = item.ids_mineradoras_afetadas || item.IDS_MINERADORAS_AFETADAS;
+        const nomesMineradoras = item.mineradoras_afetadas || item.MINERADORAS_AFETADAS;
+        if (mineradora) {
+            if (mineradoraItem) {
+                if (String(mineradoraItem) !== mineradora) return false;
+            } else if (Array.isArray(nomesMineradoras) && nomesMineradoras.length > 0) {
+                if (!nomesMineradoras.map(String).includes(String(mineradora))) return false;
+            } else if (Array.isArray(idsMineradoras) && idsMineradoras.length > 0) {
+                // idsMineradoras contém IDs; filtro por nome não consegue validar - não descartar para evitar falso negativo.
+            } else {
+                return false;
+            }
+        }
         const idTorre = item.id_torre ?? item.ID_TORRE;
-        if (torres.size > 0 && !torres.has(String(idTorre))) return false;
+        const idsTorres = item.ids_torres_afetadas || item.IDS_TORRES_AFETADAS;
+        if (torres.size > 0) {
+            if (idTorre != null && String(idTorre) !== "") {
+                if (!torres.has(String(idTorre))) return false;
+            } else if (Array.isArray(idsTorres) && idsTorres.length > 0) {
+                const temIntersecao = idsTorres.some(id => torres.has(String(id)));
+                if (!temIntersecao) return false;
+            }
+            // Sem contexto de torre/mineradora, não descarta: evita zerar com Gold legado.
+        }
+        // Para processos/alertas, manter ativos mesmo que a primeira ocorrência seja antiga.
+        // Só removemos se a última captura conhecida estiver fora do período selecionado.
         const dh = item.ultima_ocorrencia || item.DATA_HORA_ULTIMA_CAPTURA || item.data_hora || (item.ultima_captura_torre && item.ultima_captura_torre.data_hora);
-        if (!dentroDoPeriodo(dh, horas)) return false;
+        if (dh && !dentroDoPeriodo(dh, horas)) return false;
         return true;
     };
 
     const processos = (dados.processos || []).filter(filtrarItem);
     const atencao = (dados.processos_que_exigem_atencao || []).filter(filtrarItem);
     const statusPcs = (dados.status_pcs || []).filter(filtrarItem);
+    // Fallback: se processos vier sem contexto de mineradora/torre, usa resumo geral
+    // apenas quando nenhum filtro removeu itens (evita mostrar resumo fora do período).
+    const temContextoProcesso = (dados.processos || []).some(p => p.mineradora || p.MINERADORA || p.id_torre != null || p.ID_TORRE != null);
+    const usarResumoGeral = !mineradora && torres.size === 0 && !temContextoProcesso
+        && Array.isArray(dados.processos) && dados.processos.length > 0
+        && processos.length === dados.processos.length;
 
     function normNivel(n) {
         return String(n || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
@@ -57,13 +87,35 @@ function filtrarProcessos(dados) {
         const n = peso[normNivel(p.nivel)] || 0;
         if (n > (porNome.get(nome) || 0)) porNome.set(nome, n);
     });
-    let criticos = 0, atenc = 0;
-    porNome.forEach(v => { if (v === 2) criticos++; else if (v === 1) atenc++; });
-    const totalMonitorados = porNome.size;
-    const normais = Math.max(totalMonitorados - criticos - atenc, 0);
+    let criticos = 0, atenc = 0, normaisCount = 0;
+    porNome.forEach(v => {
+        if (v === 2) criticos++;
+        else if (v === 1) atenc++;
+        else normaisCount++;
+    });
+    let totalMonitorados = porNome.size;
+    let normais = normaisCount;
+    if (usarResumoGeral) {
+        const r = dados.resumo || {};
+        totalMonitorados = Number(r.processos_monitorados) || totalMonitorados;
+        criticos = Number(r.criticos) || criticos;
+        atenc = Number(r.atencao) || atenc;
+        normais = Number(r.normais) || Math.max(totalMonitorados - criticos - atenc, 0);
+    }
 
-    const pcsCrit = statusPcs.filter(p => String(p.STATUS_PC) === "Crítico").length;
-    const pcsAtenc = statusPcs.filter(p => String(p.STATUS_PC) === "Atenção").length;
+    // KPI "PCs que exigem atenção" deve refletir PCs com ocorrências ativas no recorte.
+    const pcNivel = new Map();
+    atencao.forEach(p => {
+        const idPc = p.id_pc_industrial ?? p.ID_PC_INDUSTRIAL ?? p.pc_industrial ?? p.PC_INDUSTRIAL;
+        if (idPc == null || String(idPc).trim() === "") return;
+        const key = String(idPc).trim();
+        const n = normNivel(p.nivel);
+        const w = peso[n] || 0;
+        if (w > (pcNivel.get(key) || 0)) pcNivel.set(key, w);
+    });
+    let pcsCrit = 0, pcsAtenc = 0;
+    pcNivel.forEach(w => { if (w === 2) pcsCrit++; else if (w === 1) pcsAtenc++; });
+    const pcsQueExigem = pcNivel.size;
 
     return {
         resumo: {
@@ -76,7 +128,7 @@ function filtrarProcessos(dados) {
         kpis: {
             pcs_criticos: pcsCrit,
             pcs_atencao: pcsAtenc,
-            pcs_que_exigem_atencao: pcsCrit + pcsAtenc,
+            pcs_que_exigem_atencao: pcsQueExigem,
             total_pcs_monitorados: statusPcs.length,
         },
         processos,
@@ -380,9 +432,9 @@ document.addEventListener("DOMContentLoaded", function () {
         salvarSelecao();
         if (qtdSelecionadas) qtdSelecionadas.textContent = total;
         if (btnAbrir) {
-            btnAbrir.textContent = total
-                ? `Filtragem de Torre (${total})`
-                : "Filtragem de Torre";
+            btnAbrir.textContent = total === 0
+                ? "Filtragem de Torre (Todas)"
+                : `Filtragem de Torre (${total})`;
         }
     }
 
@@ -528,6 +580,11 @@ document.addEventListener("DOMContentLoaded", function () {
         renderizarTorres();
     });
     btnAplicar?.addEventListener("click", function () {
+        const total = selecionadas.size;
+        if (total === 1) {
+            alert("Selecione pelo menos 2 torres, ou deixe nenhuma selecionada para considerar todas.");
+            return;
+        }
         window.dispatchEvent(new CustomEvent("torresFiltradas", {
             detail: Array.from(selecionadas)
         }));
