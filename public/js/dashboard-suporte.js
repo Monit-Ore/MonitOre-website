@@ -1,15 +1,15 @@
 // Ponto de entrada: prepara a tela, busca a captura e entrega cada parte ao módulo responsável.
-import { estado, reiniciarEstado } from "./suporte-estado.js";
-import { buscarCaptura } from "./suporte-api.js";
+import { estado, reiniciarEstado } from "./suporte/suporte-estado.js";
+import { buscarCaptura } from "./suporte/suporte-api.js";
 import {
   definirAvisoDemonstrativo,
   atualizarDescricaoChamados,
   mostrarErroDashboard,
   mostrarIndicadores,
   prepararQuebrasSla,
-} from "./suporte-indicadores.js";
-import { destruirGraficos, criarGraficos } from "./suporte-graficos.js";
-import { prepararFiltros, mostrarChamados } from "./suporte-tabela.js";
+} from "./suporte/suporte-indicadores.js";
+import { destruirGraficos, criarGraficos } from "./suporte/suporte-graficos.js";
+import { prepararFiltros, mostrarChamados } from "./suporte/suporte-tabela.js";
 
 function prepararEstadoCarregamento() {
   destruirGraficos();

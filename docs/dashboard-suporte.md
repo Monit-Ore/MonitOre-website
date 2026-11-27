@@ -29,12 +29,12 @@ O navegador pede uma captura JSON ao Node, o Node lê a captura mais recente do 
 |---|---|
 | `public/dashboard-suporte.html` | Estrutura, IDs e ordem de carregamento dos scripts |
 | `public/js/dashboard-suporte.js` | Entrada: prepara a tela, busca a captura e chama cada módulo |
-| `public/js/suporte-api.js` | Único lugar que faz `fetch('/suporte/buscar')` |
-| `public/js/suporte-estado.js` | Um objeto `estado` compartilhado, no lugar de variáveis soltas |
-| `public/js/suporte-formatacao.js` | Funções puras: números, datas, acentos, classes CSS e escape HTML |
-| `public/js/suporte-indicadores.js` | KPIs, SLA, aviso de dados demonstrativos e quebras de SLA |
-| `public/js/suporte-graficos.js` | Criação e destruição dos três gráficos Chart.js |
-| `public/js/suporte-tabela.js` | Filtros, contadores e linhas da tabela de chamados |
+| `public/js/suporte/suporte-api.js` | Único lugar que faz `fetch('/suporte/buscar')` |
+| `public/js/suporte/suporte-estado.js` | Um objeto `estado` compartilhado, no lugar de variáveis soltas |
+| `public/js/suporte/suporte-formatacao.js` | Funções puras: números, datas, acentos, classes CSS e escape HTML |
+| `public/js/suporte/suporte-indicadores.js` | KPIs, SLA, aviso de dados demonstrativos e quebras de SLA |
+| `public/js/suporte/suporte-graficos.js` | Criação e destruição dos três gráficos Chart.js |
+| `public/js/suporte/suporte-tabela.js` | Filtros, contadores e linhas da tabela de chamados |
 
 ## Jornada de um clique
 
@@ -97,7 +97,7 @@ A tradução de `SyntaxError` e `TypeError` para mensagens amigáveis fica em `m
 
 ```bash
 node --check app.js src/routes/suporte.js src/controllers/suporteController.js src/models/suporteModel.js
-for arquivo in public/js/suporte-*.js public/js/dashboard-suporte.js; do node --input-type=module --check < "$arquivo"; done
+for arquivo in public/js/suporte/*.js public/js/dashboard-suporte.js; do node --input-type=module --check < "$arquivo"; done
 npm start
 ```
 
