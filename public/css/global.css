@@ -654,11 +654,68 @@ a.usuario_navegacao {
   display: none;
 }
 
+/* Faixa comum a todos os cabeçalhos, sempre no início e à esquerda. */
+.container_responsivo > .conteudo_com_controle_sidebar {
+  padding-top: 20px !important;
+  padding-left: 20px !important;
+}
+
+.container_responsivo > .conteudo_com_controle_sidebar > .barra_controle_sidebar {
+  display: flex;
+  order: -3;
+  flex: 0 0 auto;
+  grid-column: 1 / -1;
+  align-self: stretch;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 44px;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.barra_controle_sidebar > .alternar-menu {
+  display: inline-flex !important;
+  position: static !important;
+  inset: auto !important;
+  align-self: flex-start !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 44px !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #2d2d2d !important;
+  border: 0 !important;
+  border-radius: 8px;
+  color: #ecbe10 !important;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+.barra_controle_sidebar .icone-sino { display: none !important; }
+.barra_controle_sidebar .icone-menu {
+  display: inline-block !important;
+  font-size: 1.5rem !important;
+  line-height: 1 !important;
+  color: inherit !important;
+}
+
 /* ============================================================
    BARRA LATERAL COLAPSÁVEL — SOMENTE DESKTOP (> 900px)
    Mobile preserva integralmente o CSS original dos breakpoints locais.
    ============================================================ */
 @media (width > 900px) {
+  /* A expansão no desktop é feita pela própria sidebar. A faixa e o
+     hambúrguer continuam disponíveis somente no celular. */
+  .container_responsivo > .conteudo_com_controle_sidebar > .barra_controle_sidebar,
+  .barra_controle_sidebar > .alternar-menu {
+    display: none !important;
+  }
+
   /* O conteúdo sempre ocupa a segunda coluna e nunca força a grid a crescer. */
   .container_responsivo > main,
   .container_responsivo > .conteudo_layout,
@@ -774,6 +831,18 @@ a.usuario_navegacao {
     height: 44px !important;
     margin: 0 auto;
     object-fit: contain;
+    flex-shrink: 0;
+    max-width: 44px !important;
+    object-position: center;
+  }
+
+  html[data-sidebar="collapsed"] .navegacao .logo_navegacao {
+    width: 100%;
+    min-width: 0;
+    min-height: 94px;
+    flex-shrink: 0;
+    padding: 25px 12px !important;
+    overflow: visible;
   }
 
   html[data-sidebar="collapsed"] .navegacao .item_menu,

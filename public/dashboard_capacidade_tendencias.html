@@ -5,7 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MonitOre | Panorama Operacional</title>
+  <link rel="stylesheet" href="./css/global.css" />
   <link rel="stylesheet" href="./css/dashboard_capacidade_tendencias.css" />
+  <script src="./js/global.js" defer></script>
   <link rel="icon" href="./imgs/favicon.svg" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="./js/permissao.js" defer></script>
@@ -17,51 +19,11 @@
   <aside class="navegacao" id="navegacao">
     <div class="logo_navegacao">
       <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+      <img class="logo-reduzida" src="./imgs/logo-sidebar.svg" alt="" aria-hidden="true" />
     </div>
 
-    <nav class="menu_navegacao" aria-label="Menu principal">
-      <ul>
-        <li>
-          <a
-            href="./dashboard_capacidade_tendencias.html"
-            class="item_menu ativo"
-            data-permissao="dashboard-capacidade"
-            aria-current="page"
-          >
-            <i class="fa-solid fa-chart-column icone_menu" aria-hidden="true"></i>
-            <span>Panorama Operacional</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente" data-permissao="dashboard-gerente">
-            <i class="fa-solid fa-chart-line icone_menu" aria-hidden="true"></i>
-            <span>Dashboard Gerente</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="./selecao_torre.html" class="item_menu" id="torres" data-permissao="torres">
-            <i class="fa-solid fa-tower-broadcast icone_menu" aria-hidden="true"></i>
-            <span>Torres</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="./visualizacao_usuarios.html" class="item_menu" id="usuarios" data-permissao="usuarios">
-            <i class="fa-solid fa-users icone_menu" aria-hidden="true"></i>
-            <span>Usuários</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras">
-            <i class="fa-solid fa-hammer icone_menu" aria-hidden="true"></i>
-            <span>Cadastro de Mineradora</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <nav class="menu_navegacao" data-menu-compartilhado aria-label="Menu principal"></nav>
+    <script src="./js/sidebar-menu.js"></script>
 
     <div class="rodape_navegacao">
       <a href="./meu_perfil.html" class="usuario_navegacao" id="usuario_logado">
@@ -84,9 +46,8 @@
 
   <main class="conteudo_layout">
     <header class="header_dashboard">
-      <button class="botao_menu" type="button" aria-controls="navegacao" aria-expanded="false">
-        <i class="fa-solid fa-bars" aria-hidden="true"></i>
-        <span>Menu</span>
+      <button class="botao_menu alternar-menu" data-menu-toggle type="button" aria-label="Alternar menu lateral" aria-controls="navegacao" aria-expanded="false">
+        <i class="fa-solid fa-bars icone-menu" aria-hidden="true"></i>
       </button>
       <div class="titulo_com_icone">
         <div>

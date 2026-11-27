@@ -9,14 +9,7 @@
       if (!window.matchMedia || !window.matchMedia("(width > 900px)").matches) return;
       var raiz = document.documentElement;
       if (raiz.dataset.sidebar) return;
-      var estado = "expanded";
-      try {
-        var salvo = window.localStorage.getItem("monitore.sidebar");
-        if (salvo === "expanded" || salvo === "collapsed") estado = salvo;
-      } catch (erro) {
-        /* localStorage bloqueado: mantém o padrão expandido no desktop. */
-      }
-      raiz.dataset.sidebar = estado;
+      raiz.dataset.sidebar = "collapsed";
     })();
   </script>
   <link rel="icon" href="./imgs/favicon.svg" />
@@ -30,7 +23,8 @@
   <aside class="navegacao" id="navegacao_lateral">
     <a class="logo_navegacao" href="./dashboard-suporte.html" aria-label="Página inicial Monit Ore">
       <img src="./imgs/LogoHeader.svg" alt="Monit Ore" />
-      <img class="logo-reduzida" src="./imgs/1000343109 4.png" alt="" />
+      <img class="logo-reduzida" src="./imgs/logo-sidebar.svg" alt="" aria-hidden="true" />
+
     </a>
     <nav class="menu_navegacao" aria-label="Menu principal">
       <p class="menu_titulo">CENTRAL DE SUPORTE</p>

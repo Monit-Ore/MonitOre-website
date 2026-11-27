@@ -46,8 +46,6 @@ app.use(
 // Rotas do Gold (S3 ou cópia local) precisam vir antes do static.
 app.use("/gold", goldRouter);
 
-app.use(express.static(path.join(__dirname, "public")));
-
 // Permite requisições do frontend.
 app.use(cors());
 

@@ -64,17 +64,17 @@ function ativarPerfilSeguro() {
 }
 
 /* Controlador único da barra lateral.
-   Desktop (>900px): rail recolhível, persistência e animação.
+   Desktop (>900px): abre ao passar o mouse ou navegar pelo teclado.
    Mobile (<=900px): drawer original, controlado por `body.menu-aberto`. */
 (function () {
-  var CHAVE = "monitore.sidebar";
   var CONSULTA_DESKTOP = "(width > 900px)";
   var ID_TOOLTIP = "monitore-tooltip";
   var raiz = document.documentElement;
   var Estado = { COLLAPSED: "collapsed", EXPANDED: "expanded" };
-  var estado = Estado.EXPANDED;
+  var estado = Estado.COLLAPSED;
   var drawerAberto = false;
-  var temPreferencia = false;
+  var navegacao = null;
+  var timerRecolher = null;
   var container = null;
   var botoes = [];
   var itensLaterais = [];
@@ -96,27 +96,28 @@ function ativarPerfilSeguro() {
     return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }
 
-  function lerPreferencia() {
-    estado = Estado.EXPANDED;
-    temPreferencia = false;
-    try {
-      var salvo = window.localStorage.getItem(CHAVE);
-      if (salvo === Estado.COLLAPSED || salvo === Estado.EXPANDED) {
-        estado = salvo;
-        temPreferencia = true;
-      }
-    } catch (erro) {
-      temPreferencia = false;
+  function atualizarExpansaoDesktop() {
+    if (timerRecolher !== null) {
+      window.clearTimeout(timerRecolher);
+      timerRecolher = null;
     }
-    raiz.dataset.sidebar = estado;
-  }
-
-  function guardarPreferencia() {
-    try {
-      window.localStorage.setItem(CHAVE, estado);
-      temPreferencia = true;
-    } catch (erro) {
-      temPreferencia = false;
+    if (!ehDesktop() || !navegacao) return;
+    var foco = document.activeElement;
+    var tecladoNoMenu = foco && navegacao.contains(foco) && foco.matches(":focus-visible");
+    var novoEstado = navegacao.matches(":hover") || tecladoNoMenu
+      ? Estado.EXPANDED : Estado.COLLAPSED;
+    function aplicar() {
+      timerRecolher = null;
+      if (!ehDesktop() || estado === novoEstado) return;
+      estado = novoEstado;
+      esconderTooltip();
+      sincronizarDesktop();
+      agendarResize();
+    }
+    if (novoEstado === Estado.COLLAPSED) {
+      timerRecolher = window.setTimeout(aplicar, 150);
+    } else {
+      aplicar();
     }
   }
 
@@ -373,14 +374,7 @@ function ativarPerfilSeguro() {
   }
 
   function alternar() {
-    if (ehDesktop()) {
-      estado = estado === Estado.COLLAPSED ? Estado.EXPANDED : Estado.COLLAPSED;
-      esconderTooltip();
-      guardarPreferencia();
-      sincronizarDesktop();
-      agendarResize();
-      return;
-    }
+    if (ehDesktop()) return;
 
     drawerAberto = !drawerAberto;
     sincronizarMobile();
@@ -398,13 +392,16 @@ function ativarPerfilSeguro() {
 
   function aoMudarBreakpoint() {
     cancelarResize();
+    if (timerRecolher !== null) window.clearTimeout(timerRecolher);
+    timerRecolher = null;
     if (ehDesktop()) {
       drawerAberto = false;
       if (document.body) document.body.classList.remove("menu-aberto");
-      lerPreferencia();
+      estado = Estado.COLLAPSED;
       prepararItensDesktop();
       sincronizarDesktop();
       configurarTooltips();
+      atualizarExpansaoDesktop();
     } else {
       esconderTooltip();
       removerAjustesDesktop();
@@ -415,7 +412,20 @@ function ativarPerfilSeguro() {
 
   function iniciar() {
     container = document.querySelector(".container_responsivo") || document.body;
+    navegacao = document.querySelector(".navegacao");
     botoes = Array.prototype.slice.call(document.querySelectorAll("[data-menu-toggle]"));
+    // Os cabeçalhos locais têm layouts distintos: a alternância ocupa sempre
+    // a primeira faixa do conteúdo, fora das linhas de título e filtros.
+    var conteudo = document.querySelector(".container_responsivo > main, .container_responsivo > .conteudo_layout");
+    if (conteudo && botoes.length) {
+      conteudo.classList.add("conteudo_com_controle_sidebar");
+      var barra = document.createElement("div");
+      barra.className = "barra_controle_sidebar";
+      barra.appendChild(botoes[0]);
+      conteudo.insertBefore(barra, conteudo.firstChild);
+      botoes.slice(1).forEach(function (botao) { botao.remove(); });
+      botoes = [botoes[0]];
+    }
     itensLaterais = Array.prototype.slice.call(
       document.querySelectorAll(
         ".navegacao .item_menu, .navegacao .usuario_navegacao, .navegacao .botao_sair"
@@ -424,10 +434,11 @@ function ativarPerfilSeguro() {
     drawerAberto = !!(document.body && document.body.classList.contains("menu-aberto"));
 
     if (ehDesktop()) {
-      lerPreferencia();
+      estado = Estado.COLLAPSED;
       prepararItensDesktop();
       sincronizarDesktop();
       configurarTooltips();
+      atualizarExpansaoDesktop();
     } else {
       removerAjustesDesktop();
       sincronizarMobile();
@@ -435,6 +446,32 @@ function ativarPerfilSeguro() {
 
     botoes.forEach(function (botao) {
       botao.addEventListener("click", alternar);
+    });
+
+    if (navegacao) {
+      ["mouseenter", "mouseleave", "focusin"].forEach(function (evento) {
+        navegacao.addEventListener(evento, atualizarExpansaoDesktop);
+      });
+      navegacao.addEventListener("focusout", function () {
+        queueMicrotask(atualizarExpansaoDesktop);
+      });
+    }
+
+    // Preserva o fechamento por Escape e clique externo também nas telas
+    // que passaram a usar o controlador compartilhado.
+    document.addEventListener("keydown", function (evento) {
+      if (evento.key !== "Escape" || ehDesktop() || !drawerAberto) return;
+      drawerAberto = false;
+      sincronizarMobile();
+      if (botoes[0]) botoes[0].focus();
+    });
+    document.addEventListener("click", function (evento) {
+      if (ehDesktop() || !drawerAberto) return;
+      var navegacao = document.querySelector(".navegacao");
+      if (navegacao && navegacao.contains(evento.target)) return;
+      if (botoes.some(function (botao) { return botao.contains(evento.target); })) return;
+      drawerAberto = false;
+      sincronizarMobile();
     });
 
     if (window.matchMedia) {

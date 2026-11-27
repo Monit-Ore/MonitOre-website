@@ -31,7 +31,7 @@ async function protegerAcesso(req, res, next) {
     .map((parte) => parte.replace(/[. ]+$/, ""))
     .join("/");
   const pagina = rota.endsWith(".html") && !publicas.has(rota);
-  const api = /^\/(usuarios|torres|empresas|suporte)(\/|$)/.test(rota);
+  const api = /^\/(usuarios|torres|empresas|suporte|dashboard|dashboard-processos)(\/|$)/.test(rota);
   if (!pagina && !api) return next();
   res.set("Cache-Control", "no-store");
   const negar = (status, mensagem, cargo) =>
@@ -68,6 +68,18 @@ async function protegerAcesso(req, res, next) {
         "Você não tem permissão para acessar esta área.",
         cargo,
       );
+    if (rota === "/dashboard-gerente.html")
+      return negar(403, "Esta dashboard foi removida da navegação.", cargo);
+    const paginasAdministrador = new Set([
+      "/dashboard_proc_geral.html", "/cadastro_mineradora.html",
+      "/visualizacao_usuarios.html", "/editar_usuario.html", "/cadastro.html",
+      "/cadastro_torre.html", "/alteracao_torre.html",
+    ]);
+    if (cargo !== "Administrador" && (
+      paginasAdministrador.has(rota) ||
+      rota === "/dashboard/visao-executiva" ||
+      /^\/dashboard-processos(\/|$)/.test(rota)
+    )) return negar(403, "Você não tem permissão para acessar esta área.", cargo);
     if (
       ["/usuarios/cadastrar", "/usuarios/atualizarcargo"].includes(rota) &&
       cargo !== "Administrador"

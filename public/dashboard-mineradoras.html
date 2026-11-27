@@ -13,14 +13,7 @@
         if (!window.matchMedia || !window.matchMedia("(width > 900px)").matches) return;
         var raiz = document.documentElement;
         if (raiz.dataset.sidebar) return;
-        var estado = "expanded";
-        try {
-          var salvo = window.localStorage.getItem("monitore.sidebar");
-          if (salvo === "expanded" || salvo === "collapsed") estado = salvo;
-        } catch (erro) {
-          /* localStorage bloqueado: mantém o padrão expandido no desktop. */
-        }
-        raiz.dataset.sidebar = estado;
+        raiz.dataset.sidebar = "collapsed";
       })();
     </script>
   <link rel="stylesheet" href="./css/global.css" />
@@ -41,49 +34,11 @@
   <aside class="navegacao" id="navegacao_lateral">
     <div class="logo_navegacao">
       <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+      <img class="logo-reduzida" src="./imgs/logo-sidebar.svg" alt="" aria-hidden="true" />
     </div>
 
-    <nav class="menu_navegacao">
-      <ul>
-        <li>
-          <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente" data-permissao="dashboard-gerente" aria-label="Dashboard Gerente">
-            <i class="fa-solid fa-chart-line icone_menu"></i>
-            <span>Dashboard Gerente</span>
-          </a>
-        </li>
-
-
-
-        <li>
-          <a href="./selecao_torre.html" class="item_menu" id="torres" data-permissao="torres" aria-label="Torres">
-            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
-            <span>Torres</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="./visualizacao_usuarios.html" class="item_menu" id="usuarios" data-permissao="usuarios" aria-label="Usuários">
-            <i class="fa-solid fa-users icone_menu"></i>
-            <span>Usuários</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras" aria-label="Cadastro de Mineradora">
-            <i class="fa-solid fa-hammer icone_menu"></i>
-            <span>Cadastro de Mineradora</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="./dashboard-mineradoras.html" class="item_menu ativo" id="dashboard-mineradoras" data-permissao="dashboard-mineradoras" aria-label="Dashboard Mineradoras">
-            <i class="fa-solid fa-industry icone_menu"></i>
-            <span>Dashboard Mineradoras</span>
-          </a>
-        </li>
-
-      </ul>
-    </nav>
+    <nav class="menu_navegacao" data-menu-compartilhado aria-label="Menu principal"></nav>
+    <script src="./js/sidebar-menu.js"></script>
 
     <div class="rodape_navegacao">
       <a class="usuario_navegacao" id="usuario_logado" href="/meu_perfil.html" aria-label="Abrir meu perfil">

@@ -1,6 +1,8 @@
 var fs = require("fs");
 var path = require("path");
 var mineradoraModel = require("../models/mineradoraModel");
+var torresModel = require("../models/torresModel");
+var { filtrarDashboard } = require("../services/escopoDashboardMineradoras");
 
 function diretorioGold() {
   var configurado = process.env.MONITORE_GOLD_DIR;
@@ -253,6 +255,15 @@ async function dashboardMineradoras(req, res) {
     ]);
     var dashboard = resultados[0] || {};
     var alertasDiarios = resultados[1] || [];
+    var escopo = null;
+    if (req.session.CARGO_USUARIO === "Operador") {
+      var acessos = await torresModel.listarTorresPorUsuario(
+        req.session.ID_USUARIO, req.session.FK_EMPRESA_USUARIO,
+      );
+      escopo = filtrarDashboard(dashboard, alertasDiarios, acessos);
+      dashboard = escopo.dashboard;
+      alertasDiarios = escopo.alertasDiarios;
+    }
     var modo = req.query.modo === "por_torre" ? "por_torre" : "total";
     var mineradoras = adicionarDetalhes(
       dashboard.mineradoras || [],
@@ -261,13 +272,14 @@ async function dashboardMineradoras(req, res) {
 
     return res.status(200).json({
       atualizado_em: dashboard.atualizado_em || null,
+      mensagem: escopo ? escopo.mensagem : "",
       kpis: dashboard.kpis || {},
       mineradoras: mineradoras,
       status_torres: dashboard.status_torres || [],
       status_pcs: dashboard.status_pcs || [],
       processos_destaque: dashboard.processos_destaque || [],
       alertas_diarios: alertasDiarios,
-      grafico_alertas: construirGrafico(alertasDiarios, mineradoras, periodoResolvido, modo),
+      grafico_alertas: construirGrafico(alertasDiarios, escopo ? escopo.mineradorasGrafico : mineradoras, periodoResolvido, modo),
       filtros: {
         periodo: periodoResolvido.dias,
         periodo_selecionado: periodoResolvido.selecionado,

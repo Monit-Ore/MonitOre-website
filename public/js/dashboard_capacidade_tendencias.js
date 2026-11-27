@@ -178,37 +178,7 @@ function renderizarDashboard(torres, ultimaAtualizacao, mensagemIndisponivel = "
 
 }
 
-const botaoMenu = document.querySelector(".botao_menu");
-const navegacao = document.getElementById("navegacao");
-
-function definirMenu(aberto) {
-  document.body.classList.toggle("menu-aberto", aberto);
-  botaoMenu.setAttribute("aria-expanded", String(aberto));
-  botaoMenu.querySelector("span").textContent = aberto ? "Fechar menu" : "Menu";
-}
-
-botaoMenu.addEventListener("click", () => {
-  const abrir = !document.body.classList.contains("menu-aberto");
-  definirMenu(abrir);
-  if (abrir) navegacao.querySelector("a").focus();
-});
-
-document.addEventListener("keydown", (evento) => {
-  if (evento.key === "Escape" && document.body.classList.contains("menu-aberto")) {
-    definirMenu(false);
-    botaoMenu.focus();
-  }
-});
-
-document.addEventListener("click", (evento) => {
-  if (document.body.classList.contains("menu-aberto") &&
-      !navegacao.contains(evento.target) && !botaoMenu.contains(evento.target)) {
-    definirMenu(false);
-  }
-});
-
-window.matchMedia("(max-width: 900px)").addEventListener("change", () => definirMenu(false));
-
+// Menu controlado por global.js.
 const nomeUsuario = sessionStorage.getItem("NOME_USUARIO")?.trim();
 const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO")?.trim();
 

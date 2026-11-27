@@ -10,7 +10,7 @@ function definirTexto(id, valor) {
 }
 
 function carregarIniciais() {
-  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "";
   const iniciais = [];
 
   for (let i = 0; i < nomeUsuario.length; i++) {
@@ -29,6 +29,7 @@ function carregarIniciais() {
 }
 
 function numero(valor) {
+  if (valor === null || valor === undefined) return "—";
   return Number(valor || 0).toLocaleString("pt-BR");
 }
 
@@ -378,7 +379,7 @@ function renderizarStatus(mineradoras) {
   return quantidades;
 }
 
-function renderizarKpis(dados, quantidades) {
+function renderizarKpis(dados) {
   const kpis = dados.kpis || {};
   const mineradoras = dados.mineradoras || [];
   const criticas = mineradoras.filter(function (item) {
@@ -447,9 +448,19 @@ function configurarFiltrosEstado() {
 function aplicarDados(dados) {
   const mineradoras = Array.isArray(dados.mineradoras) ? dados.mineradoras : [];
   renderizarMineradoras(mineradoras);
+  // Atualiza os indicadores antes dos gráficos, inclusive se o CDN falhar.
+  renderizarKpis(dados);
+  let aviso = document.getElementById("aviso_escopo");
+  if (!aviso) {
+    aviso = document.createElement("p");
+    aviso.id = "aviso_escopo";
+    aviso.setAttribute("role", "status");
+    document.querySelector(".header_dashboard").appendChild(aviso);
+  }
+  aviso.textContent = dados.mensagem || "";
+  aviso.hidden = !dados.mensagem;
   renderizarGraficoAlertas(dados);
-  const quantidades = renderizarStatus(mineradoras);
-  renderizarKpis(dados, quantidades);
+  renderizarStatus(mineradoras);
 }
 
 async function carregarDados() {
@@ -473,6 +484,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   configurarFiltrosEstado();
 
+  aplicarDados({ mineradoras: [], kpis: {} });
+
   ["filtro_periodo", "filtro_modo"].forEach(function (id) {
     document.getElementById(id)?.addEventListener("change", function () {
       carregarDados().catch(function (erro) {
@@ -482,6 +495,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   carregarDados().catch(function (erro) {
-    console.warn("Dashboard Gold indisponível; mantendo valores do HTML:", erro);
+    const aviso = document.getElementById("aviso_escopo");
+    aviso.textContent = "Não foi possível carregar os dados da dashboard. Recarregue a página.";
+    aviso.hidden = false;
+    console.warn("Dashboard indisponível:", erro);
   });
 });

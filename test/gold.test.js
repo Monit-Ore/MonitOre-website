@@ -120,7 +120,7 @@ test("frontend mostra p.p., ausência de histórico e previsões sem recalcular 
   const publicJs = path.join(__dirname, "../public/js");
   vm.runInContext(await fs.readFile(path.join(publicJs, "dashboard_capacidade_dados.js"), "utf8"), contexto);
   const codigo = await fs.readFile(path.join(publicJs, "dashboard_capacidade_tendencias.js"), "utf8");
-  vm.runInContext(codigo.split('const botaoMenu =')[0], contexto);
+  vm.runInContext(codigo.split('// Menu controlado por global.js.')[0], contexto);
   for (const [valor, esperado] of [[null, "—"], [12.25, "+12,25 p.p."], [-10, "-10 p.p."], [0, "0 p.p."]]) {
     const dados = montarPanorama([cadastro()], gold([resumo()], [componente(1, { VARIACAO_PP: valor })]));
     contexto.renderizarDashboard(dados.torres, dados.ultimaAtualizacao);
