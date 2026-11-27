@@ -128,6 +128,7 @@ main .btn-notificacao {
 }
 
 .relatorio-button:hover {
+    cursor: pointer;
     background-color: #ecbe10;
     border: 1px solid #ecbe10;
 }
@@ -356,7 +357,7 @@ dialog::backdrop {
     max-width: none;
     max-height: min(80vh, 640px);
     padding: 0;
-    border: 1px solid #80808050;
+    border: 1px solid #ecbe10;
     border-radius: 14px;
     background-color: #1f1f1f;
     color: #ffffff;

@@ -6,6 +6,7 @@ var filtrosDashboard = {
     periodoHoras: 24,
 };
 var dadosProcessosCache = null;
+var carregandoProcessos = null;
 
 function obterMineradoraSelecionada() {
     const el = document.getElementById("selecao_mineradora");
@@ -57,10 +58,7 @@ function filtrarProcessos(dados) {
                 const temIntersecao = idsTorres.some(id => torres.has(String(id)));
                 if (!temIntersecao) return false;
             }
-            // Sem contexto de torre/mineradora, não descarta: evita zerar com Gold legado.
         }
-        // Para processos/alertas, manter ativos mesmo que a primeira ocorrência seja antiga.
-        // Só removemos se a última captura conhecida estiver fora do período selecionado.
         const dh = item.ultima_ocorrencia || item.DATA_HORA_ULTIMA_CAPTURA || item.data_hora || (item.ultima_captura_torre && item.ultima_captura_torre.data_hora);
         if (dh && !dentroDoPeriodo(dh, horas)) return false;
         return true;
@@ -69,8 +67,6 @@ function filtrarProcessos(dados) {
     const processos = (dados.processos || []).filter(filtrarItem);
     const atencao = (dados.processos_que_exigem_atencao || []).filter(filtrarItem);
     const statusPcs = (dados.status_pcs || []).filter(filtrarItem);
-    // Fallback: se processos vier sem contexto de mineradora/torre, usa resumo geral
-    // apenas quando nenhum filtro removeu itens (evita mostrar resumo fora do período).
     const temContextoProcesso = (dados.processos || []).some(p => p.mineradora || p.MINERADORA || p.id_torre != null || p.ID_TORRE != null);
     const usarResumoGeral = !mineradora && torres.size === 0 && !temContextoProcesso
         && Array.isArray(dados.processos) && dados.processos.length > 0
@@ -103,7 +99,6 @@ function filtrarProcessos(dados) {
         normais = Number(r.normais) || Math.max(totalMonitorados - criticos - atenc, 0);
     }
 
-    // KPI "PCs que exigem atenção" deve refletir PCs com ocorrências ativas no recorte.
     const pcNivel = new Map();
     atencao.forEach(p => {
         const idPc = p.id_pc_industrial ?? p.ID_PC_INDUSTRIAL ?? p.pc_industrial ?? p.PC_INDUSTRIAL;
@@ -157,39 +152,21 @@ function aplicarFiltrosDashboard() {
     }
 }
 
-function visualizarQtdTorreAtivas(mineradora){
-    const filtroMineradora = mineradora && mineradora !== "-"
-        ? `?mineradora=${encodeURIComponent(mineradora)}`
-        : "";
+async function visualizarQtdTorreAtivas(mineradora) {
+    try {
+        const banco = await dashboardProcessosService.qtdTorresAtivas(id, mineradora);
+        console.log("Dados recebidos com sucesso");
 
-    fetch(`/torres/qtdTorresAtivas/${id}${filtroMineradora}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    })
-        .then(function (resposta){
-            if (resposta.ok){
-                resposta.json().then(function (banco) {
-                    console.log("Dados recebidos com sucesso");
+        var qtdTotal = banco.qtdTotalTorres;
+        var qtdAtiva = banco.torres_online;
+        var qtdTotalAtiva = banco.torres_online;
 
-                    var qtdTotal = banco.qtdTotalTorres;
-                    var qtdAtiva = banco.torres_online;
-                    var qtdTotalAtiva = banco.torres_online
-                    
-
-                    document.getElementById("qtdAtiva").innerHTML = qtdAtiva;
-                    document.getElementById("qtdTorres").innerHTML = qtdTotal;
-                    document.getElementById("qtdTotalAtiva").innerHTML = qtdTotalAtiva;
-                });
-            }else{
-                console.log("Erro na resposta do servidor");
-                
-            }
-        })
-        .catch(function (resposta) {
-            console.log("#ERRO", resposta);
-        });
+        document.getElementById("qtdAtiva").innerHTML = qtdAtiva;
+        document.getElementById("qtdTorres").innerHTML = qtdTotal;
+        document.getElementById("qtdTotalAtiva").innerHTML = qtdTotalAtiva;
+    } catch (erro) {
+        console.error("#ERRO ao carregar quantidade de torres ativas:", erro);
+    }
 }
 
 function formatarDataHoraBr(dataHoraIso) {
@@ -309,63 +286,53 @@ function renderizarKpiPcsAtencao(dados) {
 }
 
 async function carregarDadosProcessos() {
-    try {
-        const resposta = await fetch("/gold/processos_atencao.json", {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
+    if (carregandoProcessos) return carregandoProcessos;
+
+    carregandoProcessos = dashboardProcessosService.carregarProcessos()
+        .then(function (dados) {
+            dadosProcessosCache = dados;
+            aplicarFiltrosDashboard();
+        })
+        .catch(function (erro) {
+            console.error("#ERRO ao carregar dados de processos:", erro);
+        })
+        .finally(function () {
+            carregandoProcessos = null;
         });
-        if (!resposta.ok) {
-            throw new Error(`Não foi possível carregar processos_atencao.json (HTTP ${resposta.status})`);
-        }
-        dadosProcessosCache = await resposta.json();
-        aplicarFiltrosDashboard();
-    } catch (erro) {
-        console.error("#ERRO ao carregar dados de processos:", erro);
-    }
+
+    return carregandoProcessos;
 }
 
-async function visualizarProcessosMonitorados() { await carregarDadosProcessos(); }
+async function visualizarProcessosMonitorados() { 
+    await carregarDadosProcessos(); 
+}
 
-// KPI: PCs que exigem atenção (JSON gold gerado pelo tratamento_processos.py)
 async function visualizarPcsQueExigemAtencao() {
     if (dadosProcessosCache) { renderizarKpiPcsAtencao(filtrarProcessos(dadosProcessosCache)); return; }
     await carregarDadosProcessos();
 }
 
-function visualizarMineradorasDoUsuario(){
-    fetch(`/empresas/mineradoras/${id}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-        .then(function (resposta){
-            if (resposta.ok){
-                resposta.json().then(function (banco) {
-                    console.log("Dados recebidos com sucesso");
-                    let selecionarMineradora = `<option value="-">Mineradora: Todos</option>`;
+async function visualizarMineradorasDoUsuario() {
+    try {
+        const banco = await dashboardProcessosService.listarMineradoras(id);
+        console.log("Dados recebidos com sucesso");
+        let selecionarMineradora = `<option value="-">Mineradora: Todos</option>`;
 
-                    for(let i = 0; i < banco.length; i++){
-                        let mineradora = banco[i].Mineradoras;
-                        selecionarMineradora += `
-                            <option value="${mineradora}">${mineradora}</option>
-                        `
-                    }
-                    
-                    const selectMineradora = document.getElementById("selecao_mineradora");
-                    selectMineradora.innerHTML = selecionarMineradora;
-                    selectMineradora.addEventListener("change", function (evento) {
-                        visualizarQtdTorreAtivas(evento.target.value);
-                    });
-                });
-            }else{
-                console.log("Erro na resposta do servidor");
-                
-            }
-        })
-        .catch(function (resposta) {
-            console.log("#ERRO", resposta);
+        for (let i = 0; i < banco.length; i++) {
+            let mineradora = banco[i].Mineradoras;
+            selecionarMineradora += `
+                <option value="${mineradora}">${mineradora}</option>
+            `;
+        }
+
+        const selectMineradora = document.getElementById("selecao_mineradora");
+        selectMineradora.innerHTML = selecionarMineradora;
+        selectMineradora.addEventListener("change", function (evento) {
+            visualizarQtdTorreAtivas(evento.target.value);
         });
+    } catch (erro) {
+        console.error("#ERRO ao carregar mineradoras:", erro);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -408,7 +375,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let torresDisponiveis = [];
     const selecionadas = new Set();
 
-    // Mantém a seleção feita anteriormente ao trocar de mineradora ou reabrir o modal.
     try {
         const salvas = JSON.parse(
             sessionStorage.getItem("ID_TORRES_SELECIONADAS") || "[]"
@@ -499,7 +465,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Com "Todas" as torres são agrupadas, evitando uma lista longa e solta.
         if (mineradoraSelecionada()) {
             listaTorres.innerHTML = `<div class="grupo_lista">${filtradas.map(criarOpcao).join("")}</div>`;
             return;
@@ -533,20 +498,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         listaTorres.innerHTML = '<p class="estado_vazio">Carregando torres...</p>';
 
-        const filtroMineradora = mineradora
-            ? `?mineradora=${encodeURIComponent(mineradora)}`
-            : "";
-
         try {
-            const resposta = await fetch(
-                `/torres/disponiveis/${encodeURIComponent(id || "")}${filtroMineradora}`
-            );
-
-            if (!resposta.ok) {
-                throw new Error("Falha ao buscar torres disponíveis.");
-            }
-
-            const dados = await resposta.json();
+            const dados = await dashboardProcessosService.listarTorresDisponiveis(id, mineradora);
             torresDisponiveis = Array.isArray(dados) ? dados : [];
             renderizarTorres();
         } catch (erro) {
