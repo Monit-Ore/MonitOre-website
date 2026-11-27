@@ -120,6 +120,11 @@ aside span {
   cursor: pointer;
 }
 
+a.usuario_navegacao {
+  color: inherit;
+  text-decoration: none;
+}
+
 .avatar_usuario {
   width: 34px;
   height: 34px;
@@ -640,4 +645,204 @@ aside span {
   font-size: 13px;
   line-height: 1.5;
   overflow-wrap: anywhere;
+}
+
+/* Elementos exclusivos do rail: presentes no HTML desde o primeiro paint,
+   mas ocultos fora do desktop. */
+.icone_perfil_recolhido,
+.logo-reduzida {
+  display: none;
+}
+
+/* ============================================================
+   BARRA LATERAL COLAPSÁVEL — SOMENTE DESKTOP (> 900px)
+   Mobile preserva integralmente o CSS original dos breakpoints locais.
+   ============================================================ */
+@media (width > 900px) {
+  /* O conteúdo sempre ocupa a segunda coluna e nunca força a grid a crescer. */
+  .container_responsivo > main,
+  .container_responsivo > .conteudo_layout,
+  .container_responsivo > .conteudo {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  :where(.card_conteudo, .card_painel, .kpi_card, .card_metrica,
+         .card_grafico, .container, .superior_telaa,
+           .tabela_responsiva, .tabelaResponsividade) {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .tabela_responsiva,
+  .tabelaResponsividade {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Largura mínima apenas onde há rolagem interna da tabela. */
+  .tabela_responsiva .linha,
+  .tabelaResponsividade .linha {
+    min-width: 800px;
+  }
+
+  /* Duas colunas interpoláveis; a segunda é 1fr, preservando 20/80. */
+  :where(.container_responsivo),
+  body.container_responsivo {
+    grid-template-columns: minmax(0, 20%) minmax(0, 1fr);
+    transition: grid-template-columns 280ms ease;
+  }
+
+  html[data-sidebar="collapsed"] :where(.container_responsivo),
+  html[data-sidebar="collapsed"] body.container_responsivo {
+    grid-template-columns: minmax(0, 68px) minmax(0, 1fr);
+  }
+
+  /* Botão único de alternância no desktop. No mobile, o CSS local original
+     continua controlando o drawer por `body.menu-aberto`. */
+  .alternar-menu {
+    display: inline-flex !important;
+    position: static !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+    bottom: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 0 !important;
+    margin: 0;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 8px;
+    color: #ecbe10 !important;
+    cursor: pointer;
+    z-index: 10001;
+  }
+
+  .alternar-menu .icone-sino {
+    display: none !important;
+  }
+
+  .alternar-menu .icone-menu {
+    display: inline-block !important;
+    font-size: 1.5rem !important;
+    line-height: 1 !important;
+    color: inherit !important;
+  }
+
+  .alternar-menu:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .alternar-menu:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+
+  html[data-sidebar="collapsed"] .icone_perfil_recolhido {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #ecbe10;
+    color: #1e1e1e;
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  html[data-sidebar="collapsed"] .navegacao .logo_navegacao > img:not(.logo-reduzida),
+  html[data-sidebar="collapsed"] .navegacao .info_usuario,
+  html[data-sidebar="collapsed"] .navegacao .item_menu > span:not(.icone_perfil_recolhido),
+  html[data-sidebar="collapsed"] .navegacao .notificacao_alerta,
+  html[data-sidebar="collapsed"] .navegacao .fa-chevron-right,
+  html[data-sidebar="collapsed"] .navegacao .avatar_usuario,
+  html[data-sidebar="collapsed"] .navegacao .botao_sair > span {
+    display: none !important;
+  }
+
+  html[data-sidebar="collapsed"] .navegacao .logo-reduzida {
+    display: block !important;
+    width: 44px !important;
+    height: 44px !important;
+    margin: 0 auto;
+    object-fit: contain;
+  }
+
+  html[data-sidebar="collapsed"] .navegacao .item_menu,
+  html[data-sidebar="collapsed"] .navegacao .usuario_navegacao,
+  html[data-sidebar="collapsed"] .navegacao .botao_sair {
+    box-sizing: border-box;
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    margin: 0 auto;
+    padding: 0 !important;
+    gap: 0 !important;
+    justify-content: center !important;
+    overflow: visible;
+    transition: background-color 280ms ease, border-color 280ms ease;
+  }
+
+  html[data-sidebar="collapsed"] .navegacao .item_menu {
+    border-left: 3px solid transparent;
+  }
+
+  html[data-sidebar="collapsed"] .navegacao .item_menu.ativo {
+    border-left-color: #ecbe10;
+  }
+
+  html[data-sidebar="collapsed"] .navegacao .icone_menu {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+  }
+
+  .navegacao,
+  .navegacao .logo_navegacao,
+  .navegacao .info_usuario {
+    transition: width 280ms ease, padding 280ms ease, opacity 280ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(.container_responsivo),
+    .navegacao,
+    .navegacao .logo_navegacao,
+    .navegacao .info_usuario,
+    .navegacao .item_menu,
+    .navegacao .usuario_navegacao,
+    .navegacao .botao_sair {
+      transition: none !important;
+    }
+  }
+
+  /* Tooltip fora da nav: não é recortado pelo overflow-y da barra lateral. */
+  #monitore-tooltip {
+    position: fixed;
+    z-index: 10002;
+    max-width: min(260px, calc(100vw - 24px));
+    padding: 7px 10px;
+    border: 1px solid #ecbe10;
+    border-radius: 6px;
+    background-color: #1e1e1e;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    color: #ffffff;
+    font-size: 12px;
+    line-height: 1.35;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    pointer-events: auto;
+  }
+
+  #monitore-tooltip[hidden] {
+    display: none;
+  }
 }

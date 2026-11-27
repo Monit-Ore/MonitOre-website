@@ -8,6 +8,21 @@
 
   <title>Monit Ore | Dashboard Mineradoras</title>
 
+  <script>
+      (function () {
+        if (!window.matchMedia || !window.matchMedia("(width > 900px)").matches) return;
+        var raiz = document.documentElement;
+        if (raiz.dataset.sidebar) return;
+        var estado = "expanded";
+        try {
+          var salvo = window.localStorage.getItem("monitore.sidebar");
+          if (salvo === "expanded" || salvo === "collapsed") estado = salvo;
+        } catch (erro) {
+          /* localStorage bloqueado: mantém o padrão expandido no desktop. */
+        }
+        raiz.dataset.sidebar = estado;
+      })();
+    </script>
   <link rel="stylesheet" href="./css/global.css" />
   <link rel="stylesheet" href="./css/dashboard-gerente.css" />
   <link rel="stylesheet" href="./css/dashboard-mineradoras.css" />
@@ -23,7 +38,7 @@
 
 <body class="container_responsivo" data-permissao-pagina="dashboard-mineradoras">
 
-  <aside class="navegacao">
+  <aside class="navegacao" id="navegacao_lateral">
     <div class="logo_navegacao">
       <img src="./imgs/LogoHeader.svg" alt="Monitore" />
     </div>
@@ -31,48 +46,48 @@
     <nav class="menu_navegacao">
       <ul>
         <li>
-          <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente" data-permissao="dashboard-gerente">
+          <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente" data-permissao="dashboard-gerente" aria-label="Dashboard Gerente">
             <i class="fa-solid fa-chart-line icone_menu"></i>
             <span>Dashboard Gerente</span>
           </a>
         </li>
 
-        
+
 
         <li>
-          <a href="./selecao_torre.html" class="item_menu" id="torres" data-permissao="torres">
+          <a href="./selecao_torre.html" class="item_menu" id="torres" data-permissao="torres" aria-label="Torres">
             <i class="fa-solid fa-tower-broadcast icone_menu"></i>
             <span>Torres</span>
           </a>
         </li>
 
         <li>
-          <a href="./visualizacao_usuarios.html" class="item_menu" id="usuarios" data-permissao="usuarios">
+          <a href="./visualizacao_usuarios.html" class="item_menu" id="usuarios" data-permissao="usuarios" aria-label="Usuários">
             <i class="fa-solid fa-users icone_menu"></i>
             <span>Usuários</span>
           </a>
         </li>
 
         <li>
-          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras">
+          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras" aria-label="Cadastro de Mineradora">
             <i class="fa-solid fa-hammer icone_menu"></i>
             <span>Cadastro de Mineradora</span>
           </a>
         </li>
 
         <li>
-          <a href="./dashboard-mineradoras.html" class="item_menu ativo" id="dashboard-mineradoras" data-permissao="dashboard-mineradoras">
+          <a href="./dashboard-mineradoras.html" class="item_menu ativo" id="dashboard-mineradoras" data-permissao="dashboard-mineradoras" aria-label="Dashboard Mineradoras">
             <i class="fa-solid fa-industry icone_menu"></i>
             <span>Dashboard Mineradoras</span>
           </a>
         </li>
-        
+
       </ul>
     </nav>
 
     <div class="rodape_navegacao">
-      <div class="usuario_navegacao" id="usuario_logado">
-        <div class="avatar_usuario" id="avatar_usuario">US</div>
+      <a class="usuario_navegacao" id="usuario_logado" href="/meu_perfil.html" aria-label="Abrir meu perfil">
+        <div class="avatar_usuario" id="avatar_usuario">US</div><span class="icone_perfil_recolhido" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
 
         <div class="info_usuario">
           <span class="nome_usuario" id="nome_usuario">Carregando...</span>
@@ -80,9 +95,9 @@
         </div>
 
         <i class="fa-solid fa-chevron-right icone_menu"></i>
-      </div>
+      </a>
 
-      <button class="botao_sair" id="botao_sair" type="button">
+      <button class="botao_sair" id="botao_sair" type="button" aria-label="Sair">
         <i class="fa-solid fa-right-from-bracket icone_menu"></i>
         <span>Sair</span>
       </button>
@@ -90,7 +105,7 @@
   </aside>
 
   <main class="conteudo_layout">
-    <button class="btn-notificacao" type="button" aria-label="Abrir menu">
+    <button class="btn-notificacao alternar-menu" type="button" data-menu-toggle aria-controls="navegacao_lateral" aria-expanded="false" aria-label="Alternar menu lateral">
       <i class="fa-regular fa-bell icone-sino"></i>
       <i class="fa-solid fa-bars icone-menu"></i>
     </button>
@@ -107,10 +122,6 @@
       <div class="filtros_dashboard">
         <span class="selo_atualizacao" id="ultima_atualizacao">Dados atualizados às --:--</span>
 
-        <select id="filtro_periodo" aria-label="Período">
-          <option value="7">Últimos 7 dias</option>
-          <option value="15">Últimos 15 dias</option>
-        </select>
       </div>
     </header>
 
@@ -121,7 +132,7 @@
           <span>MINERADORAS MONITORADAS</span>
         </div>
         <div class="kpi_valor" id="kpi_total_mineradoras">17</div>
-        <span class="kpi_sub" id="kpi_sub_total_torres">62 torres conectadas</span>
+        <span class="kpi_sub" id="kpi_sub_total_torres">62 torres monitoradas</span>
       </div> -->
 
       <div class="kpi_card borda_vermelha">
@@ -159,7 +170,7 @@
       <div class="painel_header_com_botao">
         <div class="painel_header">
           <i class="fa-solid fa-heart-pulse icone_painel"></i>
-          <h3>Saúde por mineradora <small>(ordenadas por gravidade; o estado é o da pior torre)</small></h3>
+          <h3>Saúde por mineradora <small>(ordenadas por gravidade; estado = pior torre com dados; sem captura = Desconhecido)</small></h3>
         </div>
         <a href="#" class="btn_ver_todos" id="btn_ver_todas_mineradoras">Ver todas</a>
       </div>
@@ -176,11 +187,13 @@
           <div class="mineradora_torres">
             <span class="rotulo_discreto"><span class="mineradora_total_torres">8</span> torres</span>
             <div class="barra_torres">
+              <span class="segmento_desconhecido" style="width: 0%"></span>
               <span class="segmento_normal" style="width: 62.5%"></span>
               <span class="segmento_atencao" style="width: 25.0%"></span>
               <span class="segmento_critico" style="width: 12.5%"></span>
             </div>
             <div class="legenda_torres">
+              <span class="legenda_torre_item"><span class="ponto branco"></span><span class="qtd_desconhecidas">0</span> sem captura</span>
               <span class="legenda_torre_item"><span class="ponto verde"></span><span class="qtd_normais">5</span> normais</span>
               <span class="legenda_torre_item"><span class="ponto amarelo"></span><span class="qtd_atencao">2</span> em atenção</span>
               <span class="legenda_torre_item"><span class="ponto vermelho"></span><span class="qtd_criticas">1</span> críticas</span>
@@ -220,11 +233,13 @@
           <div class="mineradora_torres">
             <span class="rotulo_discreto"><span class="mineradora_total_torres">5</span> torres</span>
             <div class="barra_torres">
+              <span class="segmento_desconhecido" style="width: 0%"></span>
               <span class="segmento_normal" style="width: 60.0%"></span>
               <span class="segmento_atencao" style="width: 40.0%"></span>
               <span class="segmento_critico" style="width: 0.0%"></span>
             </div>
             <div class="legenda_torres">
+              <span class="legenda_torre_item"><span class="ponto branco"></span><span class="qtd_desconhecidas">0</span> sem captura</span>
               <span class="legenda_torre_item"><span class="ponto verde"></span><span class="qtd_normais">3</span> normais</span>
               <span class="legenda_torre_item"><span class="ponto amarelo"></span><span class="qtd_atencao">2</span> em atenção</span>
               <span class="legenda_torre_item"><span class="ponto vermelho"></span><span class="qtd_criticas">0</span> críticas</span>
@@ -264,11 +279,13 @@
           <div class="mineradora_torres">
             <span class="rotulo_discreto"><span class="mineradora_total_torres">6</span> torres</span>
             <div class="barra_torres">
+              <span class="segmento_desconhecido" style="width: 0%"></span>
               <span class="segmento_normal" style="width: 100.0%"></span>
               <span class="segmento_atencao" style="width: 0.0%"></span>
               <span class="segmento_critico" style="width: 0.0%"></span>
             </div>
             <div class="legenda_torres">
+              <span class="legenda_torre_item"><span class="ponto branco"></span><span class="qtd_desconhecidas">0</span> sem captura</span>
               <span class="legenda_torre_item"><span class="ponto verde"></span><span class="qtd_normais">6</span> normais</span>
               <span class="legenda_torre_item"><span class="ponto amarelo"></span><span class="qtd_atencao">0</span> em atenção</span>
               <span class="legenda_torre_item"><span class="ponto vermelho"></span><span class="qtd_criticas">0</span> críticas</span>
@@ -310,11 +327,13 @@
           <div class="mineradora_torres">
             <span class="rotulo_discreto"><span class="mineradora_total_torres">0</span> torres</span>
             <div class="barra_torres">
+              <span class="segmento_desconhecido" style="width: 0%"></span>
               <span class="segmento_normal" style="width: 0%"></span>
               <span class="segmento_atencao" style="width: 0%"></span>
               <span class="segmento_critico" style="width: 0%"></span>
             </div>
             <div class="legenda_torres">
+              <span class="legenda_torre_item"><span class="ponto branco"></span><span class="qtd_desconhecidas">0</span> sem captura</span>
               <span class="legenda_torre_item"><span class="ponto verde"></span><span class="qtd_normais">0</span> normais</span>
               <span class="legenda_torre_item"><span class="ponto amarelo"></span><span class="qtd_atencao">0</span> em atenção</span>
               <span class="legenda_torre_item"><span class="ponto vermelho"></span><span class="qtd_criticas">0</span> críticas</span>
@@ -349,10 +368,17 @@
       <div class="card_painel card_linha">
         <div class="painel_header">
           <i class="fa-solid fa-chart-line icone_painel"></i>
-          <h3>Alertas por mineradora <small id="periodo_grafico_alertas">(últimos 7 dias · 3 maiores + padrão)</small></h3>
+          <h3>Alertas por mineradora <small id="periodo_grafico_alertas">(Últimos 7 dias · total · 3 maiores + padrão)</small></h3>
         </div>
 
         <div class="filtro_grafico">
+          <select id="filtro_periodo" aria-label="Período">
+            <option value="1">Hoje</option>
+            <option value="7" selected>Últimos 7 dias</option>
+            <option value="30">Últimos 30 dias</option>
+            <option value="3m">Últimos 3 meses</option>
+            <option value="6m">Últimos 6 meses</option>
+          </select>
           <select id="filtro_modo" aria-label="Modo de contagem dos alertas">
             <option value="total">Total de alertas</option>
             <option value="por_torre">Alertas por torre</option>
@@ -379,6 +405,14 @@
             </div>
           </div>
           <div class="donut_legendas">
+            <a href="#" class="legenda_estado" id="filtro_estado_desconhecido" data-filtro-estado="desconhecido">
+              <div class="legenda_estado_linha">
+                <span class="ponto branco"></span>
+                <span class="legenda_nome">Desconhecida</span>
+                <span class="legenda_num" id="pct_mineradoras_desconhecido">0 (0,0%)</span>
+              </div>
+              <span class="legenda_estado_nomes" id="nomes_mineradoras_desconhecido">—</span>
+            </a>
             <a href="#" class="legenda_estado" id="filtro_estado_normal" data-filtro-estado="normal">
               <div class="legenda_estado_linha">
                 <span class="ponto verde"></span>
@@ -413,11 +447,7 @@
   <script src="./js/permissao.js"></script>
   <script src="./js/dashboard-mineradoras.js"></script>
 
-  <script>
-    document.getElementById("usuario_logado")?.addEventListener("click", () => {
-      window.location = "/meu_perfil.html";
-    });
-  </script>
+
 </body>
 
 </html>

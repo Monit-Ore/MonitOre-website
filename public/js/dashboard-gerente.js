@@ -400,12 +400,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderizarTabelaAlertas(dadosIniciais.alertasRecentes);
   renderizarTabelaPicos(dadosIniciais.historicoPicos.registros);
 
-  // Botão Menu Responsivo (Hambúrguer)
-  const botaoMenu = document.querySelector(".btn-notificacao");
-  botaoMenu?.addEventListener("click", () => {
-    document.body.classList.toggle("menu-aberto");
-  });
-
   // Botão Sair
   document.getElementById("botao_sair")?.addEventListener("click", () => {
     sessionStorage.clear();

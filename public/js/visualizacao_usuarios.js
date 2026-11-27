@@ -267,12 +267,6 @@ document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarioMenu();
   carregarIniciais();
 
-  const botaoMenu = document.querySelector(".btn-notificacao");
-
-  botaoMenu?.addEventListener("click", () =>
-    document.body.classList.toggle("menu-aberto"),
-  );
-
   document.getElementById("botao_sair")?.addEventListener("click", () => {
     sessionStorage.clear();
     window.location.href = "./login.html";

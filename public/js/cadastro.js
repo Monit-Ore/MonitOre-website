@@ -5,13 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
   configurarMascaras();
   carregarUsuarioMenu();
   carregarIniciais();
-  var botaoMenu = document.querySelector(".btn-notificacao");
-
-  if (botaoMenu) {
-    botaoMenu.addEventListener("click", function () {
-      document.body.classList.toggle("menu-aberto");
-    });
-  }
 });
 
 // CARREGAMENTO DOS CARGOS
@@ -358,12 +351,6 @@ function ativarPerfil() {
 document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarioMenu();
   carregarIniciais();
-
-  const botaoMenu = document.querySelector(".btn-notificacao");
-
-  botaoMenu?.addEventListener("click", () =>
-    document.body.classList.toggle("menu-aberto"),
-  );
 
   document.getElementById("botao_sair")?.addEventListener("click", () => {
     sessionStorage.clear();
