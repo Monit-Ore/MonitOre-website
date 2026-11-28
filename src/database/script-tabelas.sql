@@ -95,6 +95,7 @@ CREATE TABLE limite_alerta (
     fk_componente INT NOT NULL,
     atencao DECIMAL(10,2) NOT NULL,
     critico DECIMAL(10,2) NOT NULL,
+    limite_alerta_diario INT UNSIGNED NOT NULL DEFAULT 10,
 
     PRIMARY KEY (fk_pc_industrial, fk_componente),
 
@@ -104,8 +105,17 @@ CREATE TABLE limite_alerta (
 
     CONSTRAINT fk_limite_componente
         FOREIGN KEY (fk_componente)
-        REFERENCES componente(id_componente)
+        REFERENCES componente(id_componente),
+
+    CONSTRAINT chk_limite_alerta_diario
+        CHECK (limite_alerta_diario > 0)
 );
+
+-- Para bancos já existentes:
+-- ALTER TABLE PC_Industrial
+--   DROP COLUMN limite_alerta_diario;  -- apenas se a coluna antiga tiver sido criada
+-- ALTER TABLE limite_alerta
+--   ADD COLUMN limite_alerta_diario INT UNSIGNED NOT NULL DEFAULT 10 AFTER critico;
 
 
 -- ============================================================
@@ -178,7 +188,7 @@ VALUES (
 
 
 -- ============================================================
--- 10 MINERADORAS / CLIENTES
+-- 2 MINERADORAS / CLIENTES
 -- ============================================================
 
 INSERT INTO empresa (
@@ -199,62 +209,6 @@ VALUES
     'CSN Mineracao S.A.',
     '08189185000100',
     'contato@csn.com.br',
-    'Mineradora'
-),
-
-(
-    'Samarco Mineracao S.A.',
-    '16628281000107',
-    'contato@samarco.com',
-    'Mineradora'
-),
-
-(
-    'Anglo American Minerio de Ferro Brasil S.A.',
-    '02359572000359',
-    'contato@angloamerican.com',
-    'Mineradora'
-),
-
-(
-    'Gerdau Acos Longos S.A.',
-    '07682289000166',
-    'contato@gerdau.com',
-    'Mineradora'
-),
-
-(
-    'Mineracao Usiminas S.A.',
-    '12345678000190',
-    'contato@usiminas.com',
-    'Mineradora'
-),
-
-(
-    'Companhia Brasileira de Metalurgia e Mineracao',
-    '12345678000271',
-    'contato@cbmm.com',
-    'Mineradora'
-),
-
-(
-    'Nexa Recursos Minerais S.A.',
-    '12345678000352',
-    'contato@nexaresources.com',
-    'Mineradora'
-),
-
-(
-    'Mineracao Rio do Norte S.A.',
-    '12345678000433',
-    'contato@mrn.com.br',
-    'Mineradora'
-),
-
-(
-    'ArcelorMittal Brasil S.A.',
-    '12345678000514',
-    'contato@arcelormittal.com',
     'Mineradora'
 );
 
@@ -381,19 +335,10 @@ VALUES
 -- id_empresa = 1
 --
 -- Mineradoras:
--- Vale             = 2
--- CSN              = 3
--- Samarco          = 4
--- Anglo American   = 5
--- Gerdau           = 6
--- Usiminas         = 7
--- CBMM             = 8
--- Nexa             = 9
--- MRN              = 10
--- ArcelorMittal    = 11
+-- Vale = 2
+-- CSN  = 3
 --
--- 2 TORRES POR MINERADORA
--- TOTAL = 20 TORRES
+-- 3 TORRES NO TOTAL
 -- ============================================================
 
 INSERT INTO torre (
@@ -421,7 +366,7 @@ VALUES
     'Torre-Vale-02',
     1,
     1,
-    1,
+    2,
     2
 ),
 
@@ -431,169 +376,8 @@ VALUES
     'Torre-CSN-01',
     1,
     1,
-    2,
-    3
-),
-
-(
-    'Torre CSN 02',
-    'Torre-CSN-02',
-    1,
-    1,
-    2,
-    3
-),
-
--- SAMARCO
-(
-    'Torre Samarco 01',
-    'Torre-Samarco-01',
-    1,
-    1,
     3,
-    4
-),
-
-(
-    'Torre Samarco 02',
-    'Torre-Samarco-02',
-    1,
-    1,
-    3,
-    4
-),
-
--- ANGLO AMERICAN
-(
-    'Torre Anglo 01',
-    'Torre-Anglo-01',
-    1,
-    1,
-    4,
-    5
-),
-
-(
-    'Torre Anglo 02',
-    'Torre-Anglo-02',
-    1,
-    1,
-    4,
-    5
-),
-
--- GERDAU
-(
-    'Torre Gerdau 01',
-    'Torre-Gerdau-01',
-    1,
-    1,
-    5,
-    6
-),
-
-(
-    'Torre Gerdau 02',
-    'Torre-Gerdau-02',
-    1,
-    1,
-    5,
-    6
-),
-
--- USIMINAS
-(
-    'Torre Usiminas 01',
-    'Torre-Usiminas-01',
-    1,
-    1,
-    6,
-    7
-),
-
-(
-    'Torre Usiminas 02',
-    'Torre-Usiminas-02',
-    1,
-    1,
-    6,
-    7
-),
-
--- CBMM
-(
-    'Torre CBMM 01',
-    'Torre-CBMM-01',
-    1,
-    1,
-    7,
-    8
-),
-
-(
-    'Torre CBMM 02',
-    'Torre-CBMM-02',
-    1,
-    1,
-    7,
-    8
-),
-
--- NEXA
-(
-    'Torre Nexa 01',
-    'Torre-Nexa-01',
-    1,
-    1,
-    8,
-    9
-),
-
-(
-    'Torre Nexa 02',
-    'Torre-Nexa-02',
-    1,
-    1,
-    8,
-    9
-),
-
--- MRN
-(
-    'Torre MRN 01',
-    'Torre-MRN-01',
-    1,
-    1,
-    9,
-    10
-),
-
-(
-    'Torre MRN 02',
-    'Torre-MRN-02',
-    1,
-    1,
-    9,
-    10
-),
-
--- ARCELORMITTAL
-(
-    'Torre ArcelorMittal 01',
-    'Torre-ArcelorMittal-01',
-    1,
-    1,
-    10,
-    11
-),
-
-(
-    'Torre ArcelorMittal 02',
-    'Torre-ArcelorMittal-02',
-    1,
-    1,
-    10,
-    11
+    3
 );
 
 
@@ -601,7 +385,7 @@ VALUES
 -- PC INDUSTRIAL
 --
 -- 1 PC INDUSTRIAL PARA CADA TORRE
--- TOTAL = 20 PCS INDUSTRIAIS
+-- TOTAL = 3 PCS INDUSTRIAIS
 -- ============================================================
 
 INSERT INTO PC_Industrial (
@@ -635,142 +419,6 @@ VALUES
     'Ativo',
     3,
     '550e8400-e29b-41d4-a716-000000000003'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000004',
-    'PC-CSN-02',
-    'Ativo',
-    4,
-    '550e8400-e29b-41d4-a716-000000000004'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000005',
-    'PC-SAMARCO-01',
-    'Ativo',
-    5,
-    '550e8400-e29b-41d4-a716-000000000005'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000006',
-    'PC-SAMARCO-02',
-    'Ativo',
-    6,
-    '550e8400-e29b-41d4-a716-000000000006'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000007',
-    'PC-ANGLO-01',
-    'Ativo',
-    7,
-    '550e8400-e29b-41d4-a716-000000000007'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000008',
-    'PC-ANGLO-02',
-    'Ativo',
-    8,
-    '550e8400-e29b-41d4-a716-000000000008'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000009',
-    'PC-GERDAU-01',
-    'Ativo',
-    9,
-    '550e8400-e29b-41d4-a716-000000000009'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000010',
-    'PC-GERDAU-02',
-    'Ativo',
-    10,
-    '550e8400-e29b-41d4-a716-000000000010'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000011',
-    'PC-USIMINAS-01',
-    'Ativo',
-    11,
-    '550e8400-e29b-41d4-a716-000000000011'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000012',
-    'PC-USIMINAS-02',
-    'Ativo',
-    12,
-    '550e8400-e29b-41d4-a716-000000000012'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000013',
-    'PC-CBMM-01',
-    'Ativo',
-    13,
-    '550e8400-e29b-41d4-a716-000000000013'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000014',
-    'PC-CBMM-02',
-    'Ativo',
-    14,
-    '550e8400-e29b-41d4-a716-000000000014'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000015',
-    'PC-NEXA-01',
-    'Ativo',
-    15,
-    '550e8400-e29b-41d4-a716-000000000015'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000016',
-    'PC-NEXA-02',
-    'Ativo',
-    16,
-    '550e8400-e29b-41d4-a716-000000000016'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000017',
-    'PC-MRN-01',
-    'Ativo',
-    17,
-    '550e8400-e29b-41d4-a716-000000000017'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000018',
-    'PC-MRN-02',
-    'Ativo',
-    18,
-    '550e8400-e29b-41d4-a716-000000000018'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000019',
-    'PC-ARCELOR-01',
-    'Ativo',
-    19,
-    '550e8400-e29b-41d4-a716-000000000019'
-),
-
-(
-    'PC-INDUSTRIAL-000000000000000000000020',
-    'PC-ARCELOR-02',
-    'Ativo',
-    20,
-    '550e8400-e29b-41d4-a716-000000000020'
 );
 
 
@@ -812,92 +460,8 @@ VALUES
 -- PC 03
 (3, 1, 80.00, 90.00),
 (3, 2, 80.00, 90.00),
-(3, 3, 80.00, 90.00),
-
--- PC 04
-(4, 1, 80.00, 90.00),
-(4, 2, 80.00, 90.00),
-(4, 3, 80.00, 90.00),
-
--- PC 05
-(5, 1, 80.00, 90.00),
-(5, 2, 80.00, 90.00),
-(5, 3, 80.00, 90.00),
-
--- PC 06
-(6, 1, 80.00, 90.00),
-(6, 2, 80.00, 90.00),
-(6, 3, 80.00, 90.00),
-
--- PC 07
-(7, 1, 80.00, 90.00),
-(7, 2, 80.00, 90.00),
-(7, 3, 80.00, 90.00),
-
--- PC 08
-(8, 1, 80.00, 90.00),
-(8, 2, 80.00, 90.00),
-(8, 3, 80.00, 90.00),
-
--- PC 09
-(9, 1, 80.00, 90.00),
-(9, 2, 80.00, 90.00),
-(9, 3, 80.00, 90.00),
-
--- PC 10
-(10, 1, 80.00, 90.00),
-(10, 2, 80.00, 90.00),
-(10, 3, 80.00, 90.00),
-
--- PC 11
-(11, 1, 80.00, 90.00),
-(11, 2, 80.00, 90.00),
-(11, 3, 80.00, 90.00),
-
--- PC 12
-(12, 1, 80.00, 90.00),
-(12, 2, 80.00, 90.00),
-(12, 3, 80.00, 90.00),
-
--- PC 13
-(13, 1, 80.00, 90.00),
-(13, 2, 80.00, 90.00),
-(13, 3, 80.00, 90.00),
-
--- PC 14
-(14, 1, 80.00, 90.00),
-(14, 2, 80.00, 90.00),
-(14, 3, 80.00, 90.00),
-
--- PC 15
-(15, 1, 80.00, 90.00),
-(15, 2, 80.00, 90.00),
-(15, 3, 80.00, 90.00),
-
--- PC 16
-(16, 1, 80.00, 90.00),
-(16, 2, 80.00, 90.00),
-(16, 3, 80.00, 90.00),
-
--- PC 17
-(17, 1, 80.00, 90.00),
-(17, 2, 80.00, 90.00),
-(17, 3, 80.00, 90.00),
-
--- PC 18
-(18, 1, 80.00, 90.00),
-(18, 2, 80.00, 90.00),
-(18, 3, 80.00, 90.00),
-
--- PC 19
-(19, 1, 80.00, 90.00),
-(19, 2, 80.00, 90.00),
-(19, 3, 80.00, 90.00),
-
--- PC 20
-(20, 1, 80.00, 90.00),
-(20, 2, 80.00, 90.00),
-(20, 3, 80.00, 90.00);
+(3, 3, 80.00, 90.00)
+);
 
 
 -- ============================================================
@@ -1021,47 +585,5 @@ INSERT INTO permissionamento (
 VALUES
 (1, 1),
 (1, 2),
-(1, 3),
-(1, 4),
-(1, 5),
-(1, 6),
-(1, 7),
-(1, 8),
-(1, 9),
-(1, 10),
-(1, 11),
-(1, 12),
-(1, 13),
-(1, 14),
-(1, 15),
-(1, 16),
-(1, 17),
-(1, 18),
-(1, 19),
-(1, 20),
-
-(2, 1),
-(2, 2),
-(2, 3),
-(2, 4),
-
-(3, 5),
-(3, 6),
-(3, 7),
-(3, 8),
-
-(4, 9),
-(4, 10),
-(4, 11),
-
-(5, 12),
-(5, 13),
-(5, 14),
-
-(6, 15),
-(6, 16),
-(6, 17),
-
-(7, 18),
-(7, 19),
-(7, 20);
+(1, 3)
+);
