@@ -1,3 +1,4 @@
+@import url("./dashboard-tokens.css");
 .header_dashboard {
   flex-wrap: wrap;
   gap: 15px;
@@ -13,7 +14,7 @@
 
 .selo_atualizacao {
   background-color: #1a1a1a;
-  border: 1px solid #333333;
+  border: 1px solid var(--dash-borda);
   border-radius: 6px;
   padding: 11px 14px;
   font-size: 13px;
@@ -29,8 +30,8 @@
 .filtros_dashboard select,
 .filtro_grafico select {
   background-color: #1a1a1a;
-  color: #ffffff;
-  border: 1px solid #444444;
+  color: var(--dash-texto);
+  border: 1px solid var(--dash-borda-controle);
   padding: 8px 12px;
   border-radius: 6px;
   font-size: 13px;
@@ -78,7 +79,7 @@
 
 .card_mineradora {
   background-color: #161616;
-  border: 1px solid #333333;
+  border: 1px solid var(--dash-borda);
   border-left: 4px solid var(--cinza);
   border-radius: 5px;
   padding: 15px;
@@ -86,7 +87,7 @@
   flex-direction: column;
   gap: 14px;
   text-decoration: none;
-  color: #ffffff;
+  color: var(--dash-texto);
   cursor: pointer;
   transition: border-color 0.15s, background-color 0.15s;
 }
@@ -96,7 +97,7 @@
 }
 
 .card_mineradora:hover {
-  background-color: #1f1f1f;
+  background-color: var(--dash-fundo);
   border-top-color: var(--amarelo);
   border-right-color: var(--amarelo);
   border-bottom-color: var(--amarelo);
@@ -139,7 +140,7 @@
 .mineradora_nome {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--dash-texto);
 }
 
 .rotulo_discreto {
@@ -152,7 +153,7 @@
   padding: 8px 10px;
   font-size: 13px;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--dash-texto);
 }
 
 .mineradora_detalhe[hidden] {
@@ -160,13 +161,13 @@
 }
 
 .card_mineradora[data-estado="critico"] .mineradora_detalhe {
-  background-color: rgba(255, 77, 77, 0.12);
-  border: 1px solid rgba(255, 77, 77, 0.4);
+  background-color: rgba(var(--dash-critico-rgb), 0.12);
+  border: 1px solid rgba(var(--dash-critico-rgb), 0.4);
 }
 
 .card_mineradora[data-estado="atencao"] .mineradora_detalhe {
-  background-color: rgba(255, 215, 65, 0.1);
-  border: 1px solid rgba(255, 215, 65, 0.35);
+  background-color: rgba(var(--dash-atencao-rgb), 0.1);
+  border: 1px solid rgba(var(--dash-atencao-rgb), 0.35);
 }
 
 .card_mineradora[data-estado="desconhecido"] .mineradora_detalhe {
@@ -185,7 +186,7 @@
   height: 8px;
   border-radius: 4px;
   overflow: hidden;
-  background-color: #333333;
+  background-color: var(--dash-borda);
 }
 
 .barra_torres .segmento_desconhecido { background-color: var(--branco); }
@@ -235,7 +236,7 @@
 .metrica_bloco strong {
   font-size: 1.6rem;
   line-height: 1.1;
-  color: #ffffff;
+  color: var(--dash-texto);
 }
 
 .metrica_direita strong {
@@ -243,7 +244,7 @@
 }
 
 .mineradora_rodape {
-  border-top: 1px solid #333333;
+  border-top: 1px solid var(--dash-borda);
   padding-top: 10px;
   display: flex;
   align-items: center;
@@ -257,7 +258,7 @@
 }
 
 .mineradora_acao.acao_destaque {
-  color: #ffffff;
+  color: var(--dash-texto);
   font-weight: 600;
   font-size: 14px;
 }
@@ -297,7 +298,7 @@
   flex-direction: column;
   gap: 2px;
   text-decoration: none;
-  color: #ffffff;
+  color: var(--dash-texto);
   font-size: 0.8rem;
   cursor: pointer;
 }
@@ -351,3 +352,21 @@
     flex-direction: column;
   }
 }
+
+/* Acabamento da Suporte. Os grids, alturas e controles da sidebar são locais. */
+body { font-family: var(--dash-fonte); background-color: var(--dash-fundo); }
+
+/* Supera somente os paddings !important herdados do cadastro e da sidebar. */
+.container_responsivo > main,
+.container_responsivo > main.conteudo_com_controle_sidebar {
+  padding: var(--dash-padding-conteudo) !important;
+  gap: var(--dash-gap-secao);
+}
+
+.card_mineradora { background: var(--dash-gradiente-card); border-radius: var(--dash-raio-card); padding: var(--dash-padding-card); }
+.card_mineradora:hover { background: var(--dash-hover); }
+.grid_mineradoras { gap: var(--dash-gap-painel); }
+.mineradora_nome { font-size: var(--dash-fonte-painel); }
+.mineradora_detalhe, .mineradora_acao, .mineradora_acao.acao_destaque, .mineradora_link, .rotulo_discreto, .selo_atualizacao { font-size: var(--dash-fonte-corpo); }
+.variacao_alertas, .legenda_estado, .dica_filtro, .legenda_estado_nomes { font-size: var(--dash-fonte-detalhe); }
+.filtros_dashboard select, .filtro_grafico select { background: var(--dash-controle); border-radius: var(--dash-raio-controle); font-size: var(--dash-fonte-corpo); }

@@ -1,5 +1,6 @@
+@import url("./dashboard-tokens.css");
 main {
-    background-color: #1f1f1f;
+    background-color: var(--dash-fundo);
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -31,7 +32,7 @@ main .btn-notificacao {
 }
 
 .cabecalho p {
-    color: #808080;
+    color: var(--dash-texto-secundario);
 }
 
 .filtros {
@@ -47,9 +48,9 @@ main .btn-notificacao {
     min-width: 150px;
     width: auto;
     margin-top: 10px;
-    background-color: #333333;
+    background-color: var(--dash-borda);
     padding: 8px 12px;
-    color: #ffffff;
+    color: var(--dash-texto);
     font-size: 0.95rem;
     font-weight: bold;
     text-align: left;
@@ -82,7 +83,7 @@ main .btn-notificacao {
     flex: 1 1 220px;
     min-width: 200px;
     min-height: 120px;
-    background-color: #333333;
+    background-color: var(--dash-borda);
     border-radius: 8px;
     border: 1px solid #80808050;
     display: flex;
@@ -103,23 +104,23 @@ main .btn-notificacao {
 
 .metrica.nivel-critico,
 .nivel-critico {
-    color: #ff4d4d !important;
+    color: var(--dash-critico) !important;
 }
 
 .metrica.nivel-atencao,
 .nivel-atencao {
-    color: #ffd741 !important;
+    color: var(--dash-destaque) !important;
 }
 
 .metrica.nivel-normal,
 .nivel-normal {
-    color: #3ddc57 !important;
+    color: var(--dash-normal) !important;
 }
 
 .relatorio-button {
     margin-top: 10px;
     white-space: nowrap;
-    background-color: #ffd741;
+    background-color: var(--dash-destaque);
     padding: 8px 70px 8px 5px;
     color: black;
     font-weight: bold;
@@ -129,14 +130,14 @@ main .btn-notificacao {
 
 .relatorio-button:hover {
     cursor: pointer;
-    background-color: #ecbe10;
-    border: 1px solid #ecbe10;
+    background-color: var(--dash-destaque-hover);
+    border: 1px solid var(--dash-destaque-hover);
 }
 
 .div-ocorrencias {
     width: 98%;
     height: 100%;
-    background-color: #333333;
+    background-color: var(--dash-borda);
     border-radius: 8px;
     border: 1px solid #80808050;
     display: flex;
@@ -157,7 +158,7 @@ main .btn-notificacao {
 }
 
 .prioridade-texto>span {
-    color: #808080;
+    color: var(--dash-texto-secundario);
 }
 
 .container {
@@ -184,7 +185,7 @@ main .btn-notificacao {
 }
 
 .situacao {
-    background-color: #1f1f1f;
+    background-color: var(--dash-fundo);
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -212,13 +213,13 @@ main .btn-notificacao {
 }
 
 .num_podio.critico {
-    color: #ff4d4d;
-    background-color: #ff4d4d;
+    color: var(--dash-critico);
+    background-color: var(--dash-critico);
 
 }
 
 .num_podio.atencao {
-    color: #ffd741;
+    color: var(--dash-destaque);
 }
 
 .info_situacao {
@@ -237,13 +238,13 @@ main .btn-notificacao {
 }
 
 .info_situacao h3 a {
-    color: #ffd741;
+    color: var(--dash-destaque);
     text-decoration: underline;
     text-underline-offset: 2px;
 }
 
 .info_situacao h3 a:hover {
-    color: #fff;
+    color: var(--dash-texto);
 }
 
 .info_situacao .detalhe-ocorrencia {
@@ -252,12 +253,12 @@ main .btn-notificacao {
 }
 
 .info_situacao .periodo-ocorrencia {
-    color: #8f8e8e;
+    color: var(--dash-texto-secundario);
     font-size: 12px;
 }
 
 .estado_vazio_processos {
-    color: #ecbe10;
+    color: var(--dash-destaque-hover);
     font-weight: bold;
     margin: 14px auto;
     text-align: center;
@@ -265,7 +266,7 @@ main .btn-notificacao {
 }
 
 .info_situacao span {
-    color: #808080;
+    color: var(--dash-texto-secundario);
     font-size: 13px;
 }
 
@@ -293,11 +294,11 @@ a:hover {
 }
 
 .qtd-ocorrencias {
-    background-color: #444444;
+    background-color: var(--dash-borda-controle);
     border-radius: 10px;
     padding: 5px;
     height: fit-content;
-    color: #ecbe10;
+    color: var(--dash-destaque-hover);
     font-weight: bold;
     font-size: 14px;
 }
@@ -310,8 +311,8 @@ table {
 }
 
 thead {
-    background-color: #444444;
-    color: #ffffff;
+    background-color: var(--dash-borda-controle);
+    color: var(--dash-texto);
 }
 
 thead tr {
@@ -331,7 +332,7 @@ tbody tr {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #444444;
+    border-bottom: 1px solid var(--dash-borda-controle);
 }
 
 td {
@@ -357,10 +358,10 @@ dialog::backdrop {
     max-width: none;
     max-height: min(80vh, 640px);
     padding: 0;
-    border: 1px solid #ecbe10;
+    border: 1px solid var(--dash-destaque-hover);
     border-radius: 14px;
-    background-color: #1f1f1f;
-    color: #ffffff;
+    background-color: var(--dash-fundo);
+    color: var(--dash-texto);
     box-shadow: 0 24px 60px #00000099;
     overflow: hidden;
     justify-self: center;
@@ -374,7 +375,7 @@ dialog::backdrop {
     width: 100%;
     max-height: inherit;
     padding: 24px;
-    background-color: #1f1f1f;
+    background-color: var(--dash-fundo);
 }
 
 .modal_cabecalho {
@@ -385,14 +386,14 @@ dialog::backdrop {
 }
 
 .modal_cabecalho h1 {
-    color: #ffffff;
+    color: var(--dash-texto);
     font-size: 1.5rem;
     font-weight: bold;
 }
 
 .modal_subtitulo {
     margin-top: 4px;
-    color: #8f8e8e;
+    color: var(--dash-texto-secundario);
     font-size: 0.9rem;
     font-weight: normal;
 }
@@ -407,7 +408,7 @@ dialog::backdrop {
     background-color: transparent;
     border: 1px solid #80808050;
     border-radius: 8px;
-    color: var(--amarelo, #ffd741);
+    color: var(--dash-destaque);
     font-size: 1.1rem;
     cursor: pointer;
     transition: background-color 0.2s, border-color 0.2s;
@@ -415,7 +416,7 @@ dialog::backdrop {
 
 .modal_fechar:hover {
     background-color: #ffd7411a;
-    border-color: var(--amarelo, #ffd741);
+    border-color: var(--dash-destaque);
 }
 
 .modal_controle {
@@ -431,23 +432,23 @@ dialog::backdrop {
     background-color: #2b2b2b;
     border: 1px solid #80808050;
     border-radius: 8px;
-    color: #ffffff;
+    color: var(--dash-texto);
     font-size: 0.9rem;
 }
 
 .modal_busca::placeholder {
-    color: #8f8e8e;
+    color: var(--dash-texto-secundario);
 }
 
 .modal_busca:focus {
     outline: none;
-    border-color: var(--amarelo, #ffd741);
+    border-color: var(--dash-destaque);
     box-shadow: 0 0 0 2px #ffd74126;
 }
 
 .modal_contador {
     flex-shrink: 0;
-    color: var(--amarelo, #ffd741);
+    color: var(--dash-destaque);
     font-size: 0.85rem;
     font-weight: bold;
 }
@@ -459,7 +460,7 @@ dialog::backdrop {
     overflow-y: auto;
     padding: 2px 6px 2px 2px;
     scrollbar-width: thin;
-    scrollbar-color: var(--amarelo, #ffd741) #2b2b2b;
+    scrollbar-color: var(--dash-destaque) #2b2b2b;
 }
 
 .lista_torres::-webkit-scrollbar {
@@ -467,7 +468,7 @@ dialog::backdrop {
 }
 
 .lista_torres::-webkit-scrollbar-thumb {
-    background-color: var(--amarelo, #ffd741);
+    background-color: var(--dash-destaque);
     border-radius: 8px;
 }
 
@@ -491,7 +492,7 @@ dialog::backdrop {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #ffffff;
+    color: var(--dash-texto);
     font-size: 0.9rem;
     font-weight: bold;
 }
@@ -501,7 +502,7 @@ dialog::backdrop {
     border: 1px solid #ffd74159;
     border-radius: 999px;
     padding: 0 8px;
-    color: var(--amarelo, #ffd741);
+    color: var(--dash-destaque);
     font-size: 0.75rem;
 }
 
@@ -525,13 +526,13 @@ dialog::backdrop {
 }
 
 .opcao_torre:hover {
-    background-color: #333333;
-    border-color: var(--amarelo, #ffd741);
+    background-color: var(--dash-borda);
+    border-color: var(--dash-destaque);
 }
 
 .opcao_torre:has(input:checked) {
-    background-color: rgba(255, 215, 65, 0.1);
-    border-color: var(--amarelo, #ffd741);
+    background-color: rgba(var(--dash-atencao-rgb), 0.1);
+    border-color: var(--dash-destaque);
 }
 
 .opcao_torre input {
@@ -539,7 +540,7 @@ dialog::backdrop {
     width: 16px;
     height: 16px;
     margin: 0;
-    accent-color: var(--amarelo, #ffd741);
+    accent-color: var(--dash-destaque);
     cursor: pointer;
 }
 
@@ -552,7 +553,7 @@ dialog::backdrop {
 
 .torre_nome {
     overflow: hidden;
-    color: #ffffff;
+    color: var(--dash-texto);
     font-size: 0.9rem;
     font-weight: bold;
     text-overflow: ellipsis;
@@ -564,7 +565,7 @@ dialog::backdrop {
     align-items: center;
     gap: 6px;
     overflow: hidden;
-    color: #8f8e8e;
+    color: var(--dash-texto-secundario);
     font-size: 0.75rem;
     font-weight: normal;
     text-overflow: ellipsis;
@@ -576,17 +577,17 @@ dialog::backdrop {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background-color: #3ddc57;
+    background-color: var(--dash-normal);
 }
 
 .status_bolinha.inativo {
-    background-color: #8f8e8e;
+    background-color: var(--dash-texto-secundario);
 }
 
 .estado_vazio {
     grid-column: 1 / -1;
     padding: 28px 12px;
-    color: #8f8e8e;
+    color: var(--dash-texto-secundario);
     font-size: 0.9rem;
     text-align: center;
 }
@@ -603,20 +604,20 @@ dialog::backdrop {
 .modal_limpar {
     background: transparent;
     border: none;
-    color: #8f8e8e;
+    color: var(--dash-texto-secundario);
     font-size: 0.9rem;
     font-weight: bold;
     cursor: pointer;
 }
 
 .modal_limpar:hover {
-    color: #ffffff;
+    color: var(--dash-texto);
 }
 
 .modal_aplicar {
     padding: 10px 18px;
-    background-color: var(--amarelo, #ffd741);
-    border: 1px solid var(--amarelo, #ffd741);
+    background-color: var(--dash-destaque);
+    border: 1px solid var(--dash-destaque);
     border-radius: 8px;
     color: #000000;
     font-size: 0.9rem;
@@ -626,8 +627,8 @@ dialog::backdrop {
 }
 
 .modal_aplicar:hover {
-    background-color: #ecbe10;
-    border-color: #ecbe10;
+    background-color: var(--dash-destaque-hover);
+    border-color: var(--dash-destaque-hover);
 }
 
 /* ajustes de responsividade específicos da página (base já vem de tela_cadastro.css) */
@@ -753,8 +754,8 @@ dialog::backdrop {
 .input_relatorio {
     width: 100%;
     padding: 10px 12px;
-    background-color: #333333;
-    color: #ffffff;
+    background-color: var(--dash-borda);
+    color: var(--dash-texto);
     border: 1px solid #80808050;
     border-radius: 8px;
     font: inherit;
@@ -763,7 +764,7 @@ dialog::backdrop {
 
 .input_relatorio:focus {
     outline: none;
-    border-color: #ffd741;
+    border-color: var(--dash-destaque);
 }
 
 @media (max-width: 600px) {
@@ -771,3 +772,40 @@ dialog::backdrop {
         grid-template-columns: 1fr;
     }
 }
+/* Acabamento da Suporte. Os grids, alturas e controles da sidebar são locais. */
+body { font-family: var(--dash-fonte); background-color: var(--dash-fundo); }
+
+/* Supera somente os paddings !important herdados do cadastro e da sidebar. */
+.container_responsivo > main,
+.container_responsivo > main.conteudo_com_controle_sidebar {
+  padding: var(--dash-padding-conteudo) !important;
+  gap: var(--dash-gap-secao);
+}
+
+main { color: var(--dash-texto); }
+.cabecalho h1 { font-size: var(--dash-fonte-titulo); }
+.cabecalho p { font-size: var(--dash-fonte-corpo); }
+.card-kpis { gap: var(--dash-gap-kpi); padding: 0; }
+.kpi, .div-ocorrencias, .modal_filtragem { background: var(--dash-gradiente-card); border-color: var(--dash-borda); border-radius: var(--dash-raio-card); }
+.kpi { padding: var(--dash-padding-card); }
+.kpi p { padding: 0; font-size: var(--dash-fonte-detalhe); }
+.kpi > p:first-child { font-size: var(--dash-fonte-rotulo); font-weight: 600; color: var(--dash-texto-rotulo); }
+.kpi .metrica { font-size: var(--dash-fonte-kpi); }
+.div-ocorrencias { margin-top: 0; margin-bottom: 0; }
+.prioridade { padding: var(--dash-padding-card); }
+.prioridade-texto > p { font-size: var(--dash-fonte-secao); }
+.prioridade-texto > span, .info_situacao .detalhe-ocorrencia, .info_situacao span { font-size: var(--dash-fonte-corpo); }
+.info_situacao h3 { font-size: var(--dash-fonte-painel); }
+.info_situacao .periodo-ocorrencia, .qtd-ocorrencias { font-size: var(--dash-fonte-detalhe); }
+.filtro-select, .filtro-button, .relatorio-button, .modal_busca, .input_relatorio, .modal_aplicar, .modal_fechar { border-radius: var(--dash-raio-controle); font-family: var(--dash-fonte); font-size: var(--dash-fonte-corpo); }
+.filtro-select, .filtro-button, .modal_busca, .input_relatorio { background: var(--dash-controle); border-color: var(--dash-borda-controle); }
+.container_modal { background: transparent; padding: var(--dash-padding-card); gap: var(--dash-gap-secao); }
+.modal_cabecalho h1 { font-size: var(--dash-fonte-secao); }
+.modal_subtitulo, .modal_limpar, .modal_contador, .campo_relatorio, .grupo_titulo, .torre_nome, .estado_vazio { font-size: var(--dash-fonte-corpo); }
+.situacao, .opcao_torre { border-radius: var(--dash-raio-controle); }
+main table { font-size: var(--dash-fonte-detalhe); }
+main th, main td { font-size: inherit; }
+/* As classes descrevem status; não devem herdar o branco dos parágrafos. */
+.status-processo.critico { color: var(--dash-critico); }
+.status-processo.atencao { color: var(--dash-atencao); }
+.status-processo.normal { color: var(--dash-normal); }

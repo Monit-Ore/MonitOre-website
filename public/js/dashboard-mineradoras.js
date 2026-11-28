@@ -1,3 +1,29 @@
+// Aparência compartilhada com o CSS; não participa dos cálculos de status.
+const temaGraficoDashboard = (() => {
+  const css = getComputedStyle(document.documentElement);
+  const ler = (nome) => css.getPropertyValue('--dash-' + nome).trim();
+  return {
+    destaque: ler('destaque'), normal: ler('normal'), critico: ler('critico'),
+    texto: ler('texto'), secundario: ler('texto-secundario'),
+    grade: ler('borda'), fundo: ler('card'), borda: ler('borda-controle'),
+    serieCpu: ler('serie-cpu'), serieRam: ler('serie-ram'), serieDisco: ler('serie-disco'), serieProcessos: ler('serie-processos'),
+    fonte: { family: ler('fonte'), size: parseFloat(ler('fonte-grafico')) },
+    alpha: (estado, opacidade) => 'rgba(' + ler(estado + '-rgb') + ', ' + opacidade + ')'
+  };
+})();
+if (typeof Chart !== 'undefined') {
+  Chart.defaults.color = temaGraficoDashboard.secundario;
+  Chart.defaults.font.family = temaGraficoDashboard.fonte.family;
+  Chart.defaults.font.size = temaGraficoDashboard.fonte.size;
+  Object.assign(Chart.defaults.plugins.tooltip, {
+    backgroundColor: temaGraficoDashboard.fundo,
+    titleColor: temaGraficoDashboard.texto,
+    bodyColor: temaGraficoDashboard.texto,
+    borderColor: temaGraficoDashboard.borda,
+    borderWidth: 1
+  });
+}
+
 var graficos = {};
 var filtroEstado = null;
 
@@ -272,7 +298,7 @@ function renderizarGraficoAlertas(dados) {
           type: "bar",
           label: "Alertas",
           data: valores,
-          backgroundColor: "#ffd741",
+          backgroundColor: temaGraficoDashboard.destaque,
           borderRadius: 4,
           barThickness: 12,
         },
@@ -282,7 +308,7 @@ function renderizarGraficoAlertas(dados) {
           data: labels.map(function () {
             return mediana;
           }),
-          borderColor: "#8f8e8e",
+          borderColor: temaGraficoDashboard.secundario,
           borderDash: [5, 5],
           borderWidth: 2,
           pointRadius: 0,
@@ -297,17 +323,17 @@ function renderizarGraficoAlertas(dados) {
       plugins: {
         legend: {
           display: true,
-          labels: { color: "#b7b7b7", boxWidth: 12, font: { size: 11 } },
+          labels: { color: temaGraficoDashboard.secundario, boxWidth: 12, font: temaGraficoDashboard.fonte },
         },
       },
       scales: {
         x: {
-          grid: { color: "#262626" },
-          ticks: { color: "#8f8e8e", precision: 0 },
+          grid: { color: temaGraficoDashboard.grade },
+          ticks: { color: temaGraficoDashboard.secundario, precision: 0 },
         },
         y: {
           grid: { display: false },
-          ticks: { color: "#ffffff", font: { size: 11 } },
+          ticks: { color: temaGraficoDashboard.texto, font: temaGraficoDashboard.fonte },
         },
       },
     },
@@ -364,7 +390,7 @@ function renderizarStatus(mineradoras) {
       labels: ["Desconhecido","Regular", "Em Atenção", "Crítico"],
       datasets: [{
         data: [quantidades.desconhecido, quantidades.normal, quantidades.atencao, quantidades.critico],
-        backgroundColor: ["#FFFFFF", "#3ddc57", "#ffd741", "#ff4d4d"],
+        backgroundColor: [temaGraficoDashboard.texto, temaGraficoDashboard.normal, temaGraficoDashboard.destaque, temaGraficoDashboard.critico],
         borderWidth: 0,
       }],
     },

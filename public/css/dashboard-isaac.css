@@ -1,20 +1,21 @@
+@import url("./dashboard-tokens.css");
 :root {
   --bg-escuro: #0e0e0e;
-  --bg-principal: #141414;
-  --bg-card: #1b1b1b;
+  --bg-principal: var(--dash-fundo);
+  --bg-card: var(--dash-card);
   --bg-card-elevado: #222222;
-  --borda-sutil: #2c2c2c;
+  --borda-sutil: var(--dash-borda);
   --borda-destaque: #3b3b3b;
-  --amarelo: #ffd741;
-  --amarelo-hover: #ecc324;
-  --amarelo-suave: rgba(255, 215, 65, 0.14);
-  --texto-principal: #ffffff;
-  --texto-secundario: #a8a8a8;
-  --texto-muted: #767676;
-  --verde: #2ecc71;
-  --verde-bg: rgba(46, 204, 113, 0.14);
-  --vermelho: #ff4d4d;
-  --vermelho-bg: rgba(255, 77, 77, 0.14);
+  --amarelo: var(--dash-destaque);
+  --amarelo-hover: var(--dash-destaque-hover);
+  --amarelo-suave: rgba(var(--dash-atencao-rgb), 0.14);
+  --texto-principal: var(--dash-texto);
+  --texto-secundario: var(--dash-texto-secundario);
+  --texto-muted: var(--dash-texto-secundario);
+  --verde: var(--dash-normal);
+  --verde-bg: rgba(var(--dash-normal-rgb), 0.14);
+  --vermelho: var(--dash-critico);
+  --vermelho-bg: rgba(var(--dash-critico-rgb), 0.14);
   --laranja-alerta: #f39c12;
 }
 
@@ -108,7 +109,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.6px;
   color: var(--texto-secundario);
-  background-color: #1c1c1c;
+  background-color: var(--dash-card);
   border: 1px solid var(--borda-sutil);
   padding: 4px 10px;
   border-radius: 5px;
@@ -139,7 +140,7 @@ body {
 .tag_beeling {
   background-color: var(--amarelo-suave);
   color: var(--amarelo);
-  border: 1px solid rgba(255, 215, 65, 0.35);
+  border: 1px solid rgba(var(--dash-atencao-rgb), 0.35);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.7px;
@@ -171,7 +172,7 @@ body {
   gap: 6px;
   background-color: var(--verde-bg);
   color: var(--verde);
-  border: 1px solid rgba(46, 204, 113, 0.3);
+  border: 1px solid rgba(var(--dash-normal-rgb), 0.3);
   font-size: 0.78rem;
   font-weight: 600;
   padding: 6px 12px;
@@ -251,7 +252,7 @@ body {
 }
 
 .barra_filtros select {
-  background-color: #141414;
+  background-color: var(--dash-fundo);
   border: 1px solid var(--borda-sutil);
   color: var(--texto-principal);
   border-radius: 7px;
@@ -264,7 +265,7 @@ body {
 
 .segmented_control {
   display: inline-flex;
-  background-color: #141414;
+  background-color: var(--dash-fundo);
   border: 1px solid var(--borda-sutil);
   border-radius: 7px;
   padding: 2px;
@@ -295,7 +296,7 @@ body {
 }
 
 .input_icone_dir input {
-  background-color: #141414;
+  background-color: var(--dash-fundo);
   border: 1px solid var(--borda-sutil);
   color: var(--texto-principal);
   border-radius: 7px;
@@ -330,9 +331,9 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background-color: rgba(46, 204, 113, 0.08);
+  background-color: rgba(var(--dash-normal-rgb), 0.08);
   color: var(--verde);
-  border: 1px solid rgba(46, 204, 113, 0.25);
+  border: 1px solid rgba(var(--dash-normal-rgb), 0.25);
   font-size: 0.76rem;
   font-weight: 600;
   padding: 6px 11px;
@@ -343,7 +344,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background-color: #202020;
+  background-color: var(--dash-card);
   border: 1px solid var(--borda-destaque);
   color: var(--texto-principal);
   border-radius: 7px;
@@ -471,6 +472,11 @@ body {
   background-color: var(--amarelo-suave);
 }
 
+.badge_status_kpi.critico {
+  color: var(--dash-critico);
+  background-color: rgba(var(--dash-critico-rgb), 0.14);
+}
+
 .valor_kpi_linha {
   display: flex;
   align-items: baseline;
@@ -529,18 +535,18 @@ body {
 }
 
 .card_saturacao.atencao {
-  background: linear-gradient(180deg, rgba(255, 215, 65, 0.08) 0%, #1b1b1b 100%);
-  border-color: rgba(255, 215, 65, 0.3);
+  background: linear-gradient(180deg, rgba(var(--dash-atencao-rgb), 0.08) 0%, var(--dash-card) 100%);
+  border-color: rgba(var(--dash-atencao-rgb), 0.3);
 }
 
 .card_saturacao.critico {
-  background: linear-gradient(180deg, rgba(255, 77, 77, 0.1) 0%, #1b1b1b 100%);
-  border-color: rgba(255, 77, 77, 0.35);
+  background: linear-gradient(180deg, rgba(var(--dash-critico-rgb), 0.1) 0%, var(--dash-card) 100%);
+  border-color: rgba(var(--dash-critico-rgb), 0.35);
 }
 
 .card_saturacao.estavel {
-  background: linear-gradient(180deg, rgba(46, 204, 113, 0.07) 0%, #1b1b1b 100%);
-  border-color: rgba(46, 204, 113, 0.25);
+  background: linear-gradient(180deg, rgba(var(--dash-normal-rgb), 0.07) 0%, var(--dash-card) 100%);
+  border-color: rgba(var(--dash-normal-rgb), 0.25);
 }
 
 .topo_saturacao {
@@ -657,7 +663,7 @@ body {
 
 .abas_recurso {
   display: inline-flex;
-  background-color: #141414;
+  background-color: var(--dash-fundo);
   border: 1px solid var(--borda-sutil);
   border-radius: 7px;
   padding: 2px;
@@ -720,8 +726,8 @@ body {
 .faixa_intervalo {
   width: 14px;
   height: 10px;
-  background-color: rgba(255, 215, 65, 0.2);
-  border: 1px solid rgba(255, 215, 65, 0.45);
+  background-color: rgba(var(--dash-atencao-rgb), 0.2);
+  border: 1px solid rgba(var(--dash-atencao-rgb), 0.45);
   display: inline-block;
   border-radius: 2px;
 }
@@ -742,7 +748,7 @@ body {
   right: 16%;
   top: 46%;
   background-color: #1d1a10;
-  border: 1px solid rgba(255, 215, 65, 0.45);
+  border: 1px solid rgba(var(--dash-atencao-rgb), 0.45);
   border-radius: 8px;
   padding: 8px 12px;
   display: flex;
@@ -832,7 +838,7 @@ body {
 }
 
 .campo_busca_tabela input {
-  background-color: #141414;
+  background-color: var(--dash-fundo);
   border: 1px solid var(--borda-sutil);
   color: var(--texto-principal);
   border-radius: 7px;
@@ -844,7 +850,7 @@ body {
 }
 
 .controles_tabela select {
-  background-color: #141414;
+  background-color: var(--dash-fundo);
   border: 1px solid var(--borda-sutil);
   color: var(--texto-principal);
   border-radius: 7px;
@@ -882,7 +888,7 @@ body {
 }
 
 .tabela_processos tbody tr:hover {
-  background-color: #202020;
+  background-color: var(--dash-card);
 }
 
 .proc_nome_box {
@@ -967,13 +973,13 @@ body {
 }
 
 .banner_acao.critico {
-  background-color: rgba(255, 77, 77, 0.08);
-  border-color: rgba(255, 77, 77, 0.3);
+  background-color: rgba(var(--dash-critico-rgb), 0.08);
+  border-color: rgba(var(--dash-critico-rgb), 0.3);
 }
 
 .banner_acao.atencao {
-  background-color: rgba(255, 215, 65, 0.08);
-  border-color: rgba(255, 215, 65, 0.3);
+  background-color: rgba(var(--dash-atencao-rgb), 0.08);
+  border-color: rgba(var(--dash-atencao-rgb), 0.3);
 }
 
 .banner_acao_texto {
@@ -1153,3 +1159,40 @@ body {
 }
 
 
+
+/* Acabamento da Suporte. Os grids, alturas e controles da sidebar são locais. */
+body { font-family: var(--dash-fonte); background-color: var(--dash-fundo); }
+
+/* Supera somente os paddings !important herdados do cadastro e da sidebar. */
+.container_responsivo > main,
+.container_responsivo > main.conteudo_com_controle_sidebar {
+  padding: var(--dash-padding-conteudo) !important;
+  gap: var(--dash-gap-secao);
+}
+
+.cabecalho_esq h1 { font-size: var(--dash-fonte-titulo); }
+.subtitulo_beeling p, .estado_feedback_desc { font-size: var(--dash-fonte-corpo); }
+.cabecalho_secao h2, .estado_feedback_titulo { font-size: var(--dash-fonte-secao); }
+.topo_grafico h2, .topo_tabela_processos h2 { font-size: var(--dash-fonte-painel); }
+.grid_kpis_atuais { gap: var(--dash-gap-kpi); }
+.grid_saturacao, .grid_banners_inferiores { gap: var(--dash-gap-painel); }
+#conteudo_dashboard > * + * { margin-top: var(--dash-gap-secao); }
+.card_kpi, .card_grafico_preditivo, .card_tabela_processos, .barra_filtros, .estado_feedback_container { background: var(--dash-gradiente-card); border-radius: var(--dash-raio-card); }
+.card_kpi, .card_grafico_preditivo, .card_tabela_processos, .barra_filtros, .card_saturacao { padding: var(--dash-padding-card); }
+.card_saturacao, .banner_acao { border-radius: var(--dash-raio-card); }
+.titulo_kpi { font-size: var(--dash-fonte-rotulo); color: var(--dash-texto-rotulo); }
+.valor_kpi, .tempo_saturacao strong { font-size: var(--dash-fonte-kpi); font-weight: 700; }
+.tabela_processos { font-size: var(--dash-fonte-detalhe); }
+.tabela_processos th { font-size: inherit; padding: 10px 8px; font-weight: 500; }
+.tabela_processos td { padding: 11px 8px; }
+.tabela_processos tbody tr:hover { background: var(--dash-hover); }
+.btn_primario, .btn_secundario, .btn_investigar, .barra_filtros select, .input_icone_dir input, .campo_busca_tabela input, .controles_tabela select, .seletor_torre_wrap, .segmented_control, .abas_recurso { border-radius: var(--dash-raio-controle); font-size: var(--dash-fonte-corpo); }
+.rodape_kpi, .subtitulo_grafico, .rodape_grafico, .proc_desc, .rodape_tabela_processos, .legenda_secao, .detalhes_saturacao { font-size: var(--dash-fonte-detalhe); }
+
+@media (max-width: 820px) {
+  /* O callout fica abaixo do canvas no mobile; reserva espaço para não
+     cobrir o título do subgráfico, mantendo a altura de ambos os gráficos. */
+  .canvas_principal_wrap {
+    margin-bottom: calc(4 * var(--dash-padding-card) + var(--dash-gap-painel));
+  }
+}

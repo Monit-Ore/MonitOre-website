@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&display=swap");
+
+/* Referência visual: dashboard-suporte.css. Sem regras de layout ou navegação. */
+:root {
+  --dash-fundo: #1d1d1d;
+  --dash-card: #202020;
+  --dash-gradiente-card: linear-gradient(140deg, #232323, #1d1d1d);
+  --dash-gradiente-cabecalho: linear-gradient(110deg, #242424, #1b1b1b);
+  --dash-controle: #242424;
+  --dash-hover: #292929;
+  --dash-borda: #333333;
+  --dash-borda-controle: #393939;
+  --dash-texto: #f5f5f5;
+  --dash-texto-secundario: #999999;
+  --dash-texto-rotulo: #cccccc;
+  --dash-destaque: #ffd000;
+  --dash-destaque-hover: #ecbe10;
+  --dash-critico: #ff5555;
+  --dash-atencao: #ffd000;
+  --dash-normal: #2bbd72;
+  --dash-informacao: #4199ed;
+  /* Séries identificam recursos, independentemente da gravidade da leitura. */
+  --dash-serie-cpu: #ffd741;
+  --dash-serie-ram: #3498db;
+  --dash-serie-disco: #3ddc57;
+  --dash-serie-processos: #4da3ff;
+  --dash-critico-rgb: 255, 85, 85;
+  --dash-atencao-rgb: 255, 208, 0;
+  --dash-normal-rgb: 43, 189, 114;
+  --dash-fonte: "Barlow", "Segoe UI", sans-serif;
+  --dash-fonte-titulo: 25px;
+  --dash-fonte-secao: 15px;
+  --dash-fonte-painel: 13px;
+  --dash-fonte-rotulo: 12px;
+  --dash-fonte-kpi: 28px;
+  --dash-fonte-corpo: 12px;
+  --dash-fonte-detalhe: 10px;
+  --dash-fonte-grafico: 11px;
+  --dash-raio-card: 9px;
+  --dash-raio-controle: 6px;
+  --dash-padding-card: 14px;
+  --dash-padding-conteudo: 22px 28px 36px;
+  --dash-gap-secao: 14px;
+  --dash-gap-painel: 12px;
+  --dash-gap-kpi: 10px;
+}
+
+@media (max-width: 1100px) {
+  :root { --dash-padding-conteudo: 18px; }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --dash-padding-conteudo: 12px 12px 20px;
+    --dash-fonte-titulo: 20px;
+    --dash-gap-secao: 12px;
+  }
+}

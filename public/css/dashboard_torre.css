@@ -1,26 +1,27 @@
+@import url("./dashboard-tokens.css");
 /* ==========================================================================
    1. TOKENS — cores, fontes e alturas dos gráficos.
    Espelham PALETA/FONTE_GRAFICO do <script> no dashboard_torre.html.
    ========================================================================== */
 :root {
-  --branco: #ffffff;
-  --amarelo: #ffd741;
-  --amarelo-hover: #ecbe10;
+  --branco: var(--dash-texto);
+  --amarelo: var(--dash-destaque);
+  --amarelo-hover: var(--dash-destaque-hover);
   --preto: #000000;
-  --verde: #3ddc57;
-  --vermelho: #ff4d4d;
+  --verde: var(--dash-normal);
+  --vermelho: var(--dash-critico);
   --azul: #3498db;
   --roxo: #c49af5;
-  --cinza: #8f8e8e;
-  --cinza-sub: #b7b7b7;
+  --cinza: var(--dash-texto-secundario);
+  --cinza-sub: var(--dash-texto-secundario);
 
-  --fundo: #121212;
-  --fundo-card: #1c1c1c;
-  --fundo-controle: #1a1a1a;
-  --borda: #333333;
-  --borda-controle: #444444;
-  --texto: #f2f2f2;
-  --texto-secundario: #aaaaaa;
+  --fundo: var(--dash-fundo);
+  --fundo-card: var(--dash-card);
+  --fundo-controle: var(--dash-controle);
+  --borda: var(--dash-borda);
+  --borda-controle: var(--dash-borda-controle);
+  --texto: var(--dash-texto);
+  --texto-secundario: var(--dash-texto-secundario);
 
   --fs-titulo-pagina: 20px;
   --fs-titulo-secao: 16px;
@@ -219,17 +220,17 @@ body {
 }
 
 .badge_status.normal {
-  background-color: rgba(61, 220, 87, 0.15);
+  background-color: rgba(var(--dash-normal-rgb), 0.15);
   color: var(--verde);
 }
 
 .badge_status.alerta {
-  background-color: rgba(255, 215, 65, 0.15);
+  background-color: rgba(var(--dash-atencao-rgb), 0.15);
   color: var(--amarelo);
 }
 
 .badge_status.critico {
-  background-color: rgba(255, 77, 77, 0.15);
+  background-color: rgba(var(--dash-critico-rgb), 0.15);
   color: var(--vermelho);
 }
 
@@ -382,13 +383,13 @@ th {
   border-radius: 12px;
   border: 1px solid var(--amarelo);
   color: var(--amarelo);
-  background-color: rgba(255, 215, 65, 0.08);
+  background-color: rgba(var(--dash-atencao-rgb), 0.08);
 }
 
 .tag_alerta.critico {
   border-color: var(--vermelho) !important;
   color: var(--vermelho) !important;
-  background-color: rgba(255, 77, 77, 0.12) !important;
+  background-color: rgba(var(--dash-critico-rgb), 0.12) !important;
 }
 
 .btn_ver_todos {
@@ -481,7 +482,7 @@ th {
 
 .grafico-alertas-limite,
 .kpi-alertas-limite {
-  background: linear-gradient(145deg, #222 0%, #1b1b1b 100%);
+  background: linear-gradient(145deg, #222 0%, var(--dash-card) 100%);
   border: 1px solid var(--borda-controle);
   border-radius: 8px;
   min-width: 0;
@@ -808,3 +809,40 @@ th {
     min-width: 620px;
   }
 }
+
+/* Acabamento da Suporte. Os grids, alturas e controles da sidebar são locais. */
+body { font-family: var(--dash-fonte); background-color: var(--dash-fundo); }
+
+/* O cadastro aplica fundo !important à coluna de conteúdo. */
+.container_responsivo > main.conteudo_layout { background-color: var(--dash-fundo) !important; }
+
+/* Supera somente os paddings !important herdados do cadastro e da sidebar. */
+.container_responsivo > main,
+.container_responsivo > main.conteudo_com_controle_sidebar {
+  padding: var(--dash-padding-conteudo) !important;
+  gap: var(--dash-gap-secao);
+}
+
+:root {
+  --fs-titulo-pagina: var(--dash-fonte-titulo);
+  --fs-titulo-secao: var(--dash-fonte-painel);
+  --fs-corpo: var(--dash-fonte-corpo);
+  --fs-controle: var(--dash-fonte-corpo);
+  --fs-detalhe: var(--dash-fonte-detalhe);
+  --fs-metrica: var(--dash-fonte-kpi);
+  --fs-kpi: var(--dash-fonte-kpi);
+  --fs-badge: var(--dash-fonte-detalhe);
+  --fs-tag: var(--dash-fonte-detalhe);
+}
+.container_1_dash { background: var(--dash-gradiente-cabecalho); border: 1px solid #8b7100; border-left: 4px solid var(--dash-destaque); border-radius: var(--dash-raio-card); }
+.container_metricas, .container_meio, .painel-alertas-limite { gap: var(--dash-gap-painel); }
+.card_metrica, .card_grafico, .card_alertas_componente, .container_tabela, .grafico-alertas-limite, .kpi-alertas-limite { background: var(--dash-gradiente-card); border-radius: var(--dash-raio-card); border-color: var(--dash-borda); padding: var(--dash-padding-card); }
+.topo_card_metrica { font-size: var(--dash-fonte-rotulo); font-weight: 600; color: var(--dash-texto-rotulo); }
+.conteudo_layout table { font-size: var(--dash-fonte-detalhe); }
+.conteudo_layout th { padding: 10px 8px; font-weight: 500; }
+.conteudo_layout td { padding: 11px 8px; }
+.conteudo_layout tbody tr:hover { background: var(--dash-hover); }
+.btn_ver_todos, .btn-aplicar-periodo, .filtros-alertas-limite select, .filtros-alertas-limite input, .filtros-historico select, .filtros-historico input { border-radius: var(--dash-raio-controle); }
+/* Mantém a métrica legível sem modificar as alturas dos gráficos no mobile. */
+.conteudo_layout .valor_metrica, .conteudo_layout .kpi-total-alertas { font-size: var(--dash-fonte-kpi); }
+.conteudo_layout .textos h2 { font-size: var(--dash-fonte-titulo); }

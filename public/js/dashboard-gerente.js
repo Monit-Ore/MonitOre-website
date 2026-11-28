@@ -1,3 +1,29 @@
+// Aparência compartilhada com o CSS; não participa dos cálculos de status.
+const temaGraficoDashboard = (() => {
+  const css = getComputedStyle(document.documentElement);
+  const ler = (nome) => css.getPropertyValue('--dash-' + nome).trim();
+  return {
+    destaque: ler('destaque'), normal: ler('normal'), critico: ler('critico'),
+    texto: ler('texto'), secundario: ler('texto-secundario'),
+    grade: ler('borda'), fundo: ler('card'), borda: ler('borda-controle'),
+    serieCpu: ler('serie-cpu'), serieRam: ler('serie-ram'), serieDisco: ler('serie-disco'), serieProcessos: ler('serie-processos'),
+    fonte: { family: ler('fonte'), size: parseFloat(ler('fonte-grafico')) },
+    alpha: (estado, opacidade) => 'rgba(' + ler(estado + '-rgb') + ', ' + opacidade + ')'
+  };
+})();
+if (typeof Chart !== 'undefined') {
+  Chart.defaults.color = temaGraficoDashboard.secundario;
+  Chart.defaults.font.family = temaGraficoDashboard.fonte.family;
+  Chart.defaults.font.size = temaGraficoDashboard.fonte.size;
+  Object.assign(Chart.defaults.plugins.tooltip, {
+    backgroundColor: temaGraficoDashboard.fundo,
+    titleColor: temaGraficoDashboard.texto,
+    bodyColor: temaGraficoDashboard.texto,
+    borderColor: temaGraficoDashboard.borda,
+    borderWidth: 1
+  });
+}
+
 // ==========================================
 // DADOS INICIAIS (MOCK)
 // ==========================================
@@ -150,7 +176,7 @@ function criarGraficoStatus(status) {
       datasets: [
         {
           data: [status.online, status.alerta, status.offline],
-          backgroundColor: ["#3ddc57", "#ffd741", "#ff4d4d"],
+          backgroundColor: [temaGraficoDashboard.normal, temaGraficoDashboard.destaque, temaGraficoDashboard.critico],
           borderWidth: 0,
           hoverOffset: 4,
         },
@@ -179,7 +205,7 @@ function criarGraficoMineradoras(mineradoras) {
       datasets: [
         {
           data: mineradoras.dados,
-          backgroundColor: "#ffd741",
+          backgroundColor: temaGraficoDashboard.destaque,
           borderRadius: 4,
           barThickness: 12,
         },
@@ -194,13 +220,13 @@ function criarGraficoMineradoras(mineradoras) {
       },
       scales: {
         x: {
-          grid: { color: "#262626" },
-          ticks: { color: "#8f8e8e", stepSize: 1 },
+          grid: { color: temaGraficoDashboard.grade },
+          ticks: { color: temaGraficoDashboard.secundario, stepSize: 1 },
           max: 3,
         },
         y: {
           grid: { display: false },
-          ticks: { color: "#ffffff", font: { size: 11 } },
+          ticks: { color: temaGraficoDashboard.texto, font: temaGraficoDashboard.fonte },
         },
       },
     },
@@ -218,7 +244,7 @@ function criarGraficoTorres(torres) {
       datasets: [
         {
           data: torres.dados,
-          backgroundColor: "#ffd741",
+          backgroundColor: temaGraficoDashboard.destaque,
           borderRadius: 4,
           barThickness: 12,
         },
@@ -233,13 +259,13 @@ function criarGraficoTorres(torres) {
       },
       scales: {
         x: {
-          grid: { color: "#262626" },
-          ticks: { color: "#8f8e8e" },
+          grid: { color: temaGraficoDashboard.grade },
+          ticks: { color: temaGraficoDashboard.secundario },
           max: 3,
         },
         y: {
           grid: { display: false },
-          ticks: { color: "#ffffff", font: { size: 11 } },
+          ticks: { color: temaGraficoDashboard.texto, font: temaGraficoDashboard.fonte },
         },
       },
     },
@@ -259,10 +285,10 @@ function criarGraficoPicosProcesso(picos) {
         {
           label: "Pico de CPU (%)",
           data: picos.picosCpu,
-          borderColor: "#ffd741",
-          backgroundColor: "rgba(255, 215, 65, 0.15)",
+          borderColor: temaGraficoDashboard.destaque,
+          backgroundColor: temaGraficoDashboard.alpha('atencao', 0.15),
           borderWidth: 2,
-          pointBackgroundColor: "#ffd741",
+          pointBackgroundColor: temaGraficoDashboard.destaque,
           pointRadius: 4,
           tension: 0.35,
           fill: true,
@@ -282,15 +308,15 @@ function criarGraficoPicosProcesso(picos) {
       },
       scales: {
         x: {
-          grid: { color: "#262626" },
-          ticks: { color: "#8f8e8e" },
+          grid: { color: temaGraficoDashboard.grade },
+          ticks: { color: temaGraficoDashboard.secundario },
         },
         y: {
           min: 0,
           max: 100,
-          grid: { color: "#262626" },
+          grid: { color: temaGraficoDashboard.grade },
           ticks: {
-            color: "#8f8e8e",
+            color: temaGraficoDashboard.secundario,
             callback: (val) => val + "%"
           },
         },

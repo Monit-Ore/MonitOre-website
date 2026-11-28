@@ -23,7 +23,7 @@ function renderizarDashboard(torres, ultimaAtualizacao, mensagemIndisponivel = "
     critico_previsto: ["Crítico previsto", "critica_prevista", "fa-clock"],
     crescimento: ["Crescimento preocupante", "alerta", "fa-arrow-trend-up"],
     pressao: ["Sob pressão", "alerta", "fa-triangle-exclamation"],
-    sem_dados: ["Sem dados", "normal", "fa-circle-question"],
+    sem_dados: ["Sem dados", "normal sem_monitoramento", "fa-circle-question"],
   };
   const ordemSituacoes = ["critico", "atencao", "critico_previsto", "atencao_prevista", "crescimento", "pressao"];
   const formatoNumero = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 2 });

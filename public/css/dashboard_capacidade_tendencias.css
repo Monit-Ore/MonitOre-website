@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("./dashboard-tokens.css");
 
 * {
   box-sizing: border-box;
@@ -8,15 +8,15 @@
 
 :root {
   color-scheme: dark;
-  --branco: #ffffff;
-  --amarelo: #ffd02a;
-  --vermelho: #ff8585;
-  --verde: #72d7a4;
-  --cinza-sub: #bcbcbc;
-  --fundo-pagina: #1c1c1c;
+  --branco: var(--dash-texto);
+  --amarelo: var(--dash-destaque);
+  --vermelho: var(--dash-critico);
+  --verde: var(--dash-normal);
+  --cinza-sub: var(--dash-texto-secundario);
+  --fundo-pagina: var(--dash-fundo);
   --fundo-menu: #111111;
-  --fundo-card: #202020;
-  --borda-card: #343434;
+  --fundo-card: var(--dash-card);
+  --borda-card: var(--dash-borda);
   --gradiente-card: linear-gradient(155deg, #252525, var(--fundo-card) 65%);
 }
 
@@ -223,7 +223,7 @@ body {
   border: 1px solid var(--borda-card);
   border-radius: 6px;
   padding: 10px 12px;
-  color: #ffffff;
+  color: var(--dash-texto);
 }
 
 .filtro_select i { color: var(--amarelo); }
@@ -231,14 +231,14 @@ body {
 .filtro_select select {
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: var(--dash-texto);
   font-family: inherit;
   font-size: 14px;
 }
 
 .filtro_select select option {
-  background: #1c1c1c;
-  color: #ffffff;
+  background: var(--dash-card);
+  color: var(--dash-texto);
 }
 
 .card_painel {
@@ -261,7 +261,7 @@ body {
 .painel_header h2 {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--dash-texto);
 }
 
 .painel_header small {
@@ -299,19 +299,19 @@ body {
 .tabela_custom td {
   padding: 8px 10px;
   text-align: left;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid var(--dash-borda);
   vertical-align: middle;
 }
 
 .tabela_custom thead th {
-  color: #aaaaaa;
+  color: var(--dash-texto-secundario);
   font-weight: 600;
   font-size: 13px;
   background: var(--fundo-card);
 }
 
 .tabela_custom td {
-  color: #ffffff;
+  color: var(--dash-texto);
 }
 
 .tabela_custom tbody tr:hover { background: rgb(255 255 255 / 3%); }
@@ -361,7 +361,7 @@ body {
 .tag_status.alerta {
   color: var(--amarelo);
   border-color: var(--amarelo);
-  background-color: rgba(255, 215, 65, 0.08);
+  background-color: rgba(var(--dash-atencao-rgb), 0.08);
 }
 
 .tag_status.prevista {
@@ -383,7 +383,7 @@ body {
 .tag_status.critico {
   color: var(--vermelho);
   border-color: var(--vermelho);
-  background-color: rgba(255, 77, 77, 0.08);
+  background-color: rgba(var(--dash-critico-rgb), 0.08);
 }
 
 #dados-dashboard { display: grid; gap: 18px; min-width: 0; }
@@ -599,7 +599,7 @@ body {
   display: flex;
   flex-direction: column;
 }
-.indicador_situacao h2 { font-size: 15px; font-weight: 600; color: #ffffff; }
+.indicador_situacao h2 { font-size: 15px; font-weight: 600; color: var(--dash-texto); }
 .indicador_situacao h2 { display: flex; align-items: baseline; gap: 8px; }
 .indicador_situacao h2 i { flex-shrink: 0; }
 .indicador_situacao[data-grupo="critico"] h2 i { color: var(--vermelho); }
@@ -615,3 +615,33 @@ body {
 @media (max-width: 580px) {
   .indicadores_operacionais { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Acabamento da Suporte. Os grids, alturas e controles da sidebar são locais. */
+body { font-family: var(--dash-fonte); background-color: var(--dash-fundo); }
+
+/* Supera somente os paddings !important herdados do cadastro e da sidebar. */
+.container_responsivo > main,
+.container_responsivo > main.conteudo_com_controle_sidebar {
+  padding: var(--dash-padding-conteudo) !important;
+  gap: var(--dash-gap-secao);
+}
+
+:root { --gradiente-card: var(--dash-gradiente-card); }
+.header_dashboard { background: var(--dash-gradiente-cabecalho); border-color: #8b7100; border-inline-start: 4px solid var(--dash-destaque); border-radius: var(--dash-raio-card); padding: 22px; }
+.header_dashboard h1 { font-size: var(--dash-fonte-titulo); }
+.header_dashboard p { font-size: var(--dash-fonte-corpo); }
+.icone_titulo_amarelo { border-radius: var(--dash-raio-card); }
+.card_painel, .indicador_situacao { padding: var(--dash-padding-card); border-radius: var(--dash-raio-card); }
+.painel_header h2 { font-size: var(--dash-fonte-secao); }
+.indicador_situacao h2 { font-size: var(--dash-fonte-painel); }
+.total_situacao { font-size: var(--dash-fonte-kpi); }
+.painel_header small, .sub_item, .tag_status, .torre_detalhe, .legenda_torres { font-size: var(--dash-fonte-detalhe); }
+.filtro_select, #alternar-kpis { border-radius: var(--dash-raio-controle); }
+.filtro_select, .filtro_select select { font-size: var(--dash-fonte-corpo); }
+.tabela_custom { font-size: var(--dash-fonte-detalhe); }
+.tabela_custom thead th { font-size: inherit; font-weight: 500; }
+#dados-dashboard, .visao_operacional { gap: var(--dash-gap-secao); }
+.indicadores_operacionais { gap: var(--dash-gap-painel); }
+/* Sem captura mantém o rótulo e usa um sinal neutro, separado de normal. */
+.torre_status.sem_monitoramento { --sinal-torre: var(--dash-texto-secundario); }
+.tag_status.sem_monitoramento { color: var(--dash-texto-secundario); }

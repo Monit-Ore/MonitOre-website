@@ -1,3 +1,29 @@
+// Aparência compartilhada com o CSS; não participa dos cálculos de status.
+const temaGraficoDashboard = (() => {
+  const css = getComputedStyle(document.documentElement);
+  const ler = (nome) => css.getPropertyValue('--dash-' + nome).trim();
+  return {
+    destaque: ler('destaque'), normal: ler('normal'), critico: ler('critico'),
+    texto: ler('texto'), secundario: ler('texto-secundario'),
+    grade: ler('borda'), fundo: ler('card'), borda: ler('borda-controle'),
+    serieCpu: ler('serie-cpu'), serieRam: ler('serie-ram'), serieDisco: ler('serie-disco'), serieProcessos: ler('serie-processos'),
+    fonte: { family: ler('fonte'), size: parseFloat(ler('fonte-grafico')) },
+    alpha: (estado, opacidade) => 'rgba(' + ler(estado + '-rgb') + ', ' + opacidade + ')'
+  };
+})();
+if (typeof Chart !== 'undefined') {
+  Chart.defaults.color = temaGraficoDashboard.secundario;
+  Chart.defaults.font.family = temaGraficoDashboard.fonte.family;
+  Chart.defaults.font.size = temaGraficoDashboard.fonte.size;
+  Object.assign(Chart.defaults.plugins.tooltip, {
+    backgroundColor: temaGraficoDashboard.fundo,
+    titleColor: temaGraficoDashboard.texto,
+    bodyColor: temaGraficoDashboard.texto,
+    borderColor: temaGraficoDashboard.borda,
+    borderWidth: 1
+  });
+}
+
 ﻿/**
  * MonitOre - Dashboard Preditiva de Processos (Beeling)
  * Script dinâmico individual do integrante Isaac
@@ -89,15 +115,15 @@ const pluginReferenciaBeeling = {
       const yLimite = scales.y.getPixelForValue(pluginOpts.limite);
       ctx.beginPath();
       ctx.setLineDash([4, 4]);
-      ctx.strokeStyle = "rgba(255, 77, 77, 0.45)";
+      ctx.strokeStyle = temaGraficoDashboard.alpha('critico', 0.45);
       ctx.lineWidth = 1;
       ctx.moveTo(chartArea.left, yLimite);
       ctx.lineTo(chartArea.right, yLimite);
       ctx.stroke();
 
       ctx.setLineDash([]);
-      ctx.fillStyle = "rgba(255, 115, 115, 0.85)";
-      ctx.font = "600 10px Barlow, sans-serif";
+      ctx.fillStyle = temaGraficoDashboard.alpha('critico', 0.85);
+      ctx.font = `600 ${temaGraficoDashboard.fonte.size}px ${temaGraficoDashboard.fonte.family}`;
       ctx.textAlign = "right";
       ctx.fillText(`Limite ${pluginOpts.limite}%`, chartArea.right - 6, yLimite - 4);
     }
@@ -122,13 +148,13 @@ const pluginReferenciaBeeling = {
       const labelX = xAgora - labelW / 2;
       const labelY = chartArea.top - 2;
 
-      ctx.fillStyle = "#2b2b2b";
+      ctx.fillStyle = temaGraficoDashboard.fundo;
       ctx.fillRect(labelX, labelY, labelW, labelH);
-      ctx.strokeStyle = "#525252";
+      ctx.strokeStyle = temaGraficoDashboard.borda;
       ctx.strokeRect(labelX, labelY, labelW, labelH);
 
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "600 10px Barlow, sans-serif";
+      ctx.fillStyle = temaGraficoDashboard.texto;
+      ctx.font = `600 ${temaGraficoDashboard.fonte.size}px ${temaGraficoDashboard.fonte.family}`;
       ctx.textAlign = "center";
       ctx.fillText("Agora", xAgora, labelY + 11);
     }
@@ -774,7 +800,7 @@ function renderizarGraficos(recurso) {
           label: "Intervalo superior (95%)",
           data: serie.faixaSuperior || [],
           borderColor: "transparent",
-          backgroundColor: "rgba(255, 215, 65, 0.14)",
+          backgroundColor: temaGraficoDashboard.alpha('atencao', 0.14),
           pointRadius: 0,
           fill: "+1",
           tension: 0.35
@@ -783,7 +809,7 @@ function renderizarGraficos(recurso) {
           label: "Intervalo inferior (95%)",
           data: serie.faixaInferior || [],
           borderColor: "transparent",
-          backgroundColor: "rgba(255, 215, 65, 0.14)",
+          backgroundColor: temaGraficoDashboard.alpha('atencao', 0.14),
           pointRadius: 0,
           fill: false,
           tension: 0.35
@@ -791,8 +817,8 @@ function renderizarGraficos(recurso) {
         {
           label: "Observado",
           data: serie.observado || [],
-          borderColor: "#ffd741",
-          backgroundColor: "#ffd741",
+          borderColor: temaGraficoDashboard.destaque,
+          backgroundColor: temaGraficoDashboard.destaque,
           borderWidth: 2,
           pointRadius: totalPontos < 30 ? 2 : 0,
           pointHoverRadius: 5,
@@ -801,8 +827,8 @@ function renderizarGraficos(recurso) {
         {
           label: "Projeção Beeling",
           data: serie.projecao || [],
-          borderColor: "#ffd741",
-          backgroundColor: "#ffd741",
+          borderColor: temaGraficoDashboard.destaque,
+          backgroundColor: temaGraficoDashboard.destaque,
           borderWidth: 2,
           borderDash: [5, 5],
           pointRadius: pointRadiusProjecao,
@@ -833,21 +859,21 @@ function renderizarGraficos(recurso) {
       },
       scales: {
         x: {
-          grid: { color: "rgba(255, 255, 255, 0.04)" },
+          grid: { color: temaGraficoDashboard.grade },
           ticks: {
-            color: "#767676",
-            font: { size: 10, family: "Barlow, sans-serif" },
+            color: temaGraficoDashboard.secundario,
+            font: temaGraficoDashboard.fonte,
             maxTicksLimit: 10
           }
         },
         y: {
           min: 0,
           max: 100,
-          grid: { color: "rgba(255, 255, 255, 0.05)" },
+          grid: { color: temaGraficoDashboard.grade },
           ticks: {
             stepSize: 25,
-            color: "#767676",
-            font: { size: 10, family: "Barlow, sans-serif" },
+            color: temaGraficoDashboard.secundario,
+            font: temaGraficoDashboard.fonte,
             callback: (val) => `${val}%`
           }
         }
@@ -883,7 +909,7 @@ function renderizarGraficos(recurso) {
         {
           label: "Processos ativos",
           data: serieProc,
-          borderColor: "#4da3ff",
+          borderColor: temaGraficoDashboard.serieProcessos,
           backgroundColor: "rgba(77, 163, 255, 0.12)",
           borderWidth: 1.5,
           pointRadius: 0,
@@ -907,8 +933,8 @@ function renderizarGraficos(recurso) {
         x: {
           grid: { display: false },
           ticks: {
-            color: "#767676",
-            font: { size: 10, family: "Barlow, sans-serif" },
+            color: temaGraficoDashboard.secundario,
+            font: temaGraficoDashboard.fonte,
             maxTicksLimit: 7
           }
         },
@@ -979,7 +1005,7 @@ function renderizarTabelaProcessos() {
     const tdVazia = document.createElement("td");
     tdVazia.colSpan = 8;
     tdVazia.style.textAlign = "center";
-    tdVazia.style.color = "#767676";
+    tdVazia.style.color = temaGraficoDashboard.secundario;
     tdVazia.style.padding = "24px";
     tdVazia.textContent = "Nenhum processo encontrado para os crit\u00e9rios informados.";
     trVazia.appendChild(tdVazia);
