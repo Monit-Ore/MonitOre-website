@@ -24,8 +24,13 @@ var indexRouter = require("./src/routes/index");
 var usuariosRouter = require("./src/routes/usuarios");
 var torresRouter = require("./src/routes/torres");
 var empresaRouter = require("./src/routes/empresas");
+var dashboardCapacidadeRouter = require("./src/routes/dashboardCapacidade");
 
 var equipeRouter = require("./src/routes/equipe");
+var goldRouter = require("./src/routes/gold");
+var dashboardProcessosRouter = require("./src/routes/dashboardProcessos");
+var suporteRouter = require("./src/routes/suporte");
+var dashboardRouter = require("./src/routes/dashboard");
 
 
 // Permite receber JSON.
@@ -37,6 +42,9 @@ app.use(
     extended: false,
   }),
 );
+
+// Rotas do Gold (S3 ou cópia local) precisam vir antes do static.
+app.use("/gold", goldRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -58,6 +66,9 @@ app.use(
     })
 );
 
+app.use(require("./src/middleware/autorizacao").protegerAcesso);
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use("/", indexRouter);
 app.use("/equipe", equipeRouter);
 
@@ -66,9 +77,14 @@ app.use("/usuarios", usuariosRouter);
 app.use("/torres", torresRouter);
 
 app.use("/empresas", empresaRouter);
+app.use("/dashboard", dashboardCapacidadeRouter);
+app.use("/dashboard-processos", dashboardProcessosRouter);
+
+app.use("/suporte", suporteRouter);
+app.use("/dashboard", dashboardRouter);
 
 
-app.listen(PORTA_APP, function () {
+if (require.main === module) app.listen(PORTA_APP, function () {
   console.log(`
     ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######
     ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##        ##
@@ -92,3 +108,5 @@ app.listen(PORTA_APP, function () {
     Para alterar o ambiente, modifique as primeiras linhas do app.js.
     `);
 });
+
+module.exports = app;

@@ -31,6 +31,7 @@ async function carregarUsuariosDaEmpresa() {
 
 function montarLinhaUsuario(usuario) {
   var cargoClass =
+    usuario.cargo === "Suporte" ? "tag_suporte" :
     usuario.cargo === "Administrador" ? "tag_admin" : "tag_analista";
 
   return `
@@ -213,22 +214,6 @@ async function deletar(idUsuario) {
   }
 }
 
-
-
-function carregarUsuarioMenu() {
-  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
-  if (!nomeUsuario) {
-    return;
-  }
-  nome_usuario.textContent = nomeUsuario;
-
-  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
-  if (!cargoUsuario) {
-    return;
-  }
-  cargo_usuario.textContent = cargoUsuario;
-}
-
 function carregarIniciais() {
   const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
   if (!nomeUsuario) {
@@ -255,11 +240,6 @@ function carregarIniciais() {
   if (segundoAvatar) segundoAvatar.textContent = iniciais.join('');
 }
 
-
-function voltar() {
-  window.history.back();
-}
-
 function ativarTorres() {
   window.location.href = "/selecao_torre.html";
 }
@@ -270,12 +250,6 @@ function ativarUsuarios() {
 
 function ativarMineradora() {
   window.location.href = "./cadastro_mineradora.html";
-}
-
-function ativarMenu(idAtivo) {
-  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
-    item.classList.toggle("ativo", item.id === idAtivo);
-  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -292,12 +266,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   carregarUsuarioMenu();
   carregarIniciais();
-
-  const botaoMenu = document.querySelector(".btn-notificacao");
-
-  botaoMenu?.addEventListener("click", () =>
-    document.body.classList.toggle("menu-aberto"),
-  );
 
   document.getElementById("botao_sair")?.addEventListener("click", () => {
     sessionStorage.clear();

@@ -1,16 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
   carregarCargos();
+  document.getElementById("cargo_ipt")?.addEventListener("change", atualizarAcessoPorCargo);
 
   configurarMascaras();
   carregarUsuarioMenu();
   carregarIniciais();
-  var botaoMenu = document.querySelector(".btn-notificacao");
-
-  if (botaoMenu) {
-    botaoMenu.addEventListener("click", function () {
-      document.body.classList.toggle("menu-aberto");
-    });
-  }
 });
 
 // CARREGAMENTO DOS CARGOS
@@ -52,7 +46,7 @@ function carregarCargos() {
 // CADASTRO
 
 function salvar() {
-  if (!acessosTorresCarregados) {
+  if (document.getElementById("cargo_ipt").value !== "Suporte" && !acessosTorresCarregados) {
     mostrarMensagem(
       "Aguarde o carregamento das torres antes de cadastrar o usuário.",
       true,
@@ -110,7 +104,7 @@ function salvar() {
     telefone: telefone || null,
 
     cargo: cargo,
-    torres: obterTorresSelecionadas(),
+    torres: cargo === "Suporte" ? [] : obterTorresSelecionadas(),
   };
 
   enviarCadastro(dadosCadastro);
@@ -154,7 +148,7 @@ function enviarCadastro(dadosCadastro) {
       var mensagemAcesso = document.getElementById("mensagem_acesso");
       if (mensagemAcesso) {
         mensagemAcesso.textContent =
-          "Acessos às torres salvos junto com o usuário.";
+          dadosCadastro.cargo === "Suporte" ? "Usuário de suporte cadastrado sem acesso às torres." : "Acessos às torres salvos junto com o usuário.";
         mensagemAcesso.style.color = "#f5c400";
 
         setTimeout(function () {
@@ -163,6 +157,7 @@ function enviarCadastro(dadosCadastro) {
       }
 
       limparFormulario();
+      atualizarAcessoPorCargo();
     })
     .catch(function (erro) {
       mostrarMensagem(erro.message, true);
@@ -228,20 +223,6 @@ function configurarMascaras() {
 
     campoTelefone.value = telefone;
   });
-}
-
-function carregarUsuarioMenu() {
-  const nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
-  if (!nomeUsuario) {
-    return;
-  }
-  nome_usuario.textContent = nomeUsuario;
-
-  const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
-  if (!cargoUsuario) {
-    return;
-  }
-  cargo_usuario.textContent = cargoUsuario;
 }
 
 function carregarIniciais() {
@@ -312,10 +293,6 @@ function cancelar() {
   window.history.back();
 }
 
-function voltar() {
-  window.history.back();
-}
-
 function notificacao() {
   alert("Você não possui novas notificações.");
 }
@@ -375,12 +352,6 @@ document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarioMenu();
   carregarIniciais();
 
-  const botaoMenu = document.querySelector(".btn-notificacao");
-
-  botaoMenu?.addEventListener("click", () =>
-    document.body.classList.toggle("menu-aberto"),
-  );
-
   document.getElementById("botao_sair")?.addEventListener("click", () => {
     sessionStorage.clear();
     window.location.href = "./login.html";
@@ -392,3 +363,8 @@ const botaoMenu = document.querySelector(".btn-notificacao");
 botaoMenu?.addEventListener("click", () =>
   document.body.classList.toggle("menu-aberto"),
 );
+
+function atualizarAcessoPorCargo() {
+  const secao = document.querySelector(".acesso_torres");
+  if (secao) secao.style.display = document.getElementById("cargo_ipt")?.value === "Suporte" ? "none" : "";
+}

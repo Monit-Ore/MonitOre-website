@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MonitOre | Dashboard Preditiva de Processos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="./css/global.css" />
+  <link rel="stylesheet" href="./css/dashboard-isaac.css" />
+</head>
+
+<body class="container_responsivo" data-permissao-pagina="dashboard-torre">
+  <aside class="navegacao">
+    <div class="logo_navegacao">
+      <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+    </div>
+
+    <nav class="menu_navegacao">
+      <ul>
+        <li>
+          <a href="./dashboard-gerente.html" class="item_menu" id="dashboard-gerente"
+            data-permissao="dashboard-gerente">
+            <i class="fa-solid fa-chart-line icone_menu"></i>
+            <span>Dashboard Gerente</span>
+          </a>
+        </li>
+        <li>
+          <a href="/selecao_torre.html" class="item_menu ativo" id="torres" data-permissao="torres">
+            <i class="fa-solid fa-tower-broadcast icone_menu"></i>
+            <span>Torres</span>
+          </a>
+        </li>
+        <li>
+          <a href="/cadastro.html" class="item_menu" id="usuarios" data-permissao="usuarios">
+            <i class="fa-solid fa-users icone_menu"></i>
+            <span>Usuários</span>
+          </a>
+        </li>
+        <li>
+          <a href="./cadastro_mineradora.html" class="item_menu" id="menu_mineradora" data-permissao="mineradoras">
+            <i class="fa-solid fa-hammer icone_menu"></i>
+            <span>Cadastro de Mineradora</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="rodape_navegacao">
+      <div class="usuario_navegacao" id="usuario_logado" role="link" tabindex="0" aria-label="Abrir meu perfil">
+        <div class="avatar_usuario" id="avatar_usuario"></div>
+        <div class="info_usuario">
+          <span class="nome_usuario" id="nome_usuario"></span>
+          <span class="cargo_usuario" id="cargo_usuario"></span>
+        </div>
+        <i class="fa-solid fa-chevron-right icone_menu"></i>
+      </div>
+
+      <button class="botao_sair" id="botao_sair" type="button">
+        <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+        <span>Sair</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="conteudo_layout">
+      <!-- Breadcrumb -->
+      <div class="barra_superior">
+        <div class="breadcrumb" id="breadcrumb_torre">
+          <a href="/selecao_torre.html" style="color: inherit; text-decoration: none;">Torres</a>
+          <span>/</span>
+          <span id="breadcrumb_nome_torre">Torre --</span>
+          <span>/</span>
+          <span class="atual">Preditiva</span>
+        </div>
+      </div>
+
+      <!-- Cabeçalho da Página -->
+      <header class="cabecalho_dash">
+        <div class="cabecalho_esq">
+          <h1>Dashboard Preditiva de Processos</h1>
+          <div class="subtitulo_beeling">
+           
+          
+          </div>
+        </div>
+
+        <div class="cabecalho_dir">
+          <div class="controles_torre">
+            <span class="tag_beeling" id="badge_fonte_gold" style="display: none; background: rgba(255, 215, 65, 0.18); border: 1px solid var(--amarelo); color: var(--amarelo); font-size: 0.72rem; padding: 4px 8px; border-radius: 4px; gap: 4px; align-items: center;">
+              <i class="fa-solid fa-bolt"></i> CAMADA GOLD (JSON)
+            </span>
+            <div class="seletor_torre_wrap">
+              <i class="fa-solid fa-tower-cell"></i>
+              <select id="seletor_torre" aria-label="Selecionar torre">
+                <option value="">Carregando torres...</option>
+              </select>
+            </div>
+          </div>
+          <p class="meta_telemetria" id="meta_telemetria">
+            Carregando telemetria...
+          </p>
+        </div>
+      </header>
+
+      <!-- Barra de Filtros e Ações -->
+      <section class="barra_filtros" aria-label="Filtros da análise preditiva">
+        <div class="grupo_filtro">
+          <label for="filtro_historico">Histórico analisado</label>
+          <select id="filtro_historico">
+            <option value="24h" selected>Últimas 24 horas</option>
+            <option value="12h">Últimas 12 horas</option>
+            <option value="6h">Últimas 6 horas</option>
+          </select>
+        </div>
+
+        <div class="grupo_filtro">
+          <span class="rotulo_filtro">Horizonte de projeção</span>
+          <div class="segmented_control" role="group" aria-label="Horizonte de projeção">
+            <button type="button" class="btn_horizonte" data-horizonte="2h">2h</button>
+            <button type="button" class="btn_horizonte ativo" data-horizonte="6h">6h</button>
+            <button type="button" class="btn_horizonte" data-horizonte="24h">24h</button>
+          </div>
+        </div>
+
+        <div class="grupo_filtro grupo_busca_critico">
+          <label for="filtro_processos_criticos">Processos críticos</label>
+          <div class="input_icone_dir">
+            <input type="text" id="filtro_processos_criticos" placeholder="Todos os processos" />
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+        </div>
+
+        <div class="acoes_filtro_dir">
+          <span class="texto_escopo">Escopo: PC completo</span>
+          <span class="pill_analise">
+            <span class="ponto_verde"></span>
+            Análise atualizada
+          </span>
+          <button type="button" class="btn_secundario" id="btn_config_limites">
+            <i class="fa-solid fa-sliders"></i>
+            <span>Configurar limites</span>
+          </button>
+          <button type="button" class="btn_primario" id="btn_atualizar">
+            <i class="fa-solid fa-rotate"></i>
+            <span>Atualizar</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Container de Feedback (Carregando, Sem Dados, Erro) -->
+      <div id="estado_feedback" class="estado_feedback_container oculto">
+        <i id="estado_feedback_icone" class="fa-solid fa-spinner fa-spin estado_feedback_icone"></i>
+        <h3 id="estado_feedback_titulo" class="estado_feedback_titulo">Carregando dados...</h3>
+        <p id="estado_feedback_desc" class="estado_feedback_desc">Buscando métricas de telemetria e projeções preditivas.</p>
+        <button type="button" id="btn_tentar_novamente" class="btn_primario" style="display: none; margin-top: 8px;">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>Tentar novamente</span>
+        </button>
+      </div>
+
+      <!-- Banner de Telemetria Defasada -->
+      <div id="banner_defasagem" class="banner_aviso_defasado oculto">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <div>
+          <strong>Telemetria defasada:</strong>
+          <span id="texto_defasagem">Última leitura recebida às --:--. Exibindo dados da última captura válida.</span>
+        </div>
+      </div>
+
+      <div id="conteudo_dashboard">
+      <!-- Estado Atual do PC Industrial -->
+      <section class="secao_bloco">
+        <div class="cabecalho_secao">
+          <h2>Estado atual do PC Industrial</h2>
+          <span class="legenda_secao" id="legenda_kpis_historico">Medições reais · últimas 24h</span>
+        </div>
+
+        <div class="grid_kpis_atuais">
+          <!-- Card 1: Processos ativos -->
+          <article class="card_kpi">
+            <div class="topo_kpi">
+              <div class="titulo_kpi">
+                <i class="fa-solid fa-microchip icone_amarelo"></i>
+                <span>Processos ativos</span>
+              </div>
+              <span class="badge_variacao" id="kpi_processos_badge">--</span>
+            </div>
+            <div class="valor_kpi_linha">
+              <strong class="valor_kpi" id="kpi_processos_valor">--</strong>
+              <span class="unidade_kpi">processos</span>
+            </div>
+            <div class="rodape_kpi">
+              <span id="kpi_processos_media">Média --</span>
+              <span id="kpi_processos_pico">Pico --</span>
+              <span id="kpi_processos_variacao" class="destaque_positivo">Variação --</span>
+            </div>
+          </article>
+
+          <!-- Card 2: CPU -->
+          <article class="card_kpi">
+            <div class="topo_kpi">
+              <div class="titulo_kpi">
+                <i class="fa-solid fa-gauge-high icone_amarelo"></i>
+                <span>CPU</span>
+              </div>
+              <span class="badge_status_kpi normal" id="kpi_cpu_badge">
+                <span class="ponto_verde" id="kpi_cpu_ponto"></span>
+                <span id="kpi_cpu_status_texto">Normal</span>
+              </span>
+            </div>
+            <div class="valor_kpi_linha">
+              <strong class="valor_kpi" id="kpi_cpu_valor">--%</strong>
+              <span class="unidade_kpi">de utilização</span>
+            </div>
+            <div class="rodape_kpi">
+              <span id="kpi_cpu_media">Média --%</span>
+              <span id="kpi_cpu_pico">Pico --%</span>
+              <span id="kpi_cpu_limite">Limite --%</span>
+            </div>
+          </article>
+
+          <!-- Card 3: RAM -->
+          <article class="card_kpi">
+            <div class="topo_kpi">
+              <div class="titulo_kpi">
+                <i class="fa-solid fa-memory icone_amarelo"></i>
+                <span>RAM</span>
+              </div>
+              <span class="badge_status_kpi normal" id="kpi_ram_badge">
+                <span id="kpi_ram_ponto"></span>
+                <span id="kpi_ram_status_texto">Normal</span>
+              </span>
+            </div>
+            <div class="valor_kpi_linha">
+              <strong class="valor_kpi" id="kpi_ram_valor">--%</strong>
+              <span class="unidade_kpi" id="kpi_ram_detalhe">--</span>
+            </div>
+            <div class="rodape_kpi">
+              <span id="kpi_ram_media">Média --%</span>
+              <span id="kpi_ram_pico">Pico --%</span>
+              <span id="kpi_ram_limite">Limite --%</span>
+            </div>
+          </article>
+
+          <!-- Card 4: Ocupação do disco -->
+          <article class="card_kpi">
+            <div class="topo_kpi">
+              <div class="titulo_kpi">
+                <i class="fa-solid fa-hard-drive icone_amarelo"></i>
+                <span>Ocupação do disco</span>
+              </div>
+              <span class="badge_status_kpi normal" id="kpi_disco_badge">
+                <span id="kpi_disco_ponto"></span>
+                <span id="kpi_disco_status_texto">Normal</span>
+              </span>
+            </div>
+            <div class="valor_kpi_linha">
+              <strong class="valor_kpi" id="kpi_disco_valor">--%</strong>
+              <span class="unidade_kpi" id="kpi_disco_detalhe">ocupação</span>
+            </div>
+            <div class="rodape_kpi">
+              <span id="kpi_disco_media">Média --%</span>
+              <span id="kpi_disco_pico">Pico --%</span>
+              <span id="kpi_disco_limite">Limite --%</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Antecipe a Saturação -->
+      <section class="secao_bloco">
+        <div class="cabecalho_secao">
+          <h2>Antecipe a saturação</h2>
+          <span class="legenda_secao" id="legenda_projecao">Projeção  · horizonte de 6h</span>
+        </div>
+
+        <div class="grid_saturacao" id="grid_saturacao">
+          <!-- Preenchido dinamicamente via JS -->
+        </div>
+      </section>
+
+      <!-- Gráfico: Consumo Observado e Projeção -->
+      <section class="secao_bloco">
+        <div class="card_grafico_preditivo">
+          <div id="banner_projecao_indisponivel" class="banner_projecao_indisponivel" style="display: none;">
+            <i class="fa-solid fa-circle-info"></i>
+            <span id="texto_projecao_indisponivel">Histórico insuficiente para calcular a projeção (mínimo de 12 pontos necessários).</span>
+          </div>
+
+          <div class="topo_grafico">
+            <div>
+              <h2>Consumo observado e projeção</h2>
+              <p class="subtitulo_grafico" id="subtitulo_grafico">
+                CPU do PC completo · histórico recente + próximas 6h
+              </p>
+            </div>
+
+            <div class="abas_recurso" role="tablist" aria-label="Recurso do gráfico">
+              <button type="button" class="aba_recurso ativa" data-recurso="CPU" role="tab">CPU</button>
+              <button type="button" class="aba_recurso" data-recurso="RAM" role="tab">RAM</button>
+              <button type="button" class="aba_recurso" data-recurso="Disco" role="tab">Disco</button>
+            </div>
+          </div>
+
+          <div class="barra_legenda_grafico">
+            <div class="legendas_esq">
+              <span class="leg_item"><i class="linha_solida_amarela"></i> Observado</span>
+              <span class="leg_item"><i class="linha_tracejada_amarela"></i> Projeção</span>
+              <span class="leg_item"><i class="faixa_intervalo"></i> Intervalo de previsão 95%</span>
+            </div>
+            <span class="nota_estimativa">Estimativa, não garantia</span>
+          </div>
+
+          <!-- Gráfico Principal (Observado + Projeção) -->
+          <div class="canvas_principal_wrap">
+            <canvas id="graficoProjecaoPrincipal"></canvas>
+            <div class="callout_previsao" id="callout_previsao">
+              <strong id="callout_titulo">--</strong>
+              <span id="callout_sub">--</span>
+            </div>
+          </div>
+
+
+
+          <!-- Sub-gráfico Inferior: Processos Ativos -->
+          <div class="bloco_subgrafico_processos">
+            <div class="subgrafico_header">
+              <span>PROCESSOS ATIVOS</span>
+              <span id="resumo_processos_proj">-- agora → -- projetados</span>
+            </div>
+            <div class="canvas_processos_wrap">
+              <canvas id="graficoProcessosProjetados"></canvas>
+            </div>
+          </div>
+
+          <p class="rodape_grafico">
+          
+          </p>
+        </div>
+      </section>
+
+      <!-- Investigue os Processos -->
+      <section class="secao_bloco">
+        <div class="card_tabela_processos">
+          <div class="topo_tabela_processos">
+            <div>
+              <h2>Investigue os processos</h2>
+              <p class="subtitulo_grafico" id="subtitulo_tabela_processos">Consumo medido por processo na última rodada</p>
+            </div>
+
+            <div class="controles_tabela">
+              <div class="campo_busca_tabela">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="busca_processo" placeholder="Buscar processo ou aplicação" />
+              </div>
+              <select id="ordenacao_processos" aria-label="Ordenar processos">
+                <option value="cpu" selected>Maior consumo de CPU</option>
+                <option value="ram">Maior consumo de RAM</option>
+                <option value="disco">Maior I/O de Disco</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="tabela_responsiva">
+            <table class="tabela_processos">
+              <thead>
+                <tr>
+                  <th>PROCESSO / APLICAÇÃO</th>
+                  <th></th>
+                  <th>INSTÂNCIAS</th>
+                  <th>CPU</th>
+                  <th>RAM</th>
+                  <th>I/O DISCO</th>
+                  <th>TENDÊNCIA</th>
+                  <th>ANÁLISE</th>
+                </tr>
+              </thead>
+              <tbody id="corpo_tabela_processos"></tbody>
+            </table>
+          </div>
+
+          <div class="rodape_tabela_processos">
+            <span id="rodape_contagem_grupos">-- processos identificados</span>
+            <span>Selecionar um grupo não implica relação causal com a saturação.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Banners Inferiores de Ação -->
+      <section class="grid_banners_inferiores" id="grid_banners_inferiores">
+        <!-- Preenchido dinamicamente via JS -->
+      </section>
+      </div> <!-- /#conteudo_dashboard -->
+
+      <!-- Rodapé Técnico -->
+      <footer class="rodape_tecnico">
+        <span>
+          <i class="fa-solid fa-circle-info"></i>
+            previsão condicionada à tendência atual de processos.
+        </span>
+        <span>Atualização automática: 30s · Fuso: UTC-3 · Intervalo de previsão: 95%</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="./js/permissao-isaac.js"></script>
+  <script src="./js/dashboard-isaac.js"></script>
+</body>
+</html>

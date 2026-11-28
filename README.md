@@ -62,5 +62,3 @@ HTML5: Estruturação semântica do site institucional e da dashboard visual.
 CSS3: Estilização responsiva em formato de painel industrial de alto contraste.
 
 JavaScript: Consumo da API Node.js para atualização dinâmica de status e métricas sem necessidade de recarregar a página.
-
-

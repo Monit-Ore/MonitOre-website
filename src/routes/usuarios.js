@@ -3,6 +3,14 @@ var router = express.Router();
 
 var usuarioController = require("../controllers/usuarioController");
 
+router.post("/sair", function (req, res) {
+    req.session.destroy(function (erro) {
+        if (erro) return res.status(500).json({ mensagem: "Não foi possível encerrar a sessão." });
+        res.clearCookie("connect.sid", { path: "/" });
+        return res.sendStatus(204);
+    });
+});
+
 router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });

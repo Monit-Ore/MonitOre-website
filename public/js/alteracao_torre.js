@@ -229,15 +229,6 @@ function renderizarMetricas() {
   });
 }
 
-function tituloMetrica(nomeComponente) {
-  const rotulos = {
-    CPU: "Porcentagem CPU",
-    RAM: "Uso da Memória RAM",
-    Disco: "Disponibilidade do Disco",
-  };
-  return rotulos[nomeComponente] || nomeComponente;
-}
-
 // FUNÇÃO UNIFICADA: Decide se envia POST (Criar) ou PUT (Atualizar)
 async function salvarOuAtualizarTorre(evento) {
   evento.preventDefault();
@@ -305,12 +296,6 @@ async function salvarOuAtualizarTorre(evento) {
 }
 
 // Funções de menu e navegação
-function ativarMenu(idAtivo) {
-  document.querySelectorAll(".menu_navegacao .item_menu").forEach((item) => {
-    item.classList.toggle("ativo", item.id === idAtivo);
-  });
-}
-
 function ativarTorres() { ativarMenu("torres"); }
 function ativarUsuarios() { ativarMenu("usuarios"); }
 function ativarCargos() { ativarMenu("cargos"); }
@@ -345,10 +330,6 @@ function carregarIniciais() {
 document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarioMenu();
   carregarIniciais();
-  const botaoMenu = document.querySelector(".btn-notificacao");
-
-  botaoMenu?.addEventListener("click", () => document.body.classList.toggle("menu-aberto"));
-
   document.getElementById("botao_sair")?.addEventListener("click", () => {
     sessionStorage.clear();
     window.location.href = "./login.html";

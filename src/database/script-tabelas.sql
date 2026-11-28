@@ -141,7 +141,7 @@ CREATE TABLE usuario (
         REFERENCES empresa(id_empresa),
 
     CONSTRAINT chk_cargo
-        CHECK (cargo IN ('Administrador', 'Operador'))
+        CHECK (cargo IN ('Administrador', 'Operador', 'Suporte'))
 );
 
 -- ============================================================
