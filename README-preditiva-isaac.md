@@ -1,6 +1,6 @@
 # Documentação da Dashboard Preditiva (Beeling) - Isaac
 
-Este documento descreve a implementação da dashboard preditiva dinâmica (`dashboard-isaac`), a estrutura para recebimento e ingestão de dados tratados em formato **JSON** vindos da **EC2 / Bucket S3 Gold**, os endpoints da API, variáveis de ambiente, instruções para execução local e o fluxo de migração para nuvem.
+Este documento descreve a implementação da dashboard preditiva dinâmica (`dashboard-processos`), a estrutura para recebimento e ingestão de dados tratados em formato **JSON** vindos da **EC2 / Bucket S3 Gold**, os endpoints da API, variáveis de ambiente, instruções para execução local e o fluxo de migração para nuvem.
 
 ---
 
@@ -33,7 +33,7 @@ Este documento descreve a implementação da dashboard preditiva dinâmica (`das
         [ previsaoService-isaac ]
                        │
                        ▼
-       [ Frontend: dashboard-isaac.html / .js ]
+       [ Frontend: dashboard-processos.html / dashboard-isaac.js ]
        (Gráficos, KPIs, Projeções e Tabela de Processos)
 ```
 
@@ -163,7 +163,7 @@ Configure no arquivo `.env` (ou `.env.dev`):
    ```bash
    node app.js
    ```
-   Abra no navegador: `http://localhost:3333/dashboard-isaac.html`.
+   Abra no navegador: `http://localhost:3333/dashboard-processos.html`.
 
 ---
 

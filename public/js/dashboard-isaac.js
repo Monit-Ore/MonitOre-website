@@ -1203,12 +1203,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "./alteracao_torre.html";
   });
 
-  // Menu mobile
-  document.getElementById("btn_menu_mobile")?.addEventListener("click", () => {
-    document.body.classList.toggle("menu-aberto");
-  });
+  // Sidebar e menu mobile são controlados por global.js.
   } catch (erro) {
-    console.error("Erro ao inicializar dashboard-isaac:", erro);
+    console.error("Erro ao inicializar dashboard-processos:", erro);
     const container = document.getElementById("estado_feedback");
     const conteudo = document.getElementById("conteudo_dashboard");
     if (conteudo) conteudo.style.display = "none";
