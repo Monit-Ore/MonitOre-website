@@ -132,6 +132,7 @@ function adicionarMetrica() {
   const fkComponente = Number(selectComponente.value);
   const alertaCritico = Number(document.getElementById("alerta_critico_ipt").value);
   const alertaAtencao = Number(document.getElementById("alerta_atencao_ipt").value);
+  const limiteAlertaDiario = Number(document.getElementById("limite_alerta_diario_ipt").value);
 
   if (!fkComponente) {
     alert("Selecione um componente.");
@@ -145,6 +146,11 @@ function adicionarMetrica() {
 
   if (!alertaAtencao || alertaAtencao <= 0 || alertaAtencao > 100) {
     alert("Informe uma porcentagem válida (1 a 100) para o Alerta Atenção.");
+    return;
+  }
+
+  if (!Number.isInteger(limiteAlertaDiario) || limiteAlertaDiario < 1) {
+    alert("Informe um limite de alertas diários válido (maior que zero).");
     return;
   }
 
@@ -162,6 +168,7 @@ function adicionarMetrica() {
     fk_componente: fkComponente,
     alerta_critico: alertaCritico,
     alerta_atencao: alertaAtencao,
+    limite_alerta_diario: limiteAlertaDiario,
     nome: componente.nome,
   });
 
@@ -170,6 +177,7 @@ function adicionarMetrica() {
   selectComponente.value = "";
   document.getElementById("alerta_critico_ipt").value = "";
   document.getElementById("alerta_atencao_ipt").value = "";
+  document.getElementById("limite_alerta_diario_ipt").value = "";
 }
 
 function renderizarMetricas() {
@@ -184,6 +192,7 @@ function renderizarMetricas() {
       <span class="metrica-nome">${tituloMetrica(metrica.nome)}</span>
       <span class="metrica-valor">${metrica.alerta_critico}%</span>
       <span class="metrica-valor">${metrica.alerta_atencao}%</span>
+      <span class="metrica-valor">Diário: ${metrica.limite_alerta_diario}</span>
       <button type="button" class="btn-remover-metrica" data-indice="${indice}">
         <i class="fa-solid fa-trash"></i>
       </button>
@@ -226,10 +235,11 @@ async function salvarTorre(evento) {
       numero: document.getElementById("numero_ipt").value,
       complemento: document.getElementById("complemento_ipt").value,
     },
-    componentes: metricasAdicionadas.map(({ fk_componente, alerta_critico, alerta_atencao }) => ({
+    componentes: metricasAdicionadas.map(({ fk_componente, alerta_critico, alerta_atencao, limite_alerta_diario }) => ({
       fk_componente,
       alerta_critico,
-      alerta_atencao
+      alerta_atencao,
+      limite_alerta_diario
     }
   )),
   };

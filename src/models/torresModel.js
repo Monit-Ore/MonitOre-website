@@ -109,11 +109,13 @@ async function criarTorre(
         (componente) =>
           `(${mysql.escape(idpc_industrial)}, ${mysql.escape(
             componente.fk_componente,
-          )}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(componente.alerta_atencao)})`,
+          )}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(
+            componente.alerta_atencao,
+          )}, ${mysql.escape(componente.limite_alerta_diario)})`,
       )
       .join(", ");
     var instrucaoComponentes = `INSERT INTO limite_alerta
-        (fk_pc_industrial, fk_componente, critico, atencao)
+        (fk_pc_industrial, fk_componente, critico, atencao, limite_alerta_diario)
        VALUES ${valores}`;
 
     await database.executar(instrucaoComponentes);
@@ -156,7 +158,8 @@ async function buscarTorrePorId(id, fkEmpresa) {
   var instrucaoComponentes = `SELECT 
     la.fk_componente, 
     la.critico,
-    la.atencao
+    la.atencao,
+    la.limite_alerta_diario
     FROM limite_alerta la
     INNER JOIN PC_Industrial pc ON pc.id_pc_industrial = la.fk_pc_industrial
     WHERE pc.fk_torre = ${mysql.escape(id)};`;
@@ -248,7 +251,7 @@ async function atualizarTorre(
     var valores = componentes
       .map(
         (componente) =>
-          `(${mysql.escape(idPcIndustrial)}, ${mysql.escape(componente.fk_componente)}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(componente.alerta_atencao)})`
+          `(${mysql.escape(idPcIndustrial)}, ${mysql.escape(componente.fk_componente)}, ${mysql.escape(componente.alerta_critico)}, ${mysql.escape(componente.alerta_atencao)}, ${mysql.escape(componente.limite_alerta_diario)})`
       )
       .join(", ");
 
@@ -256,7 +259,8 @@ async function atualizarTorre(
       fk_pc_industrial,
       fk_componente,
       critico,
-      atencao
+      atencao,
+      limite_alerta_diario
     ) VALUES ${valores}`;
     await database.executar(instrucaoComponentes);
   }
@@ -338,6 +342,18 @@ async function qtdTorresAtivas(idUsuario, mineradora) {
 
 
 
+async function buscarHostnamePorTorre(id, fkEmpresa) {
+  var instrucaoSql = `SELECT pc.hostname
+    FROM torre t
+    INNER JOIN PC_Industrial pc ON pc.fk_torre = t.id_torre
+    WHERE t.id_torre = ${mysql.escape(id)}
+      AND t.fk_fabricante = ${mysql.escape(fkEmpresa)};`;
+
+  var resultado = await database.executar(instrucaoSql);
+
+  return resultado.length > 0 ? resultado[0].hostname : null;
+}
+
 module.exports = {
   listarTorresComMineradora,
   verificarCodigoExistente,
@@ -346,6 +362,5 @@ module.exports = {
   buscarTorrePorId,
   atualizarTorre,
   listarTorresPorUsuario,
-  listarTorresDisponiveis,
-  qtdTorresAtivas
+  buscarHostnamePorTorre
 };

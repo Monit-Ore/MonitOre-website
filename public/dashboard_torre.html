@@ -96,11 +96,12 @@
       <div class="textos">
         <h2><span id="nome_torre">TORRE 07</span> | <span id="nome_mineradora">MINERADORA VALE</span></h2>
         <div>
-          <p>Status: <span style="color: green;">● ONLINE</span></p>
+          <p>Status: <span class="status_online">● ONLINE</span></p>
         </div>
-        <p style="color: #888;"> Código: <span id="codigo_torre">TORRE-007</span></p>
-        <p style="color: #888;">PC Industrial: <span id="host_pc"> PC-TORRE_007</span> | Última atualização: 15/04/2026
-          00:10</p>
+        <p class="texto_secundario">Código: <span id="codigo_torre">TORRE-007</span></p>
+        <p class="texto_secundario">PC Industrial: <span id="host_pc">PC-TORRE_007</span> | Última atualização: <span id="ultimaAtualizacao">—</span></p>
+        <p id="progressoDashboard" class="texto_secundario" role="status" aria-live="polite"></p>
+        <p class="texto_secundario">Cards: último registro recebido. Pico: dia selecionado no histórico.</p>
       </div>
     </div>
 
@@ -114,13 +115,12 @@
         </div>
         <div class="corpo_card_metrica">
           <div class="lado_esquerdo">
-            <div class="valor_metrica">65%</div>
-            <span class="badge_status normal">● Normal</span>
+            <div class="valor_metrica" id="valor_cpu">65%</div>
+            <span class="badge_status normal" id="status_cpu">● Normal</span>
           </div>
           <div class="divisor_vertical"></div>
           <div class="lado_direito">
-            <div class="linha_detalhe"><span>Média</span> <span>65%</span></div>
-            <div class="linha_detalhe"><span>Pico</span> <span>81%</span></div>
+            <div class="linha_detalhe"><span>Pico</span> <span id="pico_cpu">81%</span></div>
             <div class="linha_detalhe"><span>Limite</span> <span id="span_cpu">80%</span></div>
           </div>
         </div>
@@ -134,13 +134,13 @@
         </div>
         <div class="corpo_card_metrica">
           <div class="lado_esquerdo">
-            <div class="valor_metrica">88%</div>
-            <span class="badge_status alerta">● Alerta</span>
+            <div class="valor_metrica" id="valor_ram">88%</div>
+            <span class="badge_status alerta" id="status_ram">● Alerta</span>
           </div>
           <div class="divisor_vertical"></div>
           <div class="lado_direito">
-            <div class="linha_detalhe"><span>Média</span> <span>61%</span></div>
-            <div class="linha_detalhe"><span>Pico</span> <span>88%</span></div>
+            
+            <div class="linha_detalhe"><span>Pico</span> <span id="pico_ram">88%</span></div>
             <div class="linha_detalhe"><span>Limite</span> <span id="span_ram">60%</span></div>
           </div>
         </div>
@@ -154,34 +154,43 @@
         </div>
         <div class="corpo_card_metrica">
           <div class="lado_esquerdo">
-            <div class="valor_metrica">48%</div>
-            <span class="badge_status normal">● Normal</span>
+            <div class="valor_metrica" id="valor_disco">48%</div>
+            <span class="badge_status normal" id="status_disco">● Normal</span>
           </div>
           <div class="divisor_vertical"></div>
           <div class="lado_direito">
-            <div class="linha_detalhe"><span>Média</span> <span>48%</span></div>
-            <div class="linha_detalhe"><span>Pico</span> <span>88%</span></div>
+            
+            <div class="linha_detalhe"><span>Pico</span> <span id="pico_disco">88%</span></div>
             <div class="linha_detalhe"><span>Limite</span> <span id="span_disco">75%</span></div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Meio da página: gráfico de desempenho (até 1 hora) + barras de alertas por componente -->
     <div class="container_meio">
       <div class="card_grafico">
 
         <div id="div-header">
           <h3>
             <img src="./imgs/institucional/Icon (1).svg" alt="">
-            Desempenho dos Componentes <span class="sub_texto">(últimas 24 horas)</span>
+            Desempenho dos Componentes
+            <span id="periodoDesempenho" class="sub_texto">(hora completa · média a cada 3 min)</span>
           </h3>
 
-          <select id="filtroGrafico" onchange="alterarVisualizacaoGrafico(this.value)">
-            <option value="all">Todos os Componentes</option>
-            <option value="cpu">CPU</option>
-            <option value="ram">RAM</option>
-            <option value="disco">Disco</option>
-          </select>
+          <!-- Filtros do gráfico de desempenho: dia, hora e componente.
+               O dia é date e a hora é a hora do dia (input type="time"). -->
+          <div class="filtros-desempenho">
+            <input type="date" id="filtroDiaDesempenho" aria-label="Dia exibido no gráfico de desempenho">
+            <input type="time" id="filtroHoraDesempenho" step="3600" aria-label="Hora do dia exibida no gráfico de desempenho">
+            <span id="diaExemploDesempenho" class="dia-exemplo-desempenho" hidden>(exemplo)</span>
+            <select id="filtroGrafico" onchange="alterarVisualizacaoGrafico(this.value)">
+              <option value="all">Todos os Componentes</option>
+              <option value="cpu">CPU</option>
+              <option value="ram">RAM</option>
+              <option value="disco">Disco</option>
+            </select>
+          </div>
         </div>
 
         <div class="conteudo_grafico">
@@ -193,6 +202,7 @@
         <h3>
           <img src="./imgs/institucional/Group.svg" alt="">
           Alertas por Componente
+          <span id="periodoAlertasComponentes" class="sub_texto">(arquivo mais recente)</span>
         </h3>
         <!--<div class="item_alerta_barra">
           <span>CPU</span>
@@ -216,15 +226,83 @@
       </div>
     </div>
 
+
+    <!-- Painel de alertas diários: gráfico de linhas + KPIs (dados simulados no CONFIG) -->
+    <section class="painel-alertas-limite" aria-label="Alertas por componente">
+      <div class="grafico-alertas-limite">
+        <header class="cabecalho-alertas-limite">
+          <div class="titulo-alertas-limite">
+            <h3><i class="fa-solid fa-chart-column"></i> Alertas por componente</h3>
+            <p>Quantidade diária de alertas e limites aceitáveis por componente</p>
+          </div>
+          <div class="filtros-alertas-limite">
+            <label>Selecionar componente
+              <select id="filtroComponenteAlertas">
+                <option value="todos">Todos componentes</option>
+                <option value="cpu">CPU</option>
+                <option value="ram">RAM</option>
+                <option value="disco">Disco</option>
+              </select>
+            </label>
+            <label>Data início
+              <input type="date" id="dataInicioAlertas">
+            </label>
+            <label>Data fim
+              <input type="date" id="dataFimAlertas">
+            </label>
+            <button type="button" id="btnAplicarPeriodo" class="btn-aplicar-periodo">Aplicar período</button>
+          </div>
+        </header>
+
+        <!-- A legenda fica dentro do canvas (Chart.js) para ser clicável e
+             permitir ativar/desativar cada linha. -->
+        <div class="canvas-alertas-limite">
+          <canvas id="graficoAlertasLimite" aria-label="Quantidade de alertas por componente e limite aceitável"></canvas>
+        </div>
+      </div>
+
+      <aside class="kpi-alertas-limite">
+        <h3>Ocorrências acima do aceitável</h3>
+        <div class="kpi-total-alertas" id="kpiTotalAcima">0</div>
+        <p>ocorrências no intervalo de tempo</p>
+        <div class="kpi-lista-componentes">
+          <div><span>CPU</span><strong id="kpiCpuAcima">0</strong></div>
+          <div><span>RAM</span><strong id="kpiRamAcima">0</strong></div>
+          <div><span>Disco</span><strong id="kpiDiscoAcima">0</strong></div>
+        </div>
+        <footer id="kpiResumoPeriodo">Dias no filtro: 3<br>1 ocorrência = 1 componente/dia acima do limite diário.</footer>
+      </aside>
+    </section>
+
     <!-- Histórico de Alertas (Tabela) -->
     <div class="container_tabela">
       <div class="topo_tabela">
         <h3>
           <img src="./imgs/institucional/LogoBanner.svg" id="img_historico" alt="">
-          Histórico de Alertas <span class="sub_texto">(últimas 24h)</span>
+          Histórico de Alertas
         </h3>
         <!--<button type="button" class="btn_ver_todos">Ver todos</button>-->
       </div>
+
+      <!-- Mesmos 3 filtros do painel acima: componente, data início e data fim.
+           Ficam na linha abaixo do título e filtram somente as linhas desta tabela. -->
+      <div class="filtros-historico">
+        <label>Selecionar componente
+          <select id="filtroComponenteHistorico">
+            <option value="todos">Todos componentes</option>
+            <option value="cpu">CPU</option>
+            <option value="ram">RAM</option>
+            <option value="disco">Disco</option>
+          </select>
+        </label>
+        <label>Data início
+          <input type="date" id="dataInicioHistorico">
+        </label>
+        <label>Data fim
+          <input type="date" id="dataFimHistorico">
+        </label>
+      </div>
+
       <div class="tabelaResponsividade">
         <table>
           <thead>
@@ -239,7 +317,8 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody>
+          <!-- Linhas fixas de exemplo; ainda não vêm da API de alertas -->
+          <tbody id="tbodyHistoricoAlertas">
             <tr>
               <td>14/04/2026 24:00</td>
               <td>Vale</td>
@@ -270,495 +349,1840 @@
           </tbody>
         </table>
       </div>
-      <!-- Número de Alertas por Dia (Tabela) -->
-
-    </div>
-    <div class="container_tabela">
-      <div class="topo_tabela">
-        <h3>
-          <i class="fa-solid fa-calendar-days" style="color: var(--amarelo); margin-right: 6px;"></i>
-          Número de Alertas por Dia <span class="sub_texto" id="sub_texto_periodo">(últimos 7 dias)</span>
-        </h3>
-        <select id="filtroPeriodoAlertas" onchange="atualizarTabelaAlertasDiarios(this.value)">
-          <option value="7">Últimos 7 dias</option>
-          <option value="15">Últimos 15 dias</option>
-          <option value="30">Últimos 30 dias</option>
-        </select>
-      </div>
-      <div class="tabelaResponsividade">
-        <table>
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>Total de Alertas</th>
-              <th>CPU</th>
-              <th>RAM</th>
-              <th>Disco</th>
-            </tr>
-          </thead>
-          <tbody id="tbodyAlertasDiarios">
-            <tr>
-              <td>15/04/2026</td>
-              <td><span class="total_alertas_destaque">3</span></td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>14/04/2026</td>
-              <td><span class="total_alertas_destaque">3</span></td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>13/04/2026</td>
-              <td><span class="total_alertas_zero">0</span></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>12/04/2026</td>
-              <td><span class="total_alertas_destaque">5</span></td>
-              <td>2</td>
-              <td>2</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>11/04/2026</td>
-              <td><span class="total_alertas_zero">0</span></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>10/04/2026</td>
-              <td><span class="total_alertas_destaque">2</span></td>
-              <td>1</td>
-              <td>1</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>09/04/2026</td>
-              <td><span class="total_alertas_zero">0</span></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   </main>
 
   <script>
-    function criarComponentes() {
-      const ctx = document.getElementById('graficoComponentes').getContext('2d');
+    /*
+     * DASHBOARD DA TORRE — mapa do arquivo
+     * =====================================================================
+     * 1. CONFIG ....... cores, fonte, rotas e dados de exemplo (simulação).
+     * 2. DOM .......... referências dos elementos da página.
+     * 3. GRÁFICOS ..... criação/atualização dos três Chart.js e do filtro
+     *                   da tabela de histórico de alertas.
+     * 3a. DIA ......... seletor de dia do gráfico de linhas de desempenho.
+     * 4. TORRE ........ busca no backend e aplicação dos dados na tela.
+     * 4b. JSON ........ carrega o arquivo gerado pelo Python e redesenha os
+     *                   gráficos (dados de exemplo continuam como fallback).
+     * 5. USUÁRIO ...... nome/avatar do menu e ações de logout/menu mobile.
+     * 6. INICIALIZAÇÃO  liga todas as peças no DOMContentLoaded.
+     *
+     * Regra de ouro: tudo que é fixo fica em CONFIG; nada de número solto
+     * espalhado pelas funções.
+     */
 
-      new Chart(ctx, {
+    /* ---------------------------------------------------------------------
+     * 1. CONFIGURAÇÃO
+     * ------------------------------------------------------------------- */
+
+    // Mesmas cores definidas em :root no dashboard_torre.css.
+    const PALETA = {
+      amarelo: '#ffd741',
+      azul: '#3498db',
+      verde: '#3ddc57',
+      vermelho: '#ff4d4d',
+      roxo: '#c49af5',
+      texto: '#f2f2f2',
+      secundario: '#aaaaaa',
+      grade: '#333333',
+      gradeSuave: 'rgba(255,255,255,.08)'
+    };
+
+    // Fonte única dos gráficos (o CSS não alcança o texto desenhado no canvas).
+    const FONTE_GRAFICO = { family: 'Barlow, Segoe UI, sans-serif', size: 12 };
+
+    // Componentes "alvo" — a ordem define a ordem das linhas, KPIs e filtros.
+    const COMPONENTES_ALVO = [
+      { chave: 'cpu', nome: 'CPU' },
+      { chave: 'ram', nome: 'RAM' },
+      { chave: 'disco', nome: 'Disco' }
+    ];
+
+    const CONFIG = {
+      paleta: PALETA,
+      fonteGrafico: FONTE_GRAFICO,
+      componentesAlvo: COMPONENTES_ALVO,
+
+      // Chaves lidas do sessionStorage (gravadas no login).
+      chavesSessao: {
+        idTorre: 'ID_TORRE_SELECIONADA',
+        fkEmpresa: 'FK_EMPRESA_USUARIO',
+        nome: 'NOME_USUARIO',
+        cargo: 'CARGO_USUARIO'
+      },
+
+      // Rotas usadas pela página.
+      rotas: {
+        // Fallback local para desenvolvimento (public/dados/latest.json).
+        dashboardJson: './dados/latest.json',
+        dashboard: (idTorre, fkEmpresa, inicio, fim) =>
+          `/torres/${idTorre}/dashboard?fkEmpresa=${encodeURIComponent(fkEmpresa)}` +
+          `&inicio=${encodeURIComponent(inicio)}&fim=${encodeURIComponent(fim)}`,
+        datasDesempenho: (idTorre, fkEmpresa) =>
+          `/torres/${idTorre}/datas-disponiveis?fkEmpresa=${encodeURIComponent(fkEmpresa)}`,
+        alertasDia: (idTorre, fkEmpresa) =>
+          `/torres/${idTorre}/alertas-dia?fkEmpresa=${encodeURIComponent(fkEmpresa)}`,
+        torre: (idTorre, fkEmpresa) => `/torres/${idTorre}?fkEmpresa=${fkEmpresa}`,
+        selecaoTorre: './selecao_torre.html',
+        login: './login.html',
+        perfil: '/meu_perfil.html'
+      },
+
+      /*
+       * Dias disponíveis no gráfico de desempenho. Começa vazio e é preenchido
+       * pelo JSON da pipeline (cada item tem data, horarios e componentes).
+       */
+      desempenhoPorDia: [],
+
+      // Eixo X do gráfico de desempenho: 20 blocos de 3 min (hora completa).
+      horarios: [
+        '00:00', '00:03', '00:06', '00:09', '00:12', '00:15', '00:18', '00:21',
+        '00:24', '00:27', '00:30', '00:33', '00:36', '00:39', '00:42', '00:45',
+        '00:48', '00:51', '00:54', '00:57'
+      ],
+
+      /*
+       * Séries e limites do gráfico de desempenho.
+       * ATENÇÃO: `serie`, `alerta` e `critico` abaixo são-valores SIMULADOS.
+       * Ao carregar a torre, `alerta` e `critico` são substituídos pelos
+       * valores reais vindos do banco (ver aplicarDadosTorre()).
+       */
+      componentes: {
+        cpu: {
+          label: 'CPU',
+          serie: [48, 49, 50, 52, 52, 53, 54, 55, 56, 57, 57, 58, 59, 60, 61, 62, 65, 70, 75, 81],
+          cor: PALETA.amarelo,
+          corLimite: PALETA.amarelo,
+          alerta: 75,
+          critico: 90
+        },
+        ram: {
+          label: 'RAM',
+          serie: [44, 45, 46, 48, 48, 49, 49, 50, 51, 52, 52, 53, 54, 55, 56, 58, 62, 67, 71, 75],
+          cor: PALETA.azul,
+          corLimite: PALETA.azul,
+          alerta: 60,
+          critico: 75
+        },
+        disco: {
+          label: 'Disco',
+          serie: [34, 35, 36, 38, 38, 39, 39, 40, 40, 41, 41, 42, 43, 43, 44, 45, 55, 68, 78, 88],
+          cor: PALETA.verde,
+          corLimite: PALETA.verde,
+          alerta: 75,
+          critico: 85
+        }
+      },
+
+      // Gráfico de barras "Alertas por Componente" (também simulado).
+      barrasAlertas: {
+        totais: [1, 5, 1],   // quantidade de alertas de CPU, RAM e Disco
+        limites: [5, 3, 2], // limites diários aceitáveis de cada um
+        cor: PALETA.amarelo
+      },
+
+      /*
+       * Painel de alertas diários (simulado).
+       * Cada posição de `datas` corresponde às posições das séries cpu/ram/disco.
+       * `limites` define o "aceitável" usado na linha tracejada e nos KPIs.
+       */
+      alertasDiarios: {
+        datas: ['20/11/2026', '21/11/2026', '22/11/2026'],
+        exemplo: [false, false, false],
+        serie: {
+          cpu: [2, 6, 4],
+          ram: [4, 1, 3],
+          disco: [1, 3, 2]
+        },
+        limites: { cpu: 5, ram: 3, disco: 2 },
+        cores: { cpu: PALETA.amarelo, ram: PALETA.azul, disco: PALETA.roxo }
+      }
+    };
+
+    /* Dados simulados de fallback: o JSON substitui tudo isso. `pico` vira a
+     * linha tracejada do componente e `horaPico` aparece no tooltip. */
+    Object.values(CONFIG.componentes).forEach((componente) => {
+      componente.pico = componente.serie.map((valor) => Math.min(100, valor + 5));
+      componente.horaPico = CONFIG.horarios.map((hora) => `${hora}:00`);
+      componente.amostras = componente.serie.map(() => 1);
+    });
+
+    /* ---------------------------------------------------------------------
+     * 2. ELEMENTOS DA PÁGINA
+     * Um único lugar para encontrar todos os ids usados pelo JavaScript.
+     * ------------------------------------------------------------------- */
+    const DOM = {
+      nomeTorre: document.getElementById('nome_torre'),
+      nomeMineradora: document.getElementById('nome_mineradora'),
+      codigoTorre: document.getElementById('codigo_torre'),
+      hostPc: document.getElementById('host_pc'),
+      ultimaAtualizacao: document.getElementById('ultimaAtualizacao'),
+      spanCpu: document.getElementById('span_cpu'),
+      spanRam: document.getElementById('span_ram'),
+      spanDisco: document.getElementById('span_disco'),
+      valorCpu: document.getElementById('valor_cpu'),
+      valorRam: document.getElementById('valor_ram'),
+      valorDisco: document.getElementById('valor_disco'),
+      picoCpu: document.getElementById('pico_cpu'),
+      picoRam: document.getElementById('pico_ram'),
+      picoDisco: document.getElementById('pico_disco'),
+      statusCpu: document.getElementById('status_cpu'),
+      statusRam: document.getElementById('status_ram'),
+      statusDisco: document.getElementById('status_disco'),
+
+      filtroDiaDesempenho: document.getElementById('filtroDiaDesempenho'),
+      filtroHoraDesempenho: document.getElementById('filtroHoraDesempenho'),
+      diaExemploDesempenho: document.getElementById('diaExemploDesempenho'),
+      filtroGrafico: document.getElementById('filtroGrafico'),
+      canvasDesempenho: document.getElementById('graficoDesempenho'),
+      canvasComponentes: document.getElementById('graficoComponentes'),
+      periodoDesempenho: document.getElementById('periodoDesempenho'),
+      periodoAlertasComponentes: document.getElementById('periodoAlertasComponentes'),
+
+      filtroComponenteAlertas: document.getElementById('filtroComponenteAlertas'),
+      dataInicioAlertas: document.getElementById('dataInicioAlertas'),
+      dataFimAlertas: document.getElementById('dataFimAlertas'),
+      botaoAplicarPeriodo: document.getElementById('btnAplicarPeriodo'),
+      canvasAlertasLimite: document.getElementById('graficoAlertasLimite'),
+      kpiCpuAcima: document.getElementById('kpiCpuAcima'),
+      kpiRamAcima: document.getElementById('kpiRamAcima'),
+      kpiDiscoAcima: document.getElementById('kpiDiscoAcima'),
+      kpiTotalAcima: document.getElementById('kpiTotalAcima'),
+      kpiResumoPeriodo: document.getElementById('kpiResumoPeriodo'),
+
+      filtroComponenteHistorico: document.getElementById('filtroComponenteHistorico'),
+      dataInicioHistorico: document.getElementById('dataInicioHistorico'),
+      dataFimHistorico: document.getElementById('dataFimHistorico'),
+      tbodyHistoricoAlertas: document.getElementById('tbodyHistoricoAlertas'),
+
+      botaoMenu: document.querySelector('.btn-notificacao'),
+      botaoSair: document.getElementById('botao_sair'),
+      usuarioLogado: document.getElementById('usuario_logado'),
+      nomeUsuario: document.getElementById('nome_usuario'),
+      cargoUsuario: document.getElementById('cargo_usuario'),
+      avatarUsuario: document.getElementById('avatar_usuario')
+    };
+
+    // Instâncias dos gráficos ficam aqui porque várias funções precisam delas.
+    let graficoDesempenho = null;
+    let graficoAlertasLimite = null;
+    let graficoBarrasAlertas = null;
+    // 'all' ou o componente escolhido no filtro (usado pelo tooltip).
+    let modoDesempenhoAtual = 'all';
+    // Dia do JSON em uso, com as janelas por hora geradas pelo Python.
+    let diaDesempenhoAtual = null;
+
+    /* ---------------------------------------------------------------------
+     * 3. GRÁFICOS
+     * ------------------------------------------------------------------- */
+
+    /*
+     * Plugin do gráfico de barras: desenha "valor/limite" à direita da barra
+     * e um texto de status abaixo dela. Em tela estreita, encurta o texto.
+     */
+    const pluginRotulosBarra = {
+      id: 'rotulosBarraAlertas',
+      afterDatasetsDraw(chart) {
+        const { ctx, chartArea } = chart;
+        const dataset = chart.data.datasets[0];
+        if (!dataset) return;
+
+        const meta = chart.getDatasetMeta(0);
+        const compacto = chart.width < 420;
+
+        ctx.save();
+        meta.data.forEach((bar, index) => {
+          const valor = Number(dataset.data[index] || 0);
+          const limite = Number(dataset.limites[index] || 0);
+          const acimaDoLimite = valor > limite;
+
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.font = `${compacto ? CONFIG.fonteGrafico.size - 1 : CONFIG.fonteGrafico.size}px ${CONFIG.fonteGrafico.family}`;
+          ctx.fillStyle = CONFIG.paleta.texto;
+          ctx.fillText(`${valor}/${limite}`, chartArea.right + (compacto ? 12 : 18), bar.y - 2);
+
+          ctx.font = `${CONFIG.fonteGrafico.size - 1}px ${CONFIG.fonteGrafico.family}`;
+          ctx.fillStyle = acimaDoLimite ? CONFIG.paleta.amarelo : CONFIG.paleta.texto;
+          ctx.fillText(
+            acimaDoLimite
+              ? (compacto ? 'acima do limite' : 'Possível problema com o componente')
+              : 'normal',
+            chartArea.left,
+            bar.y + 27
+          );
+        });
+        ctx.restore();
+      }
+    };
+
+    // Gráfico de barras: quantidade de alertas por CPU/RAM/Disco.
+    function criarGraficoBarrasAlertas() {
+      const dados = CONFIG.barrasAlertas;
+      return new Chart(DOM.canvasComponentes.getContext('2d'), {
         type: 'bar',
         data: {
-          labels: ['CPU', 'RAM', 'Disco'],
+          labels: CONFIG.componentesAlvo.map((componente) => componente.nome),
           datasets: [{
-            label: 'Alertas',
-            data: [1, 1, 1],
-            backgroundColor: '#ffd741',
-            borderColor: '#ffd741',
+            label: 'Alertas no período',
+            data: dados.totais,
+            limites: dados.limites,
+            backgroundColor: dados.cor,
+            borderColor: dados.cor,
             borderRadius: 5,
-            barThickness: 10,
-            categoryPercentage: 0.65,
-            barPercentage: 0.7
+            barThickness: 14,
+            categoryPercentage: 0.6,
+            barPercentage: 0.8
           }]
         },
+        plugins: [pluginRotulosBarra],
         options: {
           indexAxis: 'y',
           responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { right: 55, bottom: 18, top: 8 } },
           plugins: {
-            legend: {
-              display: false
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label(contexto) {
+                  const limite = contexto.dataset.limites[contexto.dataIndex];
+                  return ` ${contexto.raw} alerta(s) no dia do arquivo mais recente (limite: ${limite})`;
+                }
+              }
             }
           },
           scales: {
             x: {
-              grid: {
-                display: false
-              },
-              ticks: {
-                color: '#fff',
-                stepSize: 1
-              }
+              beginAtZero: true,
+              suggestedMax: 6,
+              grid: { display: false },
+              border: { display: false },
+              ticks: { color: CONFIG.paleta.secundario, font: CONFIG.fonteGrafico, stepSize: 1 }
             },
             y: {
-              grid: {
-                display: false
-              },
+              grid: { display: false },
+              border: { display: false },
               ticks: {
-                color: '#fff',
-                font: {
-                  weight: 'bold'
+                color: CONFIG.paleta.texto,
+                font: { ...CONFIG.fonteGrafico, weight: 'bold' },
+                padding: 8
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function atualizarGraficoBarrasAlertas() {
+      if (!graficoBarrasAlertas) return;
+
+      const dados = CONFIG.barrasAlertas;
+      const dataset = graficoBarrasAlertas.data.datasets[0];
+      dataset.data = dados.totais;
+      dataset.limites = dados.limites;
+      const maiorValor = Math.max(
+        6,
+        ...dados.totais.map((valor) => Number(valor) || 0),
+        ...(dados.limites || []).map((valor) => Number(valor) || 0),
+      );
+      graficoBarrasAlertas.options.scales.x.suggestedMax = maiorValor;
+      graficoBarrasAlertas.update();
+    }
+
+    /* Cada janela já vem pronta do Python (20 pontos da hora completa).
+     * Guardamos os índices originais no dataset para o tooltip achar a hora
+     * exata do pico. */
+    function obterIndicesDesempenho() {
+      return CONFIG.horarios.map((_, indice) => indice);
+    }
+
+    // Linha sólida: média de cada ponto do componente.
+    function criarSerieComponente(chave, indices) {
+      const componente = CONFIG.componentes[chave];
+
+      return {
+        label: componente.label,
+        data: indices.map((indice) => componente.serie[indice] ?? null),
+        borderColor: componente.cor,
+        backgroundColor: componente.cor,
+        borderWidth: 2,
+        tension: 0.1,
+        pointRadius: 2.5,
+        pointHoverRadius: 5,
+        ehSerieComponente: true,
+        chaveComponente: chave,
+        indicesOriginais: indices
+      };
+    }
+
+    /* Linha tracejada: maior leitura registrada em cada ponto. Só aparece
+     * quando um componente específico está selecionado no filtro. */
+    function criarSeriePico(chave, indices) {
+      const componente = CONFIG.componentes[chave];
+
+      return {
+        label: `Pico ${componente.label}`,
+        data: indices.map((indice) => componente.pico?.[indice] ?? null),
+        borderColor: componente.cor,
+        backgroundColor: componente.cor,
+        borderWidth: 2,
+        borderDash: [6, 4],
+        pointStyle: 'rectRot',
+        pointRadius: 3,
+        pointHoverRadius: 5,
+        tension: 0.1,
+        ehSeriePico: true,
+        chaveComponente: chave,
+        indicesOriginais: indices
+      };
+    }
+
+    // Uma linha reta (faixa de alerta/crítico ou limite aceitável).
+    function criarLinhaConstante(label, valor, cor, indices, ajustes = {}) {
+      return {
+        label,
+        data: indices.map(() => valor),
+        borderColor: cor,
+        borderWidth: 1.5,
+        borderDash: [6, 6],
+        pointRadius: 0,
+        fill: false,
+        ...ajustes
+      };
+    }
+
+    /*
+     * Monta os datasets do gráfico de desempenho.
+     * 'all' -> três componentes + linha de limite de cada um.
+     * 'cpu'/'ram'/'disco' -> média + pico do componente + faixas de alerta
+     * e crítico. A mesma função serve para criação, dia, hora e componente.
+     */
+    function criarDatasetsDesempenho(opcao) {
+      const indices = obterIndicesDesempenho();
+
+      if (opcao === 'all') {
+        const linhasComponentes = CONFIG.componentesAlvo.map((item) => criarSerieComponente(item.chave, indices));
+        const linhasLimite = CONFIG.componentesAlvo.map((item) => {
+          const componente = CONFIG.componentes[item.chave];
+          return criarLinhaConstante(
+            `Limite ${componente.label} (${componente.alerta}%)`,
+            componente.alerta,
+            componente.corLimite,
+            indices
+          );
+        });
+        return [...linhasComponentes, ...linhasLimite];
+      }
+
+      const componente = CONFIG.componentes[opcao];
+      if (!componente) return [];
+
+      return [
+        { ...criarSerieComponente(opcao, indices), borderWidth: 3 },
+        criarSeriePico(opcao, indices),
+        criarLinhaConstante(`Faixa de Alerta (${componente.alerta}%)`, componente.alerta, CONFIG.paleta.amarelo, indices, {
+          borderWidth: 2,
+          borderDash: [4, 4]
+        }),
+        criarLinhaConstante(`Faixa Crítica (${componente.critico}%)`, componente.critico, CONFIG.paleta.vermelho, indices, {
+          borderWidth: 2,
+          borderDash: [2, 2]
+        })
+      ];
+    }
+
+    // Gráfico de linhas: média e pico na janela de até 1 hora.
+    function criarGraficoDesempenho() {
+      const numeroOuTraco = (valor) => (
+        valor === null || valor === undefined || valor === '' || Number.isNaN(Number(valor))
+          ? '-'
+          : Number(valor).toFixed(1)
+      );
+
+      return new Chart(DOM.canvasDesempenho.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: obterIndicesDesempenho().map((indice) => CONFIG.horarios[indice]),
+          datasets: criarDatasetsDesempenho('all')
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              labels: {
+                color: CONFIG.paleta.texto,
+                font: CONFIG.fonteGrafico,
+                boxWidth: 12
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label(contexto) {
+                  const componente = CONFIG.componentes[contexto.dataset.chaveComponente];
+
+                  if (contexto.dataset.ehSeriePico) {
+                    const indice = contexto.dataset.indicesOriginais?.[contexto.dataIndex] ?? contexto.dataIndex;
+                    const hora = componente?.horaPico?.[indice] || '-';
+                    return ` Pico ${componente?.label ?? contexto.dataset.label} ${numeroOuTraco(contexto.parsed.y)}% às ${hora}`;
+                  }
+
+                  if (contexto.dataset.ehSerieComponente) {
+                    return ` ${componente?.label ?? contexto.dataset.label} — média ${numeroOuTraco(contexto.parsed.y)}%`;
+                  }
+
+                  return ` ${contexto.dataset.label}: ${numeroOuTraco(contexto.parsed.y)}%`;
+                },
+                afterLabel(contexto) {
+                  if (!contexto.dataset.ehSerieComponente) return;
+                  // Com componente específico a linha de pico já traz essa info.
+                  if (modoDesempenhoAtual !== 'all') return;
+
+                  const componente = CONFIG.componentes[contexto.dataset.chaveComponente];
+                  const indice = contexto.dataset.indicesOriginais?.[contexto.dataIndex] ?? contexto.dataIndex;
+                  const pico = componente?.pico?.[indice];
+                  const hora = componente?.horaPico?.[indice] || '-';
+                  const amostras = componente?.amostras?.[indice];
+
+                  if (pico === null || pico === undefined) return ' Sem amostras neste ponto';
+
+                  const detalheAmostras = amostras === undefined
+                    ? ''
+                    : ` · ${amostras} amostra(s)`;
+                  return ` Pico ${numeroOuTraco(pico)}% às ${hora}${detalheAmostras}`;
                 }
               }
             }
-          }
-        }
-      });
-
-    }
-
-    criarComponentes();
-
-    const labelsHorarios = [
-      '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
-      '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
-      '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
-      '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
-    ];
-
-    const configComponentes = {
-      cpu: {
-        label: 'CPU',
-        data: [48, 49, 50, 52, 52, 53, 54, 55, 56, 57, 57, 58, 59, 60, 61, 62, 65, 70, 75, 81, 72, 69, 67, 65],
-        borderColor: '#f1c40f',
-        backgroundColor: '#f1c40f',
-        alerta: 75,
-        critico: 90
-      },
-      ram: {
-        label: 'RAM',
-        data: [44, 45, 46, 48, 48, 49, 49, 50, 51, 52, 52, 53, 54, 55, 56, 58, 62, 67, 71, 75, 78, 79, 79, 88],
-        borderColor: '#3498db',
-        backgroundColor: '#3498db',
-        alerta: 60,
-        critico: 75
-      },
-      disco: {
-        label: 'Disco',
-        data: [34, 35, 36, 38, 38, 39, 39, 40, 40, 41, 41, 42, 43, 43, 44, 45, 55, 68, 78, 88, 70, 60, 53, 48],
-        borderColor: '#2ecc71',
-        backgroundColor: '#2ecc71',
-        alerta: 75,
-        critico: 85
-      }
-    };
-
-
-    console.log(configComponentes.cpu.alerta);
-
-    // Configuração inicial do Gráfico com Chart.js
-    const ctx = document.getElementById('graficoDesempenho').getContext('2d');
-    const graficoDesempenho = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: labelsHorarios,
-        datasets: [
-          {
-            label: 'CPU',
-            data: configComponentes.cpu.data,
-            borderColor: configComponentes.cpu.borderColor,
-            backgroundColor: configComponentes.cpu.backgroundColor,
-            tension: 0.1
           },
-          {
-            label: 'RAM',
-            data: configComponentes.ram.data,
-            borderColor: configComponentes.ram.borderColor,
-            backgroundColor: configComponentes.ram.backgroundColor,
-            tension: 0.1
-          },
-          {
-            label: 'Disco',
-            data: configComponentes.disco.data,
-            borderColor: configComponentes.disco.borderColor,
-            backgroundColor: configComponentes.disco.backgroundColor,
-            tension: 0.1
-          },
-          {
-            label: 'Limite CPU (75%)',
-            data: [75, 75, 75, 75, 75, 75, 75],
-            borderColor: '#f1c40f',
-            borderWidth: 1.5,
-            borderDash: [6, 6],
-            pointRadius: 0,
-            fill: false
-          },
-          {
-            label: 'Limite RAM (60%)',
-            data: [60, 60, 60, 60, 60, 60, 60],
-            borderColor: '#3498db',
-            borderWidth: 1.5,
-            borderDash: [6, 6],
-            pointRadius: 0,
-            fill: false
-          },
-          {
-            label: 'Limite Disco (75%)',
-            data: [75, 75, 75, 75, 75, 75, 75],
-            borderColor: '#2ecc71',
-            borderWidth: 1.5,
-            borderDash: [6, 6],
-            pointRadius: 0,
-            fill: false
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            labels: {
-              color: '#ffffff',
-              boxWidth: 12
+          scales: {
+            x: {
+              grid: { color: CONFIG.paleta.grade },
+              ticks: { color: CONFIG.paleta.secundario, font: CONFIG.fonteGrafico }
+            },
+            y: {
+              min: 0,
+              max: 100,
+              grid: { color: CONFIG.paleta.grade },
+              ticks: { color: CONFIG.paleta.secundario, font: CONFIG.fonteGrafico }
             }
           }
-        },
-        scales: {
-          x: {
-            grid: { color: '#333333' },
-            ticks: { color: '#aaaaaa' }
-          },
-          y: {
-            min: 0,
-            max: 100,
-            grid: { color: '#333333' },
-            ticks: { color: '#aaaaaa' }
-          }
         }
-      }
-    });
-
-    // Função que altera a visualização entre Todos e Individual (com faixas de Alerta e Crítico)
-    function alterarVisualizacaoGrafico(opcao) {
-      if (opcao === 'all') {
-        graficoDesempenho.data.datasets = [
-          {
-            label: 'CPU',
-            data: configComponentes.cpu.data,
-            borderColor: configComponentes.cpu.borderColor,
-            backgroundColor: configComponentes.cpu.backgroundColor,
-            tension: 0.1
-          },
-          {
-            label: 'RAM',
-            data: configComponentes.ram.data,
-            borderColor: configComponentes.ram.borderColor,
-            backgroundColor: configComponentes.ram.backgroundColor,
-            tension: 0.1
-          },
-          {
-            label: 'Disco',
-            data: configComponentes.disco.data,
-            borderColor: configComponentes.disco.borderColor,
-            backgroundColor: configComponentes.disco.borderColor,
-            tension: 0.1
-          },
-          {
-            label: `Limite CPU (${configComponentes.cpu.alerta}%)`,
-            data: Array(labelsHorarios.length).fill(configComponentes.cpu.alerta),
-            borderColor: '#f1c40f',
-            borderWidth: 1.5,
-            borderDash: [6, 6],
-            pointRadius: 0,
-            fill: false
-          },
-          {
-            label: `Limite RAM (${configComponentes.ram.alerta}%)`,
-            data: Array(labelsHorarios.length).fill(configComponentes.ram.alerta),
-            borderColor: '#3498db',
-            borderWidth: 1.5,
-            borderDash: [6, 6],
-            pointRadius: 0,
-            fill: false
-          },
-          {
-            label: `Limite Disco (${configComponentes.disco.alerta}%)`,
-            data: Array(labelsHorarios.length).fill(configComponentes.disco.alerta),
-            borderColor: '#2ecc71',
-            borderWidth: 1.5,
-            borderDash: [6, 6],
-            pointRadius: 0,
-            fill: false
-          }
-        ];
-
-        span_cpu.innerHTML = `${configComponentes.cpu.alerta}%`
-        span_ram.innerHTML = `${configComponentes.ram.alerta}%`
-        span_disco.innerHTML = `${configComponentes.disco.alerta}%`
-      } else {
-        const comp = configComponentes[opcao];
-        if (!comp) return;
-
-        console.log(comp.alerta);
-
-
-        graficoDesempenho.data.datasets = [
-          {
-            label: comp.label,
-            data: comp.data,
-            borderColor: comp.borderColor,
-            backgroundColor: comp.backgroundColor,
-            borderWidth: 3,
-            tension: 0.1
-          },
-          {
-            label: `Faixa de Alerta (${comp.alerta}%)`,
-            data: Array(labelsHorarios.length).fill(comp.alerta),
-            borderColor: '#f39c12', // Laranja para alerta
-            borderWidth: 2,
-            borderDash: [4, 4],
-            pointRadius: 0,
-            fill: false
-          },
-          {
-            label: `Faixa Crítica (${comp.critico}%)`,
-            data: Array(labelsHorarios.length).fill(comp.critico),
-            borderColor: '#e74c3c', // Vermelho para crítico
-            borderWidth: 2,
-            borderDash: [2, 2],
-            pointRadius: 0,
-            fill: false
-          }
-        ];
-
-      }
-      graficoDesempenho.update();
-    }
-
-
-    const nomeUsuarioEl = document.getElementById("nome_usuario");
-    const cargoUsuarioEl = document.getElementById("cargo_usuario");
-    const avatarUsuarioEl = document.getElementById("avatar_usuario");
-    const nomeUsuario = (sessionStorage.getItem("NOME_USUARIO") || "").trim();
-    const cargoUsuario = (sessionStorage.getItem("CARGO_USUARIO") || "").trim();
-
-    if (nomeUsuarioEl) nomeUsuarioEl.textContent = nomeUsuario || "Usuário";
-    if (cargoUsuarioEl) cargoUsuarioEl.textContent = cargoUsuario;
-    if (avatarUsuarioEl) {
-      const iniciais = nomeUsuario.split(/\s+/).filter(Boolean).slice(0, 2).map((parte) => parte[0]);
-      avatarUsuarioEl.textContent = iniciais.join("").toUpperCase() || "US";
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const idTorre = sessionStorage.getItem("ID_TORRE_SELECIONADA");
-      const fkEmpresa = sessionStorage.getItem("FK_EMPRESA_USUARIO");
-
-      const botaoMenu = document.querySelector(".btn-notificacao");
-
-      botaoMenu?.addEventListener("click", () => document.body.classList.toggle("menu-aberto"));
-
-
-      document.getElementById("botao_sair")?.addEventListener("click", () => {
-        sessionStorage.clear();
-        window.location.href = "./login.html";
       });
+    }
 
-      // Validação de segurança
-      if (!idTorre || !fkEmpresa) {
-        alert("Nenhuma torre selecionada ou sessão expirada.");
-        window.location.href = "./selecao_torre.html";
+    // Os limites mostrados nos cards acompanham os valores do CONFIG/banco.
+    function atualizarLimitesNosCards() {
+      DOM.spanCpu.textContent = `${CONFIG.componentes.cpu.alerta}%`;
+      DOM.spanRam.textContent = `${CONFIG.componentes.ram.alerta}%`;
+      DOM.spanDisco.textContent = `${CONFIG.componentes.disco.alerta}%`;
+    }
+
+    /* Redesenha o gráfico mantendo as linhas escondidas pelo usuário ao trocar
+     * dia, hora ou componente. */
+    function redesenharGraficoDesempenho() {
+      if (!graficoDesempenho) return;
+
+      const anteriores = graficoDesempenho.data.datasets || [];
+      graficoDesempenho.data.labels = obterIndicesDesempenho()
+        .map((indice) => CONFIG.horarios[indice]);
+      graficoDesempenho.data.datasets = criarDatasetsDesempenho(modoDesempenhoAtual)
+        .map((dataset) => {
+          const anterior = anteriores.find((item) => item.label === dataset.label);
+          return anterior ? { ...dataset, hidden: anterior.hidden } : dataset;
+        });
+      graficoDesempenho.update();
+      atualizarLimitesNosCards();
+    }
+
+    // Chamada pelo <select id="filtroGrafico"> no HTML (onchange).
+    function alterarVisualizacaoGrafico(opcao) {
+      modoDesempenhoAtual = opcao || 'all';
+      redesenharGraficoDesempenho();
+    }
+
+    /* ---------------------------------------------------------------------
+     * 3a. SELETOR DE DIA DO DESEMPENHO
+     * Cada item de CONFIG.desempenhoPorDia traz horários e séries de um dia.
+     * Trocar o dia atualiza o CONFIG e redesenha o MESMO gráfico de linhas.
+     * ------------------------------------------------------------------- */
+
+    // Limita o <input type="date"> ao período que existe no JSON.
+    let datasDesempenhoDisponiveis = [];
+    let consultaDiaDesempenho = null;
+    let diaDesempenhoEscolhidoPeloUsuario = false;
+
+    function configurarFiltroDiaDesempenho(dias) {
+      if (!DOM.filtroDiaDesempenho) return;
+
+      const datasIsoDoPayload = (Array.isArray(dias) ? dias : [])
+        .map((dia) => typeof dia === 'string' ? dia : converterDataParaIso(dia.data))
+        .filter(Boolean)
+        .sort();
+      const datasIso = datasDesempenhoDisponiveis.length
+        ? datasDesempenhoDisponiveis
+        : datasIsoDoPayload;
+
+      if (!datasIso.length) return;
+
+      DOM.filtroDiaDesempenho.min = datasIso[0];
+      DOM.filtroDiaDesempenho.max = datasIso[datasIso.length - 1];
+    }
+
+    async function carregarDatasDesempenhoDisponiveis(idTorre, fkEmpresa) {
+      try {
+        const resposta = await fetch(
+          CONFIG.rotas.datasDesempenho(idTorre, fkEmpresa),
+          { cache: 'no-store' }
+        );
+        if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+        const dados = await resposta.json();
+        datasDesempenhoDisponiveis = Array.isArray(dados.datas)
+          ? [...dados.datas].sort()
+          : [];
+        configurarFiltroDiaDesempenho(CONFIG.desempenhoPorDia);
+
+        // Durante o carregamento progressivo, um lote parcial pode selecionar
+        // o dia anterior. Antes de qualquer escolha manual, prioriza o último
+        // dia que realmente possui JSON datado na gold.
+        const maisRecente = datasDesempenhoDisponiveis.at(-1);
+        if (
+          maisRecente &&
+          !diaDesempenhoEscolhidoPeloUsuario &&
+          DOM.filtroDiaDesempenho.value !== maisRecente
+        ) {
+          DOM.filtroDiaDesempenho.value = maisRecente;
+          await selecionarDiaDesempenho(maisRecente);
+        }
+      } catch (erro) {
+        console.warn('[MonitOre] Não foi possível listar todos os dias do desempenho.', erro);
+      }
+    }
+
+    async function selecionarDiaDesempenho(dataIso) {
+      const indiceExato = CONFIG.desempenhoPorDia.findIndex(
+        (dia) => converterDataParaIso(dia.data) === dataIso
+      );
+      if (indiceExato >= 0) {
+        aplicarDiaDesempenho(indiceExato);
         return;
       }
 
-      // Dispara a função para buscar os dados no backend
-      carregarDadosTorre(idTorre, fkEmpresa);
+      const idTorre = sessionStorage.getItem(CONFIG.chavesSessao.idTorre);
+      const fkEmpresa = sessionStorage.getItem(CONFIG.chavesSessao.fkEmpresa);
+      if (!idTorre || !fkEmpresa || !/^\d{4}-\d{2}-\d{2}$/.test(dataIso)) return;
 
-      // Demais funções da página
-      carregarUsuarioMenu();
-      carregarIniciais();
-    });
+      consultaDiaDesempenho?.abort();
+      const controlador = new AbortController();
+      consultaDiaDesempenho = controlador;
+      const inicio = `${dataIso}T00:00:00.000Z`;
+      const fim = `${dataIso}T23:59:59.999Z`;
+      const textoAnterior = DOM.periodoDesempenho?.textContent;
+      if (DOM.periodoDesempenho) {
+        DOM.periodoDesempenho.textContent = `(carregando ${dataIso}...)`;
+      }
+      DOM.filtroDiaDesempenho.disabled = true;
 
-    // Função que consome a rota do Controller/Model que você já possui
-    async function carregarDadosTorre(idTorre, fkEmpresa) {
       try {
-        // Utiliza a rota router.get("/:id", ...) mapeada no seu torres.js
-        const resposta = await fetch(`/torres/${idTorre}?fkEmpresa=${fkEmpresa}`);
-
+        const resposta = await fetch(
+          CONFIG.rotas.dashboard(idTorre, fkEmpresa, inicio, fim),
+          { cache: 'no-store', signal: controlador.signal }
+        );
         if (!resposta.ok) {
-          throw new Error(`Erro ao buscar dados da torre: ${resposta.status}`);
+          let mensagem = `HTTP ${resposta.status}`;
+          try {
+            const corpo = await resposta.json();
+            mensagem = corpo.mensagem || mensagem;
+          } catch (_) { /* resposta sem JSON */ }
+          throw new Error(mensagem);
         }
 
-        const dadosTorre = await resposta.json();
-        console.log("Dados da torre carregados com sucesso:", dadosTorre);
-
-        // Preenche a interface com os dados retornados do banco
-        atualizarInterfaceDashboard(dadosTorre);
-
+        const dados = await resposta.json();
+        if (controlador.signal.aborted) return;
+        aplicarDadosJson(dados, {
+          cabecalho: false,
+          desempenho: true,
+          barras: false,
+          alertas: false,
+          historico: false
+        });
+        const indiceCarregado = CONFIG.desempenhoPorDia.findIndex(
+          (dia) => converterDataParaIso(dia.data) === dataIso
+        );
+        if (indiceCarregado >= 0) aplicarDiaDesempenho(indiceCarregado);
+        else if (DOM.periodoDesempenho) {
+          DOM.periodoDesempenho.textContent = '(sem dados neste dia)';
+        }
       } catch (erro) {
-        console.error("Erro ao carregar dados do dashboard:", erro);
+        if (!controlador.signal.aborted) {
+          console.warn('[MonitOre] Não foi possível carregar o dia do desempenho.', erro);
+          if (DOM.periodoDesempenho) {
+            DOM.periodoDesempenho.textContent = '(erro ao carregar o dia)';
+            DOM.periodoDesempenho.title = erro.message;
+          }
+        }
+      } finally {
+        if (consultaDiaDesempenho === controlador) {
+          DOM.filtroDiaDesempenho.disabled = false;
+          if (
+            DOM.periodoDesempenho &&
+            DOM.periodoDesempenho.textContent === `(carregando ${dataIso}...)`
+          ) {
+            DOM.periodoDesempenho.textContent = textoAnterior;
+          }
+        }
       }
     }
 
-    function atualizarInterfaceDashboard(torre) {
-      nome_torre.innerHTML = `${torre.nome}`
-      nome_mineradora.innerHTML = `${torre.razao_social}`
-      host_pc.innerHTML = `${torre.pc_industrial.hostname}`
-      codigo_torre.innerHTML = `${torre.codigo}`
+    /* O input type="time" representa a HORA DO DIA, não um intervalo. min/max
+     * limitam às horas que existem no dia do JSON. */
+    function configurarFiltroHoraDesempenho(dia) {
+      if (!DOM.filtroHoraDesempenho || !dia) return;
 
+      const horas = Array.isArray(dia.horas) && dia.horas.length
+        ? dia.horas
+        : ['00'];
 
-      if (torre.componentes && Array.isArray(torre.componentes)) {
-        torre.componentes.forEach(comp => {
-          let chave = '';
-          const nomeComp = (comp.nome_componente || '').toLowerCase();
+      DOM.filtroHoraDesempenho.min = `${horas[0]}:00`;
+      DOM.filtroHoraDesempenho.max = `${horas[horas.length - 1]}:00`;
+    }
 
-          // Identifica se é CPU, RAM ou Disco pelo nome ou ID do componente
-          if (nomeComp.includes('cpu') || comp.fk_componente === 1) chave = 'cpu';
-          else if (nomeComp.includes('ram') || comp.fk_componente === 2) chave = 'ram';
-          else if (nomeComp.includes('disco') || nomeComp.includes('disk') || comp.fk_componente === 3) chave = 'disco';
+    /* Horadigitada fora dos dados cai na hora disponível mais próxima. */
+    function encontrarHoraDesempenho(valor) {
+      const horas = diaDesempenhoAtual?.horas || ['00'];
+      const hora = String(valor || '').slice(0, 2);
+      if (!/^\d{2}$/.test(hora)) return horas[horas.length - 1];
 
-          if (chave && configComponentes[chave]) {
-            configComponentes[chave].alerta = Number(comp.atencao);
-            console.log(comp.atencao);
+      let anterior = null;
+      for (const candidata of horas) {
+        if (candidata === hora) return candidata;
+        if (candidata > hora) break;
+        anterior = candidata;
+      }
 
-            configComponentes[chave].critico = Number(comp.critico);
+      return anterior || horas[0];
+    }
+
+    /* Aplica a janela de UMA HORA COMPLETA (20 pontos de 3 em 3 min). */
+    function aplicarJanelaHora(hora, redesenhar = true) {
+      const dia = diaDesempenhoAtual;
+      if (!dia) return;
+
+      const janela = dia.janelasPorHora?.[hora] || dia;
+      if (DOM.filtroHoraDesempenho) DOM.filtroHoraDesempenho.value = `${hora}:00`;
+
+      if (DOM.periodoDesempenho) {
+        const granularidade = janela.granularidade || dia.granularidade || 'média a cada 3 min';
+        DOM.periodoDesempenho.textContent = `(hora ${hora}:00 · ${granularidade})`;
+        DOM.periodoDesempenho.title = janela.inicio && janela.fim
+          ? `Janela: ${janela.inicio} a ${janela.fim} · ${janela.totalAmostras ?? 0} amostra(s)`
+          : '';
+      }
+
+      CONFIG.horarios = janela.horarios || dia.horarios;
+
+      Object.entries(janela.componentes || {}).forEach(([chave, valores]) => {
+        if (CONFIG.componentes[chave]) {
+          CONFIG.componentes[chave] = { ...CONFIG.componentes[chave], ...valores };
+        }
+      });
+
+      if (redesenhar && graficoDesempenho) redesenharGraficoDesempenho();
+    }
+
+    /* Aplica um dia ao CONFIG. `redesenhar=false` é usado na inicialização,
+     * quando o gráfico ainda não foi criado (ele nasce com esses dados). */
+    function aplicarDiaDesempenho(indice, redesenhar = true) {
+      const dia = CONFIG.desempenhoPorDia[indice];
+      if (!dia) return;
+
+      diaDesempenhoAtual = dia;
+
+      // O input mostra a data real do dia aplicado (e avisa quando é exemplo).
+      if (DOM.filtroDiaDesempenho) DOM.filtroDiaDesempenho.value = converterDataParaIso(dia.data);
+      if (DOM.diaExemploDesempenho) DOM.diaExemploDesempenho.hidden = !dia.exemplo;
+
+      configurarFiltroHoraDesempenho(dia);
+      const horas = dia.horas || ['00'];
+      aplicarJanelaHora(
+        encontrarHoraDesempenho(DOM.filtroHoraDesempenho?.value || `${horas[horas.length - 1]}:00`),
+        redesenhar,
+      );
+      atualizarCardsMetricasDesempenho();
+    }
+
+    // Converte "20/11/2026" em "2026-11-20" para comparar com <input type="date">.
+    function converterDataParaIso(dataBr) {
+      const [dia, mes, ano] = dataBr.split('/');
+      return `${ano}-${mes}-${dia}`;
+    }
+
+    // `geradoEm` vem do Python em ISO local: "2026-11-24T19:04:59".
+    function formatarUltimaAtualizacao(iso) {
+      if (!iso) return '—';
+
+      const correspondencia = /^(\d{4})-(\d{2})-(\d{2})[T\s](\d{2}):(\d{2})/.exec(String(iso));
+      if (correspondencia) {
+        const [, ano, mes, dia, hora, minuto] = correspondencia;
+        return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+      }
+
+      const data = new Date(iso);
+      if (Number.isNaN(data.getTime())) return String(iso);
+
+      const dois = (valor) => String(valor).padStart(2, '0');
+      return `${dois(data.getDate())}/${dois(data.getMonth() + 1)}/${data.getFullYear()}`
+        + ` ${dois(data.getHours())}:${dois(data.getMinutes())}`;
+    }
+
+    function formatarPercentual(valor) {
+      if (valor === null || valor === undefined || valor === '') return '-';
+
+      const numero = Number(valor);
+      if (Number.isNaN(numero)) return '-';
+
+      return `${Math.round(numero)}%`;
+    }
+
+    function obterUltimoValorDoDia(dia, chave) {
+      if (!dia?.janelasPorHora) return null;
+
+      const horas = Object.keys(dia.janelasPorHora).sort();
+      for (let i = horas.length - 1; i >= 0; i--) {
+        const janela = dia.janelasPorHora[horas[i]];
+        const serie = janela?.componentes?.[chave]?.serie || [];
+
+        for (let j = serie.length - 1; j >= 0; j--) {
+          const valor = serie[j];
+          if (valor !== null && valor !== undefined) return valor;
+        }
+      }
+
+      return null;
+    }
+
+    function obterPicoDoDia(dia, chave) {
+      if (!dia?.janelasPorHora) return null;
+
+      let pico = null;
+      Object.values(dia.janelasPorHora).forEach((janela) => {
+        const valores = janela?.componentes?.[chave]?.pico || [];
+        valores.forEach((valor) => {
+          if (valor === null || valor === undefined) return;
+          if (pico === null || valor > pico) pico = valor;
+        });
+      });
+
+      return pico;
+    }
+
+    function atualizarCardsMetricasDesempenho() {
+      const dia = diaDesempenhoAtual;
+      if (!dia && !registroAtual && !usandoApiDashboard) return;
+
+      const mapas = [
+        ['cpu', DOM.valorCpu, DOM.picoCpu, DOM.statusCpu],
+        ['ram', DOM.valorRam, DOM.picoRam, DOM.statusRam],
+        ['disco', DOM.valorDisco, DOM.picoDisco, DOM.statusDisco]
+      ];
+
+      mapas.forEach(([chave, valorEl, picoEl, statusEl]) => {
+        if (!valorEl || !picoEl || !statusEl) return;
+
+        const atual = registroAtual?.componentesMonitorados?.find((item) =>
+          chaveComponenteDaLinha(item.componente) === chave);
+        const ultimoValor = usandoApiDashboard ? (atual?.valor ?? null) : obterUltimoValorDoDia(dia, chave);
+        const pico = obterPicoDoDia(dia, chave);
+        const componente = CONFIG.componentes[chave] || {};
+        const alerta = Number(componente.alerta);
+        const critico = Number(componente.critico);
+
+        valorEl.textContent = formatarPercentual(ultimoValor);
+        picoEl.textContent = formatarPercentual(pico);
+
+        const valorNumero = Number(ultimoValor);
+        let classe = 'normal';
+        let texto = 'Normal';
+
+        if (ultimoValor === null || ultimoValor === undefined) {
+          classe = 'sem-dados';
+          texto = registroAtual ? 'Sem dados' : 'Carregando...';
+        } else if (usandoApiDashboard && atual) {
+          const status = normalizarTextoBasico(atual.status);
+          classe = status.includes('CRIT') ? 'critico' : status.includes('ALERT') || status.includes('ATEN') ? 'alerta' : 'normal';
+          texto = atual.status || 'Sem dados';
+        } else if (!Number.isNaN(valorNumero)) {
+          if (!Number.isNaN(critico) && valorNumero >= critico) {
+            classe = 'critico';
+            texto = 'Crítico';
+          } else if (!Number.isNaN(alerta) && valorNumero >= alerta) {
+            classe = 'alerta';
+            texto = 'Alerta';
           }
+        }
+
+        statusEl.className = `badge_status ${classe}`;
+        statusEl.textContent = `● ${texto}`;
+      });
+    }
+
+    /* O date input aceita qualquer data do intervalo; se ela não existir no
+     * JSON, usa o dia disponível mais próximo (anterior ou primeiro) e o valor
+     * do input é ajustado para a data realmente exibida. */
+    function encontrarIndiceDiaDesempenho(dataIso) {
+      if (!dataIso) return -1;
+
+      const dias = CONFIG.desempenhoPorDia;
+      let anterior = -1;
+
+      for (let indice = 0; indice < dias.length; indice++) {
+        const atual = converterDataParaIso(dias[indice].data);
+
+        if (atual === dataIso) return indice;
+        if (atual > dataIso) break;
+
+        anterior = indice;
+      }
+
+      return anterior >= 0 ? anterior : 0;
+    }
+
+    // Rótulo do eixo X: dias simulados recebem "(exemplo)".
+    function rotuloDataAlerta(indice) {
+      const data = CONFIG.alertasDiarios.datas[indice];
+      const eExemplo = CONFIG.alertasDiarios.exemplo?.[indice];
+      return eExemplo ? `${data} (exemplo)` : data;
+    }
+
+    // Retorna só os índices das datas que passam no filtro de período.
+    function obterIndicesPeriodo() {
+      const inicio = DOM.dataInicioAlertas.value;
+      const fim = DOM.dataFimAlertas.value;
+
+      return CONFIG.alertasDiarios.datas
+        .map((dataBr, indice) => {
+          const iso = converterDataParaIso(dataBr);
+          const dentroDoPeriodo = (!inicio || iso >= inicio) && (!fim || iso <= fim);
+          return dentroDoPeriodo ? indice : -1;
+        })
+        .filter((indice) => indice >= 0);
+    }
+
+    // Linha de alertas de um componente + linha tracejada do seu limite.
+    function criarDatasetsAlertasDiarios(indices, chavesVisiveis) {
+      const dados = CONFIG.alertasDiarios;
+      const datasets = [];
+
+      chavesVisiveis.forEach((chave) => {
+        const nome = CONFIG.componentesAlvo.find((item) => item.chave === chave).nome;
+        const cor = dados.cores[chave];
+        const limite = dados.limites[chave];
+
+        datasets.push({
+          label: nome,
+          data: indices.map((indice) => dados.serie[chave][indice]),
+          borderColor: cor,
+          backgroundColor: cor,
+          pointRadius: 2.5,
+          pointHoverRadius: 5,
+          borderWidth: 2,
+          tension: 0,
+          spanGaps: true
         });
 
-      }
+        datasets.push({
+          label: `Limite ${chave.toUpperCase()} (${limite})`,
+          data: indices.map(() => limite),
+          borderColor: cor,
+          borderWidth: 1.2,
+          borderDash: [3, 4],
+          pointRadius: 0,
+          tension: 0
+        });
+      });
 
-      // Atualiza o gráfico caso já esteja renderizado na tela com os novos limites do banco
-      const selectFiltro = document.getElementById("filtroGrafico");
-      if (selectFiltro) {
-        alterarVisualizacaoGrafico(selectFiltro.value);
-      }
-
+      return datasets;
     }
-    function atualizarTabelaAlertasDiarios(dias) {
-      const subTexto = document.getElementById("sub_texto_periodo");
-      if (subTexto) {
-        subTexto.innerText = `(últimos ${dias} dias)`;
-      }
 
-      // Exemplo de atualização dinâmica dos dados (pode ser conectado à sua API)
-      const tbody = document.getElementById("tbodyAlertasDiarios");
-      if (!tbody) return;
+    /* A KPI não conta alertas brutos: conta em quantos dias o componente
+     * ficou acima do limite diário. Assim, 100 alertas em um único dia = 1
+     * ocorrência para aquele componente. */
+    function contarDiasAcimaDoLimite(indices, chaves) {
+      const totais = { cpu: 0, ram: 0, disco: 0 };
+      const dados = CONFIG.alertasDiarios;
 
-      let html = '';
-      const limite = parseInt(dias, 10);
+      indices.forEach((indice) => {
+        chaves.forEach((chave) => {
+          const quantidade = Number(dados.serie[chave][indice] || 0);
+          const limite = Number(dados.limites[chave] || 0);
 
-      for (let i = 0; i < limite; i++) {
-        const data = new Date(2026, 3, 15 - i); // Simulando a partir de 15/04/2026
-        const dataFormatada = data.toLocaleDateString('pt-BR');
+          if (quantidade > limite) totais[chave]++;
+        });
+      });
 
-        const cpu = (i % 3 === 0) ? 1 : 0;
-        const ram = (i % 2 === 0) ? 1 : 0;
-        const disco = (i % 4 === 0) ? 1 : 0;
-        const total = cpu + ram + disco;
-
-        html += `
-          <tr>
-            <td>${dataFormatada}</td>
-            <td>${total > 0 ? `<span class="total_alertas_destaque">${total}</span>` : `<span class="total_alertas_zero">0</span>`}</td>
-            <td>${cpu}</td>
-            <td>${ram}</td>
-            <td>${disco}</td>
-          </tr>
-        `;
-      }
-
-      tbody.innerHTML = html;
+      return totais;
     }
+
+    function atualizarKpisAlertas(indices, chaves) {
+      const totais = contarDiasAcimaDoLimite(indices, chaves);
+
+      DOM.kpiCpuAcima.textContent = totais.cpu;
+      DOM.kpiRamAcima.textContent = totais.ram;
+      DOM.kpiDiscoAcima.textContent = totais.disco;
+      DOM.kpiTotalAcima.textContent = totais.cpu + totais.ram + totais.disco;
+
+      const diasExemplo = indices.filter(
+        (indice) => CONFIG.alertasDiarios.exemplo?.[indice]
+      ).length;
+      const avisoExemplo = diasExemplo ? ` (${diasExemplo} de exemplo)` : '';
+
+      DOM.kpiResumoPeriodo.innerHTML =
+        `Dias no filtro: ${indices.length}${avisoExemplo}<br>1 ocorrência = 1 componente/dia acima do limite diário.`;
+    }
+
+    // Gráfico de linhas do painel inferior (quantidade diária de alertas).
+    function criarGraficoAlertasDiarios() {
+      if (!DOM.canvasAlertasLimite) return null;
+
+      return new Chart(DOM.canvasAlertasLimite.getContext('2d'), {
+        type: 'line',
+        data: { labels: CONFIG.alertasDiarios.datas, datasets: [] },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            /*
+             * Legenda nativa do Chart.js: é desenhada dentro do canvas e o próprio
+             * Chart.js reserva o espaço dela, então não cobre as linhas. O clique
+             * em cada item já vem pronto e mostra/oculta a série correspondente.
+             */
+            legend: {
+              display: true,
+              position: 'top',
+              align: 'start',
+              labels: {
+                color: CONFIG.paleta.texto,
+                font: CONFIG.fonteGrafico,
+                usePointStyle: true,
+                pointStyle: 'line',
+                boxWidth: 18,
+                padding: 12
+              }
+            },
+            tooltip: { enabled: true }
+          },
+          scales: {
+            x: {
+              grid: { color: CONFIG.paleta.gradeSuave },
+              ticks: { color: CONFIG.paleta.secundario, font: CONFIG.fonteGrafico }
+            },
+            y: {
+              beginAtZero: true,
+              suggestedMax: 7,
+              title: {
+                display: true,
+                text: 'Quantidade de alertas',
+                color: CONFIG.paleta.secundario,
+                font: CONFIG.fonteGrafico
+              },
+              grid: { color: CONFIG.paleta.gradeSuave },
+              ticks: { color: CONFIG.paleta.secundario, font: CONFIG.fonteGrafico, stepSize: 1 }
+            }
+          }
+        }
+      });
+    }
+
+    // Aplica os três filtros do painel: componente, data início e data fim.
+    function atualizarPainelAlertasDiarios() {
+      if (!graficoAlertasLimite) return;
+
+      const selecionado = DOM.filtroComponenteAlertas.value;
+      const chavesVisiveis = selecionado === 'todos'
+        ? CONFIG.componentesAlvo.map((item) => item.chave)
+        : [selecionado];
+      const indices = obterIndicesPeriodo();
+
+      graficoAlertasLimite.data.labels = indices.map(rotuloDataAlerta);
+
+      // Mantém o estado "linha escondida" quando o usuário troca só o período.
+      const anteriores = graficoAlertasLimite.data.datasets || [];
+      graficoAlertasLimite.data.datasets = criarDatasetsAlertasDiarios(indices, chavesVisiveis)
+        .map((dataset) => {
+          const anterior = anteriores.find((item) => item.label === dataset.label);
+          return anterior ? { ...dataset, hidden: anterior.hidden } : dataset;
+        });
+      graficoAlertasLimite.update();
+
+      atualizarKpisAlertas(indices, chavesVisiveis);
+    }
+
+    /* ---------------------------------------------------------------------
+     * 3b. HISTÓRICO DE ALERTAS (tabela)
+     * Os filtros são independentes dos do gráfico: não alteram os dados, só
+     * escondem as linhas que não batem com componente/período escolhidos.
+     * ------------------------------------------------------------------- */
+
+    // "14/04/2026 24:00" -> "2026-04-14" (o horário não entra no filtro).
+    function extrairDataIsoDaLinha(textoData) {
+      const match = textoData.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+      return match ? `${match[3]}-${match[2]}-${match[1]}` : '';
+    }
+
+    // "RAM", "Disco", "CPU" -> "ram", "disco", "cpu" (chaves do <select>).
+    function chaveComponenteDaLinha(textoComponente) {
+      const nome = textoComponente.trim().toLowerCase();
+      if (nome.includes('cpu')) return 'cpu';
+      if (nome.includes('ram')) return 'ram';
+      if (nome.includes('disco') || nome.includes('disk')) return 'disco';
+      return '';
+    }
+
+    // Aplica os três filtros do histórico: componente, data início e data fim.
+    function filtrarHistoricoAlertas() {
+      if (!DOM.tbodyHistoricoAlertas) return;
+
+      const componente = DOM.filtroComponenteHistorico.value;
+      const inicio = DOM.dataInicioHistorico.value;
+      const fim = DOM.dataFimHistorico.value;
+
+      Array.from(DOM.tbodyHistoricoAlertas.rows).forEach((linha) => {
+        const dataIso = extrairDataIsoDaLinha(linha.cells[0].textContent);
+        const chave = chaveComponenteDaLinha(linha.cells[2].textContent);
+
+        // Sem data reconhecida, a linha continua visível (melhor não perder dado).
+        const passaComponente = componente === 'todos' || chave === componente;
+        const passaInicio = !inicio || !dataIso || dataIso >= inicio;
+        const passaFim = !fim || !dataIso || dataIso <= fim;
+
+        linha.style.display = passaComponente && passaInicio && passaFim ? '' : 'none';
+      });
+    }
+
+    /* ---------------------------------------------------------------------
+     * 4. DADOS DA TORRE (backend)
+     * ------------------------------------------------------------------- */
+
+    // Descobre se o componente retornado pela API é CPU, RAM ou Disco.
+    function identificarChaveComponente(componente) {
+      const nome = (componente.nome_componente || '').toLowerCase();
+
+      if (nome.includes('cpu') || componente.fk_componente === 1) return 'cpu';
+      if (nome.includes('ram') || componente.fk_componente === 2) return 'ram';
+      if (nome.includes('disco') || nome.includes('disk') || componente.fk_componente === 3) return 'disco';
+
+      return null;
+    }
+
+    // Preenche o cabeçalho e substitui os limites simulados pelos do banco.
+    function aplicarDadosTorre(torre) {
+      DOM.nomeTorre.textContent = torre.nome;
+      DOM.nomeMineradora.textContent = torre.razao_social;
+      DOM.hostPc.textContent = torre.pc_industrial.hostname;
+      DOM.codigoTorre.textContent = torre.codigo;
+
+      if (Array.isArray(torre.componentes)) {
+        torre.componentes.forEach((componente) => {
+          const chave = identificarChaveComponente(componente);
+          if (!chave || !CONFIG.componentes[chave]) return;
+
+          CONFIG.componentes[chave].alerta = Number(componente.atencao);
+          CONFIG.componentes[chave].critico = Number(componente.critico);
+        });
+      }
+
+      // O gráfico já está na tela: redesenha com os novos limites.
+      alterarVisualizacaoGrafico(DOM.filtroGrafico.value);
+    }
+
+    // Busca GET /torres/:id?fkEmpresa=... no controller de torres.
+    async function carregarDadosTorre(idTorre, fkEmpresa) {
+      try {
+        const resposta = await fetch(CONFIG.rotas.torre(idTorre, fkEmpresa));
+        if (!resposta.ok) throw new Error(`Erro ao buscar dados da torre: ${resposta.status}`);
+
+        aplicarDadosTorre(await resposta.json());
+      } catch (erro) {
+        console.error('Erro ao carregar dados do dashboard:', erro);
+      }
+    }
+
+    /* ---------------------------------------------------------------------
+     * 4b. DADOS VIA JSON (pipeline Python)
+     * O arquivo public/dados/dashboard_torre.json é servido pelo Express em
+     * /dados/dashboard_torre.json. Se ele não existir, os dados simulados do
+     * CONFIG permanecem na tela — nada deixa de funcionar.
+     * ------------------------------------------------------------------- */
+
+    // Evita interpretar texto vindo de arquivo como HTML.
+    function escaparHtml(valor) {
+      const especiais = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+      return String(valor ?? '').replace(/[&<>"']/g, (caractere) => especiais[caractere]);
+    }
+
+    // "31/10/2026 17:44:19" -> "31/10/2026 17:44" (padrão da tabela).
+    function formatarDataHoraDaTabela(valor) {
+      const texto = String(valor ?? '').trim();
+      const [data, hora] = texto.split(/\s+/);
+
+      if (!data || !hora) return texto;
+
+      const barras = data.split('/');
+      if (barras.length === 3) return `${barras[0]}/${barras[1]}/${barras[2]} ${hora.slice(0, 5)}`;
+
+      const iso = data.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (iso) return `${iso[3]}/${iso[2]}/${iso[1]} ${hora.slice(0, 5)}`;
+
+      return texto;
+    }
+
+    function normalizarTextoBasico(valor) {
+      return String(valor ?? '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim()
+        .toUpperCase();
+    }
+
+    // Monta uma <tr> no mesmo formato das linhas fixas do HTML.
+    function criarLinhaHistorico(item) {
+      const statusNormalizado = normalizarTextoBasico(item.status);
+      const critico = statusNormalizado.includes('CRIT');
+      const classe = critico ? 'critico' : 'alerta';
+      const icone = critico ? '⛔' : '⚠';
+      const texto = (valor) => valor === null || valor === undefined || valor === '' ? '-' : valor;
+      const estiloCritico = critico
+        ? 'border-color:#ff4d4d !important;color:#ff4d4d !important;background-color:rgba(255,77,77,.12) !important;'
+        : '';
+
+      return `<tr>
+        <td>${escaparHtml(formatarDataHoraDaTabela(item.dataHora))}</td>
+        <td>${escaparHtml(texto(item.mineradora))}</td>
+        <td>${escaparHtml(texto(item.componente))}</td>
+        <td>${escaparHtml(texto(item.valor))}%</td>
+        <td>${escaparHtml(texto(item.alerta))}%</td>
+        <td>${escaparHtml(texto(item.critico))}%</td>
+        <td><span class="tag_alerta ${classe}" style="${escaparHtml(estiloCritico)}"><span class="icone">${icone}</span> ${escaparHtml(texto(item.status))}</span></td>
+      </tr>`;
+    }
+
+    // Converte "31/10/2026 17:44:19" (ou ISO) em timestamp para ordenação.
+    function timestampDoHistorico(item) {
+      const texto = String(item?.dataHora ?? '').trim();
+
+      const iso = texto.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?/);
+      if (iso) {
+        return Date.UTC(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]),
+          Number(iso[4]), Number(iso[5]), Number(iso[6] || 0));
+      }
+
+      const barras = texto.match(/^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})(?::(\d{2}))?/);
+      if (barras) {
+        return Date.UTC(Number(barras[3]), Number(barras[2]) - 1, Number(barras[1]),
+          Number(barras[4]), Number(barras[5]), Number(barras[6] || 0));
+      }
+
+      return NaN;
+    }
+
+    // Substitui as linhas de exemplo pelas linhas vindas do JSON,
+    // do alerta mais recente para o mais antigo (sem alterar o payload).
+    function popularHistoricoComJson(itens) {
+      if (!DOM.tbodyHistoricoAlertas) return;
+
+      const ordenados = [...itens].sort((a, b) => {
+        const horarioA = timestampDoHistorico(a);
+        const horarioB = timestampDoHistorico(b);
+        if (Number.isNaN(horarioA)) return 1;
+        if (Number.isNaN(horarioB)) return -1;
+        return horarioB - horarioA;
+      });
+
+      DOM.tbodyHistoricoAlertas.innerHTML = ordenados.map(criarLinhaHistorico).join('');
+    }
+
+    // Copia o payload (S3 ou fallback local) para o CONFIG e atualiza a tela.
+    function aplicarDadosJson(dados, secoes = {}) {
+      const mostrar = {
+        cabecalho: secoes.cabecalho !== false,
+        desempenho: secoes.desempenho !== false,
+        barras: secoes.barras !== false,
+        alertas: secoes.alertas !== false,
+        historico: secoes.historico !== false
+      };
+      const temDias = Array.isArray(dados.desempenhoPorDia) && dados.desempenhoPorDia.length > 0;
+
+      if (DOM.ultimaAtualizacao && !usandoApiDashboard) {
+        DOM.ultimaAtualizacao.textContent = temDias
+          ? formatarUltimaAtualizacao(dados.geradoEm)
+          : 'sem dados no intervalo';
+      }
+
+      if (mostrar.desempenho && Array.isArray(dados.horarios) && dados.horarios.length) {
+        CONFIG.horarios = dados.horarios;
+      }
+
+      if (mostrar.cabecalho && dados.torre) {
+        DOM.nomeTorre.textContent = dados.torre.nome ?? '';
+        DOM.nomeMineradora.textContent = dados.torre.mineradora ?? '';
+        DOM.hostPc.textContent = dados.torre.hostname ?? '';
+        DOM.codigoTorre.textContent = dados.torre.codigo ?? '';
+      }
+
+      if (mostrar.desempenho) {
+        Object.entries(dados.componentes || {}).forEach(([chave, valores]) => {
+          if (!CONFIG.componentes[chave]) return;
+          CONFIG.componentes[chave] = { ...CONFIG.componentes[chave], ...valores };
+        });
+      }
+
+      // O seletor de dia usa o desempenho agrupado por janela do backend.
+      if (mostrar.desempenho && temDias) {
+        CONFIG.desempenhoPorDia = dados.desempenhoPorDia;
+        configurarFiltroDiaDesempenho(CONFIG.desempenhoPorDia);
+        // Não perde a seleção do usuário quando chega outro lote.
+        const indiceSelecionado = encontrarIndiceDiaDesempenho(DOM.filtroDiaDesempenho?.value);
+        aplicarDiaDesempenho(indiceSelecionado >= 0 ? indiceSelecionado : CONFIG.desempenhoPorDia.length - 1, false);
+      } else if (mostrar.desempenho) {
+        CONFIG.desempenhoPorDia = [];
+        diaDesempenhoAtual = null;
+        if (DOM.filtroDiaDesempenho) {
+          DOM.filtroDiaDesempenho.value = '';
+          DOM.filtroDiaDesempenho.min = '';
+          DOM.filtroDiaDesempenho.max = '';
+        }
+        if (DOM.periodoDesempenho) DOM.periodoDesempenho.textContent = '(sem dados no intervalo)';
+      }
+
+      if (mostrar.barras && dados.barrasAlertas) {
+        CONFIG.barrasAlertas = { ...CONFIG.barrasAlertas, ...dados.barrasAlertas };
+
+        if (DOM.periodoAlertasComponentes) {
+          const inicio = CONFIG.barrasAlertas.inicio;
+          const fim = CONFIG.barrasAlertas.fim;
+          DOM.periodoAlertasComponentes.textContent =
+            `(${CONFIG.barrasAlertas.periodo || 'últimas 24h'})`;
+          DOM.periodoAlertasComponentes.title = inicio && fim
+            ? `Janela: ${inicio} a ${fim}`
+            : 'Janela: últimas 24 horas';
+        }
+      }
+
+      const serieVazia = { cpu: [], ram: [], disco: [] };
+      if (mostrar.alertas && dados.alertasDiarios) {
+        CONFIG.alertasDiarios = {
+          datas: dados.alertasDiarios.datas || [],
+          exemplo: dados.alertasDiarios.exemplo || [],
+          serie: { ...serieVazia, ...(dados.alertasDiarios.serie || {}) },
+          limites: { ...CONFIG.alertasDiarios.limites, ...(dados.alertasDiarios.limites || {}) },
+          cores: { ...CONFIG.alertasDiarios.cores, ...(dados.alertasDiarios.cores || {}) }
+        };
+      } else if (mostrar.alertas && !temDias) {
+        CONFIG.alertasDiarios = { ...CONFIG.alertasDiarios, datas: [], exemplo: [], serie: serieVazia };
+      }
+
+      if (mostrar.historico && Array.isArray(dados.historico)) {
+        popularHistoricoComJson(dados.historico);
+      } else if (mostrar.historico && !temDias && DOM.tbodyHistoricoAlertas) {
+        DOM.tbodyHistoricoAlertas.innerHTML = '';
+      }
+    }
+
+    // Busca o JSON gerado pela pipeline. Retorna true quando conseguiu usar.
+    async function carregarDadosDashboardJson() {
+      try {
+        const resposta = await fetch(CONFIG.rotas.dashboardJson, { cache: 'no-store' });
+        if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+
+        const dados = await resposta.json();
+        aplicarDadosJson(dados);
+
+        console.info(
+          '[MonitOre] Dados do JSON carregados:',
+          dados.identificador || dados.geradoEm
+        );
+        return true;
+      } catch (erro) {
+        console.warn('[MonitOre] JSON indisponível; usando dados de exemplo.', erro);
+        if (DOM.ultimaAtualizacao) DOM.ultimaAtualizacao.textContent = 'dados de exemplo';
+        return false;
+      }
+    }
+
+    /* ---------------------------------------------------------------------
+     * 4a. CONSULTA AO BACKEND (S3) PELO INTERVALO
+     * O filtro de período usa as datas dos alertas diários. Sem datas
+     * preenchidas, a página abre com as últimas 24 horas.
+     * ------------------------------------------------------------------- */
+
+    function intervaloAlertasParaApi() {
+      const inicio = DOM.dataInicioAlertas?.value;
+      const fim = DOM.dataFimAlertas?.value;
+
+      if (inicio && fim) {
+        const inicioMs = Date.parse(`${inicio}T00:00:00Z`);
+        const fimMs = Date.parse(`${fim}T23:59:59Z`);
+
+        if (!Number.isNaN(inicioMs) && !Number.isNaN(fimMs) && inicioMs < fimMs) {
+          return {
+            inicio: new Date(inicioMs).toISOString(),
+            fim: new Date(fimMs).toISOString()
+          };
+        }
+      }
+
+      return null;
+    }
+
+    function intervaloParaApi() {
+      const agora = Date.now();
+      return {
+        inicio: new Date(agora - 24 * 60 * 60 * 1000).toISOString(),
+        fim: new Date(agora).toISOString()
+      };
+    }
+
+    let registroAtual = null;
+    let usandoApiDashboard = false;
+    let consultaDashboard = null;
+    let barrasDoDiaAplicadas = false;
+    let consultaAlertas = null;
+
+    function mostrarProgresso(texto) {
+      const elemento = document.getElementById('progressoDashboard');
+      if (elemento) elemento.textContent = texto;
+    }
+
+    async function carregarRegistroAtual(idTorre, fkEmpresa, controlador) {
+      try {
+        const resposta = await fetch(`/torres/${encodeURIComponent(idTorre)}/dados?fkEmpresa=${encodeURIComponent(fkEmpresa)}`, {
+          cache: 'no-store', signal: controlador.signal
+        });
+        if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+        const dados = await resposta.json();
+        if (controlador.signal.aborted) return;
+        registroAtual = dados;
+        Object.entries(dados.componentes || {}).forEach(([chave, item]) => {
+          if (!CONFIG.componentes[chave]) return;
+          ['alerta', 'critico'].forEach((campo) => {
+            if (item[campo] !== undefined) CONFIG.componentes[chave][campo] = item[campo];
+          });
+        });
+        if (dados.torre) {
+          DOM.nomeTorre.textContent = dados.torre.nome ?? '';
+          DOM.nomeMineradora.textContent = dados.torre.mineradora ?? '';
+          DOM.hostPc.textContent = dados.hostname ?? '';
+          DOM.codigoTorre.textContent = dados.torre.codigo ?? '';
+        }
+        atualizarCardsMetricasDesempenho();
+        atualizarLimitesNosCards();
+        aplicarBarrasDoRegistroAtual(dados);
+        DOM.ultimaAtualizacao.textContent = formatarUltimaAtualizacao(dados.capturadoEm);
+      } catch (erro) {
+        if (controlador.signal.aborted) return;
+        registroAtual = { componentesMonitorados: [] };
+        atualizarCardsMetricasDesempenho();
+        DOM.ultimaAtualizacao.textContent = 'registro atual indisponível';
+      }
+    }
+
+    function aplicarBarrasDoRegistroAtual(dados) {
+      // A contagem do dia chega em separado; o latest.json só é fallback.
+      if (barrasDoDiaAplicadas) return;
+
+      const totaisDoArquivo = dados?.barrasAlertas?.totais;
+      const totais = Array.isArray(totaisDoArquivo) && totaisDoArquivo.length >= 3
+        ? totaisDoArquivo.slice(0, 3).map((valor) => Number(valor) || 0)
+        : CONFIG.componentesAlvo.map(({ nome }) => {
+          const componente = dados?.componentesMonitorados?.find(
+            (item) => normalizarTextoBasico(item.componente) === normalizarTextoBasico(nome)
+          );
+          const status = normalizarTextoBasico(componente?.status);
+          return status.includes('CRIT') || status.includes('ALERT') || status.includes('ATEN')
+            ? 1
+            : 0;
+        });
+
+      CONFIG.barrasAlertas = {
+        ...CONFIG.barrasAlertas,
+        ...(dados?.barrasAlertas || {}),
+        totais,
+        periodo: 'arquivo mais recente',
+        inicio: dados?.capturadoEm ?? null,
+        fim: dados?.capturadoEm ?? null
+      };
+
+      if (DOM.periodoAlertasComponentes) {
+        DOM.periodoAlertasComponentes.textContent = '(arquivo mais recente)';
+        DOM.periodoAlertasComponentes.title = dados?.capturadoEm
+          ? `Captura: ${dados.capturadoEm}`
+          : 'Última captura disponível';
+      }
+      atualizarGraficoBarrasAlertas();
+    }
+
+    function aplicarBarrasDoDia(dados) {
+      const totais = Array.isArray(dados?.barrasAlertas?.totais)
+        ? dados.barrasAlertas.totais.slice(0, 3).map((valor) => Number(valor) || 0)
+        : [0, 0, 0];
+
+      CONFIG.barrasAlertas = {
+        ...CONFIG.barrasAlertas,
+        ...(dados?.barrasAlertas || {}),
+        totais,
+      };
+      barrasDoDiaAplicadas = true;
+
+      if (DOM.periodoAlertasComponentes) {
+        DOM.periodoAlertasComponentes.textContent = `(dia do arquivo mais recente: ${dados?.barrasAlertas?.data || ''})`;
+        DOM.periodoAlertasComponentes.title = dados?.capturadoEm
+          ? `Captura mais recente: ${dados.capturadoEm}`
+          : 'Dia da captura mais recente';
+      }
+      atualizarGraficoBarrasAlertas();
+    }
+
+    async function carregarAlertasDoDia(idTorre, fkEmpresa, controlador) {
+      try {
+        const resposta = await fetch(CONFIG.rotas.alertasDia(idTorre, fkEmpresa), {
+          cache: 'no-store', signal: controlador.signal
+        });
+        if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+        const dados = await resposta.json();
+        if (controlador.signal.aborted) return;
+        aplicarBarrasDoDia(dados);
+      } catch (erro) {
+        if (controlador.signal.aborted) return;
+        // Mantém o fallback do latest.json quando a contagem do dia falha.
+        console.error('Não foi possível contar os alertas do dia:', erro);
+      }
+    }
+
+    async function carregarDadosDashboardDaApi() {
+      const idTorre = sessionStorage.getItem(CONFIG.chavesSessao.idTorre);
+      const fkEmpresa = sessionStorage.getItem(CONFIG.chavesSessao.fkEmpresa);
+      if (!idTorre || !fkEmpresa) return false;
+
+      const { inicio, fim } = intervaloParaApi();
+      consultaDashboard?.abort();
+      const controlador = new AbortController();
+      consultaDashboard = controlador;
+      usandoApiDashboard = true;
+      // Ao trocar o período, mantém o conteúdo atual visível. Cada seção é
+      // substituída quando sua nova etapa chega, sem apagar/recriar tudo.
+      mostrarProgresso('Carregando histórico, começando pelas capturas mais recentes...');
+      // Esta consulta é independente: os cards não aguardam o histórico.
+      barrasDoDiaAplicadas = false;
+      const atual = carregarRegistroAtual(idTorre, fkEmpresa, controlador);
+      const alertasDia = carregarAlertasDoDia(idTorre, fkEmpresa, controlador);
+
+      try {
+        const resposta = await fetch(CONFIG.rotas.dashboard(idTorre, fkEmpresa, inicio, fim) + '&progressivo=1', {
+          cache: 'no-store', signal: controlador.signal
+        });
+
+        if (!resposta.ok) {
+          let detalhe = '';
+          try {
+            const corpo = await resposta.json();
+            detalhe = corpo.mensagem || '';
+          } catch (_) { /* resposta sem corpo JSON */ }
+          throw new Error(detalhe || `HTTP ${resposta.status}`);
+        }
+
+        // O servidor envia um JSON por linha, sem esperar todo o S3.
+        const leitor = resposta.body.getReader();
+        const decodificador = new TextDecoder();
+        let pendente = '';
+        let concluido = false;
+        let numeroLote = 0;
+        let ultimoLote = null;
+        const etapasExibidas = new Set();
+
+        function exibirEtapa(secao, dados) {
+          if (etapasExibidas.has(secao)) return;
+          etapasExibidas.add(secao);
+          if (secao === 'barras') {
+            // As barras pertencem exclusivamente ao latest.json, carregado em
+            // paralelo; lotes históricos nunca redesenham esta seção.
+            return;
+          }
+          aplicarDadosJson(dados, {
+            cabecalho: secao === 'desempenho',
+            desempenho: secao === 'desempenho',
+            barras: secao === 'barras',
+            alertas: secao === 'alertas',
+            historico: secao === 'historico'
+          });
+          atualizarSecaoDashboard(secao);
+        }
+
+        function receberLinha(linha) {
+          if (!linha.trim() || controlador.signal.aborted) return;
+          const lote = JSON.parse(linha);
+          if (lote.mensagem) throw new Error(lote.mensagem);
+          numeroLote += 1;
+          ultimoLote = lote;
+
+          // Cada parte aparece uma vez. Os lotes seguintes continuam sendo
+          // recebidos, mas não fazem todos os gráficos piscarem/recarregarem.
+          if (numeroLote === 1) exibirEtapa('desempenho', lote.dados);
+          else if (numeroLote === 2) exibirEtapa('barras', lote.dados);
+          else if (numeroLote === 3) exibirEtapa('alertas', lote.dados);
+          else if (numeroLote === 4) exibirEtapa('historico', lote.dados);
+
+          concluido = lote.concluido;
+          mostrarProgresso(concluido
+            ? (lote.total
+              ? (lote.cache ? 'Histórico carregado rapidamente do cache.' : 'Histórico carregado.')
+              : 'Sem dados no intervalo.')
+            : `Histórico parcial: ${lote.carregados} de ${lote.total} capturas. Carregando anteriores...`);
+        }
+        while (!controlador.signal.aborted) {
+          const { value, done } = await leitor.read();
+          pendente += done ? decodificador.decode() : decodificador.decode(value, { stream: true });
+          const linhas = pendente.split('\n');
+          pendente = linhas.pop();
+          linhas.forEach(receberLinha);
+          if (done) {
+            receberLinha(pendente);
+            break;
+          }
+        }
+        if (controlador.signal.aborted) return false;
+        if (!concluido) throw new Error('O carregamento do histórico foi interrompido.');
+        if (ultimoLote) {
+          // Atualiza no final apenas as seções que ainda não tinham o período
+          // completo. Se tudo coube no primeiro lote, o desempenho não pisca.
+          const finalizar = {
+            desempenho: numeroLote > 1,
+            barras: false,
+            alertas: numeroLote !== 3,
+            historico: numeroLote !== 4
+          };
+          aplicarDadosJson(ultimoLote.dados, {
+            cabecalho: finalizar.desempenho,
+            ...finalizar
+          });
+          Object.entries(finalizar).forEach(([secao, deveAtualizar]) => {
+            if (deveAtualizar) atualizarSecaoDashboard(secao);
+          });
+          atualizarCardsMetricasDesempenho();
+        }
+        await atual;
+        return true;
+      } catch (erro) {
+        if (controlador.signal.aborted) return false;
+        console.warn('[MonitOre] Não foi possível consultar o S3 via backend.', erro);
+        mostrarProgresso('Histórico incompleto: ' + erro.message + ' Tente aplicar o período novamente.');
+        return false;
+      }
+    }
+
+    function atualizarTelaDepoisDosDados() {
+      atualizarGraficoBarrasAlertas();
+
+      if (graficoDesempenho) redesenharGraficoDesempenho();
+      else atualizarLimitesNosCards();
+
+      atualizarPainelAlertasDiarios();
+      filtrarHistoricoAlertas();
+    }
+
+    function atualizarSecaoDashboard(secao) {
+      if (secao === 'desempenho') {
+        if (graficoDesempenho) redesenharGraficoDesempenho();
+        return;
+      }
+      if (secao === 'barras') {
+        atualizarGraficoBarrasAlertas();
+        return;
+      }
+      if (secao === 'alertas') {
+        atualizarPainelAlertasDiarios();
+        return;
+      }
+      if (secao === 'historico') filtrarHistoricoAlertas();
+    }
+
+    async function carregarPeriodoSomenteDosAlertas() {
+      // Componente e datas sempre filtram apenas este gráfico/KPI. A API só é
+      // necessária quando há um intervalo completo que pode estar fora das 24 h.
+      atualizarPainelAlertasDiarios();
+
+      const intervalo = intervaloAlertasParaApi();
+      const idTorre = sessionStorage.getItem(CONFIG.chavesSessao.idTorre);
+      const fkEmpresa = sessionStorage.getItem(CONFIG.chavesSessao.fkEmpresa);
+      if (!intervalo || !idTorre || !fkEmpresa) return;
+
+      consultaAlertas?.abort();
+      const controlador = new AbortController();
+      consultaAlertas = controlador;
+
+      if (DOM.botaoAplicarPeriodo) {
+        DOM.botaoAplicarPeriodo.disabled = true;
+        DOM.botaoAplicarPeriodo.textContent = 'Carregando alertas...';
+      }
+
+      try {
+        const resposta = await fetch(
+          CONFIG.rotas.dashboard(
+            idTorre,
+            fkEmpresa,
+            intervalo.inicio,
+            intervalo.fim
+          ),
+          { cache: 'no-store', signal: controlador.signal }
+        );
+        if (!resposta.ok) {
+          let mensagem = `HTTP ${resposta.status}`;
+          try {
+            const corpo = await resposta.json();
+            mensagem = corpo.mensagem || mensagem;
+          } catch (_) { /* resposta sem JSON */ }
+          throw new Error(mensagem);
+        }
+
+        const dados = await resposta.json();
+        if (controlador.signal.aborted) return;
+        aplicarDadosJson(dados, {
+          cabecalho: false,
+          desempenho: false,
+          barras: false,
+          alertas: true,
+          historico: false
+        });
+        atualizarPainelAlertasDiarios();
+      } catch (erro) {
+        if (!controlador.signal.aborted) {
+          console.warn('[MonitOre] Não foi possível carregar o período dos alertas.', erro);
+        }
+      } finally {
+        if (consultaAlertas === controlador && DOM.botaoAplicarPeriodo) {
+          DOM.botaoAplicarPeriodo.disabled = false;
+          DOM.botaoAplicarPeriodo.textContent = 'Aplicar período';
+        }
+      }
+    }
+
+    /* ---------------------------------------------------------------------
+     * 5. USUÁRIO E AÇÕES DO TOPO
+     * ------------------------------------------------------------------- */
+
+    // Nome, cargo e iniciais exibidos no rodapé da sidebar.
+    function configurarUsuarioDoMenu() {
+      const nome = (sessionStorage.getItem(CONFIG.chavesSessao.nome) || '').trim();
+      const cargo = (sessionStorage.getItem(CONFIG.chavesSessao.cargo) || '').trim();
+
+      DOM.nomeUsuario.textContent = nome || 'Usuário';
+      DOM.cargoUsuario.textContent = cargo;
+
+      const iniciais = nome.split(/\s+/).filter(Boolean).slice(0, 2).map((parte) => parte[0]);
+      DOM.avatarUsuario.textContent = iniciais.join('').toUpperCase() || 'US';
+    }
+
+    function abrirPerfilUsuario() {
+      window.location.href = CONFIG.rotas.perfil;
+    }
+
+    // Liga todos os eventos de clique e os filtros do painel e da tabela.
+    function configurarEventosDaPagina() {
+      DOM.botaoMenu?.addEventListener('click', () => document.body.classList.toggle('menu-aberto'));
+
+      DOM.botaoSair?.addEventListener('click', () => {
+        sessionStorage.clear();
+        window.location.href = CONFIG.rotas.login;
+      });
+
+      DOM.usuarioLogado?.addEventListener('click', abrirPerfilUsuario);
+      DOM.usuarioLogado?.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Enter' || evento.key === ' ') {
+          evento.preventDefault();
+          abrirPerfilUsuario();
+        }
+      });
+
+      DOM.filtroDiaDesempenho?.addEventListener('change', (evento) => {
+        diaDesempenhoEscolhidoPeloUsuario = true;
+        selecionarDiaDesempenho(evento.target.value);
+      });
+
+      DOM.filtroHoraDesempenho?.addEventListener('change', (evento) => {
+        aplicarJanelaHora(encontrarHoraDesempenho(evento.target.value));
+      });
+
+      [DOM.filtroComponenteAlertas, DOM.dataInicioAlertas, DOM.dataFimAlertas]
+        .filter(Boolean)
+        .forEach((campo) => campo.addEventListener('change', atualizarPainelAlertasDiarios));
+
+      DOM.botaoAplicarPeriodo?.addEventListener('click', carregarPeriodoSomenteDosAlertas);
+
+      [DOM.filtroComponenteHistorico, DOM.dataInicioHistorico, DOM.dataFimHistorico]
+        .filter(Boolean)
+        .forEach((campo) => campo.addEventListener('change', filtrarHistoricoAlertas));
+    }
+
+    /* ---------------------------------------------------------------------
+     * 6. INICIALIZAÇÃO
+     * ------------------------------------------------------------------- */
+    document.addEventListener('DOMContentLoaded', async () => {
+      configurarUsuarioDoMenu();
+      configurarEventosDaPagina();
+      configurarFiltroHoraDesempenho({ horas: ['00'] });
+
+      const idTorre = sessionStorage.getItem(CONFIG.chavesSessao.idTorre);
+      const fkEmpresa = sessionStorage.getItem(CONFIG.chavesSessao.fkEmpresa);
+      const temSessao = Boolean(idTorre && fkEmpresa);
+      if (temSessao) carregarDatasDesempenhoDisponiveis(idTorre, fkEmpresa);
+
+      if (temSessao) {
+        usandoApiDashboard = true;
+        CONFIG.horarios = [];
+        Object.values(CONFIG.componentes).forEach((item) => {
+          item.serie = []; item.pico = []; item.horaPico = []; item.amostras = [];
+        });
+        aplicarDadosJson({
+          desempenhoPorDia: [], historico: [],
+          barrasAlertas: { totais: [0, 0, 0] }
+        });
+        DOM.filtroHoraDesempenho.value = '';
+        DOM.nomeTorre.textContent = 'Carregando torre...';
+        DOM.nomeMineradora.textContent = '';
+        DOM.hostPc.textContent = '';
+        DOM.codigoTorre.textContent = '';
+        atualizarCardsMetricasDesempenho();
+      }
+      // Gráficos vazios já ficam disponíveis enquanto chegam os lotes.
+      graficoBarrasAlertas = criarGraficoBarrasAlertas();
+      graficoDesempenho = criarGraficoDesempenho();
+      graficoAlertasLimite = criarGraficoAlertasDiarios();
+
+      // Com sessão, a fonte é o backend (que lê o S3). Sem sessão, o JSON local
+      // continua servindo como demonstração em desenvolvimento.
+      let carregado = false;
+      if (temSessao) carregado = await carregarDadosDashboardDaApi();
+      if (!carregado && !temSessao) carregado = await carregarDadosDashboardJson();
+
+      atualizarTelaDepoisDosDados();
+      atualizarLimitesNosCards();
+      atualizarPainelAlertasDiarios();
+      filtrarHistoricoAlertas(); // estado inicial: todas as linhas visíveis
+
+      if (carregado) return;
+
+      if (!temSessao) {
+        alert('Nenhuma torre selecionada ou sessão expirada.');
+        window.location.href = CONFIG.rotas.selecaoTorre;
+        return;
+      }
+
+      // Último recurso: busca só os limites cadastrados no banco.
+      carregarDadosTorre(idTorre, fkEmpresa);
+    });
   </script>
+
 
   <script src="./js/permissao.js"></script>
 </body>
