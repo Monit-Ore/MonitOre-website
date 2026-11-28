@@ -362,5 +362,7 @@ module.exports = {
   buscarTorrePorId,
   atualizarTorre,
   listarTorresPorUsuario,
-  buscarHostnamePorTorre
+  buscarHostnamePorTorre,
+  qtdTorresAtivas,
+  listarTorresDisponiveis
 };

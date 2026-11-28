@@ -3,11 +3,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    width: 100%;
-}
-
-main .btn-notificacao {
-    align-self: flex-end;
+    min-width: 100%;
 }
 
 .titulo_menu {
@@ -17,10 +13,6 @@ main .btn-notificacao {
     justify-content: space-between;
 }
 
-.titulo_menu button {
-    align-self: center;
-}
-
 .cabecalho {
     display: flex;
     flex-direction: column;
@@ -28,6 +20,7 @@ main .btn-notificacao {
     align-items: flex-start;
     gap: 2px;
     height: auto;
+    min-width: 97%;
 }
 
 .cabecalho p {

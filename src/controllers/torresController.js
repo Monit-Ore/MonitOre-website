@@ -700,5 +700,7 @@ module.exports = {
   buscarStatusDaTorre,
   buscarDashboardDaTorre,
   buscarAlertasDoDiaDaTorre,
-  buscarDatasDisponiveis
+  buscarDatasDisponiveis,
+  listarTorresDisponiveis,
+  mostrarQtdAtivas
 };

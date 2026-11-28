@@ -14,6 +14,14 @@ router.post("/cadastrar-torres", function (req, res) {
   torresController.cadastrarTorre(req, res);
 });
 
+router.get("/qtdTorresAtivas/:id", function (req, res) {
+  torresController.mostrarQtdAtivas(req, res);
+});
+
+router.get("/disponiveis/:id", function (req, res) {
+  torresController.listarTorresDisponiveis(req, res);
+});
+
 router.get("/:idTorre/dashboard", function (req, res) {
   torresController.buscarDashboardDaTorre(req, res);
 });

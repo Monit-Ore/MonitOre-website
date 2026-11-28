@@ -1,6 +1,7 @@
 var fs = require("fs");
 var path = require("path");
 var mineradoraModel = require("../models/mineradoraModel");
+var empresaModel = require("../models/empresaModel");
 var torresModel = require("../models/torresModel");
 var { filtrarDashboard } = require("../services/escopoDashboardMineradoras");
 
@@ -244,14 +245,58 @@ function adicionarDetalhes(mineradoras, statusTorres) {
   });
 }
 
+async function carregarDashboardMineradoras() {
+  try {
+    return await mineradoraModel.buscarJson("dashboard.json");
+  } catch (erro) {
+    // Sem credenciais/S3 disponíveis, os indicadores básicos vêm do MySQL.
+    console.warn(
+      "Gold indisponível; usando o banco local para a dashboard de mineradoras:",
+      erro && erro.message ? erro.message : erro,
+    );
+    var mineradoras = await empresaModel.listarMineradorasMonitoradas();
+    var totalTorres = mineradoras.reduce(function (soma, item) {
+      return soma + Number(item.TOTAL_TORRES || 0);
+    }, 0);
+
+    return {
+      atualizado_em: new Date().toISOString(),
+      kpis: {
+        TOTAL_MINERADORAS_MONITORADAS: mineradoras.length,
+        TOTAL_TORRES_MONITORADAS: totalTorres,
+        TORRES_ATENCAO: 0,
+        TORRES_CRITICAS: 0,
+        ALERTAS_HOJE: 0,
+        ALERTAS_ONTEM: 0,
+      },
+      mineradoras: mineradoras,
+      status_torres: [],
+      status_pcs: [],
+      processos_destaque: [],
+    };
+  }
+}
+
+async function carregarAlertasDiarios() {
+  try {
+    return await mineradoraModel.buscarJson("alertas_diarios.json");
+  } catch (erro) {
+    console.warn(
+      "Gold de alertas diários indisponível:",
+      erro && erro.message ? erro.message : erro,
+    );
+    return [];
+  }
+}
+
 async function dashboardMineradoras(req, res) {
   try {
     var agora = new Date();
     var hoje = referenciaLocal(agora);
     var periodoResolvido = resolverPeriodo(req.query.periodo, hoje);
     var resultados = await Promise.all([
-      mineradoraModel.buscarJson("dashboard.json"),
-      mineradoraModel.buscarJson("alertas_diarios.json"),
+      carregarDashboardMineradoras(),
+      carregarAlertasDiarios(),
     ]);
     var dashboard = resultados[0] || {};
     var alertasDiarios = resultados[1] || [];
