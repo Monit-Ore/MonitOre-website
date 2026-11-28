@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monit Ore | Dashboard Processos Gerais</title>
+
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/tela_cadastro.css" />
+    <link rel="stylesheet" href="./css/dash_processos_geral.css">
+
+    <!-- Define o estado do menu antes da renderização para evitar "flash" no desktop. -->
+    
+    
+
+    
+    
+    
+    
+    <link rel="icon" href="./imgs/favicon.svg" />
+    
+
+    
+</head>
+
+<body class="container_responsivo" data-permissao-pagina="dashboard-processos-gerais">
+    <aside class="navegacao" id="navegacao_lateral">
+        <div class="logo_navegacao">
+            <img src="./imgs/LogoHeader.svg" alt="Monitore" />
+      <img class="logo-reduzida" src="./imgs/logo-sidebar.svg" alt="" aria-hidden="true" />
+
+        </div>
+
+        <nav class="menu_navegacao" data-menu-compartilhado aria-label="Menu principal"></nav>
+    
+
+        <div class="rodape_navegacao">
+            <a class="usuario_navegacao" id="usuario_logado" href="/meu_perfil.html" aria-label="Abrir meu perfil">
+                <div class="avatar_usuario" id="avatar_usuario">US</div><span class="icone_perfil_recolhido"
+                    aria-hidden="true"><i class="fa-solid fa-user"></i></span>
+
+                <div class="info_usuario">
+                    <span class="nome_usuario" id="nome_usuario">Carregando...</span>
+                    <span class="cargo_usuario" id="cargo_usuario"></span>
+                </div>
+
+                <i class="fa-solid fa-chevron-right icone_menu"></i>
+            </a>
+
+            <button class="botao_sair" id="botao_sair" type="button" aria-label="Sair">
+                <i class="fa-solid fa-right-from-bracket icone_menu"></i>
+                <span>Sair</span>
+            </button>
+        </div>
+    </aside>
+
+
+
+    <main class="conteudo_layout">
+        <button class="btn-notificacao alternar-menu" type="button" data-menu-toggle
+            aria-controls="navegacao_lateral" aria-expanded="false" aria-label="Alternar menu lateral">
+            <i class="fa-solid fa-bars icone-menu" aria-hidden="true"></i>
+        </button>
+        <header class="cabecalho header_dashboard">
+            <div class="titulo_com_icone">
+                <i class="fa-solid fa-microchip icone_titulo_amarelo" aria-hidden="true"></i>
+                <div>
+                    <h1>Dashboard Processos Gerais</h1>
+                    <p>Identifique processos com alto consumo e priorize o que afeta a extração.</p>
+                </div>
+            </div>
+        </header>
+            <section class="filtros" aria-label="Filtros e relatório de processos">
+                <select class="filtro-select" id="selecao_mineradora" aria-label="Selecionar Mineradora">
+                    <option value="-">Mineradora</option>
+                </select>
+                <button id="abrirModal" class="filtro-button" type="button">Filtragem de Torre</button>
+                <select class="filtro-select" id="selecao_periodo" aria-label="Selecionar Período">
+                    <option value="24">Últimas 24 horas</option>
+                    <option value="168">Últimos 7 dias</option>
+                    <option value="360">Últimas 15 dias</option>
+                    <option value="720">Últimas 30 dias</option>
+                </select>
+                <button id="abrirModalRelatorio" class="relatorio-button" type="button">Gerar Relatório</button>
+            </section>
+
+        <div class="card-kpis">
+            <div class="kpi">
+                <p>Torres monitoradas</p>
+                <p class="metrica"><span id="qtdAtiva">-</span> / <span id="qtdTorres">-</span></p>
+                <p><span id="qtdTotalAtiva">0</span> PCs industriais conectados</p>
+            </div>
+            <div class="kpi">
+                <p>PCs que exigem atenção</p>
+                <p class="metrica"><span id="qtdPcsExigemAtencao">-</span></p>
+                <p><span id="qtdPcsCriticosKpi">0</span> crítico • <span id="qtdPcsAtencaoKpi">0</span> atenção</p>
+            </div>
+            <div class="kpi">
+                <p>Processos monitorados</p>
+                <p class="metrica"><span id="qtdProcessosMonitorados">-</span></p>
+                <p class="kpi-status-processos">
+                    <span class="status-processo critico"><span id="qtdProcessosCriticos">0</span> crítico</span> •
+                    <span class="status-processo atencao"><span id="qtdProcessosAtencao">0</span> atenção</span> •
+                    <span class="status-processo normal"><span id="qtdProcessosNormais">0</span> normalizado</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="div-ocorrencias">
+            <div class="prioridade">
+                <div class="header-processos">
+                    <div class="prioridade-texto">
+                        <p>Processos que precisam de atenção</p>
+                        <span>Prioridades por consumo de recursos e impacto na operação</span>
+                    </div>
+                    <div class="qtd-ocorrencias">
+                        <span id="qtdOcorrenciasAtencao">0</span> ocorrências • <span
+                            id="qtdPcsOcorrenciasAtencao">0</span> PCs
+                    </div>
+                </div>
+                <div class="container lista-ocorrencias" id="lista_processos_atencao">
+                    <p class="estado_vazio_processos">Não há processos que precisam de atenção</p>
+                </div>
+            </div>
+        </div>
+
+        <dialog id="meuModal" class="modal_filtragem" aria-labelledby="titulo-modal-torres">
+            <div class="container_modal">
+                <div class="modal_cabecalho">
+                    <div>
+                        <h1 id="titulo-modal-torres">Filtrar torres</h1>
+                        <p class="modal_subtitulo" id="modal_subtitulo">Selecione as torres que deseja analisar</p>
+                    </div>
+                    <button type="button" class="modal_fechar" id="fecharModal" aria-label="Fechar filtro de torres">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="modal_controle">
+                    <input type="search" class="modal_busca" id="buscaTorre" placeholder="Buscar torre ou código..."
+                        aria-label="Buscar torre" />
+                    <span class="modal_contador" id="contadorTorres">0 torres</span>
+                </div>
+
+                <div id="listaTorresModal" class="lista_torres" aria-live="polite">
+                    <p class="estado_vazio">Carregando torres...</p>
+                </div>
+
+                <div class="modal_rodape">
+                    <button type="button" class="modal_limpar" id="limparSelecao">Limpar seleção</button>
+                    <button type="button" class="modal_aplicar" id="aplicarFiltro">Aplicar <span
+                            id="qtdSelecionadas">0</span> torre(s)</button>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog id="modalRelatorio" class="modal_filtragem" aria-labelledby="titulo-modal-relatorio">
+            <div class="container_modal modal_relatorio">
+                <div class="modal_cabecalho">
+                    <div>
+                        <h1 id="titulo-modal-relatorio">Gerar relatório</h1>
+                        <p class="modal_subtitulo">Selecione o período para geração do relatório.</p>
+                    </div>
+                    <button type="button" class="modal_fechar" id="fecharModalRelatorio"
+                        aria-label="Fechar modal de relatório">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="modal_relatorio_corpo">
+                    <label class="campo_relatorio" for="relatorioDataInicio">
+                        <span>Data início</span>
+                        <input type="date" id="relatorioDataInicio" class="input_relatorio">
+                    </label>
+                    <label class="campo_relatorio" for="relatorioDataFim">
+                        <span>Data fim</span>
+                        <input type="date" id="relatorioDataFim" class="input_relatorio">
+                    </label>
+                </div>
+
+                <div class="modal_rodape">
+                    <button type="button" class="modal_limpar" id="cancelarRelatorio">Cancelar</button>
+                    <button type="button" class="modal_aplicar" id="confirmarRelatorio">Gerar</button>
+                </div>
+            </div>
+        </dialog>
+
+    </main>
+
+</body>
+
+
+
+</html>

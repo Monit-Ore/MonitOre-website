@@ -4,6 +4,7 @@
   if (!menu) return;
 
   const itens = [
+    ["dashboard-capacidade", "Capacidade e Tendências", "dashboard_capacidade_tendencias.html", "chart-column", "dashboard-capacidade"],
     ["dashboard-mineradoras", "Dashboard Mineradora", "dashboard-mineradoras.html", "industry", "dashboard-mineradoras"],
     ["dashboard-processos-gerais", "Dashboard Processos Gerais", "dashboard_proc_geral.html", "chart-line", "dashboard-processos-gerais"],
     ["mineradoras", "Cadastro de Mineradora", "cadastro_mineradora.html", "hammer", "menu_mineradora"],
@@ -14,7 +15,6 @@
     "dashboard-torre": "torres",
     "gerenciar-torres": "torres",
     "visualizacao_torre": "torres",
-    "dashboard-capacidade": "torres",
   };
   const pagina = document.body.dataset.permissaoPagina;
   const ativo = paginasRelacionadas[pagina] || pagina;

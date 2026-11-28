@@ -40,15 +40,15 @@ test("sidebar tem a ordem e os destinos por perfil, com nomes e IDs únicos", ()
   const itens = menu("dashboard-processos-gerais");
   const nomes = (cargo) => itens.filter((li) => regras[cargo].includes(li.dataset.permissao))
     .map((li) => li.children[0].children[1].textContent);
-  assert.deepEqual(nomes("administrador"), ["Dashboard Mineradora", "Dashboard Processos Gerais", "Cadastro de Mineradora", "Torres", "Usuários"]);
+  assert.deepEqual(nomes("administrador"), ["Capacidade e Tendências", "Dashboard Mineradora", "Dashboard Processos Gerais", "Cadastro de Mineradora", "Torres", "Usuários"]);
   assert.deepEqual(nomes("operador"), ["Dashboard Mineradora", "Torres"]);
   assert.deepEqual(Array.from(regras.suporte), ["dashboard-suporte"]);
-  assert.equal(new Set(itens.map((li) => li.children[0].id)).size, 5);
+  assert.equal(new Set(itens.map((li) => li.children[0].id)).size, 6);
   const ativo = itens.filter((li) => li.children[0].atributos["aria-current"] === "page");
   assert.equal(ativo.length, 1);
   assert.equal(ativo[0].children[0].href, "./dashboard_proc_geral.html");
   assert.ok(itens.every((li) => li.style.display === "none"));
-  for (const pagina of ["gerenciar-torres", "dashboard-torre", "usuarios", "mineradoras"]) {
+  for (const pagina of ["gerenciar-torres", "dashboard-torre", "usuarios", "mineradoras", "dashboard-capacidade"]) {
     const selecionado = menu(pagina).find((li) => li.children[0].atributos["aria-current"] === "page");
     assert.equal(selecionado.dataset.permissao, ["gerenciar-torres", "dashboard-torre"].includes(pagina) ? "torres" : pagina);
   }
@@ -89,12 +89,14 @@ test("servidor valida acesso direto às páginas e APIs, preservando o perfil Su
     const antiga = await consultar("/dashboard-gerente.html", cargo);
     assert.equal(antiga.headers.get("location"), "/selecao_torre.html");
   }
+  assert.equal((await consultar("/dashboard_capacidade_tendencias.html", "Administrador")).status, 200);
+  assert.equal((await consultar("/dashboard/capacidade", "Administrador")).status, 200);
   assert.equal((await consultar("/dashboard_proc_geral.html", "Administrador")).status, 200);
   assert.equal((await consultar("/dashboard-processos/processos", "Administrador")).status, 200);
-  for (const rota of ["/dashboard_proc_geral.html", "/cadastro_mineradora.html", "/visualizacao_usuarios.html", "/cadastro.html"]) {
+  for (const rota of ["/dashboard_proc_geral.html", "/cadastro_mineradora.html", "/visualizacao_usuarios.html", "/cadastro.html", "/dashboard_capacidade_tendencias.html"]) {
     assert.equal((await consultar(rota, "Operador")).headers.get("location"), "/selecao_torre.html");
   }
-  for (const rota of ["/dashboard-processos/processos", "/dashboard/visao-executiva"]) {
+  for (const rota of ["/dashboard-processos/processos", "/dashboard/visao-executiva", "/dashboard/capacidade"]) {
     assert.equal((await consultar(rota, "Operador")).status, 403);
   }
   assert.equal((await consultar("/dashboard/mineradoras")).status, 401);

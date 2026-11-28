@@ -71,12 +71,14 @@ async function protegerAcesso(req, res, next) {
     if (rota === "/dashboard-gerente.html")
       return negar(403, "Esta dashboard foi removida da navegação.", cargo);
     const paginasAdministrador = new Set([
+      "/dashboard_capacidade_tendencias.html",
       "/dashboard_proc_geral.html", "/cadastro_mineradora.html",
       "/visualizacao_usuarios.html", "/editar_usuario.html", "/cadastro.html",
       "/cadastro_torre.html", "/alteracao_torre.html",
     ]);
     if (cargo !== "Administrador" && (
       paginasAdministrador.has(rota) ||
+      rota === "/dashboard/capacidade" ||
       rota === "/dashboard/visao-executiva" ||
       /^\/dashboard-processos(\/|$)/.test(rota)
     )) return negar(403, "Você não tem permissão para acessar esta área.", cargo);

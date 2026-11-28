@@ -14,7 +14,6 @@ const permissoes = {
 
     operador: [
         "dashboard-mineradoras",
-        "dashboard-capacidade",
         "torres",
         "dashboard-torre",
         "visualizacao_torre"
